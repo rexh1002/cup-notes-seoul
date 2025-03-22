@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "target": "esnext", // 최신 JavaScript 버전
+    "module": "commonjs", // Node.js 호환 모듈 시스템
+    "lib": ["dom", "dom.iterable", "esnext"], // 필요한 라이브러리 선언
+    "allowJs": true, // JavaScript 파일 허용
+    "skipLibCheck": true, // 타입 정의 파일 검사 건너뜀
+    "strict": true, // 모든 엄격 모드 활성화
+    "forceConsistentCasingInFileNames": true, // 파일 이름 대소문자 일관성 유지
+    "esModuleInterop": true, // CommonJS 및 ES 모듈 호환성
+    "moduleResolution": "node", // Node.js 스타일 모듈 해석
+    "resolveJsonModule": true, // JSON 모듈 가져오기 허용
+    "isolatedModules": true, // 단일 파일 트랜스파일 활성화
+    "jsx": "preserve", // JSX 유지 (Next.js에서 사용)
+    "baseUrl": "./", // 프로젝트 루트 기준으로 경로 설정
+    "paths": {
+      "@/*": ["./src/*"],
+      "@types/*": ["src/types/*"]
+    },
+    "noEmit": false, // 파일 생성 방지 해제 (ts-node 실행 시 필요)
+    "incremental": true, // 증분 빌드 활성화
+    "outDir": "./dist", // 컴파일된 파일 저장 위치 설정
+    "plugins": [
+      {
+        "name": "next" // Next.js 전용 플러그인
+      }
+    ]
+  },
+  "include": [
+    "next-env.d.ts", // Next.js 환경 타입 정의 포함
+    ".next/types/**/*.ts", // Next.js 타입 포함
+    "**/*.ts", // 모든 TypeScript 파일 포함
+    "**/*.tsx", // 모든 TypeScript JSX 파일 포함
+    "prisma/seed.ts" // seed.ts 포함
+  ],
+  "exclude": [
+    "node_modules", // node_modules는 제외
+    "dist" // 컴파일된 파일 제외
+  ]
+}

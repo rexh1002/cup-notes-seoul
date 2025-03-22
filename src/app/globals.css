@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+ 
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+    --radius: 0.5rem;
+    
+    /* 추가된 사용자 정의 변수 */
+    --highlight-bg: 50 95% 90%; /* 하이라이트 배경 색상 */
+    --highlight-text: 50 30% 20%; /* 하이라이트 텍스트 색상 */
+    --button-bg-hover: 222.2 47.4% 15%; /* 버튼 호버 배경 색상 */
+    --button-text-hover: 210 40% 98%; /* 버튼 호버 텍스트 색상 */
+  }
+
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+
+  .highlight {
+    background-color: hsl(var(--highlight-bg));
+    color: hsl(var(--highlight-text));
+    padding: 0.2rem 0.4rem;
+    border-radius: var(--radius);
+  }
+
+  .btn-hover {
+    background-color: hsl(var(--button-bg-hover));
+    color: hsl(var(--button-text-hover));
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  .btn-hover:hover {
+    background-color: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+  }
+}

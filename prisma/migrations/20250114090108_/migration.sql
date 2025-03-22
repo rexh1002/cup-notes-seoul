@@ -1,0 +1,2 @@
+-- AddForeignKey
+ALTER TABLE "Coffee" ADD CONSTRAINT "Coffee_cafeId_fkey" FOREIGN KEY ("cafeId") REFERENCES "Cafe"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

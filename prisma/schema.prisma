@@ -1,0 +1,81 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id        String   @id @default(uuid())
+  username  String   @unique
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  cafes     Cafe[] 
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  role      String   @default("user")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // 소셜 로그인 관련 필드 추가
+  provider   String?  // 'naver', 'kakao' 등 소셜 제공자
+  providerId String?  // 소셜 서비스에서의 사용자 ID 
+  name       String?  // 사용자 이름 (소셜 서비스에서 제공)
+  
+  // 이메일+제공자+제공자ID로 검색할 수 있도록 인덱스 추가
+  @@index([provider, providerId])
+}
+
+model Manager {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  role      String   @default("cafeManager")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  cafes     Cafe[]
+}
+
+model Cafe {
+  id              String   @id @default(uuid())
+  name            String
+  address         String
+  phone           String
+  description     String?
+  businessHours   Json     // [{ day: string, openTime: string, closeTime: string }]
+  businessHourNote String?
+  snsLinks        Json     // [{ type: string, url: string }]
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  admin           Admin?   @relation(fields: [adminId], references: [id])
+  adminId         String?
+  manager         Manager? @relation(fields: [managerId], references: [id])
+  managerId       String?
+  coffees         Coffee[]
+}
+
+model Coffee {
+  id          String   @id @default(uuid())
+  name        String
+  roastLevel  String[] 
+  origins     String[]
+  processes   String[]
+  notes       String[]
+  noteColors  String[]
+  brewMethods String[]
+  price       Int
+  description String?
+  customFields Json    // 직접입력 값들 저장
+  cafeId      String
+  cafe        Cafe     @relation(fields: [cafeId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
