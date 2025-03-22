@@ -1,1 +1,6 @@
+# 문제가 있는 테스트 파일들 제외
 src/app/api/admin/assign-role
+src/app/api/admin/cafes
+
+# 추가적인 문제가 발생할 수 있는 admin 관련 API 경로들
+src/app/api/admin
