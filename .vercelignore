@@ -1,8 +1,2 @@
-# 문제가 있는 테스트 파일들 제외
-src/app/api/admin/assign-role
+# admin 관련 모든 API 경로 제외
 src/app/api/admin
-# 소셜 로그인 관련 API 라우트 제외
-src/app/api/auth/kakao/callback
-src/app/api/auth/kakao
-src/app/api/auth/naver/callback
-src/app/api/auth/naver
