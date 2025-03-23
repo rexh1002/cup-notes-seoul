@@ -8,9 +8,9 @@ const prisma = new PrismaClient();
 
 const KAKAO_CLIENT_ID = process.env.KAKAO_CLIENT_ID || '';
 const KAKAO_CLIENT_SECRET = process.env.KAKAO_CLIENT_SECRET || '';
-const KAKAO_REDIRECT_URI = process.env.KAKAO_REDIRECT_URI || 'http://localhost:3000/api/auth/kakao/callback';
+const KAKAO_REDIRECT_URI = process.env.KAKAO_REDIRECT_URI || 'https://www.cupnotescity.com/api/auth/kakao/callback';
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY || 'default-secret-key';
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://www.cupnotescity.com';
 
 export async function GET(request: Request) {
   try {

@@ -5,7 +5,7 @@ dotenv.config();
 
 // 카카오 OAuth 설정
 const KAKAO_CLIENT_ID = process.env.KAKAO_CLIENT_ID || '';
-const KAKAO_REDIRECT_URI = process.env.KAKAO_REDIRECT_URI || 'http://localhost:3000/api/auth/kakao/callback';
+const KAKAO_REDIRECT_URI = process.env.KAKAO_REDIRECT_URI || 'https://www.cupnotescity.com/api/auth/kakao/callback';
 
 export async function GET(request: Request) {
   try {
