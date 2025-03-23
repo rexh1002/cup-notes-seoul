@@ -1,5 +1,6 @@
 # 문제가 있는 테스트 파일들 제외
 src/app/api/admin/assign-role
+src/app/api/admin/cafes
 # 소셜 로그인 관련 API 라우트 제외
 src/app/api/auth/kakao/callback
 src/app/api/auth/kakao
