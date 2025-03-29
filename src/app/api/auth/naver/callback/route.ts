@@ -6,11 +6,11 @@ import dotenv from 'dotenv';
 dotenv.config();
 const prisma = new PrismaClient();
 
-const NAVER_CLIENT_ID = process.env.NAVER_CLIENT_ID || '';
-const NAVER_CLIENT_SECRET = process.env.NAVER_CLIENT_SECRET || '';
-const NAVER_REDIRECT_URI = process.env.NAVER_REDIRECT_URI || 'https://cupnotescity.com/api/auth/naver/callback';
+const NAVER_CLIENT_ID = process.env.NEXT_PUBLIC_NAVER_CLIENT_ID || '';
+const NAVER_CLIENT_SECRET = process.env.NEXT_PUBLIC_NAVER_CLIENT_SECRET || '';
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+const NAVER_REDIRECT_URI = `${BASE_URL}/api/auth/naver/callback`;
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY || 'default-secret-key';
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://cupnotescity.com';
 
 export async function GET(request: Request) {
   try {
@@ -137,7 +137,6 @@ export async function GET(request: Request) {
       );
 
       // 토큰을 쿠키에 설정하고 URL 파라미터로도 전달
-      // 클라이언트에서 localStorage에 저장할 수 있도록 함
       const response = NextResponse.redirect(`${BASE_URL}/?token=${token}`);
       response.cookies.set({
         name: 'authToken',
@@ -225,7 +224,6 @@ export async function GET(request: Request) {
   } catch (error) {
     console.error('네이버 콜백 오류 발생:', error);
     
-    // 오류 객체의 세부 정보 로깅
     if (error instanceof Error) {
       console.error('오류 이름:', error.name);
       console.error('오류 메시지:', error.message);

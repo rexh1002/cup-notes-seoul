@@ -8,9 +8,10 @@ dotenv.config();
 const prisma = new PrismaClient();
 
 // 네이버 OAuth 설정
-const NAVER_CLIENT_ID = process.env.NAVER_CLIENT_ID || '';
-const NAVER_CLIENT_SECRET = process.env.NAVER_CLIENT_SECRET || '';
-const NAVER_REDIRECT_URI = process.env.NAVER_REDIRECT_URI || 'https://cupnotescity.com/api/auth/naver/callback';
+const NAVER_CLIENT_ID = process.env.NEXT_PUBLIC_NAVER_CLIENT_ID || '';
+const NAVER_CLIENT_SECRET = process.env.NEXT_PUBLIC_NAVER_CLIENT_SECRET || '';
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+const NAVER_REDIRECT_URI = `${BASE_URL}/api/auth/naver/callback`;
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY || 'default-secret-key';
 
 export async function GET(request: Request) {
@@ -21,16 +22,17 @@ export async function GET(request: Request) {
     console.log('CLIENT_ID 길이:', NAVER_CLIENT_ID.length);
     console.log('CLIENT_SECRET 존재 여부:', !!NAVER_CLIENT_SECRET);
     console.log('REDIRECT_URI:', NAVER_REDIRECT_URI);
+    console.log('BASE_URL:', BASE_URL);
 
     // 환경 변수 유효성 검사
     if (!NAVER_CLIENT_ID) {
       console.error('NAVER_CLIENT_ID가 설정되지 않았습니다');
-      return NextResponse.redirect('/auth/login?error=missing_client_id');
+      return NextResponse.redirect(`${BASE_URL}/auth/login?error=missing_client_id`);
     }
     
     if (!NAVER_CLIENT_SECRET) {
       console.error('NAVER_CLIENT_SECRET이 설정되지 않았습니다');
-      return NextResponse.redirect('/auth/login?error=missing_client_secret');
+      return NextResponse.redirect(`${BASE_URL}/auth/login?error=missing_client_secret`);
     }
     
     // 네이버 로그인 페이지로 리다이렉트
@@ -60,6 +62,6 @@ export async function GET(request: Request) {
       console.error('알 수 없는 형식의 오류:', error);
     }
     
-    return NextResponse.redirect('/auth/login?error=naver_auth_failed');
+    return NextResponse.redirect(`${BASE_URL}/auth/login?error=naver_auth_failed`);
   }
 }
