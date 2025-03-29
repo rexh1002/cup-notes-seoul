@@ -373,7 +373,7 @@ export default function HomePage() {
               {/* Floral Section */}
               <div className="relative">
                 <Image
-                  src="/images/floral.jpg"
+                  src="/images/Floral.jpg"
                   alt="Floral"
                   width={400}
                   height={240}
@@ -404,7 +404,7 @@ export default function HomePage() {
               {/* Fruity Section */}
               <div className="relative">
                 <Image
-                  src="/images/fruity.jpg"
+                  src="/images/Fruity.jpg"
                   alt="Fruity"
                   width={400}
                   height={240}

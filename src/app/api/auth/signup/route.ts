@@ -77,5 +77,7 @@ export async function POST(request: Request) {
       { error: '서버 오류가 발생했습니다.' },
       { status: 500 }
     );
+  } finally {
+    await prisma.$disconnect();
   }
 }

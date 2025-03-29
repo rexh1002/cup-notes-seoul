@@ -8,9 +8,9 @@ const prisma = new PrismaClient();
 
 const KAKAO_CLIENT_ID = process.env.KAKAO_CLIENT_ID || '';
 const KAKAO_CLIENT_SECRET = process.env.KAKAO_CLIENT_SECRET || '';
-const KAKAO_REDIRECT_URI = process.env.KAKAO_REDIRECT_URI || 'https://www.cupnotescity.com/api/auth/kakao/callback';
+const KAKAO_REDIRECT_URI = process.env.KAKAO_REDIRECT_URI || 'https://cupnotescity.com/api/auth/kakao/callback';
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY || 'default-secret-key';
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://www.cupnotescity.com';
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://cupnotescity.com';
 
 export async function GET(request: Request) {
   try {
@@ -120,5 +120,7 @@ export async function GET(request: Request) {
   } catch (error) {
     console.error('카카오 콜백 오류:', error);
     return NextResponse.redirect(`${BASE_URL}/auth/login?error=auth_failed`);
+  } finally {
+    await prisma.$disconnect();
   }
 }
