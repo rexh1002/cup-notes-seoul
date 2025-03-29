@@ -8,8 +8,8 @@ dotenv.config();
 const prisma = new PrismaClient();
 
 // 네이버 OAuth 설정
-const NAVER_CLIENT_ID = process.env.NEXT_PUBLIC_NAVER_CLIENT_ID || '';
-const NAVER_CLIENT_SECRET = process.env.NEXT_PUBLIC_NAVER_CLIENT_SECRET || '';
+const NAVER_CLIENT_ID = process.env.NAVER_CLIENT_ID || '';
+const NAVER_CLIENT_SECRET = process.env.NAVER_CLIENT_SECRET || '';
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
 const NAVER_REDIRECT_URI = `${BASE_URL}/api/auth/naver/callback`;
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY || 'default-secret-key';
