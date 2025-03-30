@@ -5,10 +5,21 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-// PrismaClient 전역 인스턴스 생성
-const globalForPrisma = globalThis as unknown as { prisma: PrismaClient };
-const prisma = globalForPrisma.prisma || new PrismaClient();
-if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
+// PrismaClient 초기화
+let prisma: PrismaClient;
+
+if (process.env.NODE_ENV === 'production') {
+  prisma = new PrismaClient();
+} else {
+  // 개발 환경에서는 전역 객체에 PrismaClient를 캐싱
+  const globalWithPrisma = global as typeof globalThis & {
+    prisma: PrismaClient;
+  };
+  if (!globalWithPrisma.prisma) {
+    globalWithPrisma.prisma = new PrismaClient();
+  }
+  prisma = globalWithPrisma.prisma;
+}
 
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY || 'default-secret-key';
 
@@ -63,6 +74,10 @@ export async function GET(
       { success: false, error: '카페 정보를 조회하는 데 실패했습니다.' },
       { status: 500 }
     );
+  } finally {
+    if (process.env.NODE_ENV === 'production') {
+      await prisma.$disconnect();
+    }
   }
 }
 
@@ -180,6 +195,10 @@ export async function PUT(
       { success: false, error: '카페 정보를 수정하는 데 실패했습니다.' },
       { status: 500 }
     );
+  } finally {
+    if (process.env.NODE_ENV === 'production') {
+      await prisma.$disconnect();
+    }
   }
 }
 
@@ -258,5 +277,9 @@ export async function DELETE(
       { success: false, error: '카페를 삭제하는 데 실패했습니다.' },
       { status: 500 }
     );
+  } finally {
+    if (process.env.NODE_ENV === 'production') {
+      await prisma.$disconnect();
+    }
   }
 }
