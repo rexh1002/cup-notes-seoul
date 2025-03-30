@@ -5,7 +5,11 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const prisma = new PrismaClient();
+// PrismaClient 전역 인스턴스 생성
+const globalForPrisma = globalThis as unknown as { prisma: PrismaClient };
+const prisma = globalForPrisma.prisma || new PrismaClient();
+if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
+
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY || 'default-secret-key';
 
 interface UserPayload extends JwtPayload {
@@ -33,7 +37,7 @@ export async function GET(
 
     if (!cafeId) {
       return NextResponse.json(
-        { error: '유효하지 않은 카페 ID입니다.' },
+        { success: false, error: '유효하지 않은 카페 ID입니다.' },
         { status: 400 }
       );
     }
@@ -47,16 +51,16 @@ export async function GET(
 
     if (!cafe) {
       return NextResponse.json(
-        { error: '카페를 찾을 수 없습니다.' },
+        { success: false, error: '카페를 찾을 수 없습니다.' },
         { status: 404 }
       );
     }
 
-    return NextResponse.json(cafe);
+    return NextResponse.json({ success: true, data: cafe });
   } catch (error) {
     console.error('카페 조회 에러:', error);
     return NextResponse.json(
-      { error: '카페 정보를 조회하는 데 실패했습니다.' },
+      { success: false, error: '카페 정보를 조회하는 데 실패했습니다.' },
       { status: 500 }
     );
   }
@@ -72,7 +76,7 @@ export async function PUT(
 
     if (!cafeId) {
       return NextResponse.json(
-        { error: '유효하지 않은 카페 ID입니다.' },
+        { success: false, error: '유효하지 않은 카페 ID입니다.' },
         { status: 400 }
       );
     }
@@ -83,7 +87,7 @@ export async function PUT(
     const authHeader = request.headers.get('Authorization');
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
       return NextResponse.json(
-        { error: '권한이 없습니다. Authorization 헤더가 필요합니다.' },
+        { success: false, error: '권한이 없습니다. Authorization 헤더가 필요합니다.' },
         { status: 401 }
       );
     }
@@ -93,7 +97,7 @@ export async function PUT(
 
     if (!user || !user.id) {
       return NextResponse.json(
-        { error: '유효하지 않은 사용자입니다.' },
+        { success: false, error: '유효하지 않은 사용자입니다.' },
         { status: 401 }
       );
     }
@@ -107,70 +111,73 @@ export async function PUT(
 
       if (!cafe) {
         return NextResponse.json(
-          { error: '카페를 찾을 수 없습니다.' },
+          { success: false, error: '카페를 찾을 수 없습니다.' },
           { status: 404 }
         );
       }
 
       if (cafe.managerId !== user.id) {
         return NextResponse.json(
-          { error: '해당 카페를 수정할 권한이 없습니다.' },
+          { success: false, error: '해당 카페를 수정할 권한이 없습니다.' },
           { status: 403 }
         );
       }
     }
 
-    // 기존 커피 정보 삭제
-    await prisma.coffee.deleteMany({
-      where: { cafeId },
-    });
+    // 트랜잭션으로 카페 정보 업데이트
+    const updatedCafe = await prisma.$transaction(async (tx) => {
+      // 기존 커피 정보 삭제
+      await tx.coffee.deleteMany({
+        where: { cafeId },
+      });
 
-    // 카페 정보 업데이트
-    const updatedCafe = await prisma.cafe.update({
-      where: { id: cafeId },
-      data: {
-        name: data.name,
-        address: data.address,
-        phone: data.phone || '',
-        description: data.description || '',
-        businessHours: data.businessHours || [],
-        businessHourNote: data.businessHourNote || '',
-        snsLinks: data.snsLinks || [],
-        coffees: {
-          create: data.coffees.map((coffee: any) => ({
-            name: coffee.name,
-            price: Number(coffee.price),
-            roastLevel: coffee.roastLevel || [],
-            origins: coffee.origins || [],
-            processes: coffee.processes || [],
-            notes: coffee.notes || [],
-            noteColors: coffee.noteColors || [],
-            brewMethods: coffee.brewMethods || [],
-            description: coffee.description || '',
-            customFields: coffee.customFields || {
-              origins: [],
-              processes: [],
-              brewMethods: [],
-              roastLevels: [],
-              notes: {
-                floral: [],
-                fruity: [],
-                nutty: []
+      // 카페 정보 업데이트
+      return tx.cafe.update({
+        where: { id: cafeId },
+        data: {
+          name: data.name,
+          address: data.address,
+          phone: data.phone || '',
+          description: data.description || '',
+          businessHours: data.businessHours || [],
+          businessHourNote: data.businessHourNote || '',
+          snsLinks: data.snsLinks || [],
+          coffees: {
+            create: data.coffees.map((coffee: any) => ({
+              name: coffee.name,
+              price: Number(coffee.price),
+              roastLevel: coffee.roastLevel || [],
+              origins: coffee.origins || [],
+              processes: coffee.processes || [],
+              notes: coffee.notes || [],
+              noteColors: coffee.noteColors || [],
+              brewMethods: coffee.brewMethods || [],
+              description: coffee.description || '',
+              customFields: coffee.customFields || {
+                origins: [],
+                processes: [],
+                brewMethods: [],
+                roastLevels: [],
+                notes: {
+                  floral: [],
+                  fruity: [],
+                  nutty: []
+                },
               },
-            },
-          })),
+            })),
+          },
         },
-      },
-      include: {
-        coffees: true,
-      },
+        include: {
+          coffees: true,
+        },
+      });
     });
 
-    return NextResponse.json(updatedCafe);
+    return NextResponse.json({ success: true, data: updatedCafe });
   } catch (error) {
     console.error('카페 수정 에러:', error instanceof Error ? error.message : error);
     return NextResponse.json(
-      { error: '카페 정보를 수정하는 데 실패했습니다.' },
+      { success: false, error: '카페 정보를 수정하는 데 실패했습니다.' },
       { status: 500 }
     );
   }
@@ -186,7 +193,7 @@ export async function DELETE(
 
     if (!cafeId) {
       return NextResponse.json(
-        { error: '유효하지 않은 카페 ID입니다.' },
+        { success: false, error: '유효하지 않은 카페 ID입니다.' },
         { status: 400 }
       );
     }
@@ -194,7 +201,7 @@ export async function DELETE(
     const authHeader = request.headers.get('Authorization');
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
       return NextResponse.json(
-        { error: '권한이 없습니다. Authorization 헤더가 필요합니다.' },
+        { success: false, error: '권한이 없습니다. Authorization 헤더가 필요합니다.' },
         { status: 401 }
       );
     }
@@ -202,27 +209,54 @@ export async function DELETE(
     const token = authHeader.split(' ')[1];
     const user = decodeToken(token);
 
-    if (!user || user.role !== 'admin') {
+    if (!user || !user.id) {
       return NextResponse.json(
-        { error: '권한이 없습니다. 관리자만 삭제할 수 있습니다.' },
-        { status: 403 }
+        { success: false, error: '유효하지 않은 사용자입니다.' },
+        { status: 401 }
       );
     }
 
-    const deletedCafe = await prisma.cafe.delete({
-      where: { id: cafeId },
+    // 관리자가 아닌 경우 매니저 권한 확인
+    if (user.role !== 'admin') {
+      const cafe = await prisma.cafe.findUnique({
+        where: { id: cafeId },
+        select: { managerId: true },
+      });
+
+      if (!cafe) {
+        return NextResponse.json(
+          { success: false, error: '카페를 찾을 수 없습니다.' },
+          { status: 404 }
+        );
+      }
+
+      if (cafe.managerId !== user.id) {
+        return NextResponse.json(
+          { success: false, error: '해당 카페를 삭제할 권한이 없습니다.' },
+          { status: 403 }
+        );
+      }
+    }
+
+    // 트랜잭션으로 카페와 관련 데이터 삭제
+    await prisma.$transaction(async (tx) => {
+      await tx.coffee.deleteMany({
+        where: { cafeId },
+      });
+      await tx.cafe.delete({
+        where: { id: cafeId },
+      });
     });
 
-    console.log('카페 삭제 성공:', deletedCafe.id);
-
-    return NextResponse.json({ success: true, data: deletedCafe });
+    return NextResponse.json({ 
+      success: true, 
+      message: '카페가 성공적으로 삭제되었습니다.' 
+    });
   } catch (error) {
     console.error('카페 삭제 에러:', error instanceof Error ? error.message : error);
     return NextResponse.json(
-      { error: '카페 삭제에 실패했습니다.' },
+      { success: false, error: '카페를 삭제하는 데 실패했습니다.' },
       { status: 500 }
     );
-  } finally {
-    await prisma.$disconnect();
   }
 }
