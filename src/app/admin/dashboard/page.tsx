@@ -122,25 +122,6 @@ export default function AdminDashboard() {
       alert('카페 삭제에 실패했습니다.');
     }
   };
-  
-
-  const handleRoleChange = async (userId: string, newRole: string) => {
-    try {
-      const response = await fetch('/api/admin/assign-role', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId, role: newRole }),
-      });
-
-      if (!response.ok) throw new Error('역할 변경에 실패했습니다.');
-
-      alert('역할이 성공적으로 변경되었습니다.');
-      fetchUsers();
-    } catch (error) {
-      console.error('역할 변경 실패:', error);
-      alert('역할 변경에 실패했습니다.');
-    }
-  };
 
   return (
     <div className="max-w-7xl mx-auto p-6">
@@ -172,7 +153,6 @@ export default function AdminDashboard() {
                 <tr className="border-b">
                   <th className="px-6 py-3 text-left">이메일</th>
                   <th className="px-6 py-3 text-left">현재 역할</th>
-                  <th className="px-6 py-3 text-left">역할 변경</th>
                 </tr>
               </thead>
               <tbody>
@@ -180,17 +160,6 @@ export default function AdminDashboard() {
                   <tr key={user.id} className="border-b">
                     <td className="px-6 py-4">{user.email}</td>
                     <td className="px-6 py-4">{user.role}</td>
-                    <td className="px-6 py-4">
-                      <select
-                        value={user.role}
-                        onChange={(e) => handleRoleChange(user.id, e.target.value)}
-                        className="border rounded p-2"
-                      >
-                        <option value="user">사용자</option>
-                        <option value="manager">매니저</option>
-                        <option value="admin">관리자</option>
-                      </select>
-                    </td>
                   </tr>
                 ))}
               </tbody>
