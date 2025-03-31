@@ -4,7 +4,14 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 
 dotenv.config();
-const prisma = new PrismaClient();
+
+// Prisma 클라이언트 싱글톤으로 관리
+const globalForPrisma = global as unknown as {
+  prisma: PrismaClient | undefined;
+};
+
+const prisma = globalForPrisma.prisma ?? new PrismaClient();
+if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
 
 const NAVER_CLIENT_ID = process.env.NAVER_CLIENT_ID!;
 const NAVER_CLIENT_SECRET = process.env.NAVER_CLIENT_SECRET!;
@@ -12,12 +19,14 @@ const REDIRECT_URI = 'https://cupnotescity.com/api/auth/naver/callback';
 const BASE_URL = 'https://cupnotescity.com';
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY || 'default-secret-key';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: Request) {
   try {
     console.log('네이버 콜백 시작');
-    const url = new URL(request.url);
-    const code = url.searchParams.get('code');
-    const state = url.searchParams.get('state');
+    const searchParams = new URL(request.url).searchParams;
+    const code = searchParams.get('code');
+    const state = searchParams.get('state');
     
     console.log('네이버 콜백 파라미터:', { code: code?.substring(0, 10) + '...', state });
     
