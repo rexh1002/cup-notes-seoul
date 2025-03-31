@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextResponse, NextRequest } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
@@ -20,13 +20,13 @@ const BASE_URL = 'https://cupnotescity.com';
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY || 'default-secret-key';
 
 export const dynamic = 'force-dynamic';
+export const runtime = 'edge';
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   try {
     console.log('네이버 콜백 시작');
-    const searchParams = new URL(request.url).searchParams;
-    const code = searchParams.get('code');
-    const state = searchParams.get('state');
+    const code = request.nextUrl.searchParams.get('code');
+    const state = request.nextUrl.searchParams.get('state');
     
     console.log('네이버 콜백 파라미터:', { code: code?.substring(0, 10) + '...', state });
     
