@@ -19,9 +19,10 @@ const REDIRECT_URI = 'https://cupnotescity.com/api/auth/naver/callback';
 const BASE_URL = 'https://cupnotescity.com';
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY || 'default-secret-key';
 
+// 동적 라우트 설정
 export const dynamic = 'force-dynamic';
-export const runtime = 'edge';
 
+// Edge Runtime 제거하고 Node.js 환경에서 실행
 export async function GET(request: NextRequest) {
   try {
     console.log('네이버 콜백 시작');
