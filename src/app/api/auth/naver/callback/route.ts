@@ -6,10 +6,10 @@ import dotenv from 'dotenv';
 dotenv.config();
 const prisma = new PrismaClient();
 
-const NAVER_CLIENT_ID = process.env.NAVER_CLIENT_ID || '';
-const NAVER_CLIENT_SECRET = process.env.NAVER_CLIENT_SECRET || '';
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://cupnotescity.com';
-const NAVER_REDIRECT_URI = `${BASE_URL}/api/auth/naver/callback`;
+const NAVER_CLIENT_ID = process.env.NAVER_CLIENT_ID!;
+const NAVER_CLIENT_SECRET = process.env.NAVER_CLIENT_SECRET!;
+const REDIRECT_URI = 'https://cupnotescity.com/api/auth/naver/callback';
+const BASE_URL = 'https://cupnotescity.com';
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY || 'default-secret-key';
 
 export async function GET(request: Request) {
@@ -37,7 +37,7 @@ export async function GET(request: Request) {
         client_secret: NAVER_CLIENT_SECRET,
         code,
         state: state || '',
-        redirect_uri: NAVER_REDIRECT_URI
+        redirect_uri: REDIRECT_URI
       })
     });
 
