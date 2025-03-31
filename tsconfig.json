@@ -24,7 +24,10 @@
       {
         "name": "next" // Next.js 전용 플러그인
       }
-    ]
+    ],
+    "noImplicitAny": false,
+    "strictNullChecks": true,
+    "types": ["node", "react", "react-dom", "jsonwebtoken"]
   },
   "include": [
     "next-env.d.ts", // Next.js 환경 타입 정의 포함
