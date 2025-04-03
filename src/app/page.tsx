@@ -186,7 +186,7 @@ export default function HomePage() {
           onClick={() => window.location.reload()}
           className="text-3xl sm:text-4xl font-bold tracking-tight cursor-pointer hover:text-gray-700 transition-colors mb-2 sm:mb-0"
         >
-          CUP NOTES CITY
+          CUP NOTES SEOUL
         </h1>
 
         {/* 로그인/회원가입 버튼 그룹 */} 
