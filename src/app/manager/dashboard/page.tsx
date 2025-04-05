@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState, Suspense } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { PlusCircle, Edit, Coffee, MapPin, Phone, Home, Trash2 } from 'lucide-react';
@@ -19,6 +19,10 @@ import {
 } from "@/components/ui/alert-dialog";
 import { toast } from 'react-hot-toast';
 
+// 정적 내보내기 설정 추가
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 // 타입 정의
 interface CafeInfo {
   id: string;
@@ -30,7 +34,7 @@ interface CafeInfo {
   updatedAt: string;
 }
 
-// 로딩 컴포넌트
+// LoadingSpinner 컴포넌트를 별도로 정의
 function LoadingSpinner() {
   return (
     <div className="flex items-center justify-center min-h-screen">
@@ -179,7 +183,7 @@ export default function ManagerDashboard() {
 
   useEffect(() => {
     fetchCafes();
-  }, [router]);
+  }, []);
 
   const handleCafeDelete = () => {
     fetchCafes();
@@ -199,41 +203,39 @@ export default function ManagerDashboard() {
   }
 
   return (
-    <Suspense fallback={<LoadingSpinner />}>
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold">내 카페 관리</h1>
-          <div className="flex items-center gap-3">
-            <Link href="/">
-              <Button variant="outline" className="flex items-center gap-2">
-                <Home className="w-5 h-5" />
-                메인페이지로 가기
-              </Button>
-            </Link>
-            <Link href="/manager/dashboard/cafes/new">
-              <Button className="flex items-center gap-2">
-                <PlusCircle className="w-5 h-5" />
-                새 카페 등록
-              </Button>
-            </Link>
-          </div>
+    <div className="container mx-auto px-4 py-8">
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-3xl font-bold">내 카페 관리</h1>
+        <div className="flex items-center gap-3">
+          <Link href="/">
+            <Button variant="outline" className="flex items-center gap-2">
+              <Home className="w-5 h-5" />
+              메인페이지로 가기
+            </Button>
+          </Link>
+          <Link href="/manager/dashboard/cafes/new">
+            <Button className="flex items-center gap-2">
+              <PlusCircle className="w-5 h-5" />
+              새 카페 등록
+            </Button>
+          </Link>
         </div>
-
-        {cafes.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-gray-500 mb-4">등록된 카페가 없습니다.</p>
-            <Link href="/manager/dashboard/cafes/new">
-              <Button>첫 카페 등록하기</Button>
-            </Link>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {cafes.map((cafe) => (
-              <CafeCard key={cafe.id} cafe={cafe} onDelete={handleCafeDelete} />
-            ))}
-          </div>
-        )}
       </div>
-    </Suspense>
+
+      {cafes.length === 0 ? (
+        <div className="text-center py-12">
+          <p className="text-gray-500 mb-4">등록된 카페가 없습니다.</p>
+          <Link href="/manager/dashboard/cafes/new">
+            <Button>첫 카페 등록하기</Button>
+          </Link>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {cafes.map((cafe) => (
+            <CafeCard key={cafe.id} cafe={cafe} onDelete={handleCafeDelete} />
+          ))}
+        </div>
+      )}
+    </div>
   );
 }

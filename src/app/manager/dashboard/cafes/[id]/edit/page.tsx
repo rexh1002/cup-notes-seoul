@@ -8,6 +8,10 @@ import { Checkbox } from '../../../../../../components/ui/checkbox';
 import { Button } from '../../../../../../components/ui/button';
 import { toast } from 'react-hot-toast';
 
+// 정적 내보내기 설정 추가
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 // 임시 Button 컴포넌트 직접 정의
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
@@ -135,6 +139,15 @@ interface EditCafePageProps {
   };
 }
 
+// LoadingSpinner 컴포넌트 추가
+function LoadingSpinner() {
+  return (
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
+    </div>
+  );
+}
+
 export default function EditCafePage({ params }: EditCafePageProps) {
   const router = useRouter();
   const { id } = params;
@@ -167,6 +180,7 @@ export default function EditCafePage({ params }: EditCafePageProps) {
           headers: {
             Authorization: `Bearer ${token}`,
           },
+          cache: 'no-store'
         });
         
         if (!response.ok) {
@@ -392,11 +406,7 @@ export default function EditCafePage({ params }: EditCafePageProps) {
   };
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   return (
