@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Input } from '../../../../../../components/ui/input';
 import { Textarea } from '../../../../../../components/ui/textarea';
 import { Checkbox } from '../../../../../../components/ui/checkbox';
+import { Button } from '../../../../../../components/ui/button';
 import { toast } from 'react-hot-toast';
 
 // 임시 Button 컴포넌트 직접 정의
@@ -14,36 +15,6 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   size?: 'default' | 'sm' | 'lg';
   className?: string;
 }
-
-const Button = ({ 
-  children, 
-  variant = 'default', 
-  size = 'default',
-  className = "", 
-  ...props 
-}: ButtonProps) => {
-  const baseStyles = "inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50";
-  
-  const variantStyles = {
-    default: "bg-primary text-primary-foreground hover:bg-primary/90",
-    outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground"
-  };
-  
-  const sizeStyles = {
-    default: "h-10 px-4 py-2",
-    sm: "h-8 px-3 text-xs",
-    lg: "h-11 px-8"
-  };
-  
-  return (
-    <button 
-      className={`${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${className}`}
-      {...props}
-    >
-      {children}
-    </button>
-  );
-};
 
 const CUSTOM_INPUT_STYLE = "text-blue-600 font-bold";
 
@@ -186,14 +157,12 @@ export default function EditCafePage({ params }: EditCafePageProps) {
       try {
         setIsLoading(true);
         
-        // 토큰 확인
         const token = localStorage.getItem('authToken');
         if (!token) {
           router.push('/auth/login');
           return;
         }
         
-        // 카페 데이터 불러오기
         const response = await fetch(`/api/manager/cafes/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -201,70 +170,29 @@ export default function EditCafePage({ params }: EditCafePageProps) {
         });
         
         if (!response.ok) {
-          const errorText = await response.text();
-          console.error('API 응답 에러:', response.status, errorText);
-          throw new Error(`카페 정보를 불러오는데 실패했습니다. 상태 코드: ${response.status}`);
+          throw new Error('카페 정보를 불러오는데 실패했습니다.');
         }
         
         const data = await response.json();
-        console.log('불러온 카페 데이터:', data);
-        
-        if (data.cafe) {
-          // 데이터 구조 초기화
-          const cafeData = data.cafe;
-          
-          // 커스텀 필드 초기화 확인
-          const formattedCoffees = cafeData.coffees.map((coffee: any) => {
-            // 커스텀 필드가 없으면 기본값 설정
-            if (!coffee.customFields) {
-              coffee.customFields = {
-                origins: [],
-                processes: [],
-                brewMethods: [],
-                roastLevels: [],
-                notes: {
-                  floral: [],
-                  fruity: [],
-                  nutty: []
-                }
-              };
-            } else if (!coffee.customFields.notes) {
-              coffee.customFields.notes = {
-                floral: [],
-                fruity: [],
-                nutty: []
-              };
-            }
-            
-            return {
-              ...coffee,
-              // 배열 필드 초기화
-              roastLevel: coffee.roastLevel || [],
-              origins: coffee.origins || [],
-              processes: coffee.processes || [],
-              brewMethods: coffee.brewMethods || [],
-              notes: coffee.notes || [],
-              noteColors: coffee.noteColors || []
-            };
-          });
-          
-          setFormData({
-            id: cafeData.id,
-            name: cafeData.name || '',
-            address: cafeData.address || '',
-            phone: cafeData.phone || '',
-            description: cafeData.description || '',
-            businessHours: cafeData.businessHours || [],
-            businessHourNote: cafeData.businessHourNote || '',
-            snsLinks: cafeData.snsLinks || [],
-            coffees: formattedCoffees || []
-          });
-        } else {
-          throw new Error('카페 데이터를 찾을 수 없습니다.');
+        if (!data.success) {
+          throw new Error(data.error || '카페 정보를 불러오는데 실패했습니다.');
         }
+
+        setFormData({
+          id: data.cafe.id,
+          name: data.cafe.name || '',
+          address: data.cafe.address || '',
+          phone: data.cafe.phone || '',
+          description: data.cafe.description || '',
+          businessHours: data.cafe.businessHours || [],
+          businessHourNote: data.cafe.businessHourNote || '',
+          snsLinks: data.cafe.snsLinks || [],
+          coffees: data.cafe.coffees || []
+        });
       } catch (err) {
         console.error('카페 데이터 로딩 오류:', err);
         toast.error(err instanceof Error ? err.message : '카페 정보를 불러오는데 실패했습니다.');
+        router.push('/manager/dashboard');
       } finally {
         setIsLoading(false);
       }
