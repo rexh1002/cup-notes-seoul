@@ -9,6 +9,7 @@ export interface CafeInfo {
   businessHours: any; // [{ day: string, openTime: string, closeTime: string }]
   businessHourNote: string | null;
   snsLinks: any; // [{ type: string, url: string }]
+  imageUrl?: string;
   coffees?: {
     id: string;
     name: string;
