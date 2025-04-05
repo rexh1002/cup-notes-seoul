@@ -1,5 +1,7 @@
-import ManagerDashboard from './dashboard-client';
+export const dynamic = 'force-dynamic';
+
+import DashboardClient from './dashboard-client';
 
 export default function DashboardPage() {
-  return <ManagerDashboard />;
+  return <DashboardClient />;
 }
