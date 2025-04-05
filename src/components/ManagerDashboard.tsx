@@ -18,6 +18,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { toast } from 'react-hot-toast';
+import { Spinner } from '@/components/ui/spinner';
 
 // 타입 정의
 interface CafeInfo {
@@ -28,15 +29,6 @@ interface CafeInfo {
   coffeeCount: number;
   createdAt: string;
   updatedAt: string;
-}
-
-// LoadingSpinner 컴포넌트
-function LoadingSpinner() {
-  return (
-    <div className="flex items-center justify-center min-h-screen">
-      <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
-    </div>
-  );
 }
 
 // 카페 카드 컴포넌트
@@ -112,7 +104,7 @@ function CafeCard({ cafe, onDelete }: { cafe: CafeInfo; onDelete: () => void }) 
           </div>
         </div>
         
-        <div className="space-y-2 text-sm text-gray-600">
+        <div className="space-y-2">
           <div className="flex items-center gap-2">
             <MapPin className="w-4 h-4" />
             <span>{cafe.address}</span>
@@ -136,7 +128,7 @@ function CafeCard({ cafe, onDelete }: { cafe: CafeInfo; onDelete: () => void }) 
   );
 }
 
-export default function DashboardClient() {
+export function ManagerDashboard() {
   const router = useRouter();
   const [cafes, setCafes] = useState<CafeInfo[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -187,7 +179,11 @@ export default function DashboardClient() {
   };
 
   if (isLoading) {
-    return <LoadingSpinner />;
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <Spinner size="lg" />
+      </div>
+    );
   }
 
   if (error) {
