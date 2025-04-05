@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import dotenv from 'dotenv';
 
+export const dynamic = 'force-dynamic';  // 동적 렌더링 설정
+
 dotenv.config();
 
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY || 'default-secret-key';

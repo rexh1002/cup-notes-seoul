@@ -22,6 +22,8 @@ function decodeToken(token: string): UserPayload | null {
   }
 }
 
+export const dynamic = 'force-dynamic';
+
 // GET 요청: 특정 카페 조회
 export async function GET(
   request: Request,

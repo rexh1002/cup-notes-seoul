@@ -3,6 +3,8 @@ import { NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 import jwt from 'jsonwebtoken';
 
+export const dynamic = 'force-dynamic';
+
 const prisma = new PrismaClient();
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY || 'default-secret-key';
 

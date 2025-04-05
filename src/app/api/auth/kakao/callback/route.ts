@@ -12,6 +12,8 @@ const KAKAO_REDIRECT_URI = process.env.KAKAO_REDIRECT_URI || 'https://cupnotesci
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY || 'default-secret-key';
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://cupnotescity.com';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: Request) {
   try {
     const url = new URL(request.url);

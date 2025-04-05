@@ -9,6 +9,8 @@ dotenv.config();
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY || 'default-secret-key';
 const prisma = new PrismaClient();
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: Request) {
   try {
     const { email, password } = await request.json();
