@@ -11,6 +11,8 @@ import { toast } from 'react-hot-toast';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import type { CafeInfo } from '@/lib/api';
 
+const CUSTOM_INPUT_STYLE = "text-blue-600 font-bold";
+
 const DAYS_OF_WEEK = ['매일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일', '일요일'];
 const SNS_TYPES = ['네이버지도', '인스타그램', '페이스북', '홈페이지', '기타'];
 
@@ -93,6 +95,34 @@ interface CafeFormData {
   coffees: CoffeeInput[];
 }
 
+// 유효성 검사 함수들
+const validateCafeData = (data: CafeFormData): string | null => {
+  if (!data.name.trim()) return '카페명은 필수 입력 항목입니다.';
+  if (!data.address.trim()) return '주소는 필수 입력 항목입니다.';
+  
+  // 영업시간 유효성 검사
+  for (const hour of data.businessHours) {
+    if (!hour.openTime || !hour.closeTime) {
+      return '영업시간을 올바르게 입력해주세요.';
+    }
+  }
+
+  // SNS 링크 유효성 검사
+  for (const link of data.snsLinks) {
+    if (link.type && !link.url) {
+      return 'SNS 링크의 URL을 입력해주세요.';
+    }
+  }
+
+  return null;
+};
+
+const validateCoffeeData = (coffee: CoffeeInput): string | null => {
+  if (!coffee.name.trim()) return '원두명은 필수 입력 항목입니다.';
+  if (!coffee.price || coffee.price <= 0) return '원두 가격을 올바르게 입력해주세요.';
+  return null;
+};
+
 export function EditCafeClient({ cafe }: { cafe: CafeInfo }) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
@@ -105,15 +135,21 @@ export function EditCafeClient({ cafe }: { cafe: CafeInfo }) {
     businessHourNote: cafe.businessHourNote || '',
     snsLinks: cafe.snsLinks || [],
     imageUrl: cafe.imageUrl || '',
-    coffees: cafe.coffees || [],
+    coffees: (cafe.coffees || []).map(coffee => ({
+      ...coffee,
+      customFields: {
+        origins: [],
+        processes: [],
+        brewMethods: [],
+        roastLevels: [],
+        notes: {
+          floral: [],
+          fruity: [],
+          nutty: [],
+        },
+      },
+    })),
   });
-
-  const [selectedOrigins, setSelectedOrigins] = useState<string[]>([]);
-  const [selectedProcesses, setSelectedProcesses] = useState<string[]>([]);
-  const [selectedBrewMethods, setSelectedBrewMethods] = useState<string[]>([]);
-  const [selectedRoastLevels, setSelectedRoastLevels] = useState<string[]>([]);
-  const [selectedNotes, setSelectedNotes] = useState<string[]>([]);
-  const [selectedNoteColors, setSelectedNoteColors] = useState<string[]>([]);
 
   const handleBusinessHourAdd = (day: string) => {
     if (!formData.businessHours.find(hour => hour.day === day)) {
@@ -215,6 +251,23 @@ export function EditCafeClient({ cafe }: { cafe: CafeInfo }) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // 기본 유효성 검사
+    const cafeError = validateCafeData(formData);
+    if (cafeError) {
+      toast.error(cafeError);
+      return;
+    }
+
+    // 원두 데이터 유효성 검사
+    for (const coffee of formData.coffees) {
+      const coffeeError = validateCoffeeData(coffee);
+      if (coffeeError) {
+        toast.error(coffeeError);
+        return;
+      }
+    }
+
     setIsLoading(true);
 
     try {
@@ -253,381 +306,451 @@ export function EditCafeClient({ cafe }: { cafe: CafeInfo }) {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <Card>
-        <CardHeader>
-          <CardTitle>카페 정보 수정</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="name">카페 이름</Label>
-                <Input
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="phone">전화번호</Label>
-                <Input
-                  id="phone"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-            </div>
+    <form onSubmit={handleSubmit} className="max-w-6xl mx-auto p-6 space-y-6 font-sans">
+      <h1 className="text-2xl font-bold mb-6">카페 정보 수정</h1>
 
-            <div className="space-y-2">
-              <Label htmlFor="address">주소</Label>
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-medium text-gray-700">카페명 *</label>
+          <Input
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700">전화번호</label>
+          <Input
+            name="phone"
+            value={formData.phone}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="col-span-2">
+          <label className="block text-sm font-medium text-gray-700">주소 *</label>
+          <Input
+            name="address"
+            value={formData.address}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="col-span-2">
+          <label className="block text-sm font-medium text-gray-700">설명</label>
+          <Textarea
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            rows={4}
+          />
+        </div>
+      </div>
+
+      {/* 영업시간 섹션 */}
+      <div className="space-y-4">
+        <h2 className="text-xl font-semibold">영업시간</h2>
+        <div className="grid grid-cols-1 gap-4">
+          {DAYS_OF_WEEK.map(day => (
+            <div key={day} className="flex items-center gap-4">
+              <Checkbox
+                checked={formData.businessHours.some(hour => hour.day === day)}
+                onCheckedChange={(checked) => {
+                  if (checked) {
+                    handleBusinessHourAdd(day);
+                  } else {
+                    handleBusinessHourRemove(day);
+                  }
+                }}
+                id={`day-${day}`}
+              />
+              <label htmlFor={`day-${day}`} className="w-20">{day}</label>
+              {formData.businessHours.find(hour => hour.day === day) && (
+                <>
+                  <Input
+                    type="time"
+                    className="w-32"
+                    value={formData.businessHours.find(hour => hour.day === day)?.openTime}
+                    onChange={(e) => handleBusinessHourChange(day, 'openTime', e.target.value)}
+                  />
+                  <span>-</span>
+                  <Input
+                    type="time"
+                    className="w-32"
+                    value={formData.businessHours.find(hour => hour.day === day)?.closeTime}
+                    onChange={(e) => handleBusinessHourChange(day, 'closeTime', e.target.value)}
+                  />
+                </>
+              )}
+            </div>
+          ))}
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700">영업시간 특이사항</label>
+          <Input
+            name="businessHourNote"
+            value={formData.businessHourNote}
+            onChange={handleChange}
+            placeholder="예: 설날연휴 정상영업"
+          />
+        </div>
+      </div>
+
+      {/* SNS 링크 섹션 */}
+      <div className="space-y-4">
+        <h2 className="text-xl font-semibold">SNS 링크</h2>
+        {formData.snsLinks.map((link, index) => (
+          <div key={index} className="grid grid-cols-3 gap-4">
+            <select
+              className="border rounded-md p-2"
+              value={link.type}
+              onChange={(e) => handleSnsLinkChange(index, 'type', e.target.value)}
+            >
+              <option value="">선택하세요</option>
+              {SNS_TYPES.map(type => (
+                <option key={type} value={type}>{type}</option>
+              ))}
+            </select>
+            <div className="col-span-2 flex gap-2">
               <Input
-                id="address"
-                name="address"
-                value={formData.address}
-                onChange={handleChange}
-                required
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="description">설명</Label>
-              <Textarea
-                id="description"
-                name="description"
-                value={formData.description}
-                onChange={handleChange}
-                rows={4}
-              />
-            </div>
-
-            <div className="space-y-4">
-              <Label>영업시간</Label>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {DAYS_OF_WEEK.map(day => (
-                  <div key={day} className="flex items-center space-x-2">
-                    <Checkbox
-                      id={`day-${day}`}
-                      checked={formData.businessHours.some(hour => hour.day === day)}
-                      onCheckedChange={(checked) => {
-                        if (checked) {
-                          handleBusinessHourAdd(day);
-                        } else {
-                          handleBusinessHourRemove(day);
-                        }
-                      }}
-                    />
-                    <Label htmlFor={`day-${day}`}>{day}</Label>
-                  </div>
-                ))}
-              </div>
-              {formData.businessHours.map(hour => (
-                <div key={hour.day} className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor={`open-${hour.day}`}>오픈 시간</Label>
-                    <Input
-                      id={`open-${hour.day}`}
-                      type="time"
-                      value={hour.openTime}
-                      onChange={(e) => handleBusinessHourChange(hour.day, 'openTime', e.target.value)}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor={`close-${hour.day}`}>마감 시간</Label>
-                    <Input
-                      id={`close-${hour.day}`}
-                      type="time"
-                      value={hour.closeTime}
-                      onChange={(e) => handleBusinessHourChange(hour.day, 'closeTime', e.target.value)}
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="businessHourNote">영업시간 안내</Label>
-              <Textarea
-                id="businessHourNote"
-                name="businessHourNote"
-                value={formData.businessHourNote}
-                onChange={handleChange}
-                rows={3}
-                placeholder="휴무일, 브레이크타임 등 추가 안내사항"
-              />
-            </div>
-
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <Label>SNS 링크</Label>
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={handleSnsLinkAdd}
-                >
-                  + 링크 추가
-                </Button>
-              </div>
-              {formData.snsLinks.map((link, index) => (
-                <div key={index} className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
-                  <div className="space-y-2">
-                    <Label htmlFor={`sns-type-${index}`}>SNS 종류</Label>
-                    <select
-                      id={`sns-type-${index}`}
-                      className="w-full h-10 px-3 rounded-md border"
-                      value={link.type}
-                      onChange={(e) => handleSnsLinkChange(index, 'type', e.target.value)}
-                    >
-                      <option value="">선택하세요</option>
-                      {SNS_TYPES.map(type => (
-                        <option key={type} value={type}>{type}</option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="space-y-2 md:col-span-2">
-                    <Label htmlFor={`sns-url-${index}`}>URL</Label>
-                    <div className="flex gap-2">
-                      <Input
-                        id={`sns-url-${index}`}
-                        type="url"
-                        value={link.url}
-                        onChange={(e) => handleSnsLinkChange(index, 'url', e.target.value)}
-                        placeholder="https://"
-                      />
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleSnsLinkRemove(index)}
-                        className="shrink-0"
-                      >
-                        삭제
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <Label>원두 정보</Label>
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={handleCoffeeAdd}
-                >
-                  + 원두 추가
-                </Button>
-              </div>
-              {formData.coffees.map((coffee, index) => (
-                <Card key={index} className="p-4">
-                  <div className="space-y-4">
-                    <div className="flex justify-between items-center">
-                      <Label>원두 #{index + 1}</Label>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleCoffeeRemove(index)}
-                      >
-                        삭제
-                      </Button>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <Label htmlFor={`coffee-name-${index}`}>원두명</Label>
-                        <Input
-                          id={`coffee-name-${index}`}
-                          value={coffee.name}
-                          onChange={(e) => handleCoffeeChange(index, 'name', e.target.value)}
-                          required
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor={`coffee-price-${index}`}>가격</Label>
-                        <Input
-                          id={`coffee-price-${index}`}
-                          type="number"
-                          value={coffee.price}
-                          onChange={(e) => handleCoffeeChange(index, 'price', Number(e.target.value))}
-                          required
-                        />
-                      </div>
-                    </div>
-                    <div className="space-y-2">
-                      <Label>로스팅 레벨</Label>
-                      <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                        {ROAST_LEVELS.map(level => (
-                          <div key={level} className="flex items-center space-x-2">
-                            <Checkbox
-                              id={`roast-${index}-${level}`}
-                              checked={coffee.roastLevel.includes(level)}
-                              onCheckedChange={(checked) => {
-                                const newLevels = checked
-                                  ? [...coffee.roastLevel, level]
-                                  : coffee.roastLevel.filter(l => l !== level);
-                                handleCoffeeChange(index, 'roastLevel', newLevels);
-                              }}
-                            />
-                            <Label htmlFor={`roast-${index}-${level}`}>{level}</Label>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                    <div className="space-y-2">
-                      <Label>원산지</Label>
-                      <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                        {ORIGINS.map(origin => (
-                          <div key={origin} className="flex items-center space-x-2">
-                            <Checkbox
-                              id={`origin-${index}-${origin}`}
-                              checked={coffee.origins.includes(origin)}
-                              onCheckedChange={(checked) => {
-                                const newOrigins = checked
-                                  ? [...coffee.origins, origin]
-                                  : coffee.origins.filter(o => o !== origin);
-                                handleCoffeeChange(index, 'origins', newOrigins);
-                              }}
-                            />
-                            <Label htmlFor={`origin-${index}-${origin}`}>{origin}</Label>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                    <div className="space-y-2">
-                      <Label>가공방식</Label>
-                      <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                        {PROCESSES.map(process => (
-                          <div key={process} className="flex items-center space-x-2">
-                            <Checkbox
-                              id={`process-${index}-${process}`}
-                              checked={coffee.processes.includes(process)}
-                              onCheckedChange={(checked) => {
-                                const newProcesses = checked
-                                  ? [...coffee.processes, process]
-                                  : coffee.processes.filter(p => p !== process);
-                                handleCoffeeChange(index, 'processes', newProcesses);
-                              }}
-                            />
-                            <Label htmlFor={`process-${index}-${process}`}>{process}</Label>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                    <div className="space-y-2">
-                      <Label>추출방식</Label>
-                      <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                        {BREW_METHODS.map(method => (
-                          <div key={method} className="flex items-center space-x-2">
-                            <Checkbox
-                              id={`brew-${index}-${method}`}
-                              checked={coffee.brewMethods.includes(method)}
-                              onCheckedChange={(checked) => {
-                                const newMethods = checked
-                                  ? [...coffee.brewMethods, method]
-                                  : coffee.brewMethods.filter(m => m !== method);
-                                handleCoffeeChange(index, 'brewMethods', newMethods);
-                              }}
-                            />
-                            <Label htmlFor={`brew-${index}-${method}`}>{method}</Label>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                    <div className="space-y-4">
-                      <Label>컵 노트</Label>
-                      {Object.entries(CUP_NOTES).map(([category, { title, notes }]) => (
-                        <div key={category} className="space-y-2">
-                          <Label>{title}</Label>
-                          <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                            {notes.map(note => (
-                              <div key={note} className="flex items-center space-x-2">
-                                <Checkbox
-                                  id={`note-${index}-${category}-${note}`}
-                                  checked={coffee.notes.includes(note)}
-                                  onCheckedChange={(checked) => {
-                                    const newNotes = checked
-                                      ? [...coffee.notes, note]
-                                      : coffee.notes.filter(n => n !== note);
-                                    handleCoffeeChange(index, 'notes', newNotes);
-                                  }}
-                                />
-                                <Label htmlFor={`note-${index}-${category}-${note}`}>{note}</Label>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                    <div className="space-y-2">
-                      <Label>노트 색상</Label>
-                      <div className="grid grid-cols-5 md:grid-cols-10 gap-2">
-                        {NOTE_COLORS.map((color, colorIndex) => (
-                          <div
-                            key={colorIndex}
-                            className={`w-8 h-8 rounded cursor-pointer border-2 ${
-                              coffee.noteColors.includes(color) ? 'border-blue-500' : 'border-transparent'
-                            }`}
-                            style={{ backgroundColor: color }}
-                            onClick={() => {
-                              const newColors = coffee.noteColors.includes(color)
-                                ? coffee.noteColors.filter(c => c !== color)
-                                : [...coffee.noteColors, color];
-                              handleCoffeeChange(index, 'noteColors', newColors);
-                            }}
-                          />
-                        ))}
-                      </div>
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor={`coffee-description-${index}`}>설명</Label>
-                      <Textarea
-                        id={`coffee-description-${index}`}
-                        value={coffee.description || ''}
-                        onChange={(e) => handleCoffeeChange(index, 'description', e.target.value as string | null)}
-                        rows={3}
-                      />
-                    </div>
-                  </div>
-                </Card>
-              ))}
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="imageUrl">이미지 URL</Label>
-              <Input
-                id="imageUrl"
-                name="imageUrl"
-                value={formData.imageUrl}
-                onChange={handleChange}
                 type="url"
+                value={link.url}
+                onChange={(e) => handleSnsLinkChange(index, 'url', e.target.value)}
                 placeholder="https://"
               />
-            </div>
-
-            <div className="flex gap-4 pt-4">
-              <Button type="submit" disabled={isLoading}>
-                {isLoading ? '수정 중...' : '수정하기'}
-              </Button>
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => router.back()}
-                disabled={isLoading}
+                onClick={() => handleSnsLinkRemove(index)}
+                className="shrink-0"
               >
-                취소
+                삭제
               </Button>
             </div>
-          </form>
-        </CardContent>
-      </Card>
-    </div>
+          </div>
+        ))}
+        <Button type="button" variant="outline" onClick={handleSnsLinkAdd}>
+          SNS 링크 추가
+        </Button>
+      </div>
+
+      {/* 원두 정보 섹션 */}
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <h2 className="text-xl font-semibold">원두 정보</h2>
+          <Button
+            type="button"
+            variant="outline"
+            onClick={handleCoffeeAdd}
+          >
+            + 원두 추가
+          </Button>
+        </div>
+        {formData.coffees.map((coffee, coffeeIndex) => (
+          <Card key={coffeeIndex} className="p-4">
+            <div className="space-y-4">
+              <div className="flex justify-between items-center">
+                <h3 className="text-lg font-semibold">원두 #{coffeeIndex + 1}</h3>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handleCoffeeRemove(coffeeIndex)}
+                >
+                  삭제
+                </Button>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">원두명 *</label>
+                  <Input
+                    value={coffee.name}
+                    onChange={(e) => handleCoffeeChange(coffeeIndex, 'name', e.target.value)}
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">가격 *</label>
+                  <Input
+                    type="number"
+                    value={coffee.price}
+                    onChange={(e) => handleCoffeeChange(coffeeIndex, 'price', Number(e.target.value))}
+                    required
+                  />
+                </div>
+              </div>
+
+              {/* 로스팅 레벨 */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700">로스팅 레벨</label>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                  {ROAST_LEVELS.map(level => (
+                    <div key={level} className="flex items-center space-x-2">
+                      <Checkbox
+                        id={`roast-${coffeeIndex}-${level}`}
+                        checked={coffee.roastLevel.includes(level)}
+                        onCheckedChange={(checked) => {
+                          const newLevels = checked
+                            ? [...coffee.roastLevel, level]
+                            : coffee.roastLevel.filter(l => l !== level);
+                          handleCoffeeChange(coffeeIndex, 'roastLevel', newLevels);
+                        }}
+                      />
+                      <label
+                        htmlFor={`roast-${coffeeIndex}-${level}`}
+                        className={level === '직접입력' ? CUSTOM_INPUT_STYLE : ''}
+                      >
+                        {level}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+                {coffee.roastLevel.includes('직접입력') && (
+                  <Input
+                    className="mt-2"
+                    placeholder="직접 입력"
+                    value={coffee.customFields.roastLevels.join(', ')}
+                    onChange={(e) => {
+                      const updatedCoffees = [...formData.coffees];
+                      updatedCoffees[coffeeIndex].customFields.roastLevels = 
+                        e.target.value.split(',').map(item => item.trim());
+                      setFormData({ ...formData, coffees: updatedCoffees });
+                    }}
+                  />
+                )}
+              </div>
+
+              {/* 원산지 */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700">원산지</label>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                  {ORIGINS.map(origin => (
+                    <div key={origin} className="flex items-center space-x-2">
+                      <Checkbox
+                        id={`origin-${coffeeIndex}-${origin}`}
+                        checked={coffee.origins.includes(origin)}
+                        onCheckedChange={(checked) => {
+                          const newOrigins = checked
+                            ? [...coffee.origins, origin]
+                            : coffee.origins.filter(o => o !== origin);
+                          handleCoffeeChange(coffeeIndex, 'origins', newOrigins);
+                        }}
+                      />
+                      <label
+                        htmlFor={`origin-${coffeeIndex}-${origin}`}
+                        className={origin === '직접입력' ? CUSTOM_INPUT_STYLE : ''}
+                      >
+                        {origin}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+                {coffee.origins.includes('직접입력') && (
+                  <Input
+                    className="mt-2"
+                    placeholder="직접 입력"
+                    value={coffee.customFields.origins.join(', ')}
+                    onChange={(e) => {
+                      const updatedCoffees = [...formData.coffees];
+                      updatedCoffees[coffeeIndex].customFields.origins = 
+                        e.target.value.split(',').map(item => item.trim());
+                      setFormData({ ...formData, coffees: updatedCoffees });
+                    }}
+                  />
+                )}
+              </div>
+
+              {/* 가공방식 */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700">가공방식</label>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                  {PROCESSES.map(process => (
+                    <div key={process} className="flex items-center space-x-2">
+                      <Checkbox
+                        id={`process-${coffeeIndex}-${process}`}
+                        checked={coffee.processes.includes(process)}
+                        onCheckedChange={(checked) => {
+                          const newProcesses = checked
+                            ? [...coffee.processes, process]
+                            : coffee.processes.filter(p => p !== process);
+                          handleCoffeeChange(coffeeIndex, 'processes', newProcesses);
+                        }}
+                      />
+                      <label
+                        htmlFor={`process-${coffeeIndex}-${process}`}
+                        className={process === '직접입력' ? CUSTOM_INPUT_STYLE : ''}
+                      >
+                        {process}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+                {coffee.processes.includes('직접입력') && (
+                  <Input
+                    className="mt-2"
+                    placeholder="직접 입력"
+                    value={coffee.customFields.processes.join(', ')}
+                    onChange={(e) => {
+                      const updatedCoffees = [...formData.coffees];
+                      updatedCoffees[coffeeIndex].customFields.processes = 
+                        e.target.value.split(',').map(item => item.trim());
+                      setFormData({ ...formData, coffees: updatedCoffees });
+                    }}
+                  />
+                )}
+              </div>
+
+              {/* 추출방식 */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700">추출방식</label>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                  {BREW_METHODS.map(method => (
+                    <div key={method} className="flex items-center space-x-2">
+                      <Checkbox
+                        id={`brew-${coffeeIndex}-${method}`}
+                        checked={coffee.brewMethods.includes(method)}
+                        onCheckedChange={(checked) => {
+                          const newMethods = checked
+                            ? [...coffee.brewMethods, method]
+                            : coffee.brewMethods.filter(m => m !== method);
+                          handleCoffeeChange(coffeeIndex, 'brewMethods', newMethods);
+                        }}
+                      />
+                      <label
+                        htmlFor={`brew-${coffeeIndex}-${method}`}
+                        className={method === '직접입력' ? CUSTOM_INPUT_STYLE : ''}
+                      >
+                        {method}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+                {coffee.brewMethods.includes('직접입력') && (
+                  <Input
+                    className="mt-2"
+                    placeholder="직접 입력"
+                    value={coffee.customFields.brewMethods.join(', ')}
+                    onChange={(e) => {
+                      const updatedCoffees = [...formData.coffees];
+                      updatedCoffees[coffeeIndex].customFields.brewMethods = 
+                        e.target.value.split(',').map(item => item.trim());
+                      setFormData({ ...formData, coffees: updatedCoffees });
+                    }}
+                  />
+                )}
+              </div>
+
+              {/* 컵 노트 */}
+              <div>
+                <h3 className="text-lg font-semibold mb-4">컵 노트</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  {Object.entries(CUP_NOTES).map(([category, { title, notes }]) => (
+                    <div key={category} className="space-y-2">
+                      <h4 className="font-medium text-gray-700">{title}</h4>
+                      <div className="space-y-1">
+                        {notes.map(note => (
+                          <div key={note} className="flex items-center">
+                            <Checkbox
+                              id={`note-${coffeeIndex}-${category}-${note}`}
+                              checked={note === '직접입력'
+                                ? coffee.notes.includes(`${category}-직접입력`)
+                                : coffee.notes.includes(note)}
+                              onCheckedChange={(checked) => {
+                                const noteValue = note === '직접입력' ? `${category}-직접입력` : note;
+                                const newNotes = checked
+                                  ? [...coffee.notes, noteValue]
+                                  : coffee.notes.filter(n => n !== noteValue);
+                                handleCoffeeChange(coffeeIndex, 'notes', newNotes);
+                              }}
+                            />
+                            <label
+                              htmlFor={`note-${coffeeIndex}-${category}-${note}`}
+                              className={`ml-2 ${note === '직접입력' ? CUSTOM_INPUT_STYLE : ''}`}
+                            >
+                              {note}
+                            </label>
+                          </div>
+                        ))}
+                      </div>
+                      {coffee.notes.includes(`${category}-직접입력`) && (
+                        <Input
+                          placeholder="직접 입력"
+                          value={coffee.customFields.notes[category].join(', ')}
+                          onChange={(e) => {
+                            const updatedCoffees = [...formData.coffees];
+                            updatedCoffees[coffeeIndex].customFields.notes[category] = 
+                              e.target.value.split(',').map(item => item.trim());
+                            setFormData({ ...formData, coffees: updatedCoffees });
+                          }}
+                        />
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* 노트 색상 */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">노트 색상</label>
+                <div className="grid grid-cols-5 md:grid-cols-10 gap-2">
+                  {NOTE_COLORS.map((color, colorIndex) => (
+                    <div
+                      key={colorIndex}
+                      className={`w-8 h-8 rounded cursor-pointer border-2 ${
+                        coffee.noteColors.includes(color) ? 'border-blue-500' : 'border-transparent'
+                      }`}
+                      style={{ backgroundColor: color }}
+                      onClick={() => {
+                        const newColors = coffee.noteColors.includes(color)
+                          ? coffee.noteColors.filter(c => c !== color)
+                          : [...coffee.noteColors, color];
+                        handleCoffeeChange(coffeeIndex, 'noteColors', newColors);
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              {/* 설명 */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700">설명</label>
+                <Textarea
+                  value={coffee.description || ''}
+                  onChange={(e) => handleCoffeeChange(coffeeIndex, 'description', e.target.value)}
+                  rows={3}
+                />
+              </div>
+            </div>
+          </Card>
+        ))}
+      </div>
+
+      {/* 이미지 URL */}
+      <div className="space-y-2">
+        <label className="block text-sm font-medium text-gray-700">이미지 URL</label>
+        <Input
+          name="imageUrl"
+          type="url"
+          value={formData.imageUrl}
+          onChange={handleChange}
+          placeholder="https://"
+        />
+      </div>
+
+      {/* 버튼 */}
+      <div className="flex gap-4 pt-4">
+        <Button type="submit" disabled={isLoading}>
+          {isLoading ? '수정 중...' : '수정하기'}
+        </Button>
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => router.back()}
+          disabled={isLoading}
+        >
+          취소
+        </Button>
+      </div>
+    </form>
   );
 } 
