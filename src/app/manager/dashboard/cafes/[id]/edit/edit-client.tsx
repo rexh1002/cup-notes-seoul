@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -13,15 +13,30 @@ export function EditCafeClient({ cafe }: { cafe: CafeInfo }) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
-    name: cafe.name,
-    address: cafe.address,
-    phone: cafe.phone,
-    description: cafe.description || '',
-    businessHours: cafe.businessHours,
-    businessHourNote: cafe.businessHourNote || '',
-    snsLinks: cafe.snsLinks,
-    imageUrl: cafe.imageUrl || '',
+    name: '',
+    address: '',
+    phone: '',
+    description: '',
+    businessHours: [],
+    businessHourNote: '',
+    snsLinks: [],
+    imageUrl: '',
   });
+
+  useEffect(() => {
+    if (cafe) {
+      setFormData({
+        name: cafe.name || '',
+        address: cafe.address || '',
+        phone: cafe.phone || '',
+        description: cafe.description || '',
+        businessHours: cafe.businessHours || [],
+        businessHourNote: cafe.businessHourNote || '',
+        snsLinks: cafe.snsLinks || [],
+        imageUrl: cafe.imageUrl || '',
+      });
+    }
+  }, [cafe]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,11 +48,16 @@ export function EditCafeClient({ cafe }: { cafe: CafeInfo }) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          businessHours: Array.isArray(formData.businessHours) ? formData.businessHours : [],
+          snsLinks: Array.isArray(formData.snsLinks) ? formData.snsLinks : [],
+        }),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to update cafe');
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || 'Failed to update cafe');
       }
 
       toast.success('카페 정보가 수정되었습니다.');
@@ -45,7 +65,7 @@ export function EditCafeClient({ cafe }: { cafe: CafeInfo }) {
       router.refresh();
     } catch (error) {
       console.error('Error updating cafe:', error);
-      toast.error('카페 정보 수정에 실패했습니다.');
+      toast.error(error instanceof Error ? error.message : '카페 정보 수정에 실패했습니다.');
     } finally {
       setIsLoading(false);
     }
@@ -55,6 +75,10 @@ export function EditCafeClient({ cafe }: { cafe: CafeInfo }) {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
+
+  if (!cafe) {
+    return <div>카페 정보를 불러올 수 없습니다.</div>;
+  }
 
   return (
     <div className="container mx-auto p-4">
