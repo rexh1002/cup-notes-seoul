@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { PlusCircle, Edit, Coffee, MapPin, Phone, Home, Trash2 } from 'lucide-react';
@@ -18,6 +18,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { toast } from 'react-hot-toast';
+import { Spinner } from '@/components/ui/spinner';
 
 // 타입 정의
 interface CafeInfo {
@@ -30,17 +31,8 @@ interface CafeInfo {
   updatedAt: string;
 }
 
-// 로딩 컴포넌트
-function LoadingSpinner() {
-  return (
-    <div className="flex items-center justify-center min-h-screen">
-      <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
-    </div>
-  );
-}
-
 // 카페 카드 컴포넌트
-function CafeCard({ cafe, onDelete }: { cafe: CafeInfo; onDelete: () => void }) {
+const CafeCard = React.memo(function CafeCard({ cafe, onDelete }: { cafe: CafeInfo; onDelete: (id: string) => void }) {
   const handleDelete = async () => {
     try {
       const token = localStorage.getItem('authToken');
@@ -53,20 +45,18 @@ function CafeCard({ cafe, onDelete }: { cafe: CafeInfo; onDelete: () => void }) 
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
         },
       });
 
-      if (!response.ok) {
-        throw new Error('카페 삭제에 실패했습니다.');
-      }
-
       const data = await response.json();
-      if (!data.success) {
+      
+      if (!response.ok || !data.success) {
         throw new Error(data.error || '카페 삭제에 실패했습니다.');
       }
 
       toast.success('카페가 성공적으로 삭제되었습니다.');
-      onDelete();
+      onDelete(cafe.id);
     } catch (err) {
       console.error('카페 삭제 오류:', err);
       toast.error(err instanceof Error ? err.message : '카페 삭제에 실패했습니다.');
@@ -134,7 +124,7 @@ function CafeCard({ cafe, onDelete }: { cafe: CafeInfo; onDelete: () => void }) 
       </CardContent>
     </Card>
   );
-}
+});
 
 export default function DashboardClient() {
   const router = useRouter();
@@ -142,7 +132,7 @@ export default function DashboardClient() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchCafes = async () => {
+  const fetchCafes = useCallback(async () => {
     try {
       setIsLoading(true);
       setError(null);
@@ -156,16 +146,14 @@ export default function DashboardClient() {
       const response = await fetch('/api/manager/cafes', {
         headers: {
           Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
         },
-        cache: 'no-store'
+        cache: 'no-store',
       });
 
-      if (!response.ok) {
-        throw new Error('카페 정보를 불러오는데 실패했습니다.');
-      }
-
       const data = await response.json();
-      if (!data.success) {
+      
+      if (!response.ok || !data.success) {
         throw new Error(data.error || '카페 정보를 불러오는데 실패했습니다.');
       }
 
@@ -176,18 +164,22 @@ export default function DashboardClient() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [router]);
 
   useEffect(() => {
     fetchCafes();
+  }, [fetchCafes]);
+
+  const handleCafeDelete = useCallback((deletedId: string) => {
+    setCafes(prevCafes => prevCafes.filter(cafe => cafe.id !== deletedId));
   }, []);
 
-  const handleCafeDelete = () => {
-    fetchCafes();
-  };
-
   if (isLoading) {
-    return <LoadingSpinner />;
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <Spinner className="w-32 h-32" />
+      </div>
+    );
   }
 
   if (error) {
