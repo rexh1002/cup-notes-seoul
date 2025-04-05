@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import jwt, { JwtPayload } from 'jsonwebtoken';
-import { prisma } from '@/lib/prisma';
+import prisma from '@/lib/prisma';
 import dotenv from 'dotenv';
 
 dotenv.config();

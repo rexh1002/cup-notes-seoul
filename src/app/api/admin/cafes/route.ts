@@ -1,14 +1,12 @@
 // src/app/api/admin/cafes/route.ts
 import { NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
+import prisma from '@/lib/prisma';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import { prisma } from '@/lib/prisma';
 
 dotenv.config();
 
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY || 'default-secret-key';
-const prismaClient = new PrismaClient();
 
 interface UserPayload extends JwtPayload {
   role: string;
@@ -100,7 +98,7 @@ export async function POST(request: Request) {
 
     console.log('14. Prisma create 시작:', cafeData);
 
-    const cafe = await prismaClient.cafe.create({
+    const cafe = await prisma.cafe.create({
       data: cafeData,
     });
 
@@ -123,7 +121,7 @@ export async function POST(request: Request) {
     );
   } finally {
     console.log('17. 데이터베이스 연결 종료');
-    await prismaClient.$disconnect();
+    await prisma.$disconnect();
   }
 }
 
@@ -132,7 +130,7 @@ export async function GET() {
   console.log('GET 요청 시작');
 
   try {
-    const cafes = await prismaClient.cafe.findMany();
+    const cafes = await prisma.cafe.findMany();
     console.log('카페 목록 가져오기 성공:', cafes);
 
     return NextResponse.json(
@@ -147,7 +145,7 @@ export async function GET() {
     );
   } finally {
     console.log('데이터베이스 연결 종료');
-    await prismaClient.$disconnect();
+    await prisma.$disconnect();
   }
 }
 
@@ -208,7 +206,7 @@ export async function DELETE(
     }
 
     // ✅ 카페 존재 여부 확인
-    const existingCafe = await prismaClient.cafe.findUnique({
+    const existingCafe = await prisma.cafe.findUnique({
       where: { id: cafeId },
     });
 
@@ -223,7 +221,7 @@ export async function DELETE(
     // ✅ Prisma를 사용해 카페 삭제 시도
     console.log('🔥 10. 카페 삭제 시도. 삭제할 카페 ID:', cafeId);
 
-    const deletedCafe = await prismaClient.cafe.delete({
+    const deletedCafe = await prisma.cafe.delete({
       where: { id: cafeId },
     });
 
@@ -238,7 +236,7 @@ export async function DELETE(
     );
   } finally {
     console.log('✅ 13. Prisma 데이터베이스 연결 종료');
-    await prismaClient.$disconnect();
+    await prisma.$disconnect();
   }
 }
 
