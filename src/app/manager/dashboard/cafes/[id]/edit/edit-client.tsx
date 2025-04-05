@@ -7,14 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { toast } from 'react-hot-toast';
-
-interface CafeInfo {
-  id: string;
-  name: string;
-  address: string;
-  description: string;
-  imageUrl: string;
-}
+import type { CafeInfo } from '@/lib/api';
 
 export function EditCafeClient({ cafe }: { cafe: CafeInfo }) {
   const router = useRouter();
@@ -22,8 +15,12 @@ export function EditCafeClient({ cafe }: { cafe: CafeInfo }) {
   const [formData, setFormData] = useState({
     name: cafe.name,
     address: cafe.address,
-    description: cafe.description,
-    imageUrl: cafe.imageUrl,
+    phone: cafe.phone,
+    description: cafe.description || '',
+    businessHours: cafe.businessHours,
+    businessHourNote: cafe.businessHourNote || '',
+    snsLinks: cafe.snsLinks,
+    imageUrl: cafe.imageUrl || '',
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -84,13 +81,31 @@ export function EditCafeClient({ cafe }: { cafe: CafeInfo }) {
           />
         </div>
         <div>
+          <Label htmlFor="phone">전화번호</Label>
+          <Input
+            id="phone"
+            name="phone"
+            value={formData.phone}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div>
           <Label htmlFor="description">설명</Label>
           <Textarea
             id="description"
             name="description"
             value={formData.description}
             onChange={handleChange}
-            required
+          />
+        </div>
+        <div>
+          <Label htmlFor="businessHourNote">영업시간 안내</Label>
+          <Textarea
+            id="businessHourNote"
+            name="businessHourNote"
+            value={formData.businessHourNote}
+            onChange={handleChange}
           />
         </div>
         <div>
@@ -100,7 +115,6 @@ export function EditCafeClient({ cafe }: { cafe: CafeInfo }) {
             name="imageUrl"
             value={formData.imageUrl}
             onChange={handleChange}
-            required
           />
         </div>
         <div className="flex gap-4">
