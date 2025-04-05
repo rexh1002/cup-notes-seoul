@@ -178,17 +178,48 @@ export default function EditCafePage({ params }: EditCafePageProps) {
           throw new Error(data.error || '카페 정보를 불러오는데 실패했습니다.');
         }
 
-        setFormData({
+        // 데이터 정규화
+        const normalizedData = {
           id: data.cafe.id,
           name: data.cafe.name || '',
           address: data.cafe.address || '',
           phone: data.cafe.phone || '',
           description: data.cafe.description || '',
-          businessHours: data.cafe.businessHours || [],
+          businessHours: data.cafe.businessHours?.map(hour => ({
+            day: hour.day,
+            openTime: hour.openTime || '',
+            closeTime: hour.closeTime || ''
+          })) || [],
           businessHourNote: data.cafe.businessHourNote || '',
-          snsLinks: data.cafe.snsLinks || [],
-          coffees: data.cafe.coffees || []
-        });
+          snsLinks: data.cafe.snsLinks?.map(link => ({
+            type: link.type || '',
+            url: link.url || ''
+          })) || [],
+          coffees: data.cafe.coffees?.map(coffee => ({
+            name: coffee.name || '',
+            price: coffee.price || 0,
+            description: coffee.description || '',
+            roastLevel: coffee.roastLevel || [],
+            origins: coffee.origins || [],
+            processes: coffee.processes || [],
+            brewMethods: coffee.brewMethods || [],
+            notes: coffee.notes || [],
+            noteColors: coffee.noteColors || [],
+            customFields: {
+              origins: coffee.customFields?.origins || [],
+              processes: coffee.customFields?.processes || [],
+              brewMethods: coffee.customFields?.brewMethods || [],
+              roastLevels: coffee.customFields?.roastLevels || [],
+              notes: {
+                floral: coffee.customFields?.notes?.floral || [],
+                fruity: coffee.customFields?.notes?.fruity || [],
+                nutty: coffee.customFields?.notes?.nutty || []
+              }
+            }
+          })) || []
+        };
+
+        setFormData(normalizedData);
       } catch (err) {
         console.error('카페 데이터 로딩 오류:', err);
         toast.error(err instanceof Error ? err.message : '카페 정보를 불러오는데 실패했습니다.');
@@ -298,6 +329,42 @@ export default function EditCafePage({ params }: EditCafePageProps) {
         throw new Error('인증 토큰이 없습니다.');
       }
 
+      // 데이터 정규화
+      const normalizedData = {
+        ...formData,
+        businessHours: formData.businessHours.map(hour => ({
+          day: hour.day,
+          openTime: hour.openTime || '',
+          closeTime: hour.closeTime || ''
+        })),
+        snsLinks: formData.snsLinks.map(link => ({
+          type: link.type || '',
+          url: link.url || ''
+        })),
+        coffees: formData.coffees.map(coffee => ({
+          name: coffee.name,
+          price: coffee.price || 0,
+          description: coffee.description || '',
+          roastLevel: coffee.roastLevel || [],
+          origins: coffee.origins || [],
+          processes: coffee.processes || [],
+          brewMethods: coffee.brewMethods || [],
+          notes: coffee.notes || [],
+          noteColors: coffee.noteColors || [],
+          customFields: {
+            origins: coffee.customFields?.origins || [],
+            processes: coffee.customFields?.processes || [],
+            brewMethods: coffee.customFields?.brewMethods || [],
+            roastLevels: coffee.customFields?.roastLevels || [],
+            notes: {
+              floral: coffee.customFields?.notes?.floral || [],
+              fruity: coffee.customFields?.notes?.fruity || [],
+              nutty: coffee.customFields?.notes?.nutty || []
+            }
+          }
+        }))
+      };
+
       // PUT 요청으로 카페 정보 업데이트
       const response = await fetch(`/api/manager/cafes/${id}`, {
         method: 'PUT',
@@ -306,7 +373,7 @@ export default function EditCafePage({ params }: EditCafePageProps) {
           Authorization: `Bearer ${token}`,
         },
         credentials: 'include',
-        body: JSON.stringify(formData),
+        body: JSON.stringify(normalizedData),
       });
 
       if (!response.ok) {
