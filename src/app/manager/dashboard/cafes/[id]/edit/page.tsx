@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import { Input } from '../../../../../../components/ui/input';
 import { Textarea } from '../../../../../../components/ui/textarea';
 import { Checkbox } from '../../../../../../components/ui/checkbox';
-import { use } from "react";
 import { toast } from 'react-hot-toast';
 
 // 임시 Button 컴포넌트 직접 정의
@@ -167,10 +166,7 @@ interface EditCafePageProps {
 
 export default function EditCafePage({ params }: EditCafePageProps) {
   const router = useRouter();
-  
-  // params의 타입을 명시적으로 지정하고 as를 사용하여 타입 단언
-  const resolvedParams = use(params as any) as { id: string };
-const { id } = resolvedParams;
+  const { id } = params;
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState<CafeInput>({
@@ -745,7 +741,6 @@ const { id } = resolvedParams;
                           updatedCoffees[coffeeIndex].brewMethods.push(method);
                         } else {
                           updatedCoffees[coffeeIndex].brewMethods = 
-                            (updatedCoffees[coffeeIndex].brewMethods || []).filter(m => m !== method);updatedCoffees[coffeeIndex].brewMethods = 
                             (updatedCoffees[coffeeIndex].brewMethods || []).filter(m => m !== method);
                         }
                         setFormData({ ...formData, coffees: updatedCoffees });
