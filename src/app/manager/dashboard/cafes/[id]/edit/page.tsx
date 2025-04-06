@@ -4,12 +4,17 @@ import { cookies } from 'next/headers';
 import { LoadingSpinner } from '@/components/loading-spinner';
 
 export default async function EditCafePage({ params }: { params: { id: string } }) {
+  console.log('1. 페이지 렌더링 시작');
+  console.log('2. params:', params);
+
   const cookieStore = cookies();
+  console.log('3. 전체 쿠키:', cookieStore.getAll());
+
   const token = cookieStore.get('authtoken')?.value;
-  
-  console.log('Token from cookies:', token);
+  console.log('4. authtoken 값:', token);
 
   if (!token) {
+    console.log('5-1. 토큰이 없어서 로그인 필요 화면 표시');
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
@@ -21,6 +26,7 @@ export default async function EditCafePage({ params }: { params: { id: string } 
   }
 
   try {
+    console.log('5-2. API 요청 시작');
     const response = await fetch(`/api/manager/cafes/${params.id}`, {
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -28,9 +34,11 @@ export default async function EditCafePage({ params }: { params: { id: string } 
       },
       cache: 'no-store',
     });
+    console.log('6. API 응답 상태:', response.status, response.statusText);
 
     if (!response.ok) {
       const error = await response.json().catch(() => ({ message: '알 수 없는 오류가 발생했습니다.' }));
+      console.log('7-1. API 오류 응답:', error);
       return (
         <div className="flex items-center justify-center min-h-screen">
           <div className="text-center">
@@ -42,9 +50,11 @@ export default async function EditCafePage({ params }: { params: { id: string } 
     }
 
     const data = await response.json();
+    console.log('7-2. API 성공 응답:', data);
     const cafe = data.cafe;
 
     if (!cafe) {
+      console.log('8-1. 카페 정보 없음');
       return (
         <div className="flex items-center justify-center min-h-screen">
           <div className="text-center">
@@ -55,13 +65,14 @@ export default async function EditCafePage({ params }: { params: { id: string } 
       );
     }
 
+    console.log('8-2. 카페 정보 렌더링 시작');
     return (
       <Suspense fallback={<LoadingSpinner />}>
         <EditCafeClient cafe={cafe} />
       </Suspense>
     );
   } catch (error) {
-    console.error('Error fetching cafe:', error);
+    console.error('9. 에러 발생:', error);
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
