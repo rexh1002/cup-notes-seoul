@@ -19,19 +19,21 @@ export default async function EditCafePage({ params }: { params: { id: string } 
   }
 
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/manager/cafes/${params.id}`, {
+    const response = await fetch(`/api/manager/cafes/${params.id}`, {
       headers: {
         'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
       },
       cache: 'no-store',
     });
 
     if (!response.ok) {
+      const error = await response.json().catch(() => ({ message: '알 수 없는 오류가 발생했습니다.' }));
       return (
         <div className="flex items-center justify-center min-h-screen">
           <div className="text-center">
             <h1 className="text-2xl font-bold mb-4">카페를 찾을 수 없습니다</h1>
-            <p className="text-gray-600">요청하신 카페 정보를 찾을 수 없습니다.</p>
+            <p className="text-gray-600">{error.message || '요청하신 카페 정보를 찾을 수 없습니다.'}</p>
           </div>
         </div>
       );
@@ -39,6 +41,17 @@ export default async function EditCafePage({ params }: { params: { id: string } 
 
     const data = await response.json();
     const cafe = data.cafe;
+
+    if (!cafe) {
+      return (
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="text-center">
+            <h1 className="text-2xl font-bold mb-4">카페 정보 없음</h1>
+            <p className="text-gray-600">카페 정보가 존재하지 않습니다.</p>
+          </div>
+        </div>
+      );
+    }
 
     return (
       <Suspense fallback={<LoadingSpinner />}>
