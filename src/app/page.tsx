@@ -210,7 +210,7 @@ export default function HomePage() {
       <div className="flex flex-col sm:flex-row justify-between items-center p-4 bg-white shadow-sm">
         <h1 
           onClick={() => window.location.reload()}
-          className="text-3xl sm:text-4xl font-bold tracking-tight cursor-pointer hover:text-gray-700 transition-colors mb-2 sm:mb-0"
+          className="text-3xl sm:text-4xl font-bold tracking-tight cursor-pointer hover:text-gray-700 transition-colors mb-2 sm:mb-0 self-start sm:self-auto"
         >
           CUP NOTES SEOUL
         </h1>
