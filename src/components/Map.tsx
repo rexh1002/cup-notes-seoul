@@ -245,7 +245,7 @@ export default function Map({ cafes, searchKeyword }: MapWithSearchProps) {
     const isFavorite = favoriteCafes.has(selectedCafe.id);
     
     return (
-      <div className="absolute bottom-0 left-0 right-0 bg-white shadow-lg z-10 sm:left-0 sm:top-0 sm:bottom-auto sm:w-1/2 sm:max-w-md">
+      <div className="absolute sm:left-0 sm:top-0 bottom-0 left-0 right-0 sm:w-1/2 sm:max-w-md h-[40vh] sm:h-full bg-white shadow-lg z-10">
         {/* 상단 헤더 영역 - 고정 */}
         <div className="sticky top-0 z-20 bg-white p-4 border-b border-gray-200 flex justify-between items-start">
           <h3 className="text-lg font-bold pr-8">
@@ -294,103 +294,150 @@ export default function Map({ cafes, searchKeyword }: MapWithSearchProps) {
         </div>
         
         {/* 스크롤 가능한 내용 영역 */}
-        <div className="p-4 max-h-[40vh] sm:max-h-[calc(100vh-200px)] overflow-y-auto">
-          <div className="space-y-4">
-            <div className="flex items-center space-x-2">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+        <div className="p-4 overflow-y-auto h-[calc(100%-64px)]">
+          <div className="text-xs text-gray-600 mb-4">
+            {selectedCafe.description && <p className="mb-2">{selectedCafe.description}</p>}
+            <p className="flex items-center mb-1">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
               </svg>
-              <p className="text-gray-600">{selectedCafe.address}</p>
-            </div>
-            
+              {selectedCafe.address}
+            </p>
             {selectedCafe.phone && (
-              <div className="flex items-center space-x-2">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+              <p className="flex items-center mb-1">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
                 </svg>
-                <p className="text-gray-600">{selectedCafe.phone}</p>
-              </div>
+                {selectedCafe.phone}
+              </p>
             )}
-            
-            {selectedCafe.businessHours && (
-              <div className="space-y-2">
-                <div className="flex items-center space-x-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  <p className="font-medium">영업시간</p>
-                </div>
-                <div className="ml-7">
-                  {Array.isArray(selectedCafe.businessHours) 
-                    ? selectedCafe.businessHours.map((hour, index) => (
-                        <p key={index} className="text-gray-600">
-                          {hour.day}: {hour.openTime} - {hour.closeTime}
-                        </p>
-                      ))
-                    : <p className="text-gray-600">{selectedCafe.businessHours}</p>
-                  }
-                </div>
-              </div>
-            )}
-            
-            {selectedCafe.description && (
-              <div className="space-y-2">
-                <div className="flex items-center space-x-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  <p className="font-medium">카페 소개</p>
-                </div>
-                <p className="ml-7 text-gray-600">{selectedCafe.description}</p>
-              </div>
-            )}
+          </div>
 
-            {selectedCafe.coffees && selectedCafe.coffees.length > 0 && (
-              <div className="space-y-2">
-                <div className="flex items-center space-x-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                  </svg>
-                  <p className="font-medium">원두 정보</p>
+          {/* 영업시간 정보 */}
+          {selectedCafe.businessHours?.length > 0 && (
+            <div className="text-xs text-gray-600 mb-4">
+              <div className="flex">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2 mt-1 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                <div>
+                  <div className="font-medium">영업시간</div>
+                  {selectedCafe.businessHours.map((hour, idx) => (
+                    <p key={idx} className="my-1">
+                      {hour.day}: {hour.openTime} - {hour.closeTime}
+                    </p>
+                  ))}
+                  {selectedCafe.businessHourNote && (
+                    <p className="mt-2 text-xs italic text-gray-500">
+                      {selectedCafe.businessHourNote}
+                    </p>
+                  )}
                 </div>
-                <div className="ml-7 space-y-3">
-                  {selectedCafe.coffees.map((coffee, index) => (
-                    <div key={index} className="border border-gray-200 rounded-lg p-3">
-                      <p className="font-medium text-gray-800">{coffee.name}</p>
-                      {coffee.description && (
-                        <p className="text-sm text-gray-600 mt-1">{coffee.description}</p>
+              </div>
+            </div>
+          )}
+
+          {/* SNS 링크 */}
+          {selectedCafe.snsLinks?.length > 0 && (
+            <div className="text-xs text-gray-600 mb-4">
+              <div className="flex">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2 mt-1 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                </svg>
+                <div>
+                  <div className="font-medium">SNS</div>
+                  <div className="flex flex-wrap gap-2 mt-1">
+                    {selectedCafe.snsLinks.map((link, idx) => (
+                      <a 
+                        key={idx}
+                        href={link.url} 
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 hover:underline"
+                      >
+                        {link.type}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* 구분선 */}
+          <div className="h-px bg-gray-200 my-4"></div>
+
+          {/* 커피 정보 */}
+          <div className="mt-4">
+            <h4 className="font-bold mb-2">원두 정보</h4>
+            <div className="space-y-3">
+              {selectedCafe.coffees.map((coffee, idx) => {
+                const backgroundColor = coffee.noteColors?.[0] || '#f9fafb';
+                const bgColorWithOpacity = backgroundColor.includes('rgba') 
+                  ? backgroundColor.replace(/rgba\((\d+,\s*\d+,\s*\d+),\s*[\d.]+\)/, 'rgba($1, 0.5)')
+                  : backgroundColor.includes('rgb') 
+                    ? backgroundColor.replace(/rgb\(/, 'rgba(').replace(/\)/, ', 0.5)')
+                    : backgroundColor + '80'; // 16진수에 80을 붙이면 50% 투명도
+                
+                return (
+                  <div 
+                    key={idx} 
+                    className="border border-gray-200 rounded-lg p-3 text-sm"
+                    style={{ backgroundColor: bgColorWithOpacity }}
+                  >
+                    <div className="font-bold text-gray-800 mb-1">
+                      {coffee.name}
+                    </div>
+                    
+                    {coffee.description && (
+                      <div className="text-black text-xs mb-2 pb-2 border-b border-gray-600">
+                        {coffee.description}
+                      </div>
+                    )}
+
+                    <div className="space-y-1 text-xs text-black">
+                      {coffee.notes?.length > 0 && (
+                        <div>
+                          <span className="font-medium">컵노트:</span> {coffee.notes.join(', ')}
+                        </div>
                       )}
-                      <div className="mt-2 space-y-1 text-sm">
-                        {coffee.notes?.length > 0 && (
-                          <p className="text-gray-600">
-                            <span className="font-medium">컵노트:</span> {coffee.notes.join(', ')}
-                          </p>
-                        )}
-                        {coffee.origins?.length > 0 && (
-                          <p className="text-gray-600">
-                            <span className="font-medium">원산지:</span> {coffee.origins.join(', ')}
-                          </p>
-                        )}
-                        {coffee.processes?.length > 0 && (
-                          <p className="text-gray-600">
-                            <span className="font-medium">프로세스:</span> {coffee.processes.join(', ')}
-                          </p>
-                        )}
-                        {coffee.roastLevel?.length > 0 && (
-                          <p className="text-gray-600">
-                            <span className="font-medium">로스팅:</span> {coffee.roastLevel.join(', ')}
-                          </p>
-                        )}
-                        <p className="text-gray-600">
-                          <span className="font-medium">가격:</span> {coffee.price.toLocaleString()}원
-                        </p>
+
+                      {coffee.origins?.length > 0 && (
+                        <div>
+                          <span className="font-medium">원산지:</span> {coffee.origins.join(', ')}
+                        </div>
+                      )}
+                      
+                      {coffee.processes?.length > 0 && (
+                        <div>
+                          <span className="font-medium">프로세스:</span> {coffee.processes.join(', ')}
+                        </div>
+                      )}
+                      
+                      {coffee.brewMethods?.length > 0 && (
+                        <div>
+                          <span className="font-medium">추출방식:</span> {coffee.brewMethods.join(', ')}
+                        </div>
+                      )}
+                      
+                      {coffee.roastLevel?.length > 0 && (
+                        <div>
+                          <span className="font-medium">로스팅 레벨:</span> {coffee.roastLevel.join(', ')}
+                        </div>
+                      )}
+
+                      {/* 가격 정보 - 구분선 제거 */}
+                      <div className="mt-2">
+                        <span className="font-medium">가격:</span> {coffee.price.toLocaleString()}원
                       </div>
                     </div>
-                  ))}
-                </div>
-              </div>
-            )}
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
