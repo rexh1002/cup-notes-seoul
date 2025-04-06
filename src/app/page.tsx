@@ -107,6 +107,7 @@ export default function HomePage() {
   const handleSearch = useCallback(async () => {
     setIsLoading(true);
     setIsSearching(true);
+    setShowMapOnMobile(true);
     try {
       const searchParams: SearchParams = {
         keyword: searchKeyword,
@@ -139,7 +140,7 @@ export default function HomePage() {
       setIsLoading(false);
       setTimeout(() => {
         setIsSearching(false);
-      }, 1000); // 1초 후에 검색 상태 해제
+      }, 1000);
     }
   }, [searchKeyword, selectedNotes, selectedOrigins, selectedProcesses, selectedRoast, selectedBrewMethods]);
 
@@ -637,6 +638,17 @@ export default function HomePage() {
             </svg>
             <span className="text-xs mt-1">{isLoggedIn ? '내카페' : '로그인'}</span>
           </button>
+          {isLoggedIn && (
+            <button 
+              className="flex flex-col items-center p-2 flex-1"
+              onClick={handleLogout}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+              </svg>
+              <span className="text-xs mt-1">로그아웃</span>
+            </button>
+          )}
         </div>
       </div>
     </div>
