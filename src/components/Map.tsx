@@ -197,23 +197,24 @@ export default function Map({ cafes, searchKeyword }: MapWithSearchProps) {
         });
 
         // 현재 위치로 가기 버튼 추가
-        if (mapRef.current) {
-          const locationButton = document.createElement('div');
-          locationButton.className = 'fixed sm:absolute bottom-24 sm:bottom-6 right-4 z-10';
-          locationButton.innerHTML = `
-            <button
-              class="w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50 focus:outline-none"
-              title="현재 위치로 이동"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <circle cx="12" cy="12" r="3"></circle>
-              </svg>
-            </button>
-          `;
-          mapRef.current.appendChild(locationButton);
-          locationButton.addEventListener('click', moveToCurrentLocation);
-        }
+        const locationButton = document.createElement('div');
+        locationButton.style.position = 'absolute';
+        locationButton.style.bottom = '24px';
+        locationButton.style.right = '16px';
+        locationButton.style.zIndex = '100';
+        locationButton.innerHTML = `
+          <button
+            class="w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50 focus:outline-none"
+            title="현재 위치로 이동"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+          </button>
+        `;
+        map.getElement().appendChild(locationButton);
+        locationButton.addEventListener('click', moveToCurrentLocation);
 
         // 지도 클릭 시 사이드 패널 닫기
         window.naver.maps.Event.addListener(map, 'click', function() {
