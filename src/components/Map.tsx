@@ -301,7 +301,13 @@ export default function Map({ cafes, searchKeyword }: MapWithSearchProps) {
             {selectedCafe.businessHours && (
               <div>
                 <p className="font-medium">영업시간</p>
-                <p className="text-gray-600">{selectedCafe.businessHours}</p>
+                <p className="text-gray-600">
+                  {Array.isArray(selectedCafe.businessHours) 
+                    ? selectedCafe.businessHours.map((hour, index) => (
+                        `${hour.day}: ${hour.openTime} - ${hour.closeTime}${index < selectedCafe.businessHours.length - 1 ? '\n' : ''}`
+                      )).join('')
+                    : selectedCafe.businessHours}
+                </p>
               </div>
             )}
             {selectedCafe.description && (
