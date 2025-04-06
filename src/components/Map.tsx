@@ -294,24 +294,102 @@ export default function Map({ cafes, searchKeyword }: MapWithSearchProps) {
         </div>
         
         {/* 스크롤 가능한 내용 영역 */}
-        <div className="p-4 max-h-[200px] overflow-y-auto">
-          <div className="space-y-2">
-            <p className="text-gray-600">{selectedCafe.address}</p>
-            <p className="text-gray-600">{selectedCafe.phone}</p>
-            {selectedCafe.businessHours && (
-              <div>
-                <p className="font-medium">영업시간</p>
-                <p className="text-gray-600">
-                  {Array.isArray(selectedCafe.businessHours) 
-                    ? selectedCafe.businessHours.map((hour, index) => (
-                        `${hour.day}: ${hour.openTime} - ${hour.closeTime}${index < selectedCafe.businessHours.length - 1 ? '\n' : ''}`
-                      )).join('')
-                    : selectedCafe.businessHours}
-                </p>
+        <div className="p-4 max-h-[40vh] sm:max-h-[calc(100vh-200px)] overflow-y-auto">
+          <div className="space-y-4">
+            <div className="flex items-center space-x-2">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              <p className="text-gray-600">{selectedCafe.address}</p>
+            </div>
+            
+            {selectedCafe.phone && (
+              <div className="flex items-center space-x-2">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                </svg>
+                <p className="text-gray-600">{selectedCafe.phone}</p>
               </div>
             )}
+            
+            {selectedCafe.businessHours && (
+              <div className="space-y-2">
+                <div className="flex items-center space-x-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <p className="font-medium">영업시간</p>
+                </div>
+                <div className="ml-7">
+                  {Array.isArray(selectedCafe.businessHours) 
+                    ? selectedCafe.businessHours.map((hour, index) => (
+                        <p key={index} className="text-gray-600">
+                          {hour.day}: {hour.openTime} - {hour.closeTime}
+                        </p>
+                      ))
+                    : <p className="text-gray-600">{selectedCafe.businessHours}</p>
+                  }
+                </div>
+              </div>
+            )}
+            
             {selectedCafe.description && (
-              <p className="text-gray-600">{selectedCafe.description}</p>
+              <div className="space-y-2">
+                <div className="flex items-center space-x-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <p className="font-medium">카페 소개</p>
+                </div>
+                <p className="ml-7 text-gray-600">{selectedCafe.description}</p>
+              </div>
+            )}
+
+            {selectedCafe.coffees && selectedCafe.coffees.length > 0 && (
+              <div className="space-y-2">
+                <div className="flex items-center space-x-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                  <p className="font-medium">원두 정보</p>
+                </div>
+                <div className="ml-7 space-y-3">
+                  {selectedCafe.coffees.map((coffee, index) => (
+                    <div key={index} className="border border-gray-200 rounded-lg p-3">
+                      <p className="font-medium text-gray-800">{coffee.name}</p>
+                      {coffee.description && (
+                        <p className="text-sm text-gray-600 mt-1">{coffee.description}</p>
+                      )}
+                      <div className="mt-2 space-y-1 text-sm">
+                        {coffee.notes?.length > 0 && (
+                          <p className="text-gray-600">
+                            <span className="font-medium">컵노트:</span> {coffee.notes.join(', ')}
+                          </p>
+                        )}
+                        {coffee.origins?.length > 0 && (
+                          <p className="text-gray-600">
+                            <span className="font-medium">원산지:</span> {coffee.origins.join(', ')}
+                          </p>
+                        )}
+                        {coffee.processes?.length > 0 && (
+                          <p className="text-gray-600">
+                            <span className="font-medium">프로세스:</span> {coffee.processes.join(', ')}
+                          </p>
+                        )}
+                        {coffee.roastLevel?.length > 0 && (
+                          <p className="text-gray-600">
+                            <span className="font-medium">로스팅:</span> {coffee.roastLevel.join(', ')}
+                          </p>
+                        )}
+                        <p className="text-gray-600">
+                          <span className="font-medium">가격:</span> {coffee.price.toLocaleString()}원
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             )}
           </div>
         </div>
