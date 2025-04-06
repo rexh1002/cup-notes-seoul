@@ -294,26 +294,8 @@ export default function HomePage() {
         </div>
       )}
 
-      {/* 모바일용 지도/필터 토글 버튼 - 제거 */}
-      {/* <div className="sm:hidden sticky top-0 z-20 flex justify-center bg-white shadow-sm py-2">
-        <div className="flex rounded-lg overflow-hidden border">
-          <button 
-            className={`px-4 py-2 text-sm font-medium ${!showMapOnMobile ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-700'}`}
-            onClick={() => setShowMapOnMobile(false)}
-          >
-            필터
-          </button>
-          <button 
-            className={`px-4 py-2 text-sm font-medium ${showMapOnMobile ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-700'}`}
-            onClick={() => setShowMapOnMobile(true)}
-          >
-            지도
-          </button>
-        </div>
-      </div> */}
-
-      {/* 상단 옵션 선택 바 - 모바일에서는 지도 모드일 때 숨김 */}
-      <div className={`bg-white p-4 border-b ${showMapOnMobile ? 'hidden sm:block' : ''}`}>
+      {/* 검색어 및 내 취향 선택 섹션 - 모바일에서 상단 고정 */}
+      <div className={`bg-white p-4 border-b sticky top-0 z-50 ${showMapOnMobile ? 'hidden sm:block' : ''}`}>
         {/* 첫 번째 줄: 옵션 선택 제목과 버튼들 */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
           <span className="text-lg font-medium">내 취향 선택</span>
