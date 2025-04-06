@@ -338,15 +338,13 @@ export default function HomePage() {
           </div>
         </div>
         
-        {/* 두 번째 줄: 체크박스 */}
-        <div className="flex items-center gap-2">
+        {/* 두 번째 줄: 체크박스 - 숨김 처리하고 기능만 유지 */}
+        <div className="hidden">
           <input
             type="checkbox"
             checked={showAllStores}
             onChange={() => setShowAllStores((prev) => !prev)}
-            className="cursor-pointer"
           />
-          <span className="text-sm">전체 등록 매장 보기(기본값)</span>
         </div>
       </div>
 
