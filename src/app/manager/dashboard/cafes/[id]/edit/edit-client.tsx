@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -154,6 +154,26 @@ export default function EditCafeClient({ cafe }: EditCafeClientProps) {
       },
     })),
   });
+
+  useEffect(() => {
+    // 브라우저에서만 실행되는 코드
+    const checkAuth = () => {
+      const cookies = document.cookie.split(';').reduce((acc, cookie) => {
+        const [key, value] = cookie.trim().split('=');
+        acc[key] = value;
+        return acc;
+      }, {} as { [key: string]: string });
+
+      console.log('현재 쿠키 상태:', cookies);
+      console.log('authToken 존재 여부:', !!cookies['authToken']);
+
+      // localStorage에서도 토큰 확인
+      const localToken = localStorage.getItem('authToken');
+      console.log('localStorage token 존재 여부:', !!localToken);
+    };
+
+    checkAuth();
+  }, []);
 
   const handleBusinessHourAdd = (day: string) => {
     if (!formData.businessHours.find(hour => hour.day === day)) {
