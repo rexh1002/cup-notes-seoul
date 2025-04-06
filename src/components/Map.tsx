@@ -77,6 +77,11 @@ export default function Map({ cafes, searchKeyword }: MapWithSearchProps) {
       (error) => {
         console.error('위치 정보를 가져오는데 실패했습니다:', error);
         alert('현재 위치를 가져올 수 없습니다.');
+      },
+      {
+        enableHighAccuracy: true,
+        maximumAge: 0,
+        timeout: 5000
       }
     );
   };
@@ -178,6 +183,7 @@ export default function Map({ cafes, searchKeyword }: MapWithSearchProps) {
         window.currentMap = map;
         window.moveToCurrentLocation = moveToCurrentLocation;
 
+        // 현재 위치 마커 추가
         new window.naver.maps.Marker({
           position: new window.naver.maps.LatLng(currentLat, currentLng),
           map: map,
@@ -197,24 +203,24 @@ export default function Map({ cafes, searchKeyword }: MapWithSearchProps) {
         });
 
         // 현재 위치로 가기 버튼 추가
-        const locationButton = document.createElement('div');
-        locationButton.style.position = 'absolute';
-        locationButton.style.bottom = '24px';
-        locationButton.style.right = '16px';
-        locationButton.style.zIndex = '100';
+        const locationButton = document.createElement('button');
+        locationButton.className = 'fixed sm:absolute bottom-24 sm:bottom-6 right-4 z-50 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50 focus:outline-none';
+        locationButton.title = '현재 위치로 이동';
         locationButton.innerHTML = `
-          <button
-            class="w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50 focus:outline-none"
-            title="현재 위치로 이동"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"></circle>
-              <circle cx="12" cy="12" r="3"></circle>
-            </svg>
-          </button>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <circle cx="12" cy="12" r="3"></circle>
+          </svg>
         `;
-        map.getElement().appendChild(locationButton);
-        locationButton.addEventListener('click', moveToCurrentLocation);
+        
+        // 버튼을 지도의 컨테이너에 추가
+        const mapContainer = map.getElement();
+        mapContainer.appendChild(locationButton);
+        
+        // 클릭 이벤트 리스너 추가
+        locationButton.addEventListener('click', () => {
+          moveToCurrentLocation();
+        });
 
         // 지도 클릭 시 사이드 패널 닫기
         window.naver.maps.Event.addListener(map, 'click', function() {
