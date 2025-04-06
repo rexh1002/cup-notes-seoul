@@ -1,0 +1,20 @@
+4cc6f92 fix: 카페 수정 페이지 import 경로 수정
+9f3418a revert: 로그인 기능 원래대로 복구
+52e8ea4 fix: API 에러 처리 개선 및 GET 메서드 지원 추가
+6fe5439 fix: 카페 수정 페이지 개선 - 이미지 URL 제거 및 버튼 동작 수정
+bc6a2c6 feat: 카페 수정 페이지 UI/UX 개선 및 직접 입력 기능 추가
+a864764 feat: 카페 수정 페이지 기능 개선 및 UI 업데이트
+338b6c0 feat: 카페 수정 페이지 기능 개선 및 UI 업데이트
+c8450be fix: Next.js 설정 최적화 및 의존성 업데이트
+e589fd5 fix: 대시보드 컴포넌트 최적화 및 chunk 로딩 문제 해결
+2df47b5 feat: 카페 삭제 기능 재구현 및 컴포넌트 구조 개선
+63e1bed refactor: Improve component structure and code organization
+9e55de6 fix: Resolve module import path and useEffect dependency issues
+f920e7d feat: Add Spinner component and utils
+a3ff352 fix: Improve cafe edit functionality with better error handling and data validation
+b13d14d fix: Update EditCafeClient to match CafeInfo interface
+d864ca0 fix: Make imageUrl field optional in CafeInfo interface
+373e46c fix: Standardize Prisma imports across all files
+1d5f2f5 fix: Update CafeInfo interface to match Prisma schema
+01964b0 fix: Update Prisma import and add cafe edit functionality
+a0530b1 fix: Remove Suspense and improve page loading

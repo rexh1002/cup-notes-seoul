@@ -123,7 +123,11 @@ const validateCoffeeData = (coffee: CoffeeInput): string | null => {
   return null;
 };
 
-export function EditCafeClient({ cafe }: { cafe: CafeInfo }) {
+interface EditCafeClientProps {
+  cafe: CafeInfo;
+}
+
+export default function EditCafeClient({ cafe }: EditCafeClientProps) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState<CafeFormData>({

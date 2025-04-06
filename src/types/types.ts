@@ -89,3 +89,17 @@ export interface SearchParams {
   roastLevel: string | string[];
   brewMethod: string[];
 }
+
+export interface CafeInfo {
+  id: string;
+  name: string;
+  address: string;
+  phone: string;
+  description?: string;
+  businessHours: BusinessHour[];
+  businessHourNotes?: string;
+  snsLinks: SnsLink[];
+  imageUrl?: string;
+  managerId?: string;
+  coffees: any[];
+}
