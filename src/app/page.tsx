@@ -107,7 +107,10 @@ export default function HomePage() {
   const handleSearch = useCallback(async () => {
     setIsLoading(true);
     setIsSearching(true);
-    setShowMapOnMobile(true);
+    // 모바일에서만 적용 버튼 클릭 시 지도로 전환
+    if (window.innerWidth < 640) {
+      setShowMapOnMobile(true);
+    }
     try {
       const searchParams: SearchParams = {
         keyword: searchKeyword,
@@ -145,12 +148,18 @@ export default function HomePage() {
   }, [searchKeyword, selectedNotes, selectedOrigins, selectedProcesses, selectedRoast, selectedBrewMethods]);
 
   useEffect(() => {
-    handleSearch();
+    // 데스크톱에서만 자동 검색 실행
+    if (window.innerWidth >= 640) {
+      handleSearch();
+    }
   }, [handleSearch]);
 
   useEffect(() => {
     if (showAllStores) {
-      handleSearch();
+      // 데스크톱에서만 자동 검색 실행
+      if (window.innerWidth >= 640) {
+        handleSearch();
+      }
     } else {
       setCafes([]);
     }
@@ -162,6 +171,10 @@ export default function HomePage() {
     setSelectedProcesses([]);
     setSelectedRoast([]);
     setSelectedBrewMethods([]);
+    // 데스크톱에서만 자동 검색 실행
+    if (window.innerWidth >= 640) {
+      handleSearch();
+    }
   };
 
   const toggleNote = (note: string) => {
