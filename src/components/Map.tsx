@@ -19,6 +19,7 @@ export default function Map({ cafes, searchKeyword }: MapWithSearchProps) {
   const mapRef = useRef<HTMLDivElement>(null);
   const markersRef = useRef<any[]>([]);
   const mapInstanceRef = useRef<any>(null);
+  const currentLocationMarkerRef = useRef<any>(null);
   const [selectedCafe, setSelectedCafe] = useState<Cafe | null>(null);
   const [favoriteCafes, setFavoriteCafes] = useState<Set<string>>(new Set());
 
@@ -73,15 +74,34 @@ export default function Map({ cafes, searchKeyword }: MapWithSearchProps) {
         const currentPosition = new window.naver.maps.LatLng(latitude, longitude);
         mapInstanceRef.current.setCenter(currentPosition);
         mapInstanceRef.current.setZoom(15);
+
+        // 기존 현재 위치 마커 제거
+        if (currentLocationMarkerRef.current) {
+          currentLocationMarkerRef.current.setMap(null);
+        }
+
+        // 새로운 현재 위치 마커 생성
+        currentLocationMarkerRef.current = new window.naver.maps.Marker({
+          position: currentPosition,
+          map: mapInstanceRef.current,
+          icon: {
+            content: `
+              <div style="
+                width: 16px;
+                height: 16px;
+                background: #2563eb;
+                border-radius: 50%;
+                box-shadow: 0 0 8px rgba(37, 99, 235, 0.8);
+                border: 3px solid white;
+              "></div>
+            `,
+            anchor: new window.naver.maps.Point(8, 8),
+          },
+        });
       },
       (error) => {
         console.error('위치 정보를 가져오는데 실패했습니다:', error);
         alert('현재 위치를 가져올 수 없습니다.');
-      },
-      {
-        enableHighAccuracy: true,
-        maximumAge: 0,
-        timeout: 5000
       }
     );
   };
@@ -208,22 +228,7 @@ export default function Map({ cafes, searchKeyword }: MapWithSearchProps) {
         mapContainer.appendChild(locationButton);
         
         // 클릭 이벤트 리스너 추가
-        locationButton.addEventListener('click', () => {
-          if (!mapInstanceRef.current) return;
-          
-          navigator.geolocation.getCurrentPosition(
-            (position) => {
-              const { latitude, longitude } = position.coords;
-              const currentPosition = new window.naver.maps.LatLng(latitude, longitude);
-              mapInstanceRef.current.setCenter(currentPosition);
-              mapInstanceRef.current.setZoom(15);
-            },
-            (error) => {
-              console.error('위치 정보를 가져오는데 실패했습니다:', error);
-              alert('현재 위치를 가져올 수 없습니다.');
-            }
-          );
-        });
+        locationButton.addEventListener('click', moveToCurrentLocation);
 
         // 지도 클릭 시 사이드 패널 닫기
         window.naver.maps.Event.addListener(map, 'click', function() {
