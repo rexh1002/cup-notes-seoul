@@ -34,6 +34,7 @@ export default function HomePage() {
   const [userName, setUserName] = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
   const [showMapOnMobile, setShowMapOnMobile] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
 
   useEffect(() => {
     // URL에서 토큰 파라미터 확인
@@ -105,6 +106,7 @@ export default function HomePage() {
 
   const handleSearch = useCallback(async () => {
     setIsLoading(true);
+    setIsSearching(true);
     try {
       const searchParams: SearchParams = {
         keyword: searchKeyword,
@@ -135,6 +137,9 @@ export default function HomePage() {
       setCafes([]);
     } finally {
       setIsLoading(false);
+      setTimeout(() => {
+        setIsSearching(false);
+      }, 1000); // 1초 후에 검색 상태 해제
     }
   }, [searchKeyword, selectedNotes, selectedOrigins, selectedProcesses, selectedRoast, selectedBrewMethods]);
 
@@ -189,8 +194,8 @@ export default function HomePage() {
           CUP NOTES SEOUL
         </h1>
 
-        {/* 로그인/회원가입 버튼 그룹 */} 
-        <div className="flex items-center font-sans w-full sm:w-auto justify-center sm:justify-end">   
+        {/* 로그인/회원가입 버튼 그룹 - 모바일에서는 숨김 */} 
+        <div className="hidden sm:flex items-center font-sans w-full sm:w-auto justify-center sm:justify-end">   
           {isLoggedIn ? (     
             <>       
               {userName && (         
@@ -288,8 +293,8 @@ export default function HomePage() {
         </div>
       )}
 
-      {/* 모바일용 지도/필터 토글 버튼 */}
-      <div className="sm:hidden sticky top-0 z-20 flex justify-center bg-white shadow-sm py-2">
+      {/* 모바일용 지도/필터 토글 버튼 - 제거 */}
+      {/* <div className="sm:hidden sticky top-0 z-20 flex justify-center bg-white shadow-sm py-2">
         <div className="flex rounded-lg overflow-hidden border">
           <button 
             className={`px-4 py-2 text-sm font-medium ${!showMapOnMobile ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-700'}`}
@@ -304,10 +309,10 @@ export default function HomePage() {
             지도
           </button>
         </div>
-      </div>
+      </div> */}
 
       {/* 상단 옵션 선택 바 - 모바일에서는 지도 모드일 때 숨김 */}
-      <div className={`w-full bg-gray-100 p-4 flex flex-col gap-2 ${showMapOnMobile ? 'hidden sm:flex' : ''}`}>
+      <div className={`bg-white p-4 border-b ${showMapOnMobile ? 'hidden sm:block' : ''}`}>
         {/* 첫 번째 줄: 옵션 선택 제목과 버튼들 */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
           <span className="text-lg font-medium">내 취향 선택</span>
@@ -321,8 +326,9 @@ export default function HomePage() {
             <button 
               onClick={handleSearch} 
               className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+              disabled={isSearching}
             >
-              적용
+              {isSearching ? '내 취향의 카페를 찾습니다...' : '적용'}
             </button>
           </div>
 
@@ -577,7 +583,7 @@ export default function HomePage() {
       </div>
 
       {/* Footer */}
-      <footer className="bg-gray-100 py-4 text-center w-full fixed bottom-0 left-0 right-0 z-10">
+      <footer className="bg-gray-100 py-4 text-center w-full fixed bottom-0 left-0 right-0 z-10 hidden sm:block">
         <p className="text-sm text-gray-600">
           © 2024 Cup Notes Korea. All rights reserved. 
           <span className="block sm:inline mt-1 sm:mt-0 sm:ml-2">
@@ -585,6 +591,54 @@ export default function HomePage() {
           </span>
         </p>
       </footer>
+
+      {/* 모바일 하단 네비게이션 */}
+      <div className="sm:hidden fixed bottom-0 left-0 right-0 bg-white border-t z-50">
+        <div className="flex justify-around items-center">
+          <button 
+            className="flex flex-col items-center p-2 flex-1"
+            onClick={() => window.location.reload()}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </svg>
+            <span className="text-xs mt-1">홈</span>
+          </button>
+          <button 
+            className={`flex flex-col items-center p-2 flex-1 ${!showMapOnMobile ? 'text-blue-500' : 'text-gray-600'}`}
+            onClick={() => setShowMapOnMobile(false)}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <span className="text-xs mt-1">검색</span>
+          </button>
+          <button 
+            className={`flex flex-col items-center p-2 flex-1 ${showMapOnMobile ? 'text-blue-500' : 'text-gray-600'}`}
+            onClick={() => setShowMapOnMobile(true)}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+            </svg>
+            <span className="text-xs mt-1">지도</span>
+          </button>
+          <button 
+            className="flex flex-col items-center p-2 flex-1"
+            onClick={() => {
+              if (isLoggedIn) {
+                router.push('/manager/dashboard');
+              } else {
+                router.push('/auth/login');
+              }
+            }}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+            <span className="text-xs mt-1">{isLoggedIn ? '내카페' : '로그인'}</span>
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
