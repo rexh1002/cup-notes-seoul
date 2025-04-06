@@ -6,6 +6,8 @@ import { LoadingSpinner } from '@/components/loading-spinner';
 export default async function EditCafePage({ params }: { params: { id: string } }) {
   const cookieStore = cookies();
   const token = cookieStore.get('token')?.value;
+  
+  console.log('Token from cookies:', token);
 
   if (!token) {
     return (

@@ -24,6 +24,8 @@ export async function GET(
     }
 
     const authHeader = request.headers.get('Authorization');
+    console.log('Authorization header:', authHeader); // 인증 헤더 로깅
+    
     if (!authHeader?.startsWith('Bearer ')) {
       return NextResponse.json(
         { error: '권한이 없습니다.' },
@@ -33,9 +35,13 @@ export async function GET(
 
     // JWT 유효성 검사 개선
     const token = authHeader.split(' ')[1];
+    console.log('Token from header:', token); // 토큰 값 로깅
+    
     let decoded;
     try {
       decoded = jwt.verify(token, JWT_SECRET_KEY) as { id: string; role: string };
+      console.log('Decoded token:', decoded); // 디코딩된 토큰 정보 로깅
+      
       if (!decoded || typeof decoded !== 'object') {
         throw new Error('토큰 검증 실패');
       }
@@ -105,6 +111,8 @@ export async function PUT(
     }
 
     const authHeader = request.headers.get('Authorization');
+    console.log('Authorization header:', authHeader); // 인증 헤더 로깅
+    
     if (!authHeader?.startsWith('Bearer ')) {
       return NextResponse.json(
         { error: '권한이 없습니다.' },
@@ -114,9 +122,13 @@ export async function PUT(
 
     // JWT 유효성 검사 개선
     const token = authHeader.split(' ')[1];
+    console.log('Token from header:', token); // 토큰 값 로깅
+    
     let decoded;
     try {
       decoded = jwt.verify(token, JWT_SECRET_KEY) as { id: string; role: string };
+      console.log('Decoded token:', decoded); // 디코딩된 토큰 정보 로깅
+      
       if (!decoded || typeof decoded !== 'object') {
         throw new Error('토큰 검증 실패');
       }
@@ -260,6 +272,8 @@ export async function DELETE(
     }
 
     const authHeader = request.headers.get('Authorization');
+    console.log('Authorization header:', authHeader); // 인증 헤더 로깅
+    
     if (!authHeader?.startsWith('Bearer ')) {
       return NextResponse.json(
         { error: '권한이 없습니다.' },
@@ -269,9 +283,13 @@ export async function DELETE(
 
     // JWT 유효성 검사 개선
     const token = authHeader.split(' ')[1];
+    console.log('Token from header:', token); // 토큰 값 로깅
+    
     let decoded;
     try {
       decoded = jwt.verify(token, JWT_SECRET_KEY) as { id: string; role: string };
+      console.log('Decoded token:', decoded); // 디코딩된 토큰 정보 로깅
+      
       if (!decoded || typeof decoded !== 'object') {
         throw new Error('토큰 검증 실패');
       }
