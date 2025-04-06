@@ -15,6 +15,13 @@ const Map = dynamic(() => import('../components/Map'), {
   ssr: false
 });
 
+declare global {
+  interface Window {
+    naver: any;
+    currentMap: any;
+  }
+}
+
 export default function HomePage() {
   const router = useRouter();
   const [cafes, setCafes] = useState<Cafe[]>([]);
@@ -553,27 +560,6 @@ export default function HomePage() {
           <div className="w-full h-full">
             <Map cafes={cafes} searchKeyword={searchKeyword} />
           </div>
-          
-          {/* 현재 위치 버튼 */}
-          <button 
-            onClick={() => {
-              if (window.moveToCurrentLocation) {
-                window.moveToCurrentLocation();
-              }
-            }}
-            className="absolute bottom-4 right-4 bg-white p-2.5 rounded-full shadow-md hover:bg-gray-100 focus:outline-none z-10"
-            title="현재 위치로 이동"
-          >
-            {/* 타겟/조준점 아이콘 */}
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="12" cy="12" r="10"></circle>
-              <circle cx="12" cy="12" r="3"></circle>
-              <line x1="12" y1="2" x2="12" y2="5"></line>
-              <line x1="12" y1="19" x2="12" y2="22"></line>
-              <line x1="2" y1="12" x2="5" y2="12"></line>
-              <line x1="19" y1="12" x2="22" y2="12"></line>
-            </svg>
-          </button>
         </div>
       </div>
 
