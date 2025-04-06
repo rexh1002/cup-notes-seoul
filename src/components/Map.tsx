@@ -376,104 +376,72 @@ export default function Map({ cafes, searchKeyword }: MapWithSearchProps) {
             <div className="space-y-3">
               {selectedCafe.coffees.map((coffee, idx) => {
                 const backgroundColor = coffee.noteColors?.[0] || '#f9fafb';
-                const bgColorWithOpacity = backgroundColor.includes('rgba') 
-                  ? backgroundColor.replace(/rgba\((\d+,\s*\d+,\s*\d+),\s*[\d.]+\)/, 'rgba($1, 0.1)')
-                  : backgroundColor.includes('rgb') 
-                    ? backgroundColor.replace(/rgb\(/, 'rgba(').replace(/\)/, ', 0.1)')
-                    : backgroundColor + '1A'; // 10% opacity
 
                 return (
                   <div 
                     key={idx} 
-                    className="relative"
-                    style={{ 
-                      padding: '1px',
-                      background: `repeating-linear-gradient(
-                        -45deg,
-                        transparent,
-                        transparent 8px,
-                        ${backgroundColor} 8px,
-                        ${backgroundColor} 16px
-                      )`
+                    className="relative p-4 bg-white"
+                    style={{
+                      border: '1px dashed #000',
+                      borderRadius: '2px',
+                      position: 'relative'
                     }}
                   >
-                    <div className="absolute top-0 left-0 right-0 bottom-0"
-                      style={{
-                        clipPath: `
-                          polygon(
-                            0% 10px, 5px 10px, 10px 5px, 10px 0%,
-                            calc(100% - 10px) 0%, calc(100% - 5px) 5px, 100% 10px, 100% calc(100% - 10px),
-                            calc(100% - 5px) calc(100% - 10px), calc(100% - 10px) calc(100% - 5px), calc(100% - 10px) 100%,
-                            10px 100%, 5px calc(100% - 5px), 0% calc(100% - 10px)
-                          )
-                        `,
-                        background: backgroundColor,
-                        opacity: 0.1
-                      }}
-                    />
-                    <div 
-                      className="relative p-4 bg-white"
-                      style={{
-                        clipPath: `
-                          polygon(
-                            0% 10px, 5px 10px, 10px 5px, 10px 0%,
-                            calc(100% - 10px) 0%, calc(100% - 5px) 5px, 100% 10px, 100% calc(100% - 10px),
-                            calc(100% - 5px) calc(100% - 10px), calc(100% - 10px) calc(100% - 5px), calc(100% - 10px) 100%,
-                            10px 100%, 5px calc(100% - 5px), 0% calc(100% - 10px)
-                          )
-                        `
-                      }}
-                    >
-                      <div className="font-bold text-gray-800 mb-3 pb-2 border-b border-dashed" style={{ borderColor: backgroundColor }}>
-                        {coffee.name}
+                    {/* 모서리 장식 */}
+                    <div className="absolute -left-1 -top-1 w-3 h-3 border-l-2 border-t-2 border-black"></div>
+                    <div className="absolute -right-1 -top-1 w-3 h-3 border-r-2 border-t-2 border-black"></div>
+                    <div className="absolute -left-1 -bottom-1 w-3 h-3 border-l-2 border-b-2 border-black"></div>
+                    <div className="absolute -right-1 -bottom-1 w-3 h-3 border-r-2 border-b-2 border-black"></div>
+
+                    <div className="font-bold text-gray-800 mb-3 pb-2 border-b border-dashed border-black">
+                      {coffee.name}
+                    </div>
+                    
+                    {coffee.description && (
+                      <div className="text-black text-xs mb-3 italic">
+                        {coffee.description}
                       </div>
-                      
-                      {coffee.description && (
-                        <div className="text-black text-xs mb-3 italic">
-                          {coffee.description}
+                    )}
+
+                    <div className="space-y-2 text-xs text-black">
+                      {coffee.notes?.length > 0 && (
+                        <div className="flex">
+                          <span className="font-medium min-w-[4.5rem]">컵노트:</span>
+                          <span className="flex-1">{coffee.notes.join(', ')}</span>
                         </div>
                       )}
 
-                      <div className="space-y-2 text-xs text-black">
-                        {coffee.notes?.length > 0 && (
-                          <div className="flex">
-                            <span className="font-medium min-w-[4.5rem]">컵노트:</span>
-                            <span className="flex-1">{coffee.notes.join(', ')}</span>
-                          </div>
-                        )}
-
-                        {coffee.origins?.length > 0 && (
-                          <div className="flex">
-                            <span className="font-medium min-w-[4.5rem]">원산지:</span>
-                            <span className="flex-1">{coffee.origins.join(', ')}</span>
-                          </div>
-                        )}
-                        
-                        {coffee.processes?.length > 0 && (
-                          <div className="flex">
-                            <span className="font-medium min-w-[4.5rem]">프로세스:</span>
-                            <span className="flex-1">{coffee.processes.join(', ')}</span>
-                          </div>
-                        )}
-                        
-                        {coffee.brewMethods?.length > 0 && (
-                          <div className="flex">
-                            <span className="font-medium min-w-[4.5rem]">추출방식:</span>
-                            <span className="flex-1">{coffee.brewMethods.join(', ')}</span>
-                          </div>
-                        )}
-                        
-                        {coffee.roastLevel?.length > 0 && (
-                          <div className="flex">
-                            <span className="font-medium min-w-[4.5rem]">로스팅:</span>
-                            <span className="flex-1">{coffee.roastLevel.join(', ')}</span>
-                          </div>
-                        )}
-
-                        <div className="flex pt-2 mt-2 border-t border-dashed" style={{ borderColor: backgroundColor }}>
-                          <span className="font-medium min-w-[4.5rem]">가격:</span>
-                          <span className="flex-1">{coffee.price.toLocaleString()}원</span>
+                      {coffee.origins?.length > 0 && (
+                        <div className="flex">
+                          <span className="font-medium min-w-[4.5rem]">원산지:</span>
+                          <span className="flex-1">{coffee.origins.join(', ')}</span>
                         </div>
+                      )}
+                      
+                      {coffee.processes?.length > 0 && (
+                        <div className="flex">
+                          <span className="font-medium min-w-[4.5rem]">프로세스:</span>
+                          <span className="flex-1">{coffee.processes.join(', ')}</span>
+                        </div>
+                      )}
+                      
+                      {coffee.brewMethods?.length > 0 && (
+                        <div className="flex">
+                          <span className="font-medium min-w-[4.5rem]">추출방식:</span>
+                          <span className="flex-1">{coffee.brewMethods.join(', ')}</span>
+                        </div>
+                      )}
+                      
+                      {coffee.roastLevel?.length > 0 && (
+                        <div className="flex">
+                          <span className="font-medium min-w-[4.5rem]">로스팅:</span>
+                          <span className="flex-1">{coffee.roastLevel.join(', ')}</span>
+                        </div>
+                      )}
+
+                      <div className="flex pt-2 mt-2 border-t border-dashed border-black">
+                        <span className="font-medium min-w-[4.5rem]">가격:</span>
+                        <span className="flex-1">{coffee.price.toLocaleString()}원</span>
                       </div>
                     </div>
                   </div>
