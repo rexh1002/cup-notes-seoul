@@ -376,72 +376,62 @@ export default function Map({ cafes, searchKeyword }: MapWithSearchProps) {
             <div className="space-y-3">
               {selectedCafe.coffees.map((coffee, idx) => {
                 const backgroundColor = coffee.noteColors?.[0] || '#f9fafb';
-
+                const bgColorWithOpacity = backgroundColor.includes('rgba') 
+                  ? backgroundColor.replace(/rgba\((\d+,\s*\d+,\s*\d+),\s*[\d.]+\)/, 'rgba($1, 0.5)')
+                  : backgroundColor.includes('rgb') 
+                    ? backgroundColor.replace(/rgb\(/, 'rgba(').replace(/\)/, ', 0.5)')
+                    : backgroundColor + '80'; // 16진수에 80을 붙이면 50% 투명도
+                
                 return (
                   <div 
                     key={idx} 
-                    className="relative p-4 bg-white"
-                    style={{
-                      border: '1px dashed #000',
-                      borderRadius: '2px',
-                      position: 'relative'
-                    }}
+                    className="border border-gray-200 rounded-lg p-3 text-sm"
+                    style={{ backgroundColor: bgColorWithOpacity }}
                   >
-                    {/* 모서리 장식 */}
-                    <div className="absolute -left-1 -top-1 w-3 h-3 border-l-2 border-t-2 border-black"></div>
-                    <div className="absolute -right-1 -top-1 w-3 h-3 border-r-2 border-t-2 border-black"></div>
-                    <div className="absolute -left-1 -bottom-1 w-3 h-3 border-l-2 border-b-2 border-black"></div>
-                    <div className="absolute -right-1 -bottom-1 w-3 h-3 border-r-2 border-b-2 border-black"></div>
-
-                    <div className="font-bold text-gray-800 mb-3 pb-2 border-b border-dashed border-black">
+                    <div className="font-bold text-gray-800 mb-1">
                       {coffee.name}
                     </div>
                     
                     {coffee.description && (
-                      <div className="text-black text-xs mb-3 italic">
+                      <div className="text-black text-xs mb-2 pb-2 border-b border-gray-600">
                         {coffee.description}
                       </div>
                     )}
 
-                    <div className="space-y-2 text-xs text-black">
+                    <div className="space-y-1 text-xs text-black">
                       {coffee.notes?.length > 0 && (
-                        <div className="flex">
-                          <span className="font-medium min-w-[4.5rem]">컵노트:</span>
-                          <span className="flex-1">{coffee.notes.join(', ')}</span>
+                        <div>
+                          <span className="font-medium">컵노트:</span> {coffee.notes.join(', ')}
                         </div>
                       )}
 
                       {coffee.origins?.length > 0 && (
-                        <div className="flex">
-                          <span className="font-medium min-w-[4.5rem]">원산지:</span>
-                          <span className="flex-1">{coffee.origins.join(', ')}</span>
+                        <div>
+                          <span className="font-medium">원산지:</span> {coffee.origins.join(', ')}
                         </div>
                       )}
                       
                       {coffee.processes?.length > 0 && (
-                        <div className="flex">
-                          <span className="font-medium min-w-[4.5rem]">프로세스:</span>
-                          <span className="flex-1">{coffee.processes.join(', ')}</span>
+                        <div>
+                          <span className="font-medium">프로세스:</span> {coffee.processes.join(', ')}
                         </div>
                       )}
                       
                       {coffee.brewMethods?.length > 0 && (
-                        <div className="flex">
-                          <span className="font-medium min-w-[4.5rem]">추출방식:</span>
-                          <span className="flex-1">{coffee.brewMethods.join(', ')}</span>
+                        <div>
+                          <span className="font-medium">추출방식:</span> {coffee.brewMethods.join(', ')}
                         </div>
                       )}
                       
                       {coffee.roastLevel?.length > 0 && (
-                        <div className="flex">
-                          <span className="font-medium min-w-[4.5rem]">로스팅:</span>
-                          <span className="flex-1">{coffee.roastLevel.join(', ')}</span>
+                        <div>
+                          <span className="font-medium">로스팅 레벨:</span> {coffee.roastLevel.join(', ')}
                         </div>
                       )}
 
-                      <div className="flex pt-2 mt-2 border-t border-dashed border-black">
-                        <span className="font-medium min-w-[4.5rem]">가격:</span>
-                        <span className="flex-1">{coffee.price.toLocaleString()}원</span>
+                      {/* 가격 정보 - 구분선 제거 */}
+                      <div className="mt-2">
+                        <span className="font-medium">가격:</span> {coffee.price.toLocaleString()}원
                       </div>
                     </div>
                   </div>
