@@ -10,8 +10,8 @@ export default async function EditCafePage({ params }: { params: { id: string } 
   const cookieStore = cookies();
   console.log('3. 전체 쿠키:', cookieStore.getAll());
 
-  const token = cookieStore.get('authtoken')?.value;
-  console.log('4. authtoken 값:', token);
+  const token = cookieStore.get('authToken')?.value;
+  console.log('4. authToken 값:', token);
 
   if (!token) {
     console.log('5-1. 토큰이 없어서 로그인 필요 화면 표시');
