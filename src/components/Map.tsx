@@ -7,7 +7,6 @@ declare global {
   interface Window {
     naver: any;
     currentMap: any;
-    moveToCurrentLocation: (() => void) | null;
   }
 }
 
@@ -202,33 +201,40 @@ export default function Map({ cafes, searchKeyword }: MapWithSearchProps) {
         // 전역으로 지도 인스턴스만 저장
         window.currentMap = map;
 
-        // 현재 위치로 가기 버튼 추가
-        const locationButton = document.createElement('button');
-        locationButton.style.position = 'absolute';
-        locationButton.style.bottom = '24px';
-        locationButton.style.right = '16px';
-        locationButton.style.width = '40px';
-        locationButton.style.height = '40px';
-        locationButton.style.backgroundColor = 'white';
-        locationButton.style.borderRadius = '50%';
-        locationButton.style.boxShadow = '0 2px 6px rgba(0,0,0,0.1)';
-        locationButton.style.cursor = 'pointer';
-        locationButton.style.border = 'none';
-        locationButton.style.zIndex = '100';
-        locationButton.title = '현재 위치로 이동';
-        locationButton.innerHTML = `
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600 m-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"></circle>
-            <circle cx="12" cy="12" r="3"></circle>
-          </svg>
-        `;
-        
-        // 버튼을 지도의 컨테이너에 추가
-        const mapContainer = map.getElement();
-        mapContainer.appendChild(locationButton);
-        
-        // 클릭 이벤트 리스너 추가
-        locationButton.addEventListener('click', moveToCurrentLocation);
+        if (mapRef.current) {
+          // 현재 위치로 가기 버튼이 이미 존재하는지 확인
+          const existingButton = mapRef.current.querySelector('.location-button');
+          if (!existingButton) {
+            // 현재 위치로 가기 버튼 추가
+            const locationButton = document.createElement('button');
+            locationButton.className = 'location-button';
+            locationButton.style.position = 'absolute';
+            locationButton.style.bottom = '24px';
+            locationButton.style.right = '16px';
+            locationButton.style.width = '40px';
+            locationButton.style.height = '40px';
+            locationButton.style.backgroundColor = 'white';
+            locationButton.style.borderRadius = '50%';
+            locationButton.style.boxShadow = '0 2px 6px rgba(0,0,0,0.1)';
+            locationButton.style.cursor = 'pointer';
+            locationButton.style.border = 'none';
+            locationButton.style.zIndex = '100';
+            locationButton.title = '현재 위치로 이동';
+            locationButton.innerHTML = `
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600 m-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            `;
+            
+            // 버튼을 지도의 컨테이너에 추가
+            const mapContainer = map.getElement();
+            mapContainer.appendChild(locationButton);
+            
+            // 클릭 이벤트 리스너 추가
+            locationButton.addEventListener('click', moveToCurrentLocation);
+          }
+        }
 
         // 지도 클릭 시 사이드 패널 닫기
         window.naver.maps.Event.addListener(map, 'click', function() {
@@ -248,7 +254,6 @@ export default function Map({ cafes, searchKeyword }: MapWithSearchProps) {
     // 컴포넌트 언마운트 시 전역 객체 정리
     return () => {
       window.currentMap = null;
-      window.moveToCurrentLocation = null;
     };
   }, [cafes, searchKeyword, selectedCafe, favoriteCafes]);
 
