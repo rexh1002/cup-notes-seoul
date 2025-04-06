@@ -168,7 +168,7 @@ export default function Map({ cafes, searchKeyword }: MapWithSearchProps) {
         const { latitude: currentLat, longitude: currentLng } = position.coords;
 
         const mapOptions = {
-          center: new window.naver.maps.LatLng(currentLat, currentLng),
+          center: new window.naver.maps.LatLng(37.5665, 126.9780), // 서울시청 좌표로 기본값 설정
           zoom: 14,
           zoomControl: true,
           zoomControlOptions: {
@@ -179,35 +179,25 @@ export default function Map({ cafes, searchKeyword }: MapWithSearchProps) {
         const map = new window.naver.maps.Map(mapRef.current, mapOptions);
         mapInstanceRef.current = map;
         
-        // 전역으로 지도 인스턴스와 메서드 저장
+        // 전역으로 지도 인스턴스만 저장
         window.currentMap = map;
-        window.moveToCurrentLocation = moveToCurrentLocation;
-
-        // 현재 위치 마커 추가
-        new window.naver.maps.Marker({
-          position: new window.naver.maps.LatLng(currentLat, currentLng),
-          map: map,
-          icon: {
-            content: `
-              <div style="
-                width: 16px;
-                height: 16px;
-                background: #2563eb;
-                border-radius: 50%;
-                box-shadow: 0 0 8px rgba(37, 99, 235, 0.8);
-                border: 3px solid white;
-              "></div>
-            `,
-            anchor: new window.naver.maps.Point(8, 8),
-          },
-        });
 
         // 현재 위치로 가기 버튼 추가
         const locationButton = document.createElement('button');
-        locationButton.className = 'fixed sm:absolute bottom-24 sm:bottom-6 right-4 z-50 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50 focus:outline-none';
+        locationButton.style.position = 'absolute';
+        locationButton.style.bottom = '24px';
+        locationButton.style.right = '16px';
+        locationButton.style.width = '40px';
+        locationButton.style.height = '40px';
+        locationButton.style.backgroundColor = 'white';
+        locationButton.style.borderRadius = '50%';
+        locationButton.style.boxShadow = '0 2px 6px rgba(0,0,0,0.1)';
+        locationButton.style.cursor = 'pointer';
+        locationButton.style.border = 'none';
+        locationButton.style.zIndex = '100';
         locationButton.title = '현재 위치로 이동';
         locationButton.innerHTML = `
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600 m-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="10"></circle>
             <circle cx="12" cy="12" r="3"></circle>
           </svg>
@@ -219,7 +209,20 @@ export default function Map({ cafes, searchKeyword }: MapWithSearchProps) {
         
         // 클릭 이벤트 리스너 추가
         locationButton.addEventListener('click', () => {
-          moveToCurrentLocation();
+          if (!mapInstanceRef.current) return;
+          
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              const { latitude, longitude } = position.coords;
+              const currentPosition = new window.naver.maps.LatLng(latitude, longitude);
+              mapInstanceRef.current.setCenter(currentPosition);
+              mapInstanceRef.current.setZoom(15);
+            },
+            (error) => {
+              console.error('위치 정보를 가져오는데 실패했습니다:', error);
+              alert('현재 위치를 가져올 수 없습니다.');
+            }
+          );
         });
 
         // 지도 클릭 시 사이드 패널 닫기
