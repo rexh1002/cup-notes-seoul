@@ -119,12 +119,15 @@ export default function HomePage() {
   };
 
   const handleSearch = useCallback(async () => {
+    console.log('[클라이언트] 검색 시작');
     setIsLoading(true);
     setIsSearching(true);
+    
     // 모바일에서만 적용 버튼 클릭 시 지도로 전환
     if (isMounted && window.innerWidth < 640) {
       setShowMapOnMobile(true);
     }
+
     try {
       const searchParams: SearchParams = {
         keyword: searchKeyword,
@@ -134,7 +137,10 @@ export default function HomePage() {
         roastLevel: selectedRoast,
         brewMethod: selectedBrewMethods,
       };
-  
+
+      console.log('[클라이언트] 검색 파라미터:', JSON.stringify(searchParams, null, 2));
+      
+      console.log('[클라이언트] API 요청 시작');
       const response = await fetch('/api/cafes/search', {
         method: 'POST',
         headers: {
@@ -142,22 +148,27 @@ export default function HomePage() {
         },
         body: JSON.stringify(searchParams),
       });
-  
+      
+      console.log('[클라이언트] API 응답 상태:', response.status);
       const data = await response.json();
-  
+      console.log('[클라이언트] API 응답 데이터:', JSON.stringify(data, null, 2));
+
       if (data && data.cafes) {
+        console.log(`[클라이언트] 검색 결과: ${data.cafes.length}개의 카페 찾음`);
         setCafes(data.cafes);
       } else {
+        console.log('[클라이언트] 검색 결과 없음');
         setCafes([]);
       }
     } catch (error) {
-      console.error('Search failed:', error);
+      console.error('[클라이언트] 검색 오류:', error);
       setCafes([]);
     } finally {
       setIsLoading(false);
       setTimeout(() => {
         setIsSearching(false);
       }, 1000);
+      console.log('[클라이언트] 검색 완료');
     }
   }, [searchKeyword, selectedNotes, selectedOrigins, selectedProcesses, selectedRoast, selectedBrewMethods, isMounted]);
 

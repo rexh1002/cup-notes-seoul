@@ -15,6 +15,8 @@ interface MapWithSearchProps extends MapProps {
 }
 
 export default function Map({ cafes, searchKeyword }: MapWithSearchProps) {
+  console.log('[지도] 컴포넌트 렌더링 시작', { cafeCount: cafes.length, searchKeyword });
+  
   const mapRef = useRef<HTMLDivElement>(null);
   const markersRef = useRef<any[]>([]);
   const mapInstanceRef = useRef<any>(null);
@@ -25,6 +27,7 @@ export default function Map({ cafes, searchKeyword }: MapWithSearchProps) {
 
   // 모바일 여부 감지
   useEffect(() => {
+    console.log('[지도] 모바일 감지 useEffect 실행');
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 640);
     };
@@ -51,9 +54,10 @@ export default function Map({ cafes, searchKeyword }: MapWithSearchProps) {
   };
 
   const getCoordinates = async (address: string): Promise<Coordinates | null> => {
+    console.log('[지도] 주소 좌표 변환 시작:', address);
     return new Promise((resolve) => {
       if (!window.naver || !window.naver.maps) {
-        console.error('Naver maps not loaded');
+        console.error('[지도] 네이버 지도 API 로드 실패');
         resolve(null);
         return;
       }
@@ -65,12 +69,14 @@ export default function Map({ cafes, searchKeyword }: MapWithSearchProps) {
         function (status: number, response: any) {
           if (status === 200 && response.v2.addresses.length > 0) {
             const item = response.v2.addresses[0];
-            resolve({
+            const coordinates = {
               lat: parseFloat(item.y),
               lng: parseFloat(item.x),
-            });
+            };
+            console.log('[지도] 주소 좌표 변환 성공:', coordinates);
+            resolve(coordinates);
           } else {
-            console.error('Geocoding failed:', status, response);
+            console.error('[지도] 주소 좌표 변환 실패:', status, response);
             resolve(null);
           }
         }
@@ -79,13 +85,19 @@ export default function Map({ cafes, searchKeyword }: MapWithSearchProps) {
   };
 
   useEffect(() => {
-    if (!mapRef.current || !window.naver) return;
+    console.log('[지도] 마커 생성 useEffect 실행');
+    if (!mapRef.current || !window.naver) {
+      console.log('[지도] 지도 또는 네이버 API 준비되지 않음');
+      return;
+    }
 
     const createCafeMarkers = async () => {
+      console.log('[지도] 카페 마커 생성 시작');
       markersRef.current.forEach((marker) => marker.setMap(null));
       markersRef.current = [];
 
       for (const cafe of cafes) {
+        console.log('[지도] 카페 마커 생성 중:', cafe.name);
         const coordinates = await getCoordinates(cafe.address);
         if (coordinates) {
           const position = new window.naver.maps.LatLng(coordinates.lat, coordinates.lng);
@@ -147,20 +159,25 @@ export default function Map({ cafes, searchKeyword }: MapWithSearchProps) {
           });
 
           markersRef.current.push(marker);
+        } else {
+          console.log('[지도] 좌표를 찾을 수 없음:', cafe.name);
         }
       }
+      console.log('[지도] 모든 카페 마커 생성 완료');
     };
 
     const initializeMap = async () => {
+      console.log('[지도] 지도 초기화 시작');
       try {
         const position = await new Promise<GeolocationPosition>((resolve, reject) => {
           navigator.geolocation.getCurrentPosition(resolve, reject);
         });
 
+        console.log('[지도] 현재 위치 확인됨');
         const { latitude: currentLat, longitude: currentLng } = position.coords;
 
         const mapOptions = {
-          center: new window.naver.maps.LatLng(37.5665, 126.9780), // 서울시청 좌표로 기본값 설정
+          center: new window.naver.maps.LatLng(37.5665, 126.9780),
           zoom: 14,
           zoomControl: true,
           zoomControlOptions: {
@@ -168,10 +185,9 @@ export default function Map({ cafes, searchKeyword }: MapWithSearchProps) {
           },
         };
 
+        console.log('[지도] 지도 인스턴스 생성');
         const map = new window.naver.maps.Map(mapRef.current, mapOptions);
         mapInstanceRef.current = map;
-        
-        // 전역으로 지도 인스턴스만 저장
         window.currentMap = map;
 
         if (mapRef.current) {
@@ -256,17 +272,20 @@ export default function Map({ cafes, searchKeyword }: MapWithSearchProps) {
         });
 
         if (cafes.length > 0) {
+          console.log('[지도] 카페 마커 생성 시작');
           await createCafeMarkers();
         }
+
+        console.log('[지도] 지도 초기화 완료');
       } catch (error) {
-        console.error('Map initialization failed:', error);
+        console.error('[지도] 지도 초기화 실패:', error);
       }
     };
 
     initializeMap();
     
-    // 컴포넌트 언마운트 시 전역 객체 정리
     return () => {
+      console.log('[지도] 컴포넌트 정리');
       window.currentMap = null;
     };
   }, [cafes, searchKeyword, selectedCafe, favoriteCafes]);
