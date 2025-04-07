@@ -133,16 +133,19 @@ export default function DashboardClient() {
   const [error, setError] = useState<string | null>(null);
 
   const fetchCafes = useCallback(async () => {
+    console.log('[대시보드] 카페 목록 조회 시작');
     try {
       setIsLoading(true);
       setError(null);
 
       const token = localStorage.getItem('authToken');
       if (!token) {
+        console.log('[대시보드] 인증 토큰 없음');
         router.push('/auth/login');
         return;
       }
 
+      console.log('[대시보드] API 요청 시작');
       const response = await fetch('/api/manager/cafes', {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -151,18 +154,34 @@ export default function DashboardClient() {
         cache: 'no-store',
       });
 
+      console.log('[대시보드] API 응답 상태:', response.status);
       const data = await response.json();
+      console.log('[대시보드] API 응답 데이터:', data);
       
-      if (!response.ok || !data.success) {
+      if (!response.ok) {
+        if (response.status === 401) {
+          console.log('[대시보드] 인증 만료');
+          localStorage.removeItem('authToken');
+          router.push('/auth/login');
+          return;
+        }
         throw new Error(data.error || '카페 정보를 불러오는데 실패했습니다.');
       }
 
+      if (!data.success) {
+        throw new Error(data.error || '카페 정보를 불러오는데 실패했습니다.');
+      }
+
+      console.log(`[대시보드] 카페 목록 로드 성공: ${data.cafes?.length}개의 카페`);
       setCafes(data.cafes || []);
     } catch (err) {
-      console.error('카페 목록 로딩 오류:', err);
-      setError(err instanceof Error ? err.message : '카페 정보를 불러오는데 실패했습니다.');
+      console.error('[대시보드] 카페 목록 로딩 오류:', err);
+      const errorMessage = err instanceof Error ? err.message : '카페 정보를 불러오는데 실패했습니다.';
+      setError(errorMessage);
+      toast.error(errorMessage);
     } finally {
       setIsLoading(false);
+      console.log('[대시보드] 카페 목록 조회 완료');
     }
   }, [router]);
 
