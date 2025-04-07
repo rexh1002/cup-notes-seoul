@@ -618,55 +618,61 @@ export default function HomePage() {
         </p>
       </footer>
 
-      {/* 모바일 하단 네비게이션 */}
-      <div className="sm:hidden fixed bottom-0 left-0 right-0 bg-white border-t z-50">
-        <div className="flex justify-around items-center">
-          <button 
-            className={`flex flex-col items-center p-2 flex-1 ${!showMapOnMobile ? 'text-blue-500' : 'text-gray-600'}`}
-            onClick={() => setShowMapOnMobile(false)}
+      {/* 모바일 하단 네비게이션 바 */}
+      <nav className="sm:hidden fixed bottom-0 left-0 right-0 bg-white border-t z-50">
+        <div className="flex justify-around items-center h-14">
+          <button
+            onClick={() => {
+              setShowMapOnMobile(false);
+              setSearchKeyword('');
+              clearSelections();
+            }}
+            className={`flex flex-col items-center justify-center w-1/4 h-full ${
+              !showMapOnMobile ? 'text-blue-500' : 'text-gray-400'
+            }`}
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
-            <span className="text-xs mt-1">검색</span>
+            <span className="text-xs mt-1">취향 선택</span>
           </button>
-          <button 
-            className={`flex flex-col items-center p-2 flex-1 ${showMapOnMobile ? 'text-blue-500' : 'text-gray-600'}`}
+
+          <button
             onClick={() => setShowMapOnMobile(true)}
+            className={`flex flex-col items-center justify-center w-1/4 h-full ${
+              showMapOnMobile ? 'text-blue-500' : 'text-gray-400'
+            }`}
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
             </svg>
             <span className="text-xs mt-1">지도</span>
           </button>
-          <button 
-            className="flex flex-col items-center p-2 flex-1"
-            onClick={() => {
-              if (isLoggedIn) {
-                router.push('/manager/dashboard');
-              } else {
-                router.push('/auth/login');
-              }
-            }}
+
+          <button
+            onClick={() => router.push('/mypage')}
+            className="flex flex-col items-center justify-center w-1/4 h-full text-gray-400"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
             </svg>
-            <span className="text-xs mt-1">{isLoggedIn ? '내카페' : '로그인'}</span>
+            <span className="text-xs mt-1">내정보</span>
           </button>
-          {isLoggedIn && (
-            <button 
-              className="flex flex-col items-center p-2 flex-1"
-              onClick={handleLogout}
+
+          {/* 내카페 메뉴는 카페 매니저 권한일 때만 표시 */}
+          {userRole === 'cafeManager' && (
+            <button
+              onClick={() => router.push('/mycafe')}
+              className="flex flex-col items-center justify-center w-1/4 h-full text-gray-400"
             >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
               </svg>
-              <span className="text-xs mt-1">로그아웃</span>
+              <span className="text-xs mt-1">내카페</span>
             </button>
           )}
         </div>
-      </div>
+      </nav>
     </div>
   );
 }
