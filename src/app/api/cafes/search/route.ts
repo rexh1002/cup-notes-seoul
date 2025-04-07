@@ -32,7 +32,7 @@ export async function GET(request: Request) {
       brewMethod: searchParams.getAll('brewMethod'),
     };
 
-    const logs = [];
+    const logs: string[] = [];
     logs.push('[검색 API] GET 요청 시작');
     logs.push(`[검색 API] 환경 변수: NODE_ENV=${process.env.NODE_ENV}, DATABASE_URL=${process.env.DATABASE_URL ? '설정됨' : '설정되지 않음'}`);
     logs.push(`[검색 API] 검색 파라미터: ${JSON.stringify(searchParameters, null, 2)}`);
@@ -170,7 +170,7 @@ export async function GET(request: Request) {
     });
 
   } catch (error) {
-    const errorLogs = [];
+    const errorLogs: string[] = [];
     errorLogs.push('[검색 API] 오류 발생');
     if (error instanceof Error) {
       errorLogs.push(`[검색 API] 오류 메시지: ${error.message}`);
