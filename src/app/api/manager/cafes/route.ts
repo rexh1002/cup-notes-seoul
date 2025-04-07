@@ -10,6 +10,11 @@ const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY || 'default-secret-key';
 
 export async function GET(request: Request) {
   console.log('[매니저 API] GET 요청 시작');
+  console.log('[매니저 API] 환경 변수 확인:', {
+    NODE_ENV: process.env.NODE_ENV,
+    DATABASE_URL: process.env.DATABASE_URL ? '설정됨' : '설정되지 않음',
+    JWT_SECRET_KEY: process.env.JWT_SECRET_KEY ? '설정됨' : '설정되지 않음'
+  });
   
   try {
     const authHeader = request.headers.get('Authorization');
@@ -30,6 +35,7 @@ export async function GET(request: Request) {
       console.log('[매니저 API] 토큰 검증 완료:', { role: decoded.role, id: decoded.id });
     } catch (jwtError) {
       console.error('[매니저 API] 토큰 검증 실패:', jwtError);
+      console.error('[매니저 API] 토큰 내용:', token.substring(0, 20) + '...');
       return NextResponse.json(
         { success: false, error: '유효하지 않은 인증 토큰입니다.' },
         { status: 401 }
@@ -46,6 +52,17 @@ export async function GET(request: Request) {
 
     console.log('[매니저 API] 카페 조회 시작:', decoded.id);
 
+    // Prisma 클라이언트 상태 확인
+    console.log('[매니저 API] Prisma 클라이언트 상태 확인');
+    try {
+      await prisma.$connect();
+      console.log('[매니저 API] Prisma 데이터베이스 연결 성공');
+    } catch (dbError) {
+      console.error('[매니저 API] Prisma 데이터베이스 연결 실패:', dbError);
+      throw dbError;
+    }
+
+    console.log('[매니저 API] 데이터베이스 쿼리 시작');
     const cafes = await prisma.$transaction(async (tx) => {
       return await tx.cafe.findMany({
         where: {
@@ -63,6 +80,7 @@ export async function GET(request: Request) {
     });
 
     console.log(`[매니저 API] 조회된 카페 수: ${cafes.length}`);
+    console.log('[매니저 API] 첫 번째 카페 샘플:', cafes[0] ? JSON.stringify(cafes[0], null, 2) : '결과 없음');
 
     const formattedCafes = cafes.map(cafe => ({
       id: cafe.id,
@@ -80,7 +98,8 @@ export async function GET(request: Request) {
     });
 
   } catch (error) {
-    console.error('[매니저 API] 오류:', error);
+    console.error('[매니저 API] 오류 발생:', error);
+    console.error('[매니저 API] 오류 스택:', error instanceof Error ? error.stack : '스택 정보 없음');
     return NextResponse.json({
       success: false,
       error: '카페 목록을 불러오는 중 오류가 발생했습니다.',
@@ -89,7 +108,12 @@ export async function GET(request: Request) {
       status: 500 
     });
   } finally {
-    await prisma.$disconnect();
+    try {
+      await prisma.$disconnect();
+      console.log('[매니저 API] Prisma 연결 종료');
+    } catch (disconnectError) {
+      console.error('[매니저 API] Prisma 연결 종료 실패:', disconnectError);
+    }
   }
 }
 

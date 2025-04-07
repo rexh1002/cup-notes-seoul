@@ -16,6 +16,10 @@ interface SearchParams {
 
 export async function GET(request: Request) {
   console.log('[검색 API] GET 요청 시작');
+  console.log('[검색 API] 환경 변수 확인:', {
+    NODE_ENV: process.env.NODE_ENV,
+    DATABASE_URL: process.env.DATABASE_URL ? '설정됨' : '설정되지 않음'
+  });
   
   try {
     const { searchParams } = new URL(request.url);
@@ -29,6 +33,16 @@ export async function GET(request: Request) {
     };
 
     console.log('[검색 API] 검색 파라미터:', JSON.stringify(searchParameters, null, 2));
+
+    // Prisma 클라이언트 상태 확인
+    console.log('[검색 API] Prisma 클라이언트 상태 확인');
+    try {
+      await prisma.$connect();
+      console.log('[검색 API] Prisma 데이터베이스 연결 성공');
+    } catch (dbError) {
+      console.error('[검색 API] Prisma 데이터베이스 연결 실패:', dbError);
+      throw dbError;
+    }
 
     let where: any = {};
     const conditions: any[] = [];
@@ -120,6 +134,7 @@ export async function GET(request: Request) {
 
     console.log('[검색 API] 최종 쿼리:', JSON.stringify({ where }, null, 2));
 
+    console.log('[검색 API] 데이터베이스 쿼리 시작');
     const cafes = await prisma.cafe.findMany({
       where,
       include: {
@@ -142,6 +157,7 @@ export async function GET(request: Request) {
     });
 
     console.log(`[검색 API] 검색 결과: ${cafes.length}개의 카페 찾음`);
+    console.log('[검색 API] 첫 번째 카페 샘플:', cafes[0] ? JSON.stringify(cafes[0], null, 2) : '결과 없음');
 
     return NextResponse.json({
       success: true,
@@ -150,7 +166,8 @@ export async function GET(request: Request) {
     });
 
   } catch (error) {
-    console.error('[검색 API] 오류:', error);
+    console.error('[검색 API] 오류 발생:', error);
+    console.error('[검색 API] 오류 스택:', error instanceof Error ? error.stack : '스택 정보 없음');
     return NextResponse.json({
       success: false,
       error: '검색 중 오류가 발생했습니다.',
@@ -160,7 +177,12 @@ export async function GET(request: Request) {
       status: 500 
     });
   } finally {
-    await prisma.$disconnect();
+    try {
+      await prisma.$disconnect();
+      console.log('[검색 API] Prisma 연결 종료');
+    } catch (disconnectError) {
+      console.error('[검색 API] Prisma 연결 종료 실패:', disconnectError);
+    }
   }
 }
 
