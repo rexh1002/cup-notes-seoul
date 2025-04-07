@@ -563,49 +563,49 @@ export default function HomePage() {
           lg:fixed lg:right-0 lg:top-[132px] lg:bottom-[3rem] lg:w-1/2 
           overflow-hidden shadow-lg rounded-lg sm:m-4
           ${isLoggedIn ? 'mb-[120px]' : 'mb-[96px]'} sm:mb-0
+          relative
         `}>
+          {/* 선택된 필터 표시 */}
+          {isMounted && (showMapOnMobile || window.innerWidth >= 640) && (
+            <div className="absolute top-0 left-0 right-0 bg-white border-b z-40 px-4 py-2 overflow-x-auto whitespace-nowrap">
+              <div className="flex gap-2">
+                {selectedNotes.map((note) => (
+                  <span key={note} className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-blue-100 text-blue-800">
+                    {note}
+                  </span>
+                ))}
+                {selectedOrigins.map((origin) => (
+                  <span key={origin} className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-green-100 text-green-800">
+                    {origin}
+                  </span>
+                ))}
+                {selectedProcesses.map((process) => (
+                  <span key={process} className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-yellow-100 text-yellow-800">
+                    {process}
+                  </span>
+                ))}
+                {selectedRoast.map((roast) => (
+                  <span key={roast} className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-red-100 text-red-800">
+                    {roast}
+                  </span>
+                ))}
+                {selectedBrewMethods.map((method) => (
+                  <span key={method} className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-purple-100 text-purple-800">
+                    {method}
+                  </span>
+                ))}
+                {searchKeyword && (
+                  <span className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-gray-100 text-gray-800">
+                    {searchKeyword}
+                  </span>
+                )}
+              </div>
+            </div>
+          )}
           <div className="w-full h-full">
             <Map cafes={cafes} searchKeyword={searchKeyword} />
           </div>
         </div>
-
-        {/* 선택된 필터 표시 - 모바일과 데스크톱 모두 */}
-        {isMounted && (showMapOnMobile || window.innerWidth >= 640) && (
-          <div className="fixed bottom-[56px] sm:bottom-[72px] left-0 right-0 bg-white border-t z-40 px-4 py-2 overflow-x-auto whitespace-nowrap">
-            <div className="flex gap-2">
-              {selectedNotes.map((note) => (
-                <span key={note} className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-blue-100 text-blue-800">
-                  {note}
-                </span>
-              ))}
-              {selectedOrigins.map((origin) => (
-                <span key={origin} className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-green-100 text-green-800">
-                  {origin}
-                </span>
-              ))}
-              {selectedProcesses.map((process) => (
-                <span key={process} className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-yellow-100 text-yellow-800">
-                  {process}
-                </span>
-              ))}
-              {selectedRoast.map((roast) => (
-                <span key={roast} className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-red-100 text-red-800">
-                  {roast}
-                </span>
-              ))}
-              {selectedBrewMethods.map((method) => (
-                <span key={method} className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-purple-100 text-purple-800">
-                  {method}
-                </span>
-              ))}
-              {searchKeyword && (
-                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-gray-100 text-gray-800">
-                  {searchKeyword}
-                </span>
-              )}
-            </div>
-          </div>
-        )}
       </div>
 
       {/* Footer */}
