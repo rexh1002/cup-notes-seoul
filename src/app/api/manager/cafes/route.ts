@@ -9,21 +9,22 @@ export const revalidate = 0;
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY || 'default-secret-key';
 
 export async function GET(request: Request) {
-  console.log('[매니저 API] GET 요청 시작');
-  console.log('[매니저 API] 환경 변수 확인:', {
-    NODE_ENV: process.env.NODE_ENV,
-    DATABASE_URL: process.env.DATABASE_URL ? '설정됨' : '설정되지 않음',
-    JWT_SECRET_KEY: process.env.JWT_SECRET_KEY ? '설정됨' : '설정되지 않음'
-  });
+  const logs: string[] = [];
+  logs.push('[매니저 API] GET 요청 시작');
+  logs.push(`[매니저 API] 환경 변수: NODE_ENV=${process.env.NODE_ENV}, DATABASE_URL=${process.env.DATABASE_URL ? '설정됨' : '설정되지 않음'}, JWT_SECRET_KEY=${process.env.JWT_SECRET_KEY ? '설정됨' : '설정되지 않음'}`);
   
   try {
     const authHeader = request.headers.get('Authorization');
-    console.log('[매니저 API] Authorization 헤더:', authHeader ? '존재함' : '없음');
+    logs.push(`[매니저 API] Authorization 헤더: ${authHeader ? '존재함' : '없음'}`);
     
     if (!authHeader?.startsWith('Bearer ')) {
-      console.log('[매니저 API] 인증 토큰 없음');
+      logs.push('[매니저 API] 인증 토큰 없음');
       return NextResponse.json(
-        { success: false, error: '권한이 없습니다.' },
+        { 
+          success: false, 
+          error: '권한이 없습니다.',
+          logs: logs 
+        },
         { status: 401 }
       );
     }
@@ -32,37 +33,45 @@ export async function GET(request: Request) {
     let decoded;
     try {
       decoded = jwt.verify(token, JWT_SECRET_KEY) as { id: string; role: string };
-      console.log('[매니저 API] 토큰 검증 완료:', { role: decoded.role, id: decoded.id });
+      logs.push(`[매니저 API] 토큰 검증 완료: role=${decoded.role}, id=${decoded.id}`);
     } catch (jwtError) {
-      console.error('[매니저 API] 토큰 검증 실패:', jwtError);
-      console.error('[매니저 API] 토큰 내용:', token.substring(0, 20) + '...');
+      logs.push('[매니저 API] 토큰 검증 실패');
+      logs.push(`[매니저 API] 토큰 내용: ${token.substring(0, 20)}...`);
       return NextResponse.json(
-        { success: false, error: '유효하지 않은 인증 토큰입니다.' },
+        { 
+          success: false, 
+          error: '유효하지 않은 인증 토큰입니다.',
+          logs: logs 
+        },
         { status: 401 }
       );
     }
 
     if (decoded.role !== 'manager' && decoded.role !== 'cafeManager') {
-      console.log('[매니저 API] 권한 없음:', decoded.role);
+      logs.push(`[매니저 API] 권한 없음: ${decoded.role}`);
       return NextResponse.json(
-        { success: false, error: '카페 매니저만 접근할 수 있습니다.' },
+        { 
+          success: false, 
+          error: '카페 매니저만 접근할 수 있습니다.',
+          logs: logs 
+        },
         { status: 403 }
       );
     }
 
-    console.log('[매니저 API] 카페 조회 시작:', decoded.id);
+    logs.push(`[매니저 API] 카페 조회 시작: ${decoded.id}`);
 
     // Prisma 클라이언트 상태 확인
-    console.log('[매니저 API] Prisma 클라이언트 상태 확인');
+    logs.push('[매니저 API] Prisma 클라이언트 상태 확인');
     try {
       await prisma.$connect();
-      console.log('[매니저 API] Prisma 데이터베이스 연결 성공');
+      logs.push('[매니저 API] Prisma 데이터베이스 연결 성공');
     } catch (dbError) {
-      console.error('[매니저 API] Prisma 데이터베이스 연결 실패:', dbError);
+      logs.push(`[매니저 API] Prisma 데이터베이스 연결 실패: ${dbError}`);
       throw dbError;
     }
 
-    console.log('[매니저 API] 데이터베이스 쿼리 시작');
+    logs.push('[매니저 API] 데이터베이스 쿼리 시작');
     const cafes = await prisma.$transaction(async (tx) => {
       return await tx.cafe.findMany({
         where: {
@@ -79,8 +88,12 @@ export async function GET(request: Request) {
       });
     });
 
-    console.log(`[매니저 API] 조회된 카페 수: ${cafes.length}`);
-    console.log('[매니저 API] 첫 번째 카페 샘플:', cafes[0] ? JSON.stringify(cafes[0], null, 2) : '결과 없음');
+    logs.push(`[매니저 API] 조회된 카페 수: ${cafes.length}`);
+    if (cafes[0]) {
+      logs.push(`[매니저 API] 첫 번째 카페 샘플: ${JSON.stringify(cafes[0], null, 2)}`);
+    } else {
+      logs.push('[매니저 API] 조회된 카페 없음');
+    }
 
     const formattedCafes = cafes.map(cafe => ({
       id: cafe.id,
@@ -94,25 +107,31 @@ export async function GET(request: Request) {
 
     return NextResponse.json({
       success: true,
-      cafes: formattedCafes
+      cafes: formattedCafes,
+      logs: logs
     });
 
   } catch (error) {
-    console.error('[매니저 API] 오류 발생:', error);
-    console.error('[매니저 API] 오류 스택:', error instanceof Error ? error.stack : '스택 정보 없음');
+    logs.push('[매니저 API] 오류 발생');
+    if (error instanceof Error) {
+      logs.push(`[매니저 API] 오류 메시지: ${error.message}`);
+      logs.push(`[매니저 API] 오류 스택: ${error.stack}`);
+    }
+
     return NextResponse.json({
       success: false,
       error: '카페 목록을 불러오는 중 오류가 발생했습니다.',
-      details: error instanceof Error ? error.message : '알 수 없는 오류'
+      details: error instanceof Error ? error.message : '알 수 없는 오류',
+      logs: logs
     }, { 
       status: 500 
     });
   } finally {
     try {
       await prisma.$disconnect();
-      console.log('[매니저 API] Prisma 연결 종료');
+      logs.push('[매니저 API] Prisma 연결 종료');
     } catch (disconnectError) {
-      console.error('[매니저 API] Prisma 연결 종료 실패:', disconnectError);
+      logs.push(`[매니저 API] Prisma 연결 종료 실패: ${disconnectError}`);
     }
   }
 }

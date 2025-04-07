@@ -32,15 +32,18 @@ export async function GET(request: Request) {
       brewMethod: searchParams.getAll('brewMethod'),
     };
 
-    console.log('[검색 API] 검색 파라미터:', JSON.stringify(searchParameters, null, 2));
+    const logs = [];
+    logs.push('[검색 API] GET 요청 시작');
+    logs.push(`[검색 API] 환경 변수: NODE_ENV=${process.env.NODE_ENV}, DATABASE_URL=${process.env.DATABASE_URL ? '설정됨' : '설정되지 않음'}`);
+    logs.push(`[검색 API] 검색 파라미터: ${JSON.stringify(searchParameters, null, 2)}`);
 
     // Prisma 클라이언트 상태 확인
-    console.log('[검색 API] Prisma 클라이언트 상태 확인');
+    logs.push('[검색 API] Prisma 클라이언트 상태 확인');
     try {
       await prisma.$connect();
-      console.log('[검색 API] Prisma 데이터베이스 연결 성공');
+      logs.push('[검색 API] Prisma 데이터베이스 연결 성공');
     } catch (dbError) {
-      console.error('[검색 API] Prisma 데이터베이스 연결 실패:', dbError);
+      logs.push(`[검색 API] Prisma 데이터베이스 연결 실패: ${dbError}`);
       throw dbError;
     }
 
@@ -162,16 +165,23 @@ export async function GET(request: Request) {
     return NextResponse.json({
       success: true,
       cafes: cafes || [],
-      total: cafes.length
+      total: cafes.length,
+      logs: logs
     });
 
   } catch (error) {
-    console.error('[검색 API] 오류 발생:', error);
-    console.error('[검색 API] 오류 스택:', error instanceof Error ? error.stack : '스택 정보 없음');
+    const errorLogs = [];
+    errorLogs.push('[검색 API] 오류 발생');
+    if (error instanceof Error) {
+      errorLogs.push(`[검색 API] 오류 메시지: ${error.message}`);
+      errorLogs.push(`[검색 API] 오류 스택: ${error.stack}`);
+    }
+
     return NextResponse.json({
       success: false,
       error: '검색 중 오류가 발생했습니다.',
       details: error instanceof Error ? error.message : '알 수 없는 오류',
+      logs: errorLogs,
       cafes: []
     }, { 
       status: 500 
