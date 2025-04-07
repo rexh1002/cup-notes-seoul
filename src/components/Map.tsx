@@ -301,7 +301,7 @@ export default function Map({ cafes, searchKeyword }: MapWithSearchProps) {
       <div 
         className={`
           absolute left-0 right-0 bg-white shadow-lg overflow-y-auto z-50
-          ${isMobile ? 'bottom-0 rounded-t-xl max-h-[40vh]' : 'top-[40px] sm:right-4 sm:left-auto sm:w-[400px] rounded-lg sm:max-h-[calc(100vh-200px)]'}
+          ${isMobile ? 'bottom-0 rounded-t-xl max-h-[40vh]' : 'top-[40px] sm:left-4 sm:right-auto sm:w-[360px] rounded-lg sm:max-h-[calc(100vh-200px)]'}
         `}
       >
         {/* 상단 헤더 영역 - 고정 */}
