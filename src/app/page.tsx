@@ -129,25 +129,36 @@ export default function HomePage() {
     }
 
     try {
-      const searchParams: SearchParams = {
-        keyword: searchKeyword,
-        notes: selectedNotes,
-        origins: selectedOrigins,
-        processes: selectedProcesses,
-        roastLevel: selectedRoast,
-        brewMethod: selectedBrewMethods,
-      };
+      const searchParams = new URLSearchParams();
+      
+      if (searchKeyword) {
+        searchParams.append('keyword', searchKeyword);
+      }
+      
+      selectedNotes.forEach(note => {
+        searchParams.append('notes', note);
+      });
+      
+      selectedOrigins.forEach(origin => {
+        searchParams.append('origins', origin);
+      });
+      
+      selectedProcesses.forEach(process => {
+        searchParams.append('processes', process);
+      });
+      
+      selectedRoast.forEach(roast => {
+        searchParams.append('roastLevel', roast);
+      });
+      
+      selectedBrewMethods.forEach(method => {
+        searchParams.append('brewMethod', method);
+      });
 
-      console.log('[클라이언트] 검색 파라미터:', JSON.stringify(searchParams, null, 2));
+      console.log('[클라이언트] 검색 파라미터:', searchParams.toString());
       
       console.log('[클라이언트] API 요청 시작');
-      const response = await fetch('/api/cafes/search', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(searchParams),
-      });
+      const response = await fetch(`/api/cafes/search?${searchParams.toString()}`);
       
       console.log('[클라이언트] API 응답 상태:', response.status);
       const data = await response.json();

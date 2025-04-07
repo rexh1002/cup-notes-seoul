@@ -24,8 +24,17 @@ export async function GET(request: Request) {
     }
 
     const token = authHeader.split(' ')[1];
-    const decoded = jwt.verify(token, JWT_SECRET_KEY) as { id: string; role: string };
-    console.log('[매니저 API] 토큰 검증 완료:', { role: decoded.role });
+    let decoded;
+    try {
+      decoded = jwt.verify(token, JWT_SECRET_KEY) as { id: string; role: string };
+      console.log('[매니저 API] 토큰 검증 완료:', { role: decoded.role });
+    } catch (jwtError) {
+      console.error('[매니저 API] 토큰 검증 실패:', jwtError);
+      return NextResponse.json(
+        { error: '유효하지 않은 인증 토큰입니다.' },
+        { status: 401 }
+      );
+    }
 
     if (decoded.role !== 'manager' && decoded.role !== 'cafeManager') {
       console.log('[매니저 API] 권한 없음:', decoded.role);
@@ -70,13 +79,15 @@ export async function GET(request: Request) {
 
   } catch (error) {
     console.error('[매니저 API] 오류:', error);
-    return NextResponse.json(
-      { 
-        error: '서버 에러가 발생했습니다.',
-        details: error instanceof Error ? error.message : '알 수 없는 오류'
-      },
-      { status: 500 }
-    );
+    return NextResponse.json({
+      success: false,
+      error: '카페 목록을 불러오는 중 오류가 발생했습니다.',
+      details: error instanceof Error ? error.message : '알 수 없는 오류'
+    }, { 
+      status: 500 
+    });
+  } finally {
+    await prisma.$disconnect();
   }
 }
 

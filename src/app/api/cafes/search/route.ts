@@ -19,36 +19,31 @@ export async function GET(request: Request) {
   
   try {
     const { searchParams } = new URL(request.url);
-    const keyword = searchParams.get('keyword') || '';
-    const notes = searchParams.getAll('notes');
-    const origins = searchParams.getAll('origins');
-    const processes = searchParams.getAll('processes');
-    const roastLevel = searchParams.getAll('roastLevel');
-    const brewMethod = searchParams.getAll('brewMethod');
+    const searchParameters = {
+      keyword: searchParams.get('keyword') || '',
+      notes: searchParams.getAll('notes'),
+      origins: searchParams.getAll('origins'),
+      processes: searchParams.getAll('processes'),
+      roastLevel: searchParams.getAll('roastLevel'),
+      brewMethod: searchParams.getAll('brewMethod'),
+    };
 
-    console.log('[검색 API] 검색 파라미터:', {
-      keyword,
-      notes,
-      origins,
-      processes,
-      roastLevel,
-      brewMethod
-    });
+    console.log('[검색 API] 검색 파라미터:', JSON.stringify(searchParameters, null, 2));
 
     let where: any = {};
     const conditions: any[] = [];
 
-    if (keyword) {
+    if (searchParameters.keyword) {
       conditions.push({
         OR: [
-          { name: { contains: keyword, mode: 'insensitive' } },
-          { description: { contains: keyword, mode: 'insensitive' } },
+          { name: { contains: searchParameters.keyword, mode: 'insensitive' } },
+          { description: { contains: searchParameters.keyword, mode: 'insensitive' } },
           {
             coffees: {
               some: {
                 OR: [
-                  { name: { contains: keyword, mode: 'insensitive' } },
-                  { description: { contains: keyword, mode: 'insensitive' } },
+                  { name: { contains: searchParameters.keyword, mode: 'insensitive' } },
+                  { description: { contains: searchParameters.keyword, mode: 'insensitive' } },
                 ],
               },
             },
@@ -57,60 +52,60 @@ export async function GET(request: Request) {
       });
     }
 
-    if (notes.length > 0) {
+    if (searchParameters.notes?.length > 0) {
       conditions.push({
         coffees: {
           some: {
             notes: {
-              hasSome: notes,
+              hasSome: searchParameters.notes,
             },
           },
         },
       });
     }
 
-    if (origins.length > 0) {
+    if (searchParameters.origins?.length > 0) {
       conditions.push({
         coffees: {
           some: {
             origins: {
-              hasSome: origins,
+              hasSome: searchParameters.origins,
             },
           },
         },
       });
     }
 
-    if (processes.length > 0) {
+    if (searchParameters.processes?.length > 0) {
       conditions.push({
         coffees: {
           some: {
             processes: {
-              hasSome: processes,
+              hasSome: searchParameters.processes,
             },
           },
         },
       });
     }
 
-    if (roastLevel.length > 0) {
+    if (searchParameters.roastLevel?.length > 0) {
       conditions.push({
         coffees: {
           some: {
             roastLevel: {
-              hasSome: roastLevel,
+              hasSome: searchParameters.roastLevel,
             },
           },
         },
       });
     }
 
-    if (brewMethod.length > 0) {
+    if (searchParameters.brewMethod?.length > 0) {
       conditions.push({
         coffees: {
           some: {
             brewMethods: {
-              hasSome: brewMethod,
+              hasSome: searchParameters.brewMethod,
             },
           },
         },
@@ -164,6 +159,8 @@ export async function GET(request: Request) {
     }, { 
       status: 500 
     });
+  } finally {
+    await prisma.$disconnect();
   }
 }
 
