@@ -379,7 +379,7 @@ export default function HomePage() {
       <div className="flex flex-col lg:flex-row flex-grow">
         {/* 왼쪽 컨텐츠 - 모바일에서는 조건부 표시 */}
         <div className={`w-full lg:w-1/2 flex flex-col ${showMapOnMobile ? 'hidden sm:flex' : ''}`}>
-          <div className="p-4 sm:p-6 space-y-6 flex-grow">
+          <div className="p-4 sm:p-6 space-y-6 flex-grow pb-24 sm:pb-6">
             {/* 컵노트 이미지 및 필터 */}
             <section className="space-y-4">
               <h2 className="text-xl font-bold mb-4 border-b pb-2">컵노트</h2>
