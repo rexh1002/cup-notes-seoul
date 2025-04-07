@@ -9,7 +9,7 @@ export interface CafeInfo {
   businessHours: any; // [{ day: string, openTime: string, closeTime: string }]
   businessHourNote: string | null;
   snsLinks: any; // [{ type: string, url: string }]
-  imageUrl?: string;
+  imageUrl: string | null;
   coffees?: {
     id: string;
     name: string;
@@ -68,6 +68,7 @@ export async function updateCafe(id: string, data: Partial<CafeInfo>) {
         businessHours: data.businessHours,
         businessHourNote: data.businessHourNote,
         snsLinks: data.snsLinks,
+        imageUrl: data.imageUrl,
       },
     });
     return updatedCafe;
