@@ -71,6 +71,7 @@ export interface Cafe {
   coffees: Coffee[];
   createdAt: Date;
   updatedAt: Date;
+  lastUpdated: string; // ISO 형식의 날짜 문자열
 }
 
 // 지도 props 인터페이스
