@@ -21,6 +21,21 @@ export default function Map({ cafes, searchKeyword }: MapWithSearchProps) {
   const currentLocationMarkerRef = useRef<any>(null);
   const [selectedCafe, setSelectedCafe] = useState<Cafe | null>(null);
   const [favoriteCafes, setFavoriteCafes] = useState<Set<string>>(new Set());
+  const [isMobile, setIsMobile] = useState(false);
+
+  // 모바일 여부 감지
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+    };
+  }, []);
 
   // 카페를 즐겨찾기에 추가/제거하는 토글 함수
   const toggleFavorite = (cafeId: string) => {
@@ -283,7 +298,12 @@ export default function Map({ cafes, searchKeyword }: MapWithSearchProps) {
     const isFavorite = favoriteCafes.has(selectedCafe.id);
     
     return (
-      <div className="absolute sm:left-0 sm:top-0 bottom-0 left-0 right-0 sm:w-1/2 sm:max-w-md h-[40vh] sm:h-full bg-white shadow-lg z-10">
+      <div 
+        className={`
+          absolute left-0 right-0 bg-white shadow-lg overflow-y-auto z-50
+          ${isMobile ? 'bottom-0 rounded-t-xl max-h-[40vh]' : 'top-[40px] sm:right-4 sm:left-auto sm:w-[400px] rounded-lg sm:max-h-[calc(100vh-200px)]'}
+        `}
+      >
         {/* 상단 헤더 영역 - 고정 */}
         <div className="sticky top-0 z-20 bg-white p-4 border-b border-gray-200 flex justify-between items-start">
           <h3 className="text-lg font-bold pr-8">
