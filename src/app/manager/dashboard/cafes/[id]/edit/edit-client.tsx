@@ -278,12 +278,11 @@ export default function EditCafeClient({ cafe }: EditCafeClientProps) {
     setIsLoading(true);
 
     try {
-      console.log('폼 제출 시작:', { formData });
-
       // 유효성 검사
       const cafeError = validateCafeData(formData);
       if (cafeError) {
         toast.error(cafeError);
+        setIsLoading(false);
         return;
       }
 
@@ -292,19 +291,25 @@ export default function EditCafeClient({ cafe }: EditCafeClientProps) {
         const coffeeError = validateCoffeeData(coffee);
         if (coffeeError) {
           toast.error(coffeeError);
+          setIsLoading(false);
           return;
         }
       }
 
       // 인증 토큰 가져오기
       const authToken = localStorage.getItem('authToken');
-      console.log('저장된 인증 토큰:', authToken ? '존재함' : '없음');
 
       if (!authToken) {
-        toast.error('인증 토큰이 없습니다. 다시 로그인해주세요.');
+        toast.error('로그인이 필요합니다. 로그인 페이지로 이동합니다.');
         router.push('/auth/login');
+        setIsLoading(false);
         return;
       }
+
+      // 로딩 상태 표시
+      const loadingToast = toast.loading('카페 정보를 업데이트하고 있습니다...', {
+        duration: Infinity,
+      });
 
       const response = await fetch(`/api/manager/cafes/${cafe.id}`, {
         method: 'PUT',
@@ -315,19 +320,43 @@ export default function EditCafeClient({ cafe }: EditCafeClientProps) {
         body: JSON.stringify(formData),
       });
 
-      console.log('API 응답 상태:', response.status);
       const data = await response.json();
-      console.log('API 응답 데이터:', data);
+
+      // 로딩 토스트 제거
+      toast.dismiss(loadingToast);
 
       if (!response.ok) {
-        throw new Error(data.error || '카페 정보 업데이트에 실패했습니다.');
+        let errorMessage = '카페 정보 업데이트에 실패했습니다.';
+        
+        // HTTP 상태 코드별 사용자 친화적인 메시지
+        switch (response.status) {
+          case 401:
+            errorMessage = '로그인이 필요하거나 로그인이 만료되었습니다. 다시 로그인해주세요.';
+            router.push('/auth/login');
+            break;
+          case 403:
+            errorMessage = '카페 정보를 수정할 권한이 없습니다.';
+            break;
+          case 404:
+            errorMessage = '카페를 찾을 수 없습니다.';
+            break;
+          case 400:
+            errorMessage = data.error || '입력하신 정보를 다시 확인해주세요.';
+            break;
+          case 500:
+            errorMessage = '서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.';
+            break;
+        }
+
+        toast.error(errorMessage);
+        throw new Error(errorMessage);
       }
 
       toast.success('카페 정보가 성공적으로 업데이트되었습니다.');
       router.push('/manager/dashboard');
     } catch (error) {
-      console.error('카페 수정 에러:', error);
-      toast.error(error instanceof Error ? error.message : '알 수 없는 오류가 발생했습니다.');
+      const errorMessage = error instanceof Error ? error.message : '알 수 없는 오류가 발생했습니다.';
+      toast.error(errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -339,149 +368,164 @@ export default function EditCafeClient({ cafe }: EditCafeClientProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-6xl mx-auto p-6 space-y-6 font-sans">
-      <h1 className="text-2xl font-bold mb-6">카페 정보 수정</h1>
-
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-700">카페명 *</label>
-          <Input
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700">전화번호</label>
-          <Input
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="col-span-2">
-          <label className="block text-sm font-medium text-gray-700">주소 *</label>
-          <Input
-            name="address"
-            value={formData.address}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="col-span-2">
-          <label className="block text-sm font-medium text-gray-700">설명</label>
-          <Textarea
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            rows={4}
-          />
-        </div>
-      </div>
+    <form onSubmit={handleSubmit} className="space-y-8 max-w-2xl mx-auto p-4">
+      {/* 기본 정보 카드 */}
+      <Card>
+        <CardHeader>
+          <CardTitle>기본 정보</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="name">카페명 *</Label>
+            <Input
+              id="name"
+              value={formData.name}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              required
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="phone">전화번호</Label>
+            <Input
+              id="phone"
+              value={formData.phone}
+              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="address">주소 *</Label>
+            <Input
+              id="address"
+              value={formData.address}
+              onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+              required
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="description">설명</Label>
+            <Textarea
+              id="description"
+              value={formData.description}
+              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+              rows={4}
+            />
+          </div>
+        </CardContent>
+      </Card>
 
       {/* 영업시간 섹션 */}
-      <div className="space-y-4">
-        <h2 className="text-xl font-semibold">영업시간</h2>
-        <div className="grid grid-cols-1 gap-4">
-          {DAYS_OF_WEEK.map(day => (
-            <div key={day} className="flex items-center gap-4">
-              <Checkbox
-                checked={formData.businessHours.some(hour => hour.day === day)}
-                onCheckedChange={(checked) => {
-                  if (checked) {
-                    handleBusinessHourAdd(day);
-                  } else {
-                    handleBusinessHourRemove(day);
-                  }
-                }}
-                id={`day-${day}`}
-              />
-              <label htmlFor={`day-${day}`} className="w-20">{day}</label>
-              {formData.businessHours.find(hour => hour.day === day) && (
-                <>
-                  <Input
-                    type="time"
-                    className="w-32"
-                    value={formData.businessHours.find(hour => hour.day === day)?.openTime}
-                    onChange={(e) => handleBusinessHourChange(day, 'openTime', e.target.value)}
-                  />
-                  <span>-</span>
-                  <Input
-                    type="time"
-                    className="w-32"
-                    value={formData.businessHours.find(hour => hour.day === day)?.closeTime}
-                    onChange={(e) => handleBusinessHourChange(day, 'closeTime', e.target.value)}
-                  />
-                </>
-              )}
-            </div>
-          ))}
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700">영업시간 특이사항</label>
-          <Input
-            name="businessHourNote"
-            value={formData.businessHourNote}
-            onChange={handleChange}
-            placeholder="예: 설날연휴 정상영업"
-          />
-        </div>
-      </div>
+      <Card>
+        <CardHeader>
+          <CardTitle>영업시간</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
+            {DAYS_OF_WEEK.map(day => (
+              <div key={day} className="flex items-center gap-4">
+                <Checkbox
+                  checked={formData.businessHours.some(hour => hour.day === day)}
+                  onCheckedChange={(checked) => {
+                    if (checked) {
+                      handleBusinessHourAdd(day);
+                    } else {
+                      handleBusinessHourRemove(day);
+                    }
+                  }}
+                  id={`day-${day}`}
+                />
+                <label htmlFor={`day-${day}`} className="w-20">{day}</label>
+                {formData.businessHours.find(hour => hour.day === day) && (
+                  <>
+                    <Input
+                      type="time"
+                      className="w-32"
+                      value={formData.businessHours.find(hour => hour.day === day)?.openTime}
+                      onChange={(e) => handleBusinessHourChange(day, 'openTime', e.target.value)}
+                    />
+                    <span>-</span>
+                    <Input
+                      type="time"
+                      className="w-32"
+                      value={formData.businessHours.find(hour => hour.day === day)?.closeTime}
+                      onChange={(e) => handleBusinessHourChange(day, 'closeTime', e.target.value)}
+                    />
+                  </>
+                )}
+              </div>
+            ))}
+          </div>
+          <div>
+            <Label htmlFor="businessHourNote">영업시간 특이사항</Label>
+            <Input
+              id="businessHourNote"
+              value={formData.businessHourNote}
+              onChange={(e) => setFormData({ ...formData, businessHourNote: e.target.value })}
+              placeholder="예: 설날연휴 정상영업"
+            />
+          </div>
+        </CardContent>
+      </Card>
 
       {/* SNS 링크 섹션 */}
-      <div className="space-y-4">
-        <h2 className="text-xl font-semibold">SNS 링크</h2>
-        {formData.snsLinks.map((link, index) => (
-          <div key={index} className="grid grid-cols-3 gap-4">
-            <select
-              className="border rounded-md p-2"
-              value={link.type}
-              onChange={(e) => handleSnsLinkChange(index, 'type', e.target.value)}
-            >
-              <option value="">선택하세요</option>
-              {SNS_TYPES.map(type => (
-                <option key={type} value={type}>{type}</option>
-              ))}
-            </select>
-            <div className="col-span-2 flex gap-2">
-              <Input
-                type="url"
-                value={link.url}
-                onChange={(e) => handleSnsLinkChange(index, 'url', e.target.value)}
-                placeholder="https://"
-              />
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => handleSnsLinkRemove(index)}
-                className="shrink-0"
+      <Card>
+        <CardHeader>
+          <CardTitle>SNS 링크</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {formData.snsLinks.map((link, index) => (
+            <div key={index} className="grid grid-cols-3 gap-4">
+              <select
+                className="border rounded-md p-2"
+                value={link.type}
+                onChange={(e) => handleSnsLinkChange(index, 'type', e.target.value)}
               >
-                삭제
-              </Button>
+                <option value="">선택하세요</option>
+                {SNS_TYPES.map(type => (
+                  <option key={type} value={type}>{type}</option>
+                ))}
+              </select>
+              <div className="col-span-2 flex gap-2">
+                <Input
+                  type="url"
+                  value={link.url}
+                  onChange={(e) => handleSnsLinkChange(index, 'url', e.target.value)}
+                  placeholder="https://"
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => handleSnsLinkRemove(index)}
+                  className="shrink-0"
+                >
+                  삭제
+                </Button>
+              </div>
             </div>
-          </div>
-        ))}
-        <Button type="button" variant="outline" onClick={handleSnsLinkAdd}>
-          SNS 링크 추가
-        </Button>
-      </div>
+          ))}
+          <Button type="button" variant="outline" onClick={handleSnsLinkAdd}>
+            SNS 링크 추가
+          </Button>
+        </CardContent>
+      </Card>
 
       {/* 원두 정보 섹션 */}
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h2 className="text-xl font-semibold">원두 정보</h2>
-          <Button
-            type="button"
-            variant="outline"
-            onClick={handleCoffeeAdd}
-          >
-            + 원두 추가
-          </Button>
-        </div>
-        {formData.coffees.map((coffee, coffeeIndex) => (
-          <Card key={coffeeIndex} className="p-4">
-            <div className="space-y-4">
+      <Card>
+        <CardHeader>
+          <CardTitle>원두 정보</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-xl font-semibold">원두 정보</h2>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={handleCoffeeAdd}
+            >
+              + 원두 추가
+            </Button>
+          </div>
+          {formData.coffees.map((coffee, coffeeIndex) => (
+            <div key={coffeeIndex} className="space-y-4">
               <div className="flex justify-between items-center">
                 <h3 className="text-lg font-semibold">원두 #{coffeeIndex + 1}</h3>
                 <Button
@@ -495,16 +539,18 @@ export default function EditCafeClient({ cafe }: EditCafeClientProps) {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">원두명 *</label>
+                  <Label htmlFor={`coffee-${coffeeIndex}-name`}>원두명 *</Label>
                   <Input
+                    id={`coffee-${coffeeIndex}-name`}
                     value={coffee.name}
                     onChange={(e) => handleCoffeeChange(coffeeIndex, 'name', e.target.value)}
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">가격 *</label>
+                  <Label htmlFor={`coffee-${coffeeIndex}-price`}>가격 *</Label>
                   <Input
+                    id={`coffee-${coffeeIndex}-price`}
                     type="number"
                     value={coffee.price}
                     onChange={(e) => handleCoffeeChange(coffeeIndex, 'price', Number(e.target.value))}
@@ -515,12 +561,12 @@ export default function EditCafeClient({ cafe }: EditCafeClientProps) {
 
               {/* 로스팅 레벨 */}
               <div>
-                <label className="block text-sm font-medium text-gray-700">로스팅 레벨</label>
+                <Label htmlFor={`coffee-${coffeeIndex}-roastLevel`}>로스팅 레벨</Label>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
                   {ROAST_LEVELS.map(level => (
                     <div key={level} className="flex items-center space-x-2">
                       <Checkbox
-                        id={`roast-${coffeeIndex}-${level}`}
+                        id={`coffee-${coffeeIndex}-${level}`}
                         checked={coffee.roastLevel.includes(level)}
                         onCheckedChange={(checked) => {
                           const newLevels = checked
@@ -530,7 +576,7 @@ export default function EditCafeClient({ cafe }: EditCafeClientProps) {
                         }}
                       />
                       <label
-                        htmlFor={`roast-${coffeeIndex}-${level}`}
+                        htmlFor={`coffee-${coffeeIndex}-${level}`}
                         className={level === '직접입력' ? CUSTOM_INPUT_STYLE : ''}
                       >
                         {level}
@@ -555,12 +601,12 @@ export default function EditCafeClient({ cafe }: EditCafeClientProps) {
 
               {/* 원산지 */}
               <div>
-                <label className="block text-sm font-medium text-gray-700">원산지</label>
+                <Label htmlFor={`coffee-${coffeeIndex}-origins`}>원산지</Label>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
                   {ORIGINS.map(origin => (
                     <div key={origin} className="flex items-center space-x-2">
                       <Checkbox
-                        id={`origin-${coffeeIndex}-${origin}`}
+                        id={`coffee-${coffeeIndex}-${origin}`}
                         checked={coffee.origins.includes(origin)}
                         onCheckedChange={(checked) => {
                           const newOrigins = checked
@@ -570,7 +616,7 @@ export default function EditCafeClient({ cafe }: EditCafeClientProps) {
                         }}
                       />
                       <label
-                        htmlFor={`origin-${coffeeIndex}-${origin}`}
+                        htmlFor={`coffee-${coffeeIndex}-${origin}`}
                         className={origin === '직접입력' ? CUSTOM_INPUT_STYLE : ''}
                       >
                         {origin}
@@ -595,12 +641,12 @@ export default function EditCafeClient({ cafe }: EditCafeClientProps) {
 
               {/* 가공방식 */}
               <div>
-                <label className="block text-sm font-medium text-gray-700">가공방식</label>
+                <Label htmlFor={`coffee-${coffeeIndex}-processes`}>가공방식</Label>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
                   {PROCESSES.map(process => (
                     <div key={process} className="flex items-center space-x-2">
                       <Checkbox
-                        id={`process-${coffeeIndex}-${process}`}
+                        id={`coffee-${coffeeIndex}-${process}`}
                         checked={coffee.processes.includes(process)}
                         onCheckedChange={(checked) => {
                           const newProcesses = checked
@@ -610,7 +656,7 @@ export default function EditCafeClient({ cafe }: EditCafeClientProps) {
                         }}
                       />
                       <label
-                        htmlFor={`process-${coffeeIndex}-${process}`}
+                        htmlFor={`coffee-${coffeeIndex}-${process}`}
                         className={process === '직접입력' ? CUSTOM_INPUT_STYLE : ''}
                       >
                         {process}
@@ -635,12 +681,12 @@ export default function EditCafeClient({ cafe }: EditCafeClientProps) {
 
               {/* 추출방식 */}
               <div>
-                <label className="block text-sm font-medium text-gray-700">추출방식</label>
+                <Label htmlFor={`coffee-${coffeeIndex}-brewMethods`}>추출방식</Label>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
                   {BREW_METHODS.map(method => (
                     <div key={method} className="flex items-center space-x-2">
                       <Checkbox
-                        id={`brew-${coffeeIndex}-${method}`}
+                        id={`coffee-${coffeeIndex}-${method}`}
                         checked={coffee.brewMethods.includes(method)}
                         onCheckedChange={(checked) => {
                           const newMethods = checked
@@ -650,7 +696,7 @@ export default function EditCafeClient({ cafe }: EditCafeClientProps) {
                         }}
                       />
                       <label
-                        htmlFor={`brew-${coffeeIndex}-${method}`}
+                        htmlFor={`coffee-${coffeeIndex}-${method}`}
                         className={method === '직접입력' ? CUSTOM_INPUT_STYLE : ''}
                       >
                         {method}
@@ -684,7 +730,7 @@ export default function EditCafeClient({ cafe }: EditCafeClientProps) {
                         {notes.map(note => (
                           <div key={note} className="flex items-center">
                             <Checkbox
-                              id={`note-${coffeeIndex}-${category}-${note}`}
+                              id={`coffee-${coffeeIndex}-${category}-${note}`}
                               checked={note === '직접입력'
                                 ? coffee.notes.includes(`${category}-직접입력`)
                                 : coffee.notes.includes(note)}
@@ -697,7 +743,7 @@ export default function EditCafeClient({ cafe }: EditCafeClientProps) {
                               }}
                             />
                             <label
-                              htmlFor={`note-${coffeeIndex}-${category}-${note}`}
+                              htmlFor={`coffee-${coffeeIndex}-${category}-${note}`}
                               className={`ml-2 ${note === '직접입력' ? CUSTOM_INPUT_STYLE : ''}`}
                             >
                               {note}
@@ -724,7 +770,7 @@ export default function EditCafeClient({ cafe }: EditCafeClientProps) {
 
               {/* 노트 색상 */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">노트 색상</label>
+                <Label htmlFor={`coffee-${coffeeIndex}-noteColors`} className="block text-sm font-medium text-gray-700 mb-2">노트 색상</Label>
                 <div className="grid grid-cols-5 md:grid-cols-10 gap-2">
                   {NOTE_COLORS.map((color, colorIndex) => (
                     <div
@@ -746,42 +792,58 @@ export default function EditCafeClient({ cafe }: EditCafeClientProps) {
 
               {/* 설명 */}
               <div>
-                <label className="block text-sm font-medium text-gray-700">설명</label>
+                <Label htmlFor={`coffee-${coffeeIndex}-description`}>설명</Label>
                 <Textarea
+                  id={`coffee-${coffeeIndex}-description`}
                   value={coffee.description || ''}
                   onChange={(e) => handleCoffeeChange(coffeeIndex, 'description', e.target.value)}
                   rows={3}
                 />
               </div>
             </div>
-          </Card>
-        ))}
-      </div>
+          ))}
+        </CardContent>
+      </Card>
 
       {/* 이미지 URL */}
-      <div className="space-y-2">
-        <label className="block text-sm font-medium text-gray-700">이미지 URL</label>
-        <Input
-          name="imageUrl"
-          type="url"
-          value={formData.imageUrl}
-          onChange={handleChange}
-          placeholder="https://"
-        />
-      </div>
+      <Card>
+        <CardHeader>
+          <CardTitle>이미지 URL</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-2">
+          <Label htmlFor="imageUrl">이미지 URL</Label>
+          <Input
+            id="imageUrl"
+            type="url"
+            value={formData.imageUrl}
+            onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
+            placeholder="https://"
+          />
+        </CardContent>
+      </Card>
 
-      {/* 버튼 */}
-      <div className="flex gap-4 pt-4">
-        <Button type="submit" disabled={isLoading}>
-          {isLoading ? '수정 중...' : '수정하기'}
-        </Button>
+      {/* 제출 버튼 */}
+      <div className="flex justify-end gap-4">
         <Button
           type="button"
           variant="outline"
-          onClick={() => router.back()}
+          onClick={() => router.push('/manager/dashboard')}
           disabled={isLoading}
         >
           취소
+        </Button>
+        <Button type="submit" disabled={isLoading}>
+          {isLoading ? (
+            <>
+              <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              저장 중...
+            </>
+          ) : (
+            '저장'
+          )}
         </Button>
       </div>
     </form>
