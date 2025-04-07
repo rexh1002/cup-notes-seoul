@@ -3,6 +3,7 @@ import prisma from '@/lib/prisma';
 
 // 동적 라우트 설정
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 interface SearchParams {
   keyword: string;
@@ -14,9 +15,11 @@ interface SearchParams {
 }
 
 export async function POST(request: Request) {
+  console.log('[검색 API] 요청 시작');
+  
   try {
     const body = await request.json();
-    console.log("Request body received:", body);
+    console.log("[검색 API] Request body:", JSON.stringify(body, null, 2));
 
     const searchParams = {
       keyword: body.keyword || "",
@@ -27,7 +30,7 @@ export async function POST(request: Request) {
       brewMethod: body.brewMethod || [],
     };
 
-    console.log("Received search params:", searchParams);
+    console.log("[검색 API] 검색 파라미터:", JSON.stringify(searchParams, null, 2));
 
     let where: any = {};
     const conditions: any[] = [];
@@ -118,7 +121,7 @@ export async function POST(request: Request) {
       };
     }
 
-    console.log('Final query:', JSON.stringify({ where }, null, 2));
+    console.log('[검색 API] 최종 쿼리:', JSON.stringify({ where }, null, 2));
 
     const cafes = await prisma.cafe.findMany({
       where,
@@ -141,6 +144,8 @@ export async function POST(request: Request) {
       },
     });
 
+    console.log(`[검색 API] 검색 결과: ${cafes.length}개의 카페 찾음`);
+
     return NextResponse.json({
       success: true,
       cafes: cafes || [],
@@ -148,7 +153,7 @@ export async function POST(request: Request) {
     });
 
   } catch (error) {
-    console.error('Search error:', error);
+    console.error('[검색 API] 오류:', error);
     return NextResponse.json({
       success: false,
       error: '검색 중 오류가 발생했습니다.',
