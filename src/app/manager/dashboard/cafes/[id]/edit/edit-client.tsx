@@ -275,50 +275,59 @@ export default function EditCafeClient({ cafe }: EditCafeClientProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // 기본 유효성 검사
-    const cafeError = validateCafeData(formData);
-    if (cafeError) {
-      toast.error(cafeError);
-      return;
-    }
-
-    // 원두 데이터 유효성 검사
-    for (const coffee of formData.coffees) {
-      const coffeeError = validateCoffeeData(coffee);
-      if (coffeeError) {
-        toast.error(coffeeError);
-        return;
-      }
-    }
-
     setIsLoading(true);
 
     try {
-      const response = await fetch(`/api/cafes/${cafe.id}`, {
+      console.log('폼 제출 시작:', { formData });
+
+      // 유효성 검사
+      const cafeError = validateCafeData(formData);
+      if (cafeError) {
+        toast.error(cafeError);
+        return;
+      }
+
+      // 각 원두 데이터 유효성 검사
+      for (const coffee of formData.coffees) {
+        const coffeeError = validateCoffeeData(coffee);
+        if (coffeeError) {
+          toast.error(coffeeError);
+          return;
+        }
+      }
+
+      // 인증 토큰 가져오기
+      const authToken = localStorage.getItem('authToken');
+      console.log('저장된 인증 토큰:', authToken ? '존재함' : '없음');
+
+      if (!authToken) {
+        toast.error('인증 토큰이 없습니다. 다시 로그인해주세요.');
+        router.push('/auth/login');
+        return;
+      }
+
+      const response = await fetch(`/api/manager/cafes/${cafe.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}`,
         },
-        body: JSON.stringify({
-          ...formData,
-          businessHours: Array.isArray(formData.businessHours) ? formData.businessHours : [],
-          snsLinks: Array.isArray(formData.snsLinks) ? formData.snsLinks : [],
-          coffees: Array.isArray(formData.coffees) ? formData.coffees : [],
-        }),
+        body: JSON.stringify(formData),
       });
 
+      console.log('API 응답 상태:', response.status);
+      const data = await response.json();
+      console.log('API 응답 데이터:', data);
+
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.error || '카페 정보 수정에 실패했습니다');
+        throw new Error(data.error || '카페 정보 업데이트에 실패했습니다.');
       }
 
-      toast.success('카페 정보가 수정되었습니다');
+      toast.success('카페 정보가 성공적으로 업데이트되었습니다.');
       router.push('/manager/dashboard');
-      router.refresh();
     } catch (error) {
-      console.error('Error updating cafe:', error);
-      toast.error(error instanceof Error ? error.message : '카페 정보 수정에 실패했습니다');
+      console.error('카페 수정 에러:', error);
+      toast.error(error instanceof Error ? error.message : '알 수 없는 오류가 발생했습니다.');
     } finally {
       setIsLoading(false);
     }
