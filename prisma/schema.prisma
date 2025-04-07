@@ -53,6 +53,7 @@ model Cafe {
   address         String
   phone           String
   description     String?
+  imageUrl        String?  // 카페 이미지 URL
   businessHours   Json     // [{ day: string, openTime: string, closeTime: string }]
   businessHourNote String?
   snsLinks        Json     // [{ type: string, url: string }]
