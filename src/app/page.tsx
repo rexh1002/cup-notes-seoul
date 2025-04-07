@@ -42,65 +42,72 @@ export default function HomePage() {
   const [userId, setUserId] = useState<string | null>(null);
   const [showMapOnMobile, setShowMapOnMobile] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
     // URL에서 토큰 파라미터 확인
-    const params = new URLSearchParams(window.location.search);
-    const tokenFromUrl = params.get('token');
-    
-    if (tokenFromUrl) {
-      // 토큰을 localStorage에 저장
-      localStorage.setItem('authToken', tokenFromUrl);
+    if (isMounted) {
+      const params = new URLSearchParams(window.location.search);
+      const tokenFromUrl = params.get('token');
       
-      // URL에서 토큰 파라미터 제거 (선택적)
-      router.replace('/');
-    }
-    
-    // localStorage에서 토큰 확인 (기존 로직)
-    const token = localStorage.getItem('authToken');
-    if (token) {
-      try {
-        const decodedToken = JSON.parse(atob(token.split('.')[1]));
-        setIsLoggedIn(true);
-        setUserRole(decodedToken.role);
-        setUserId(decodedToken.id);
+      if (tokenFromUrl) {
+        // 토큰을 localStorage에 저장
+        localStorage.setItem('authToken', tokenFromUrl);
         
-        // 사용자 정보 가져오기
-        const fetchUserInfo = async () => {
-          try {
-            const response = await fetch(`/api/user/info`, {
-              headers: {
-                Authorization: `Bearer ${token}`
+        // URL에서 토큰 파라미터 제거 (선택적)
+        router.replace('/');
+      }
+      
+      // localStorage에서 토큰 확인 (기존 로직)
+      const token = localStorage.getItem('authToken');
+      if (token) {
+        try {
+          const decodedToken = JSON.parse(atob(token.split('.')[1]));
+          setIsLoggedIn(true);
+          setUserRole(decodedToken.role);
+          setUserId(decodedToken.id);
+          
+          // 사용자 정보 가져오기
+          const fetchUserInfo = async () => {
+            try {
+              const response = await fetch(`/api/user/info`, {
+                headers: {
+                  Authorization: `Bearer ${token}`
+                }
+              });
+              
+              if (response.ok) {
+                const userData = await response.json();
+                if (userData && userData.name) {
+                  setUserName(userData.name);
+                } else if (userData && userData.email) {
+                  // 이름이 없으면 이메일의 @ 앞부분 사용
+                  const emailName = userData.email.split('@')[0];
+                  setUserName(emailName);
+                }
               }
-            });
-            
-            if (response.ok) {
-              const userData = await response.json();
-              if (userData && userData.name) {
-                setUserName(userData.name);
-              } else if (userData && userData.email) {
-                // 이름이 없으면 이메일의 @ 앞부분 사용
-                const emailName = userData.email.split('@')[0];
+            } catch (error) {
+              console.error('Failed to fetch user info:', error);
+              
+              // API 호출 실패 시 토큰에서 이메일 추출하여 표시
+              if (decodedToken.email) {
+                const emailName = decodedToken.email.split('@')[0];
                 setUserName(emailName);
               }
             }
-          } catch (error) {
-            console.error('Failed to fetch user info:', error);
-            
-            // API 호출 실패 시 토큰에서 이메일 추출하여 표시
-            if (decodedToken.email) {
-              const emailName = decodedToken.email.split('@')[0];
-              setUserName(emailName);
-            }
-          }
-        };
-        
-        fetchUserInfo();
-      } catch (error) {
-        console.error('Token parsing error:', error);
+          };
+          
+          fetchUserInfo();
+        } catch (error) {
+          console.error('Token parsing error:', error);
+        }
       }
     }
-  }, [router]);
+  }, [router, isMounted]);
 
   const handleLogout = () => {
     localStorage.removeItem('authToken');
@@ -115,7 +122,7 @@ export default function HomePage() {
     setIsLoading(true);
     setIsSearching(true);
     // 모바일에서만 적용 버튼 클릭 시 지도로 전환
-    if (window.innerWidth < 640) {
+    if (isMounted && window.innerWidth < 640) {
       setShowMapOnMobile(true);
     }
     try {
@@ -152,25 +159,25 @@ export default function HomePage() {
         setIsSearching(false);
       }, 1000);
     }
-  }, [searchKeyword, selectedNotes, selectedOrigins, selectedProcesses, selectedRoast, selectedBrewMethods]);
+  }, [searchKeyword, selectedNotes, selectedOrigins, selectedProcesses, selectedRoast, selectedBrewMethods, isMounted]);
 
   useEffect(() => {
     // 데스크톱에서만 자동 검색 실행
-    if (window.innerWidth >= 640) {
+    if (isMounted && window.innerWidth >= 640) {
       handleSearch();
     }
-  }, [handleSearch]);
+  }, [handleSearch, isMounted]);
 
   useEffect(() => {
     if (showAllStores) {
       // 데스크톱에서만 자동 검색 실행
-      if (window.innerWidth >= 640) {
+      if (isMounted && window.innerWidth >= 640) {
         handleSearch();
       }
     } else {
       setCafes([]);
     }
-  }, [showAllStores, handleSearch]);
+  }, [showAllStores, handleSearch, isMounted]);
 
   const clearSelections = () => {
     setSelectedNotes([]);
@@ -179,7 +186,7 @@ export default function HomePage() {
     setSelectedRoast([]);
     setSelectedBrewMethods([]);
     // 데스크톱에서만 자동 검색 실행
-    if (window.innerWidth >= 640) {
+    if (isMounted && window.innerWidth >= 640) {
       handleSearch();
     }
   };
@@ -563,7 +570,7 @@ export default function HomePage() {
         </div>
 
         {/* 선택된 필터 표시 - 모바일과 데스크톱 모두 */}
-        {(showMapOnMobile || window.innerWidth >= 640) && (
+        {isMounted && (showMapOnMobile || window.innerWidth >= 640) && (
           <div className="fixed bottom-[56px] sm:bottom-[72px] left-0 right-0 bg-white border-t z-40 px-4 py-2 overflow-x-auto whitespace-nowrap">
             <div className="flex gap-2">
               {selectedNotes.map((note) => (
