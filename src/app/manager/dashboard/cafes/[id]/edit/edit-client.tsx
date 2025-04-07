@@ -278,9 +278,12 @@ export default function EditCafeClient({ cafe }: EditCafeClientProps) {
     setIsLoading(true);
 
     try {
+      console.log('[폼 제출 시작] 폼 데이터:', formData);
+
       // 유효성 검사
       const cafeError = validateCafeData(formData);
       if (cafeError) {
+        console.log('[유효성 검사 실패] 카페 정보:', cafeError);
         toast.error(cafeError);
         setIsLoading(false);
         return;
@@ -290,6 +293,7 @@ export default function EditCafeClient({ cafe }: EditCafeClientProps) {
       for (const coffee of formData.coffees) {
         const coffeeError = validateCoffeeData(coffee);
         if (coffeeError) {
+          console.log('[유효성 검사 실패] 원두 정보:', coffeeError);
           toast.error(coffeeError);
           setIsLoading(false);
           return;
@@ -298,8 +302,10 @@ export default function EditCafeClient({ cafe }: EditCafeClientProps) {
 
       // 인증 토큰 가져오기
       const authToken = localStorage.getItem('authToken');
+      console.log('[인증 토큰] 존재 여부:', !!authToken);
 
       if (!authToken) {
+        console.log('[인증 오류] 토큰 없음');
         toast.error('로그인이 필요합니다. 로그인 페이지로 이동합니다.');
         router.push('/auth/login');
         setIsLoading(false);
@@ -311,6 +317,7 @@ export default function EditCafeClient({ cafe }: EditCafeClientProps) {
         duration: Infinity,
       });
 
+      console.log('[API 요청 시작] PUT /api/manager/cafes/' + cafe.id);
       const response = await fetch(`/api/manager/cafes/${cafe.id}`, {
         method: 'PUT',
         headers: {
@@ -320,7 +327,9 @@ export default function EditCafeClient({ cafe }: EditCafeClientProps) {
         body: JSON.stringify(formData),
       });
 
+      console.log('[API 응답] 상태 코드:', response.status);
       const data = await response.json();
+      console.log('[API 응답] 데이터:', data);
 
       // 로딩 토스트 제거
       toast.dismiss(loadingToast);
@@ -332,19 +341,24 @@ export default function EditCafeClient({ cafe }: EditCafeClientProps) {
         switch (response.status) {
           case 401:
             errorMessage = '로그인이 필요하거나 로그인이 만료되었습니다. 다시 로그인해주세요.';
+            console.log('[인증 오류] 401 Unauthorized');
             router.push('/auth/login');
             break;
           case 403:
             errorMessage = '카페 정보를 수정할 권한이 없습니다.';
+            console.log('[권한 오류] 403 Forbidden');
             break;
           case 404:
             errorMessage = '카페를 찾을 수 없습니다.';
+            console.log('[조회 오류] 404 Not Found');
             break;
           case 400:
             errorMessage = data.error || '입력하신 정보를 다시 확인해주세요.';
+            console.log('[입력 오류] 400 Bad Request:', data.error);
             break;
           case 500:
             errorMessage = '서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.';
+            console.log('[서버 오류] 500 Internal Server Error');
             break;
         }
 
@@ -352,9 +366,11 @@ export default function EditCafeClient({ cafe }: EditCafeClientProps) {
         throw new Error(errorMessage);
       }
 
+      console.log('[성공] 카페 정보 업데이트 완료');
       toast.success('카페 정보가 성공적으로 업데이트되었습니다.');
       router.push('/manager/dashboard');
     } catch (error) {
+      console.error('[오류 발생]', error);
       const errorMessage = error instanceof Error ? error.message : '알 수 없는 오류가 발생했습니다.';
       toast.error(errorMessage);
     } finally {
