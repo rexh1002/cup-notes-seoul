@@ -429,80 +429,10 @@ export default function Map({ cafes, searchKeyword }: MapWithSearchProps) {
           <div className="h-px bg-gray-200 my-4"></div>
 
           {/* 커피 정보 */}
-          <div className="mt-4">
-            <h4 className="font-bold mb-2">원두 정보</h4>
-            <div className="space-y-3">
-              {selectedCafe.coffees.map((coffee, idx) => {
-                const backgroundColor = coffee.noteColors?.[0] || '#f9fafb';
-                const bgColorWithOpacity = backgroundColor.includes('rgba') 
-                  ? backgroundColor.replace(/rgba\((\d+,\s*\d+,\s*\d+),\s*[\d.]+\)/, 'rgba($1, 0.5)')
-                  : backgroundColor.includes('rgb') 
-                    ? backgroundColor.replace(/rgb\(/, 'rgba(').replace(/\)/, ', 0.5)')
-                    : backgroundColor + '80'; // 16진수에 80을 붙이면 50% 투명도
-                
-                return (
-                  <div 
-                    key={idx} 
-                    className="border border-gray-200 rounded-lg p-3 text-sm"
-                    style={{ backgroundColor: bgColorWithOpacity }}
-                  >
-                    <div className="font-bold text-gray-800 mb-1">
-                      {coffee.name}
-                    </div>
-                    
-                    {coffee.description && (
-                      <div className="text-black text-xs mb-2 pb-2 border-b border-gray-600">
-                        {coffee.description}
-                      </div>
-                    )}
-
-                    <div className="space-y-1 text-xs text-black">
-                      {coffee.notes?.length > 0 && (
-                        <div>
-                          <span className="font-medium">컵노트:</span> {coffee.notes.join(', ')}
-                        </div>
-                      )}
-
-                      {coffee.origins?.length > 0 && (
-                        <div>
-                          <span className="font-medium">원산지:</span> {coffee.origins.join(', ')}
-                        </div>
-                      )}
-                      
-                      {coffee.processes?.length > 0 && (
-                        <div>
-                          <span className="font-medium">프로세스:</span> {coffee.processes.join(', ')}
-                        </div>
-                      )}
-                      
-                      {coffee.brewMethods?.length > 0 && (
-                        <div>
-                          <span className="font-medium">추출방식:</span> {coffee.brewMethods.join(', ')}
-                        </div>
-                      )}
-                      
-                      {coffee.roastLevel?.length > 0 && (
-                        <div>
-                          <span className="font-medium">로스팅 레벨:</span> {coffee.roastLevel.join(', ')}
-                        </div>
-                      )}
-
-                      {/* 가격 정보 - 구분선 제거 */}
-                      <div className="mt-2">
-                        <span className="font-medium">가격:</span> {coffee.price.toLocaleString()}원
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* 원두 정보 섹션 */}
           {selectedCafe.coffees && selectedCafe.coffees.length > 0 && (
-            <div className="mt-6">
+            <div className="mt-4">
               <div className="flex items-center justify-between mb-2">
-                <h3 className="text-lg font-semibold">원두 정보</h3>
+                <h4 className="font-bold">원두 정보</h4>
                 <span className="text-xs text-gray-500">
                   마지막 업데이트: {new Date(selectedCafe.updatedAt).toLocaleDateString('ko-KR', {
                     year: 'numeric',
@@ -511,7 +441,7 @@ export default function Map({ cafes, searchKeyword }: MapWithSearchProps) {
                   })}
                 </span>
               </div>
-              <div className="space-y-4">
+              <div className="space-y-3">
                 {selectedCafe.coffees.map((coffee, idx) => {
                   const backgroundColor = coffee.noteColors?.[0] || '#f9fafb';
                   const bgColorWithOpacity = backgroundColor.includes('rgba') 
