@@ -69,7 +69,7 @@ const CafeCard = React.memo(function CafeCard({ cafe, onDelete }: { cafe: CafeIn
         <div className="flex justify-between items-start mb-4">
           <h2 className="text-xl font-semibold">{cafe.name}</h2>
           <div className="flex items-center gap-2">
-            <Link href={`/manager/dashboard/cafes/${cafe.id}/edit`}>
+            <Link href={`/manager/dashboard/cafes/${cafe.id}/edit`} passHref>
               <Button variant="outline" size="sm" className="flex items-center gap-1">
                 <Edit className="w-4 h-4" />
                 수정
