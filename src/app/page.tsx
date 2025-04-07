@@ -562,9 +562,9 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* 모바일에서 선택된 필터 표시 */}
-        {showMapOnMobile && (
-          <div className="sm:hidden fixed bottom-[56px] left-0 right-0 bg-white border-t z-40 px-4 py-2 overflow-x-auto whitespace-nowrap">
+        {/* 선택된 필터 표시 - 모바일과 데스크톱 모두 */}
+        {(showMapOnMobile || window.innerWidth >= 640) && (
+          <div className="fixed bottom-[56px] sm:bottom-[72px] left-0 right-0 bg-white border-t z-40 px-4 py-2 overflow-x-auto whitespace-nowrap">
             <div className="flex gap-2">
               {selectedNotes.map((note) => (
                 <span key={note} className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-blue-100 text-blue-800">
