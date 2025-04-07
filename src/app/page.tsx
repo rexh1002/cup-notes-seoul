@@ -559,7 +559,7 @@ export default function HomePage() {
         {/* 오른쪽 지도 - 모바일에서는 조건부 표시 및 전체 화면 */}
         <div className={`
           ${showMapOnMobile ? 'block' : 'hidden sm:block'}
-          w-full h-[calc(100vh-220px)] sm:h-auto
+          w-full h-[calc(100vh-200px)] sm:h-auto
           lg:fixed lg:right-0 lg:top-[132px] lg:bottom-[3rem] lg:w-1/2 
           overflow-hidden shadow-lg rounded-lg sm:m-4
           ${isLoggedIn ? 'mb-[120px]' : 'mb-[96px]'} sm:mb-0
