@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
 import { JWT_SECRET_KEY } from '@/app/constants';
 import prisma from '@/lib/prisma';
+import { verifyJwt } from "@/lib/jwt";
 
 export const dynamic = 'force-dynamic';
 
@@ -11,138 +12,101 @@ export async function GET(
   request: Request,
   { params }: { params: { id: string } }
 ) {
-  const logs: string[] = [];
+  const logs: string[] = ['Starting GET request for cafe'];
+  
   try {
-    logs.push('[GET 요청 시작] 카페 ID: ' + params.id);
-
-    // params에서 id 추출
-    const id = params.id;
-    if (!id) {
-      logs.push('[오류] 유효하지 않은 카페 ID');
-      return NextResponse.json(
-        { 
-          success: false,
-          error: '유효하지 않은 카페 ID입니다.',
-          logs 
-        },
-        { status: 400 }
-      );
+    // Validate cafe ID
+    if (!params.id) {
+      logs.push('Invalid cafe ID');
+      return NextResponse.json({ 
+        success: false, 
+        error: 'Invalid cafe ID',
+        logs 
+      }, { status: 400 });
     }
 
+    // Get authorization header
     const authHeader = request.headers.get('Authorization');
-    logs.push('[인증] Authorization 헤더: ' + (authHeader ? '존재함' : '없음'));
-    
     if (!authHeader?.startsWith('Bearer ')) {
-      logs.push('[인증 오류] 인증 헤더 누락 또는 잘못된 형식');
-      return NextResponse.json(
-        { 
-          success: false,
-          error: '권한이 없습니다.',
-          logs 
-        },
-        { status: 401 }
-      );
+      logs.push('Missing or invalid authorization header');
+      return NextResponse.json({ 
+        success: false, 
+        error: 'Unauthorized', 
+        logs 
+      }, { status: 401 });
     }
 
-    // JWT 유효성 검사
+    // Verify JWT token
     const token = authHeader.split(' ')[1];
-    logs.push('[인증] 토큰 추출됨');
+    const secret = process.env.JWT_SECRET_KEY || process.env.JWT_SECRET;
+    if (!secret) {
+      logs.push('JWT secret not configured');
+      return NextResponse.json({ 
+        success: false, 
+        error: 'Server configuration error', 
+        logs 
+      }, { status: 500 });
+    }
+
+    const decoded = verifyJwt(token, secret);
+    if (!decoded) {
+      logs.push('Invalid JWT token');
+      return NextResponse.json({ 
+        success: false, 
+        error: 'Invalid token', 
+        logs 
+      }, { status: 401 });
+    }
+
+    logs.push(`User role: ${decoded.role}`);
     
-    let decoded;
-    try {
-      // JWT_SECRET이 환경 변수에 있으면 그것을 사용, 없으면 JWT_SECRET_KEY 사용
-      const secret = process.env.JWT_SECRET || JWT_SECRET_KEY;
-      decoded = jwt.verify(token, secret) as { id: string; role: string };
-      logs.push('[인증] 토큰 검증 성공: ' + JSON.stringify({ userId: decoded.id, role: decoded.role }));
-      
-      if (!decoded || typeof decoded !== 'object') {
-        throw new Error('토큰 검증 실패');
-      }
-    } catch (jwtError) {
-      logs.push('[인증 오류] JWT 검증 실패: ' + (jwtError instanceof Error ? jwtError.message : '알 수 없는 오류'));
-      return NextResponse.json(
-        { 
-          success: false,
-          error: '인증 토큰이 유효하지 않습니다.',
-          logs 
-        },
-        { status: 401 }
-      );
-    }
-
-    // 권한 확인
+    // Check user role
     if (decoded.role !== 'manager' && decoded.role !== 'cafeManager') {
-      logs.push('[권한 오류] 부적절한 역할: ' + decoded.role);
-      return NextResponse.json(
-        { 
-          success: false,
-          error: '카페 매니저만 접근할 수 있습니다.',
-          logs 
-        },
-        { status: 403 }
-      );
+      logs.push('User does not have required role');
+      return NextResponse.json({ 
+        success: false, 
+        error: 'Forbidden', 
+        logs 
+      }, { status: 403 });
     }
 
-    // Prisma 클라이언트 상태 확인
-    logs.push('[데이터베이스] Prisma 클라이언트 상태 확인');
-    try {
-      await prisma.$connect();
-      logs.push('[데이터베이스] Prisma 연결 성공');
-    } catch (dbError) {
-      logs.push('[데이터베이스] Prisma 연결 실패: ' + (dbError instanceof Error ? dbError.message : '알 수 없는 오류'));
-      throw dbError;
-    }
-
-    // 카페 ID로 상세 정보 조회
-    logs.push('[데이터베이스] 카페 정보 조회 시작');
-    const cafe = await prisma.cafe.findUnique({
+    // Get cafe data
+    const cafe = await prisma.cafe.findFirst({
       where: {
-        id,
-        managerId: decoded.id // 자신의 카페만 조회 가능
+        id: params.id,
+        ...(decoded.role === 'cafeManager' ? { managerId: decoded.id } : {})
       },
       include: {
-        coffees: true // 원두 정보 포함
+        coffees: true,
+        manager: {
+          select: {
+            id: true,
+            name: true,
+            email: true
+          }
+        }
       }
     });
 
     if (!cafe) {
-      logs.push('[데이터베이스] 카페를 찾을 수 없음');
-      return NextResponse.json(
-        { 
-          success: false,
-          error: '카페를 찾을 수 없거나 접근 권한이 없습니다.',
-          logs 
-        },
-        { status: 404 }
-      );
+      logs.push('Cafe not found or access denied');
+      return NextResponse.json({ 
+        success: false, 
+        error: 'Cafe not found or access denied', 
+        logs 
+      }, { status: 404 });
     }
 
-    logs.push('[성공] 카페 정보 조회 완료');
-    return NextResponse.json({
-      success: true,
-      cafe,
-      logs
-    });
+    logs.push('Successfully retrieved cafe data');
+    return NextResponse.json({ success: true, data: cafe, logs });
 
   } catch (error) {
-    logs.push('[오류] 서버 에러 발생: ' + (error instanceof Error ? error.message : '알 수 없는 오류'));
-    console.error('카페 상세 조회 에러:', error);
-    return NextResponse.json(
-      { 
-        success: false,
-        error: '서버 에러가 발생했습니다.',
-        details: error instanceof Error ? error.message : '알 수 없는 오류',
-        logs 
-      },
-      { status: 500 }
-    );
-  } finally {
-    try {
-      await prisma.$disconnect();
-      logs.push('[정리] Prisma 연결 종료');
-    } catch (disconnectError) {
-      logs.push('[정리] Prisma 연결 종료 실패: ' + (disconnectError instanceof Error ? disconnectError.message : '알 수 없는 오류'));
-    }
+    logs.push(`Error: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    return NextResponse.json({ 
+      success: false, 
+      error: 'Internal server error', 
+      logs 
+    }, { status: 500 });
   }
 }
 
