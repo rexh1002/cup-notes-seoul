@@ -11,55 +11,90 @@ export async function GET(
   request: Request,
   { params }: { params: { id: string } }
 ) {
+  const logs: string[] = [];
   try {
+    logs.push('[GET 요청 시작] 카페 ID: ' + params.id);
+
     // params에서 id 추출
     const id = params.id;
     if (!id) {
+      logs.push('[오류] 유효하지 않은 카페 ID');
       return NextResponse.json(
-        { error: '유효하지 않은 카페 ID입니다.' },
+        { 
+          success: false,
+          error: '유효하지 않은 카페 ID입니다.',
+          logs 
+        },
         { status: 400 }
       );
     }
 
     const authHeader = request.headers.get('Authorization');
-    console.log('Authorization header:', authHeader); // 인증 헤더 로깅
+    logs.push('[인증] Authorization 헤더: ' + (authHeader ? '존재함' : '없음'));
     
     if (!authHeader?.startsWith('Bearer ')) {
+      logs.push('[인증 오류] 인증 헤더 누락 또는 잘못된 형식');
       return NextResponse.json(
-        { error: '권한이 없습니다.' },
+        { 
+          success: false,
+          error: '권한이 없습니다.',
+          logs 
+        },
         { status: 401 }
       );
     }
 
-    // JWT 유효성 검사 개선
+    // JWT 유효성 검사
     const token = authHeader.split(' ')[1];
-    console.log('Token from header:', token); // 토큰 값 로깅
+    logs.push('[인증] 토큰 추출됨');
     
     let decoded;
     try {
-      decoded = jwt.verify(token, JWT_SECRET_KEY) as { id: string; role: string };
-      console.log('Decoded token:', decoded); // 디코딩된 토큰 정보 로깅
+      // JWT_SECRET이 환경 변수에 있으면 그것을 사용, 없으면 JWT_SECRET_KEY 사용
+      const secret = process.env.JWT_SECRET || JWT_SECRET_KEY;
+      decoded = jwt.verify(token, secret) as { id: string; role: string };
+      logs.push('[인증] 토큰 검증 성공: ' + JSON.stringify({ userId: decoded.id, role: decoded.role }));
       
       if (!decoded || typeof decoded !== 'object') {
         throw new Error('토큰 검증 실패');
       }
     } catch (jwtError) {
-      console.error('JWT 검증 오류:', jwtError);
+      logs.push('[인증 오류] JWT 검증 실패: ' + (jwtError instanceof Error ? jwtError.message : '알 수 없는 오류'));
       return NextResponse.json(
-        { error: '인증 토큰이 유효하지 않습니다.' },
+        { 
+          success: false,
+          error: '인증 토큰이 유효하지 않습니다.',
+          logs 
+        },
         { status: 401 }
       );
     }
 
-    // manager, cafeManager 역할 모두 허용
+    // 권한 확인
     if (decoded.role !== 'manager' && decoded.role !== 'cafeManager') {
+      logs.push('[권한 오류] 부적절한 역할: ' + decoded.role);
       return NextResponse.json(
-        { error: '카페 매니저만 접근할 수 있습니다.' },
+        { 
+          success: false,
+          error: '카페 매니저만 접근할 수 있습니다.',
+          logs 
+        },
         { status: 403 }
       );
     }
 
+    // Prisma 클라이언트 상태 확인
+    logs.push('[데이터베이스] Prisma 클라이언트 상태 확인');
+    try {
+      await prisma.$connect();
+      logs.push('[데이터베이스] Prisma 연결 성공');
+    } catch (dbError) {
+      logs.push('[데이터베이스] Prisma 연결 실패: ' + (dbError instanceof Error ? dbError.message : '알 수 없는 오류'));
+      throw dbError;
+    }
+
     // 카페 ID로 상세 정보 조회
+    logs.push('[데이터베이스] 카페 정보 조회 시작');
     const cafe = await prisma.cafe.findUnique({
       where: {
         id,
@@ -71,23 +106,43 @@ export async function GET(
     });
 
     if (!cafe) {
+      logs.push('[데이터베이스] 카페를 찾을 수 없음');
       return NextResponse.json(
-        { error: '카페를 찾을 수 없거나 접근 권한이 없습니다.' },
+        { 
+          success: false,
+          error: '카페를 찾을 수 없거나 접근 권한이 없습니다.',
+          logs 
+        },
         { status: 404 }
       );
     }
 
+    logs.push('[성공] 카페 정보 조회 완료');
     return NextResponse.json({
       success: true,
-      cafe
+      cafe,
+      logs
     });
 
   } catch (error) {
+    logs.push('[오류] 서버 에러 발생: ' + (error instanceof Error ? error.message : '알 수 없는 오류'));
     console.error('카페 상세 조회 에러:', error);
     return NextResponse.json(
-      { error: '서버 에러가 발생했습니다.' },
+      { 
+        success: false,
+        error: '서버 에러가 발생했습니다.',
+        details: error instanceof Error ? error.message : '알 수 없는 오류',
+        logs 
+      },
       { status: 500 }
     );
+  } finally {
+    try {
+      await prisma.$disconnect();
+      logs.push('[정리] Prisma 연결 종료');
+    } catch (disconnectError) {
+      logs.push('[정리] Prisma 연결 종료 실패: ' + (disconnectError instanceof Error ? disconnectError.message : '알 수 없는 오류'));
+    }
   }
 }
 
