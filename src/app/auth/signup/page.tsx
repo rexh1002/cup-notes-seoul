@@ -10,6 +10,7 @@ export default function SignupPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [role, setRole] = useState('user');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
@@ -35,7 +36,7 @@ export default function SignupPage() {
       const res = await fetch('/api/auth/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email, password, role }),
       });
 
       const data = await res.json();
@@ -157,6 +158,36 @@ export default function SignupPage() {
               autoComplete="new-password"
               disabled={isLoading}
             />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              회원 유형
+            </label>
+            <div className="flex gap-4">
+              <label className="flex items-center">
+                <input
+                  type="radio"
+                  name="role"
+                  value="user"
+                  checked={role === 'user'}
+                  onChange={(e) => setRole(e.target.value)}
+                  className="mr-2"
+                />
+                <span className="text-sm text-gray-700">일반 회원</span>
+              </label>
+              <label className="flex items-center">
+                <input
+                  type="radio"
+                  name="role"
+                  value="cafeManager"
+                  checked={role === 'cafeManager'}
+                  onChange={(e) => setRole(e.target.value)}
+                  className="mr-2"
+                />
+                <span className="text-sm text-gray-700">카페 매니저</span>
+              </label>
+            </div>
           </div>
 
           <Button type="submit" className="w-full" disabled={isLoading}>
