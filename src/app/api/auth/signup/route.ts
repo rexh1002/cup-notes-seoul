@@ -85,6 +85,7 @@ export async function POST(request: Request) {
           data: {
             name: '내 카페',
             address: '주소를 입력해주세요',
+            phone: '전화번호를 입력해주세요',
             managerId: user.id,
             businessHours: [],
             snsLinks: [],
