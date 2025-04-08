@@ -1,112 +1,123 @@
 // src/app/api/manager/cafes/[id]/route.ts
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
-import { JWT_SECRET_KEY } from '@/app/constants';
-import prisma from '@/lib/prisma';
-import { verifyJwt } from '@/lib/jwt';
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
+const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY || '';
 
 export const dynamic = 'force-dynamic';
 
+interface JwtPayload {
+  id: string;
+  email: string;
+  role: string;
+  iat?: number;
+  exp?: number;
+}
+
+function verifyJwt(token: string, secret: string): JwtPayload | null {
+  try {
+    return jwt.verify(token, secret) as JwtPayload;
+  } catch (error) {
+    console.error('JWT verification failed:', error);
+    return null;
+  }
+}
+
 // 단일 카페 조회 API
 export async function GET(
-  request: Request,
+  request: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  const logs: string[] = ['Starting GET request for cafe'];
-  
+  const logs: (string | Record<string, any>)[] = [];
   try {
     // Validate cafe ID
     if (!params.id) {
       logs.push('Invalid cafe ID');
-      return NextResponse.json({ 
-        success: false, 
-        error: 'Invalid cafe ID',
-        logs 
-      }, { status: 400 });
+      return NextResponse.json(
+        { success: false, message: 'Invalid cafe ID', logs },
+        { status: 400 }
+      );
     }
 
-    // Get authorization header
+    // Check Authorization header
     const authHeader = request.headers.get('Authorization');
-    if (!authHeader?.startsWith('Bearer ')) {
-      logs.push('Missing or invalid authorization header');
-      return NextResponse.json({ 
-        success: false, 
-        error: 'Unauthorized', 
-        logs 
-      }, { status: 401 });
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      logs.push('Missing or invalid Authorization header');
+      return NextResponse.json(
+        { success: false, message: 'Unauthorized', logs },
+        { status: 401 }
+      );
     }
 
-    // Verify JWT token
+    // Extract and verify JWT token
     const token = authHeader.split(' ')[1];
-    const secret = process.env.JWT_SECRET_KEY || process.env.JWT_SECRET;
-    if (!secret) {
-      logs.push('JWT secret not configured');
-      return NextResponse.json({ 
-        success: false, 
-        error: 'Server configuration error', 
-        logs 
-      }, { status: 500 });
-    }
+    try {
+      const decoded = jwt.verify(token, JWT_SECRET_KEY) as { role: string; userId: string };
+      logs.push({ decoded });
 
-    const decoded = verifyJwt(token, secret);
-    if (!decoded) {
-      logs.push('Invalid JWT token');
-      return NextResponse.json({ 
-        success: false, 
-        error: 'Invalid token', 
-        logs 
-      }, { status: 401 });
-    }
-
-    logs.push(`User role: ${decoded.role}`);
-    
-    // Check user role
-    if (decoded.role !== 'manager' && decoded.role !== 'cafeManager') {
-      logs.push('User does not have required role');
-      return NextResponse.json({ 
-        success: false, 
-        error: 'Forbidden', 
-        logs 
-      }, { status: 403 });
-    }
-
-    // Get cafe data
-    const cafe = await prisma.cafe.findFirst({
-      where: {
-        id: params.id,
-        ...(decoded.role === 'cafeManager' ? { managerId: decoded.id } : {})
-      },
-      include: {
-        coffees: true,
-        manager: {
-          select: {
-            id: true,
-            name: true,
-            email: true
-          }
-        }
+      if (!decoded || !decoded.role || !decoded.userId) {
+        logs.push('Invalid token payload');
+        return NextResponse.json(
+          { success: false, message: 'Invalid token', logs },
+          { status: 401 }
+        );
       }
-    });
 
-    if (!cafe) {
-      logs.push('Cafe not found or access denied');
-      return NextResponse.json({ 
-        success: false, 
-        error: 'Cafe not found or access denied', 
-        logs 
-      }, { status: 404 });
+      if (decoded.role !== 'manager' && decoded.role !== 'cafeManager') {
+        logs.push(`Unauthorized role: ${decoded.role}`);
+        return NextResponse.json(
+          { success: false, message: 'Unauthorized role', logs },
+          { status: 403 }
+        );
+      }
+
+      // Connect to database
+      logs.push('Connecting to database...');
+      const cafe = await prisma.cafe.findUnique({
+        where: { id: params.id },
+        include: {
+          coffees: true,
+          manager: true,
+        },
+      });
+
+      if (!cafe) {
+        logs.push('Cafe not found');
+        return NextResponse.json(
+          { success: false, message: 'Cafe not found', logs },
+          { status: 404 }
+        );
+      }
+
+      if (decoded.role === 'cafeManager' && cafe.managerId !== decoded.userId) {
+        logs.push('Access denied: User is not the manager of this cafe');
+        return NextResponse.json(
+          { success: false, message: 'Access denied', logs },
+          { status: 403 }
+        );
+      }
+
+      logs.push('Successfully fetched cafe data');
+      return NextResponse.json({ success: true, data: cafe, logs });
+
+    } catch (tokenError) {
+      logs.push(`Token verification error: ${tokenError instanceof Error ? tokenError.message : 'Unknown error'}`);
+      return NextResponse.json(
+        { success: false, message: 'Invalid token', logs },
+        { status: 401 }
+      );
     }
-
-    logs.push('Successfully retrieved cafe data');
-    return NextResponse.json({ success: true, data: cafe, logs });
-
   } catch (error) {
-    logs.push(`Error: ${error instanceof Error ? error.message : 'Unknown error'}`);
-    return NextResponse.json({ 
-      success: false, 
-      error: 'Internal server error', 
-      logs 
-    }, { status: 500 });
+    logs.push(`Server error: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    return NextResponse.json(
+      { success: false, message: 'Internal server error', logs },
+      { status: 500 }
+    );
+  } finally {
+    await prisma.$disconnect();
+    logs.push('Database disconnected');
   }
 }
 
