@@ -3,6 +3,8 @@ import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import EditCafeClient from './edit-client';
 import { LoadingSpinner } from '@/components/loading-spinner';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 export default async function EditCafePage({ params }: { params: { id: string } }) {
   console.log('1. 페이지 렌더링 시작');
@@ -73,12 +75,11 @@ export default async function EditCafePage({ params }: { params: { id: string } 
           <p className="text-gray-600 mb-4">
             {error instanceof Error ? error.message : '카페 정보를 불러오는 중 오류가 발생했습니다.'}
           </p>
-          <button
-            onClick={() => window.history.back()}
-            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
-          >
-            이전 페이지로 돌아가기
-          </button>
+          <Link href="/manager/dashboard">
+            <Button variant="default">
+              대시보드로 돌아가기
+            </Button>
+          </Link>
         </div>
       </div>
     );
