@@ -198,8 +198,8 @@ export async function PUT(
       );
     }
 
-    // 권한 확인
-    if (decoded.role !== 'manager' && decoded.role !== 'cafeManager') {
+    // 권한 확인 - cafeManager 역할만 허용
+    if (decoded.role !== 'cafeManager') {
       console.log('[권한 오류] 부적절한 역할:', decoded.role);
       return NextResponse.json(
         { error: '카페 매니저만 접근할 수 있습니다.' },
@@ -235,6 +235,19 @@ export async function PUT(
         coffeesCount: data.coffees?.length
       });
 
+      // 필수 필드 검증
+      if (!data.name?.trim() || !data.address?.trim() || !data.phone?.trim()) {
+        console.log('[오류] 필수 필드 누락:', {
+          name: !!data.name?.trim(),
+          address: !!data.address?.trim(),
+          phone: !!data.phone?.trim()
+        });
+        return NextResponse.json(
+          { error: '카페명, 주소, 전화번호는 필수 항목입니다.' },
+          { status: 400 }
+        );
+      }
+
       if (!data || typeof data !== 'object') {
         console.log('[오류] 유효하지 않은 요청 데이터');
         return NextResponse.json(
@@ -253,25 +266,40 @@ export async function PUT(
     // Transaction using singleton prisma instance
     const updatedCafe = await prisma.$transaction(async (tx) => {
       // 기존 원두 정보 삭제
-      await tx.coffee.deleteMany({
-        where: { cafeId: id }
-      });
+      if (data.coffees?.length > 0) {
+        await tx.coffee.deleteMany({
+          where: { cafeId: id }
+        });
+      }
 
       // 카페 정보 업데이트
       const updated = await tx.cafe.update({
         where: { id },
         data: {
-          name: data.name,
-          address: data.address,
-          phone: data.phone,
-          description: data.description,
-          businessHours: data.businessHours,
-          businessHourNote: data.businessHourNote,
-          snsLinks: data.snsLinks,
-          imageUrl: data.imageUrl,
-          coffees: {
-            create: data.coffees
-          }
+          name: data.name.trim(),
+          address: data.address.trim(),
+          phone: data.phone.trim(),
+          description: data.description?.trim() || '',
+          businessHours: Array.isArray(data.businessHours) ? data.businessHours : [],
+          businessHourNote: data.businessHourNote?.trim() || '',
+          snsLinks: Array.isArray(data.snsLinks) ? data.snsLinks : [],
+          imageUrl: data.imageUrl?.trim(),
+          ...(data.coffees?.length > 0 && {
+            coffees: {
+              create: data.coffees.map((coffee: any) => ({
+                name: coffee.name,
+                price: Number(coffee.price),
+                roastLevel: coffee.roastLevel || [],
+                origins: coffee.origins || [],
+                processes: coffee.processes || [],
+                notes: coffee.notes || [],
+                noteColors: coffee.noteColors || [],
+                brewMethods: coffee.brewMethods || [],
+                description: coffee.description || '',
+                customFields: coffee.customFields || {}
+              }))
+            }
+          })
         },
         include: {
           coffees: true
@@ -291,7 +319,11 @@ export async function PUT(
   } catch (error) {
     console.error('[오류] 서버 에러:', error);
     return NextResponse.json(
-      { error: '서버 에러가 발생했습니다.' },
+      { 
+        success: false,
+        error: '서버 에러가 발생했습니다.',
+        details: error instanceof Error ? error.message : '알 수 없는 오류'
+      },
       { status: 500 }
     );
   }
