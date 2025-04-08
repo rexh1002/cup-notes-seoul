@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
 import { JWT_SECRET_KEY } from '@/app/constants';
 import prisma from '@/lib/prisma';
-import { verifyJwt } from "@/lib/jwt";
+import { verifyJwt } from '../../../../../lib/jwt';
 
 export const dynamic = 'force-dynamic';
 
