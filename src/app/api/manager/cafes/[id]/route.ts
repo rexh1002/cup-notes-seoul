@@ -1,12 +1,10 @@
 // src/app/api/manager/cafes/[id]/route.ts
 import { NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
 import jwt from 'jsonwebtoken';
+import { JWT_SECRET_KEY } from '@/app/constants';
+import prisma from '@/lib/prisma';
 
 export const dynamic = 'force-dynamic';
-
-const prisma = new PrismaClient();
-const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY || 'default-secret-key';
 
 // 단일 카페 조회 API
 export async function GET(
@@ -90,8 +88,6 @@ export async function GET(
       { error: '서버 에러가 발생했습니다.' },
       { status: 500 }
     );
-  } finally {
-    await prisma.$disconnect();
   }
 }
 
@@ -199,8 +195,7 @@ export async function PUT(
       );
     }
 
-    // 데이터베이스 업데이트
-    console.log('[데이터베이스] 업데이트 시작');
+    // Transaction using singleton prisma instance
     const updatedCafe = await prisma.$transaction(async (tx) => {
       // 기존 원두 정보 삭제
       await tx.coffee.deleteMany({
@@ -244,8 +239,6 @@ export async function PUT(
       { error: '서버 에러가 발생했습니다.' },
       { status: 500 }
     );
-  } finally {
-    await prisma.$disconnect();
   }
 }
 
@@ -317,7 +310,7 @@ export async function DELETE(
       );
     }
 
-    // 카페 및 관련 데이터 삭제 (onDelete: Cascade 설정이 되어있다면 coffees는 자동 삭제)
+    // 카페 및 관련 데이터 삭제
     await prisma.cafe.delete({
       where: {
         id
@@ -335,7 +328,5 @@ export async function DELETE(
       { error: '서버 에러가 발생했습니다.' },
       { status: 500 }
     );
-  } finally {
-    await prisma.$disconnect();
   }
 }
