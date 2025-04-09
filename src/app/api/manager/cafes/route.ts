@@ -47,14 +47,10 @@ export async function GET(request: Request) {
       );
     }
 
-    if (decoded.role !== 'manager' && decoded.role !== 'cafeManager') {
+    if (decoded.role !== 'manager') {
       logs.push(`[매니저 API] 권한 없음: ${decoded.role}`);
       return NextResponse.json(
-        { 
-          success: false, 
-          error: '카페 매니저만 접근할 수 있습니다.',
-          logs: logs 
-        },
+        { success: false, error: 'Unauthorized role' },
         { status: 403 }
       );
     }
@@ -149,10 +145,9 @@ export async function POST(request: Request) {
     const token = authHeader.split(' ')[1];
     const decoded = jwt.verify(token, JWT_SECRET_KEY) as { id: string; role: string };
 
-    // 'manager'와 'cafeManager' 모두 허용
-    if (decoded.role !== 'manager' && decoded.role !== 'cafeManager') {
+    if (decoded.role !== 'manager') {
       return NextResponse.json(
-        { error: '카페 매니저만 카페를 등록할 수 있습니다.' },
+        { success: false, error: 'Unauthorized role' },
         { status: 403 }
       );
     }

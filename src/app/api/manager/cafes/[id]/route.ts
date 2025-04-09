@@ -169,7 +169,7 @@ export async function PUT(
     if (decoded.role !== 'cafeManager') {
       console.log('[권한 오류] 부적절한 역할:', decoded.role);
       return NextResponse.json(
-        { error: '카페 매니저만 접근할 수 있습니다.' },
+        { success: false, message: 'Unauthorized role' },
         { status: 403 }
       );
     }

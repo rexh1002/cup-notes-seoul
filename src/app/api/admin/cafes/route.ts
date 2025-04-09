@@ -52,7 +52,7 @@ export async function POST(request: Request) {
     if (!user || !user.id || (user.role !== 'admin' && user.role !== 'manager')) {
       console.log('5. 권한 검증 실패:', { role: user?.role });
       return NextResponse.json(
-        { success: false, error: '유효하지 않은 사용자이거나 권한이 없습니다.' },
+        { success: false, error: 'Unauthorized role' },
         { status: 403 }
       );
     }
