@@ -180,8 +180,8 @@ export default function SignupPage() {
                 <input
                   type="radio"
                   name="role"
-                  value="cafeManager"
-                  checked={role === 'cafeManager'}
+                  value="manager"
+                  checked={role === 'manager'}
                   onChange={(e) => setRole(e.target.value)}
                   className="mr-2"
                 />
