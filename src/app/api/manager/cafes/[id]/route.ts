@@ -65,7 +65,7 @@ export async function GET(
         );
       }
 
-      if (decoded.role !== 'manager' && decoded.role !== 'cafeManager') {
+      if (decoded.role !== 'manager') {
         logs.push(`Unauthorized role: ${decoded.role}`);
         return NextResponse.json(
           { success: false, message: 'Unauthorized role', logs },
@@ -88,14 +88,6 @@ export async function GET(
         return NextResponse.json(
           { success: false, message: 'Cafe not found', logs },
           { status: 404 }
-        );
-      }
-
-      if (decoded.role === 'cafeManager' && cafe.managerId !== decoded.userId) {
-        logs.push('Access denied: User is not the manager of this cafe');
-        return NextResponse.json(
-          { success: false, message: 'Access denied', logs },
-          { status: 403 }
         );
       }
 
@@ -350,7 +342,7 @@ export async function DELETE(
     }
 
     // manager, cafeManager 역할 모두 허용
-    if (decoded.role !== 'manager' && decoded.role !== 'cafeManager') {
+    if (decoded.role !== 'manager') {
       return NextResponse.json(
         { error: '카페 매니저만 접근할 수 있습니다.' },
         { status: 403 }
