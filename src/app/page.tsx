@@ -43,6 +43,17 @@ export default function HomePage() {
   const [showMapOnMobile, setShowMapOnMobile] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const [filters, setFilters] = useState({
+    parking: false,
+    wifi: false,
+    outdoor: false,
+    pet: false,
+    smoking: false,
+    wheelchair: false,
+    floral: false,
+    fruity: false,
+    nutty: false
+  });
 
   useEffect(() => {
     setIsMounted(true);
@@ -409,6 +420,81 @@ export default function HomePage() {
         {/* 왼쪽 컨텐츠 - 모바일에서는 조건부 표시 */}
         <div className={`w-full lg:w-1/2 flex flex-col ${showMapOnMobile ? 'hidden sm:flex' : ''}`}>
           <div className="p-4 sm:p-6 space-y-6 flex-grow pb-24 sm:pb-6">
+            {/* 추가 옵션 필터 */}
+            <section className="space-y-4">
+              <h2 className="text-xl font-bold border-b pb-2">추가 옵션</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {/* 원산지 */}
+                <div>
+                  <h4 className="font-medium mb-2 text-sm">원산지</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {['에티오피아', '콜롬비아', '과테말라', '코스타리카', '파나마', '인도네시아', '브라질', '케냐', '엘살바도르', '르완다'].map((origin) => (
+                      <button
+                        key={origin}
+                        onClick={() => toggleItem(origin, setSelectedOrigins)}
+                        className={`text-xs px-2 py-0.5 rounded-full cursor-pointer ${
+                          selectedOrigins.includes(origin) ? 'bg-blue-500 text-white' : 'bg-gray-200'
+                        }`}
+                      >
+                        {origin}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                {/* 프로세스 */}
+                <div>
+                  <h4 className="font-medium mb-2 text-sm">프로세스</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {['워시드', '내추럴', '허니', '무산소 발효', '디카페인'].map((process) => (
+                      <button
+                        key={process}
+                        onClick={() => toggleItem(process, setSelectedProcesses)}
+                        className={`text-xs px-2 py-0.5 rounded-full cursor-pointer ${
+                          selectedProcesses.includes(process) ? 'bg-blue-500 text-white' : 'bg-gray-200'
+                        }`}
+                      >
+                        {process}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                {/* 추출방식 */}
+                <div>
+                  <h4 className="font-medium mb-2 text-sm">추출방식</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {['핸드드립', '에스프레소', '콜드브루'].map((method) => (
+                      <button
+                        key={method}
+                        onClick={() => toggleItem(method, setSelectedBrewMethods)}
+                        className={`text-xs px-2 py-0.5 rounded-full cursor-pointer ${
+                          selectedBrewMethods.includes(method) ? 'bg-blue-500 text-white' : 'bg-gray-200'
+                        }`}
+                      >
+                        {method}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                {/* 로스팅 포인트 */}
+                <div>
+                  <h4 className="font-medium mb-2 text-sm">로스팅 포인트</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {['다크', '미디엄다크', '미디엄', '미디엄라이트', '라이트'].map((roast) => (
+                      <button
+                        key={roast}
+                        onClick={() => toggleItem(roast, setSelectedRoast)}
+                        className={`text-xs px-2 py-0.5 rounded-full cursor-pointer ${
+                          selectedRoast.includes(roast) ? 'bg-blue-500 text-white' : 'bg-gray-200'
+                        }`}
+                      >
+                        {roast}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </section>
+
             {/* 컵노트 이미지 및 필터 */}
             <section className="space-y-4">
               <h2 className="text-xl font-bold mb-4 border-b pb-2">컵노트</h2>
@@ -503,81 +589,6 @@ export default function HomePage() {
                         ))}
                       </div>
                     </div>
-                  </div>
-                </div>
-              </div>
-            </section>
-
-            {/* 추가 옵션 필터 */}
-            <section className="space-y-4">
-              <h2 className="text-xl font-bold border-b pb-2">추가 옵션</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                {/* 원산지 */}
-                <div>
-                  <h4 className="font-medium mb-2 text-sm">원산지</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {['에티오피아', '콜롬비아', '과테말라', '코스타리카', '파나마', '인도네시아', '브라질', '케냐', '엘살바도르', '르완다'].map((origin) => (
-                      <button
-                        key={origin}
-                        onClick={() => toggleItem(origin, setSelectedOrigins)}
-                        className={`text-xs px-2 py-0.5 rounded-full cursor-pointer ${
-                          selectedOrigins.includes(origin) ? 'bg-blue-500 text-white' : 'bg-gray-200'
-                        }`}
-                      >
-                        {origin}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-                {/* 프로세스 */}
-                <div>
-                  <h4 className="font-medium mb-2 text-sm">프로세스</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {['워시드', '내추럴', '허니', '무산소 발효', '디카페인'].map((process) => (
-                      <button
-                        key={process}
-                        onClick={() => toggleItem(process, setSelectedProcesses)}
-                        className={`text-xs px-2 py-0.5 rounded-full cursor-pointer ${
-                          selectedProcesses.includes(process) ? 'bg-blue-500 text-white' : 'bg-gray-200'
-                        }`}
-                      >
-                        {process}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-                {/* 추출방식 */}
-                <div>
-                  <h4 className="font-medium mb-2 text-sm">추출방식</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {['핸드드립', '에스프레소', '콜드브루'].map((method) => (
-                      <button
-                        key={method}
-                        onClick={() => toggleItem(method, setSelectedBrewMethods)}
-                        className={`text-xs px-2 py-0.5 rounded-full cursor-pointer ${
-                          selectedBrewMethods.includes(method) ? 'bg-blue-500 text-white' : 'bg-gray-200'
-                        }`}
-                      >
-                        {method}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-                {/* 로스팅 포인트 */}
-                <div>
-                  <h4 className="font-medium mb-2 text-sm">로스팅 포인트</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {['다크', '미디엄다크', '미디엄', '미디엄라이트', '라이트'].map((roast) => (
-                      <button
-                        key={roast}
-                        onClick={() => toggleItem(roast, setSelectedRoast)}
-                        className={`text-xs px-2 py-0.5 rounded-full cursor-pointer ${
-                          selectedRoast.includes(roast) ? 'bg-blue-500 text-white' : 'bg-gray-200'
-                        }`}
-                      >
-                        {roast}
-                      </button>
-                    ))}
                   </div>
                 </div>
               </div>
