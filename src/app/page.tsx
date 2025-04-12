@@ -136,6 +136,9 @@ export default function HomePage() {
     setIsSearching(true);
     console.log('[클라이언트] 검색 시작');
     
+    // 로딩 메시지 표시
+    alert("What's my coffee today?");
+    
     try {
       const response = await fetch('/api/cafes/search', {
         method: 'POST',
@@ -363,8 +366,8 @@ export default function HomePage() {
 
       {/* 검색어 및 내 취향 선택 섹션 - 모바일에서 상단 고정 */}
       <div className={`bg-white p-4 border-b sticky top-0 z-50 ${showMapOnMobile ? 'hidden sm:block' : ''}`}>
-        {/* 검색창 - 모바일에서는 전체 너비 */}
-        <div className="relative w-full">
+        {/* 검색창 - 모바일에서는 전체 너비, 데스크톱에서는 왼쪽에만 */}
+        <div className="relative w-full lg:w-1/2">
           <input
             type="text"
             placeholder="검색어를 입력하세요"
@@ -402,7 +405,7 @@ export default function HomePage() {
           <div className="p-4 sm:p-6 space-y-6 flex-grow">
             {/* 추가 옵션 필터 */}
             <section className="space-y-4">
-              <h2 className="text-xl font-bold border-b pb-2">추가 옵션</h2>
+              <h2 className="text-xl font-bold border-b pb-2">Coffee Filters</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {/* 원산지 */}
                 <div>
@@ -586,8 +589,9 @@ export default function HomePage() {
                 <button
                   onClick={handleSearch}
                   className="px-6 py-2.5 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+                  disabled={isSearching}
                 >
-                  선택사항 적용
+                  {isSearching ? "What's my coffee today?" : '선택사항 적용'}
                 </button>
               </div>
             </div>
