@@ -363,46 +363,26 @@ export default function HomePage() {
 
       {/* 검색어 및 내 취향 선택 섹션 - 모바일에서 상단 고정 */}
       <div className={`bg-white p-4 border-b sticky top-0 z-50 ${showMapOnMobile ? 'hidden sm:block' : ''}`}>
-        {/* 첫 번째 줄: 옵션 선택 제목과 버튼들 */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-          <span className="text-lg font-medium">선택 사항 적용</span>
-          <div className="flex gap-2">
-            <button 
-              onClick={clearSelections} 
-              className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 transition-colors"
-            >
-              선택해제
-            </button>
-            <button 
-              onClick={handleSearch} 
-              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
-              disabled={isSearching}
-            >
-              {isSearching ? '내 취향의 카페를 찾습니다...' : '적용'}
-            </button>
-          </div>
-
-          {/* 검색창 - 모바일에서는 전체 너비 */}
-          <div className="relative w-full sm:w-auto sm:ml-6 mt-2 sm:mt-0">
-            <input
-              type="text"
-              placeholder="검색어를 입력하세요"
-              value={searchKeyword}
-              onChange={(e) => setSearchKeyword(e.target.value)}
-              className="border rounded-full px-4 py-2 text-sm w-full sm:w-64 pr-10"
-              onKeyPress={(e) => {
-                if (e.key === 'Enter') {
-                  handleSearch();
-                }
-              }}
-            />
-            <button 
-              onClick={handleSearch}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2"
-            >
-              <Search className="w-4 h-4 text-gray-500 hover:text-gray-700" />
-            </button>
-          </div>
+        {/* 검색창 - 모바일에서는 전체 너비 */}
+        <div className="relative w-full">
+          <input
+            type="text"
+            placeholder="검색어를 입력하세요"
+            value={searchKeyword}
+            onChange={(e) => setSearchKeyword(e.target.value)}
+            className="border rounded-full px-4 py-2 text-sm w-full pr-10"
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                handleSearch();
+              }
+            }}
+          />
+          <button 
+            onClick={handleSearch}
+            className="absolute right-3 top-1/2 transform -translate-y-1/2"
+          >
+            <Search className="w-4 h-4 text-gray-500 hover:text-gray-700" />
+          </button>
         </div>
         
         {/* 두 번째 줄: 체크박스 - 숨김 처리하고 기능만 유지 */}
@@ -419,24 +399,7 @@ export default function HomePage() {
       <div className="flex flex-col lg:flex-row flex-grow">
         {/* 왼쪽 컨텐츠 - 모바일에서는 조건부 표시 */}
         <div className={`w-full lg:w-1/2 flex flex-col ${showMapOnMobile ? 'hidden sm:flex' : ''}`}>
-          <div className="p-4 sm:p-6 space-y-6 flex-grow pb-24 sm:pb-6">
-            {/* 검색어 입력 */}
-            <div className="relative">
-              <input
-                type="text"
-                value={searchKeyword}
-                onChange={(e) => setSearchKeyword(e.target.value)}
-                placeholder="검색어를 입력하세요"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-              <button
-                onClick={handleSearch}
-                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 transition-colors"
-              >
-                <Search size={20} />
-              </button>
-            </div>
-
+          <div className="p-4 sm:p-6 space-y-6 flex-grow">
             {/* 추가 옵션 필터 */}
             <section className="space-y-4">
               <h2 className="text-xl font-bold border-b pb-2">추가 옵션</h2>
@@ -612,19 +575,21 @@ export default function HomePage() {
             </section>
 
             {/* 선택사항 적용 버튼 */}
-            <div className="flex justify-end space-x-2">
-              <button
-                onClick={clearSelections}
-                className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
-              >
-                선택 초기화
-              </button>
-              <button
-                onClick={handleSearch}
-                className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-              >
-                선택사항 적용
-              </button>
+            <div className="sticky bottom-0 left-0 right-0 bg-white p-4 border-t mt-8">
+              <div className="flex justify-end space-x-2 max-w-screen-xl mx-auto">
+                <button
+                  onClick={clearSelections}
+                  className="px-6 py-2.5 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+                >
+                  선택 초기화
+                </button>
+                <button
+                  onClick={handleSearch}
+                  className="px-6 py-2.5 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+                >
+                  선택사항 적용
+                </button>
+              </div>
             </div>
           </div>
         </div>
