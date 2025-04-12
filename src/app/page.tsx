@@ -420,9 +420,26 @@ export default function HomePage() {
         {/* 왼쪽 컨텐츠 - 모바일에서는 조건부 표시 */}
         <div className={`w-full lg:w-1/2 flex flex-col ${showMapOnMobile ? 'hidden sm:flex' : ''}`}>
           <div className="p-4 sm:p-6 space-y-6 flex-grow pb-24 sm:pb-6">
+            {/* 검색어 입력 */}
+            <div className="relative">
+              <input
+                type="text"
+                value={searchKeyword}
+                onChange={(e) => setSearchKeyword(e.target.value)}
+                placeholder="검색어를 입력하세요"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              <button
+                onClick={handleSearch}
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 transition-colors"
+              >
+                <Search size={20} />
+              </button>
+            </div>
+
             {/* 추가 옵션 필터 */}
             <section className="space-y-4">
-              <h2 className="text-xl font-bold border-b pb-2">Coffee Filters</h2>
+              <h2 className="text-xl font-bold border-b pb-2">추가 옵션</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {/* 원산지 */}
                 <div>
@@ -593,6 +610,22 @@ export default function HomePage() {
                 </div>
               </div>
             </section>
+
+            {/* 선택사항 적용 버튼 */}
+            <div className="flex justify-end space-x-2">
+              <button
+                onClick={clearSelections}
+                className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+              >
+                선택 초기화
+              </button>
+              <button
+                onClick={handleSearch}
+                className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+              >
+                선택사항 적용
+              </button>
+            </div>
           </div>
         </div>
 
