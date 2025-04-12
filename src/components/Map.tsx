@@ -1,540 +1,186 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import { Cafe, MapProps, Coordinates } from '../types/types';
+import { useEffect, useRef, useState, useCallback } from 'react';
+import { Cafe } from '@prisma/client';
 
 declare global {
   interface Window {
     naver: any;
-    currentMap: any;
   }
 }
 
-interface MapWithSearchProps extends MapProps {
-  searchKeyword: string;
+interface MapProps {
+  cafes: Cafe[];
+  onCafeSelect?: (cafe: Cafe) => void;
+  initialCenter?: { lat: number; lng: number };
+  initialZoom?: number;
+  style?: React.CSSProperties;
 }
 
-export default function Map({ cafes, searchKeyword }: MapWithSearchProps) {
-  console.log('[지도] 컴포넌트 렌더링 시작', { cafeCount: cafes.length, searchKeyword });
-  
+interface Coordinates {
+  lat: number;
+  lng: number;
+}
+
+export default function Map({
+  cafes,
+  onCafeSelect,
+  initialCenter = { lat: 37.5665, lng: 126.9780 }, // 서울 시청
+  initialZoom = 13,
+  style = { width: '100%', height: '100%' },
+}: MapProps) {
   const mapRef = useRef<HTMLDivElement>(null);
+  const mapInstance = useRef<any>(null);
   const markersRef = useRef<any[]>([]);
-  const mapInstanceRef = useRef<any>(null);
-  const currentLocationMarkerRef = useRef<any>(null);
   const [selectedCafe, setSelectedCafe] = useState<Cafe | null>(null);
-  const [favoriteCafes, setFavoriteCafes] = useState<Set<string>>(new Set());
-  const [isMobile, setIsMobile] = useState(false);
+  const [center, setCenter] = useState(initialCenter);
+  const [zoom, setZoom] = useState(initialZoom);
+  const [cafeCoordinates, setCafeCoordinates] = useState<Record<string, Coordinates>>({});
 
-  // 모바일 여부 감지
-  useEffect(() => {
-    console.log('[지도] 모바일 감지 useEffect 실행');
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 640);
-    };
-
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-
-    return () => {
-      window.removeEventListener('resize', checkMobile);
-    };
-  }, []);
-
-  // 카페를 즐겨찾기에 추가/제거하는 토글 함수
-  const toggleFavorite = (cafeId: string) => {
-    setFavoriteCafes((prev) => {
-      const newFavorites = new Set(prev);
-      if (newFavorites.has(cafeId)) {
-        newFavorites.delete(cafeId);
-      } else {
-        newFavorites.add(cafeId);
-      }
-      return newFavorites;
-    });
-  };
-
-  const getCoordinates = async (address: string): Promise<Coordinates | null> => {
-    console.log('[지도] 주소 좌표 변환 시작:', address);
+  // 주소를 좌표로 변환
+  const getCoordinates = useCallback(async (address: string): Promise<Coordinates | null> => {
     return new Promise((resolve) => {
       if (!window.naver || !window.naver.maps) {
-        console.error('[지도] 네이버 지도 API 로드 실패');
         resolve(null);
         return;
       }
 
       window.naver.maps.Service.geocode(
-        {
-          query: address,
-        },
-        function (status: number, response: any) {
+        { query: address },
+        (status: number, response: any) => {
           if (status === 200 && response.v2.addresses.length > 0) {
             const item = response.v2.addresses[0];
-            const coordinates = {
+            resolve({
               lat: parseFloat(item.y),
               lng: parseFloat(item.x),
-            };
-            console.log('[지도] 주소 좌표 변환 성공:', coordinates);
-            resolve(coordinates);
+            });
           } else {
-            console.error('[지도] 주소 좌표 변환 실패:', status, response);
             resolve(null);
           }
         }
       );
     });
-  };
-
-  useEffect(() => {
-    console.log('[지도] 마커 생성 useEffect 실행');
-    if (!mapRef.current || !window.naver) {
-      console.log('[지도] 지도 또는 네이버 API 준비되지 않음');
-      return;
-    }
-
-    const createCafeMarkers = async () => {
-      console.log('[지도] 카페 마커 생성 시작');
-      markersRef.current.forEach((marker) => marker.setMap(null));
-      markersRef.current = [];
-
-      for (const cafe of cafes) {
-        console.log('[지도] 카페 마커 생성 중:', cafe.name);
-        const coordinates = await getCoordinates(cafe.address);
-        if (coordinates) {
-          const position = new window.naver.maps.LatLng(coordinates.lat, coordinates.lng);
-          const isHighlighted = searchKeyword &&
-            (cafe.name.toLowerCase().includes(searchKeyword.toLowerCase()) || 
-             cafe.address.toLowerCase().includes(searchKeyword.toLowerCase()));
-          
-          // 즐겨찾기 여부 확인
-          const isFavorite = favoriteCafes.has(cafe.id);
-          
-          // 마커 아이콘 설정 - 즐겨찾기인 경우 파란색 원 안에 하얀색 하트 아이콘으로 변경
-          const iconContent = isFavorite 
-            ? `
-              <div style="
-                width: 22px;
-                height: 22px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                background-color: #2563eb;
-                border-radius: 50%;
-                ${isHighlighted ? 'border: 3px solid #FF0000; box-shadow: 0 0 8px rgba(255, 0, 0, 0.8);' : ''}
-                cursor: pointer;
-              ">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="white" stroke="white" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                </svg>
-              </div>
-            `
-            : `
-              <div style="
-                width: 32px;
-                height: 32px;
-                background-image: url('/images/coffee-bean.png');
-                background-size: cover;
-                background-position: center;
-                border: ${isHighlighted ? '3px solid #FF0000' : 'none'};
-                box-shadow: ${isHighlighted ? '0 0 8px rgba(255, 0, 0, 0.8)' : 'none'};
-                cursor: pointer;
-              "></div>
-            `;
-      
-          const marker = new window.naver.maps.Marker({
-            position: position,
-            map: mapInstanceRef.current,
-            icon: {
-              content: iconContent,
-              anchor: new window.naver.maps.Point(16, 16),
-            },
-          });
-
-          // 마커 클릭 이벤트 - 사이드 패널 표시
-          window.naver.maps.Event.addListener(marker, 'click', () => {
-            if (selectedCafe && selectedCafe.id === cafe.id) {
-              setSelectedCafe(null);
-            } else {
-              setSelectedCafe(cafe);
-            }
-          });
-
-          markersRef.current.push(marker);
-        } else {
-          console.log('[지도] 좌표를 찾을 수 없음:', cafe.name);
-        }
-      }
-      console.log('[지도] 모든 카페 마커 생성 완료');
-    };
-
-    const initializeMap = async () => {
-      console.log('[지도] 지도 초기화 시작');
-      try {
-        const position = await new Promise<GeolocationPosition>((resolve, reject) => {
-          navigator.geolocation.getCurrentPosition(resolve, reject);
-        });
-
-        console.log('[지도] 현재 위치 확인됨');
-        const { latitude: currentLat, longitude: currentLng } = position.coords;
-
-        const mapOptions = {
-          center: new window.naver.maps.LatLng(37.5665, 126.9780),
-          zoom: 14,
-          zoomControl: true,
-          zoomControlOptions: {
-            position: window.naver.maps.Position.TOP_RIGHT,
-          },
-        };
-
-        console.log('[지도] 지도 인스턴스 생성');
-        const map = new window.naver.maps.Map(mapRef.current, mapOptions);
-        mapInstanceRef.current = map;
-        window.currentMap = map;
-
-        if (mapRef.current) {
-          // 현재 위치로 가기 버튼이 이미 존재하는지 확인
-          const existingButton = mapRef.current.querySelector('.location-button');
-          if (!existingButton) {
-            // 현재 위치로 가기 버튼 추가
-            const locationButton = document.createElement('button');
-            locationButton.className = 'location-button';
-            locationButton.style.position = 'absolute';
-            locationButton.style.bottom = '24px';
-            locationButton.style.right = '16px';
-            locationButton.style.width = '40px';
-            locationButton.style.height = '40px';
-            locationButton.style.backgroundColor = 'white';
-            locationButton.style.borderRadius = '50%';
-            locationButton.style.boxShadow = '0 2px 6px rgba(0,0,0,0.1)';
-            locationButton.style.cursor = 'pointer';
-            locationButton.style.border = 'none';
-            locationButton.style.zIndex = '100';
-            locationButton.title = '현재 위치로 이동';
-            locationButton.innerHTML = `
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600 m-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <circle cx="12" cy="12" r="3"></circle>
-              </svg>
-            `;
-            
-            // 버튼을 지도의 컨테이너에 추가
-            const mapContainer = map.getElement();
-            mapContainer.appendChild(locationButton);
-            
-            // 클릭 이벤트 리스너 추가 - 클로저를 사용하여 moveToCurrentLocation 함수 참조
-            const handleLocationClick = () => {
-              if (!mapInstanceRef.current) return;
-              
-              navigator.geolocation.getCurrentPosition(
-                (position) => {
-                  const { latitude, longitude } = position.coords;
-                  const currentPosition = new window.naver.maps.LatLng(latitude, longitude);
-                  mapInstanceRef.current.setCenter(currentPosition);
-                  mapInstanceRef.current.setZoom(15);
-
-                  // 기존 현재 위치 마커 제거
-                  if (currentLocationMarkerRef.current) {
-                    currentLocationMarkerRef.current.setMap(null);
-                  }
-
-                  // 새로운 현재 위치 마커 생성
-                  currentLocationMarkerRef.current = new window.naver.maps.Marker({
-                    position: currentPosition,
-                    map: mapInstanceRef.current,
-                    icon: {
-                      content: `
-                        <div style="
-                          width: 16px;
-                          height: 16px;
-                          background: #2563eb;
-                          border-radius: 50%;
-                          box-shadow: 0 0 8px rgba(37, 99, 235, 0.8);
-                          border: 3px solid white;
-                        "></div>
-                      `,
-                      anchor: new window.naver.maps.Point(8, 8),
-                    },
-                  });
-                },
-                (error) => {
-                  console.error('위치 정보를 가져오는데 실패했습니다:', error);
-                  alert('현재 위치를 가져올 수 없습니다.');
-                }
-              );
-            };
-            
-            locationButton.addEventListener('click', handleLocationClick);
-          }
-        }
-
-        // 지도 클릭 시 사이드 패널 닫기
-        window.naver.maps.Event.addListener(map, 'click', function() {
-          setSelectedCafe(null);
-        });
-
-        if (cafes.length > 0) {
-          console.log('[지도] 카페 마커 생성 시작');
-          await createCafeMarkers();
-        }
-
-        console.log('[지도] 지도 초기화 완료');
-      } catch (error) {
-        console.error('[지도] 지도 초기화 실패:', error);
-      }
-    };
-
-    initializeMap();
-    
-    return () => {
-      console.log('[지도] 컴포넌트 정리');
-      window.currentMap = null;
-    };
-  }, [cafes, searchKeyword, selectedCafe, favoriteCafes]);
-
-  // 즐겨찾기 정보 로컬 스토리지에서 불러오기
-  useEffect(() => {
-    const savedFavorites = localStorage.getItem('favoriteCafes');
-    if (savedFavorites) {
-      try {
-        const parsedFavorites = JSON.parse(savedFavorites);
-        setFavoriteCafes(new Set(parsedFavorites));
-      } catch (error) {
-        console.error('Error parsing favorite cafes:', error);
-      }
-    }
   }, []);
 
-  // 즐겨찾기 정보 로컬 스토리지에 저장
-  useEffect(() => {
-    if (favoriteCafes.size > 0) {
-      localStorage.setItem('favoriteCafes', JSON.stringify([...favoriteCafes]));
+  // 지도 초기화
+  const initMap = useCallback(() => {
+    if (!mapRef.current || mapInstance.current) return;
+
+    const mapOptions = {
+      center: new window.naver.maps.LatLng(center.lat, center.lng),
+      zoom: zoom,
+      minZoom: 10,
+      zoomControl: true,
+      zoomControlOptions: {
+        position: window.naver.maps.Position.TOP_RIGHT,
+      },
+    };
+
+    mapInstance.current = new window.naver.maps.Map(mapRef.current, mapOptions);
+  }, [center.lat, center.lng, zoom]);
+
+  // 마커 생성 및 관리
+  const updateMarkers = useCallback(async () => {
+    if (!mapInstance.current) return;
+
+    // 기존 마커 제거
+    markersRef.current.forEach(marker => marker.setMap(null));
+    markersRef.current = [];
+
+    // 카페 좌표 가져오기
+    const coordinates: Record<string, Coordinates> = {};
+    for (const cafe of cafes) {
+      const coord = await getCoordinates(cafe.address);
+      if (coord) {
+        coordinates[cafe.id] = coord;
+      }
     }
-  }, [favoriteCafes]);
+    setCafeCoordinates(coordinates);
 
-  // 카페 정보 사이드 패널 렌더링
-  const renderCafeInfo = () => {
-    if (!selectedCafe) return null;
-    
-    const isFavorite = favoriteCafes.has(selectedCafe.id);
-    
-    return (
-      <div 
-        className={`
-          absolute left-0 right-0 bg-white shadow-lg overflow-y-auto z-50
-          ${isMobile ? 'bottom-0 rounded-t-xl max-h-[40vh]' : 'top-[40px] sm:left-4 sm:right-auto sm:w-[360px] rounded-lg sm:max-h-[calc(100vh-200px)]'}
-        `}
-      >
-        {/* 상단 헤더 영역 - 고정 */}
-        <div className="sticky top-0 z-20 bg-white p-4 border-b border-gray-200 flex justify-between items-start">
-          <h3 className="text-lg font-bold pr-8">
-            {selectedCafe.name}
-          </h3>
-          
-          <div className="flex items-center">
-            {/* 내 취향 카페로 등록 버튼 (하트 아이콘으로 변경) */}
-            <button 
-              className={`w-8 h-8 flex items-center justify-center rounded-full mr-2 transition-colors ${
-                isFavorite 
-                  ? 'bg-blue-500 text-white' 
-                  : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
-              }`}
-              onClick={() => {
-                toggleFavorite(selectedCafe.id);
-                const message = isFavorite
-                  ? `${selectedCafe.name} 카페가 취향 목록에서 제거되었습니다.`
-                  : `${selectedCafe.name} 카페가 내 취향 목록에 추가되었습니다.`;
-                alert(message);
-              }}
-              title={isFavorite ? "내 취향 목록에서 제거" : "내 취향 카페로 등록"}
-            >
-              <svg 
-                xmlns="http://www.w3.org/2000/svg" 
-                className="h-5 w-5" 
-                viewBox="0 0 24 24" 
-                fill={isFavorite ? "currentColor" : "none"}
-                stroke="currentColor" 
-                strokeWidth="2" 
-                strokeLinecap="round" 
-                strokeLinejoin="round"
-              >
-                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-              </svg>
-            </button>
-            
-            {/* 닫기 버튼 - 상단에 고정 */}
-            <button 
-              className="w-8 h-8 flex items-center justify-center bg-gray-100 rounded-full text-gray-500 hover:bg-gray-200 flex-shrink-0"
-              onClick={() => setSelectedCafe(null)}
-            >
-              ✕
-            </button>
-          </div>
-        </div>
+    // 새로운 마커 생성
+    cafes.forEach(cafe => {
+      const coord = coordinates[cafe.id];
+      if (!coord) return;
+
+      const marker = new window.naver.maps.Marker({
+        position: new window.naver.maps.LatLng(coord.lat, coord.lng),
+        map: mapInstance.current,
+        title: cafe.name,
+        icon: {
+          content: [
+            '<div style="cursor:pointer;width:40px;height:40px;line-height:40px;',
+            'font-size:10px;color:white;text-align:center;font-weight:bold;',
+            'background:rgba(0,0,0,0.7);border-radius:50%;">',
+            cafe.name.substring(0, 2),
+            '</div>'
+          ].join(''),
+          size: new window.naver.maps.Size(40, 40),
+          anchor: new window.naver.maps.Point(20, 20),
+        },
+      });
+
+      // 마커 클릭 이벤트
+      window.naver.maps.Event.addListener(marker, 'click', () => {
+        setCenter(coord);
+        setSelectedCafe(cafe);
+        if (onCafeSelect) onCafeSelect(cafe);
         
-        {/* 스크롤 가능한 내용 영역 */}
-        <div className="p-4 overflow-y-auto h-[calc(100%-64px)]">
-          <div className="text-xs text-gray-600 mb-4">
-            {selectedCafe.description && <p className="mb-2">{selectedCafe.description}</p>}
-            <p className="flex items-center mb-1">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                <circle cx="12" cy="10" r="3"></circle>
-              </svg>
-              {selectedCafe.address}
-            </p>
-            {selectedCafe.phone && (
-              <p className="flex items-center mb-1">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                </svg>
-                {selectedCafe.phone}
-              </p>
-            )}
-          </div>
+        // 선택된 마커 강조
+        markersRef.current.forEach(m => {
+          m.setZIndex(m === marker ? 1000 : 1);
+        });
+      });
 
-          {/* 영업시간 정보 */}
-          {selectedCafe.businessHours?.length > 0 && (
-            <div className="text-xs text-gray-600 mb-4">
-              <div className="flex">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2 mt-1 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <polyline points="12 6 12 12 16 14"></polyline>
-                </svg>
-                <div>
-                  <div className="font-medium">영업시간</div>
-                  {selectedCafe.businessHours.map((hour, idx) => (
-                    <p key={idx} className="my-1">
-                      {hour.day}: {hour.openTime} - {hour.closeTime}
-                    </p>
-                  ))}
-                  {selectedCafe.businessHourNote && (
-                    <p className="mt-2 text-xs italic text-gray-500">
-                      {selectedCafe.businessHourNote}
-                    </p>
-                  )}
-                </div>
-              </div>
-            </div>
-          )}
+      markersRef.current.push(marker);
+    });
+  }, [cafes, getCoordinates, onCafeSelect]);
 
-          {/* SNS 링크 */}
-          {selectedCafe.snsLinks?.length > 0 && (
-            <div className="text-xs text-gray-600 mb-4">
-              <div className="flex">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2 mt-1 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
-                  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
-                </svg>
-                <div>
-                  <div className="font-medium">SNS</div>
-                  <div className="flex flex-wrap gap-2 mt-1">
-                    {selectedCafe.snsLinks.map((link, idx) => (
-                      <a 
-                        key={idx}
-                        href={link.url} 
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-600 hover:underline"
-                      >
-                        {link.type}
-                      </a>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
+  // 지도 초기화 및 마커 업데이트
+  useEffect(() => {
+    if (typeof window === 'undefined' || !window.naver) return;
 
-          {/* 구분선 */}
-          <div className="h-px bg-gray-200 my-4"></div>
+    initMap();
+    updateMarkers();
 
-          {/* 커피 정보 */}
-          {selectedCafe.coffees && selectedCafe.coffees.length > 0 && (
-            <div className="mt-4">
-              <div className="flex items-center justify-between mb-2">
-                <h4 className="font-bold">원두 정보</h4>
-                <span className="text-xs text-gray-500">
-                  마지막 업데이트: {new Date(selectedCafe.updatedAt).toLocaleDateString('ko-KR', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                  })}
-                </span>
-              </div>
-              <div className="space-y-3">
-                {selectedCafe.coffees.map((coffee, idx) => {
-                  const backgroundColor = coffee.noteColors?.[0] || '#f9fafb';
-                  const bgColorWithOpacity = backgroundColor.includes('rgba') 
-                    ? backgroundColor.replace(/rgba\((\d+,\s*\d+,\s*\d+),\s*[\d.]+\)/, 'rgba($1, 0.5)')
-                    : backgroundColor.includes('rgb') 
-                      ? backgroundColor.replace(/rgb\(/, 'rgba(').replace(/\)/, ', 0.5)')
-                      : backgroundColor + '80'; // 16진수에 80을 붙이면 50% 투명도
-                  
-                  return (
-                    <div 
-                      key={idx} 
-                      className="border border-gray-200 rounded-lg p-3 text-sm"
-                      style={{ backgroundColor: bgColorWithOpacity }}
-                    >
-                      <div className="font-bold text-gray-800 mb-1">
-                        {coffee.name}
-                      </div>
-                      
-                      {coffee.description && (
-                        <div className="text-black text-xs mb-2 pb-2 border-b border-gray-600">
-                          {coffee.description}
-                        </div>
-                      )}
+    // 지도 이벤트 리스너
+    if (mapInstance.current) {
+      window.naver.maps.Event.addListener(mapInstance.current, 'dragend', () => {
+        const center = mapInstance.current.getCenter();
+        setCenter({ lat: center.y, lng: center.x });
+      });
 
-                      <div className="space-y-1 text-xs text-black">
-                        {coffee.notes?.length > 0 && (
-                          <div>
-                            <span className="font-medium">컵노트:</span> {coffee.notes.join(', ')}
-                          </div>
-                        )}
+      window.naver.maps.Event.addListener(mapInstance.current, 'zoom_changed', () => {
+        setZoom(mapInstance.current.getZoom());
+      });
+    }
 
-                        {coffee.origins?.length > 0 && (
-                          <div>
-                            <span className="font-medium">원산지:</span> {coffee.origins.join(', ')}
-                          </div>
-                        )}
-                        
-                        {coffee.processes?.length > 0 && (
-                          <div>
-                            <span className="font-medium">프로세스:</span> {coffee.processes.join(', ')}
-                          </div>
-                        )}
-                        
-                        {coffee.brewMethods?.length > 0 && (
-                          <div>
-                            <span className="font-medium">추출방식:</span> {coffee.brewMethods.join(', ')}
-                          </div>
-                        )}
-                        
-                        {coffee.roastLevel?.length > 0 && (
-                          <div>
-                            <span className="font-medium">로스팅 레벨:</span> {coffee.roastLevel.join(', ')}
-                          </div>
-                        )}
+    return () => {
+      if (mapInstance.current) {
+        window.naver.maps.Event.clearInstanceListeners(mapInstance.current);
+      }
+    };
+  }, [initMap, updateMarkers]);
 
-                        {/* 가격 정보 - 구분선 제거 */}
-                        <div className="mt-2">
-                          <span className="font-medium">가격:</span> {coffee.price.toLocaleString()}원
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-    );
-  };
+  // 선택된 카페가 변경될 때 지도 중심 이동
+  useEffect(() => {
+    if (selectedCafe && mapInstance.current) {
+      const coord = cafeCoordinates[selectedCafe.id];
+      if (coord) {
+        const newCenter = new window.naver.maps.LatLng(coord.lat, coord.lng);
+        mapInstance.current.setCenter(newCenter);
+      }
+    }
+  }, [selectedCafe, cafeCoordinates]);
 
   return (
-    <div ref={mapRef} className="w-full h-full rounded-lg relative">
-      {renderCafeInfo()}
+    <div ref={mapRef} style={style}>
+      {selectedCafe && (
+        <div className="absolute top-4 left-4 z-10 bg-white p-4 rounded-lg shadow-lg max-w-xs">
+          <h3 className="font-bold">{selectedCafe.name}</h3>
+          <p className="text-sm text-gray-600">{selectedCafe.address}</p>
+          <p className="text-sm text-gray-600">{selectedCafe.phone}</p>
+        </div>
+      )}
     </div>
   );
 }
