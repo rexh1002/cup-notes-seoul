@@ -575,7 +575,7 @@ export default function HomePage() {
             </section>
 
             {/* 선택사항 적용 버튼 */}
-            <div className="sticky bottom-0 left-0 right-0 bg-white p-4 border-t mt-8 mb-24 sm:mb-0">
+            <div className="sticky bottom-0 left-0 right-0 bg-white p-4 border-t mt-8 mb-32 sm:mb-4">
               <div className="flex justify-end space-x-2 max-w-screen-xl mx-auto">
                 <button
                   onClick={clearSelections}
