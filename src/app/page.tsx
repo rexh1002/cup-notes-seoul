@@ -119,50 +119,39 @@ export default function HomePage() {
   };
 
   const handleSearch = useCallback(async () => {
-    console.log('[클라이언트] 검색 시작');
+    if (!isMounted) return;
+    
     setIsLoading(true);
     setIsSearching(true);
+    console.log('[클라이언트] 검색 시작');
     
-    // 모바일에서만 적용 버튼 클릭 시 지도로 전환
-    if (isMounted && window.innerWidth < 640) {
-      setShowMapOnMobile(true);
-    }
-
     try {
-      const searchParams = new URLSearchParams();
-      
-      if (searchKeyword) {
-        searchParams.append('keyword', searchKeyword);
-      }
-      
-      selectedNotes.forEach(note => {
-        searchParams.append('notes', note);
-      });
-      
-      selectedOrigins.forEach(origin => {
-        searchParams.append('origins', origin);
-      });
-      
-      selectedProcesses.forEach(process => {
-        searchParams.append('processes', process);
-      });
-      
-      selectedRoast.forEach(roast => {
-        searchParams.append('roastLevel', roast);
-      });
-      
-      selectedBrewMethods.forEach(method => {
-        searchParams.append('brewMethod', method);
+      const response = await fetch('/api/cafes/search', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          keyword: searchKeyword,
+          notes: selectedNotes,
+          origins: selectedOrigins,
+          processes: selectedProcesses,
+          roastLevel: selectedRoast,
+          brewMethod: selectedBrewMethods,
+        }),
       });
 
-      console.log('[클라이언트] 검색 파라미터:', searchParams.toString());
-      
-      console.log('[클라이언트] API 요청 시작');
-      const response = await fetch(`/api/cafes/search?${searchParams.toString()}`);
-      
-      console.log('[클라이언트] API 응답 상태:', response.status);
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || '검색 중 오류가 발생했습니다.');
+      }
+
       const data = await response.json();
-      console.log('[클라이언트] API 응답 데이터:', JSON.stringify(data, null, 2));
+      console.log('[클라이언트] API 응답:', data);
+
+      if (!data.success) {
+        throw new Error(data.error || '검색 결과를 가져오는데 실패했습니다.');
+      }
 
       if (data && data.cafes) {
         console.log(`[클라이언트] 검색 결과: ${data.cafes.length}개의 카페 찾음`);
@@ -174,6 +163,12 @@ export default function HomePage() {
     } catch (error) {
       console.error('[클라이언트] 검색 오류:', error);
       setCafes([]);
+      // 사용자에게 오류 메시지 표시
+      if (error instanceof Error) {
+        alert(error.message);
+      } else {
+        alert('검색 중 오류가 발생했습니다. 다시 시도해주세요.');
+      }
     } finally {
       setIsLoading(false);
       setTimeout(() => {
@@ -233,6 +228,18 @@ export default function HomePage() {
     setShowMapOnMobile(prev => !prev);
   };
 
+  // Map 컴포넌트에 전달하기 전에 타입 변환
+  const processedCafes = cafes.map(cafe => ({
+    ...cafe,
+    description: cafe.description ?? null,
+    imageUrl: cafe.imageUrl ?? null,
+    businessHourNote: cafe.businessHourNote ?? null,
+    adminId: cafe.adminId ?? null,
+    managerId: cafe.managerId ?? null,
+    businessHours: JSON.parse(JSON.stringify(cafe.businessHours || [])),
+    snsLinks: JSON.parse(JSON.stringify(cafe.snsLinks || [])),
+  }));
+
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       {/* 상단 헤더 */}
@@ -263,7 +270,7 @@ export default function HomePage() {
                 LOGOUT       
               </button>              
               
-              {userRole === 'manager' || userRole === 'cafeManager' ? (         
+              {userRole === 'manager' ? (         
                 <>           
                   <div className="h-4 w-px bg-gray-300 ml-0.75 mr-1.5"></div>           
                   <Link             
@@ -625,7 +632,7 @@ export default function HomePage() {
             </div>
           )}
           <div className="w-full h-full">
-            <Map cafes={cafes} searchKeyword={searchKeyword} />
+            <Map cafes={processedCafes} searchKeyword={searchKeyword} />
           </div>
         </div>
       </div>
@@ -694,7 +701,7 @@ export default function HomePage() {
           )}
 
           {/* 내카페 메뉴는 카페 매니저 권한일 때만 표시 */}
-          {userRole === 'cafeManager' && (
+          {userRole === 'manager' && (
             <button
               onClick={() => router.push('/mycafe')}
               className="flex flex-col items-center justify-center w-1/4 h-full text-gray-400"

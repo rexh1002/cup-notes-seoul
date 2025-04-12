@@ -15,6 +15,7 @@ interface MapProps {
   initialCenter?: { lat: number; lng: number };
   initialZoom?: number;
   style?: React.CSSProperties;
+  searchKeyword?: string;
 }
 
 interface Coordinates {
@@ -28,6 +29,7 @@ export default function Map({
   initialCenter = { lat: 37.5665, lng: 126.9780 }, // 서울 시청
   initialZoom = 13,
   style = { width: '100%', height: '100%' },
+  searchKeyword,
 }: MapProps) {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstance = useRef<any>(null);
