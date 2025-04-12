@@ -136,9 +136,6 @@ export default function HomePage() {
     setIsSearching(true);
     console.log('[클라이언트] 검색 시작');
     
-    // 로딩 메시지 표시
-    alert("What's my coffee today?");
-    
     try {
       const response = await fetch('/api/cafes/search', {
         method: 'POST',
