@@ -175,12 +175,25 @@ export default function Map({
   }, [selectedCafe, cafeCoordinates]);
 
   return (
-    <div ref={mapRef} style={style}>
+    <div ref={mapRef} style={style} className="relative">
       {selectedCafe && (
-        <div className="absolute top-4 left-4 z-10 bg-white p-4 rounded-lg shadow-lg max-w-xs">
-          <h3 className="font-bold">{selectedCafe.name}</h3>
-          <p className="text-sm text-gray-600">{selectedCafe.address}</p>
-          <p className="text-sm text-gray-600">{selectedCafe.phone}</p>
+        <div className="absolute top-16 left-4 z-50 bg-white p-4 rounded-lg shadow-lg max-w-sm w-72">
+          <div className="flex justify-between items-start mb-2">
+            <h3 className="font-bold text-lg">{selectedCafe.name}</h3>
+            <button 
+              onClick={() => setSelectedCafe(null)}
+              className="text-gray-500 hover:text-gray-700"
+            >
+              ✕
+            </button>
+          </div>
+          <p className="text-sm text-gray-600 mb-1">{selectedCafe.address}</p>
+          {selectedCafe.phone && (
+            <p className="text-sm text-gray-600 mb-1">{selectedCafe.phone}</p>
+          )}
+          {selectedCafe.description && (
+            <p className="text-sm text-gray-600 mt-2 line-clamp-2">{selectedCafe.description}</p>
+          )}
         </div>
       )}
     </div>
