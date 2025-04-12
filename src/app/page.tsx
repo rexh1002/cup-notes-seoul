@@ -365,7 +365,7 @@ export default function HomePage() {
       <div className={`bg-white p-4 border-b sticky top-0 z-50 ${showMapOnMobile ? 'hidden sm:block' : ''}`}>
         {/* 첫 번째 줄: 옵션 선택 제목과 버튼들 */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-          <span className="text-lg font-medium">내 취향 선택</span>
+          <span className="text-lg font-medium">선택 사항 적용</span>
           <div className="flex gap-2">
             <button 
               onClick={clearSelections} 
@@ -422,7 +422,7 @@ export default function HomePage() {
           <div className="p-4 sm:p-6 space-y-6 flex-grow pb-24 sm:pb-6">
             {/* 추가 옵션 필터 */}
             <section className="space-y-4">
-              <h2 className="text-xl font-bold border-b pb-2">추가 옵션</h2>
+              <h2 className="text-xl font-bold border-b pb-2">Coffee Filters</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {/* 원산지 */}
                 <div>
@@ -497,7 +497,7 @@ export default function HomePage() {
 
             {/* 컵노트 이미지 및 필터 */}
             <section className="space-y-4">
-              <h2 className="text-xl font-bold mb-4 border-b pb-2">컵노트</h2>
+              <h2 className="text-xl font-bold mb-4 border-b pb-2">My Cup Notes</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {/* Floral Section */}
                 <div className="relative">
