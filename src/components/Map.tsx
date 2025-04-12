@@ -10,21 +10,7 @@ declare global {
 }
 
 interface MapProps {
-  cafes: Array<{
-    id: string;
-    name: string;
-    address: string;
-    phone: string;
-    description: string | null;
-    imageUrl: string | null;
-    businessHours: any;
-    businessHourNote: string | null;
-    snsLinks: any;
-    createdAt: Date;
-    updatedAt: Date;
-    adminId: string | null;
-    managerId: string | null;
-  }>;
+  cafes: Cafe[];
   onCafeSelect?: (cafe: Cafe) => void;
   initialCenter?: { lat: number; lng: number };
   initialZoom?: number;
@@ -46,7 +32,7 @@ export default function Map({
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstance = useRef<any>(null);
   const markersRef = useRef<any[]>([]);
-  const [selectedCafe, setSelectedCafe] = useState<typeof cafes[0] | null>(null);
+  const [selectedCafe, setSelectedCafe] = useState<Cafe | null>(null);
   const [center, setCenter] = useState(initialCenter);
   const [zoom, setZoom] = useState(initialZoom);
   const [cafeCoordinates, setCafeCoordinates] = useState<Record<string, Coordinates>>({});
@@ -137,7 +123,7 @@ export default function Map({
       window.naver.maps.Event.addListener(marker, 'click', () => {
         setCenter(coord);
         setSelectedCafe(cafe);
-        if (onCafeSelect) onCafeSelect(cafe as Cafe);
+        if (onCafeSelect) onCafeSelect(cafe);
         
         // 선택된 마커 강조
         markersRef.current.forEach(m => {
