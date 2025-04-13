@@ -32,10 +32,21 @@ export async function GET(request: Request) {
       brewMethod: searchParams.getAll('brewMethod'),
     };
 
-    const logs: string[] = [];
+    const logs: (string | Record<string, any>)[] = [];
     logs.push('[검색 API] GET 요청 시작');
-    logs.push(`[검색 API] 환경 변수: NODE_ENV=${process.env.NODE_ENV}, DATABASE_URL=${process.env.DATABASE_URL ? '설정됨' : '설정되지 않음'}`);
-    logs.push(`[검색 API] 검색 파라미터: ${JSON.stringify(searchParameters, null, 2)}`);
+    logs.push({
+      type: 'env',
+      message: '[검색 API] 환경 변수 확인',
+      data: {
+        NODE_ENV: process.env.NODE_ENV,
+        DATABASE_URL: process.env.DATABASE_URL ? '설정됨' : '설정되지 않음'
+      }
+    });
+    logs.push({
+      type: 'params',
+      message: '[검색 API] 검색 파라미터',
+      data: searchParameters
+    });
 
     // Prisma 클라이언트 상태 확인
     logs.push('[검색 API] Prisma 클라이언트 상태 확인');
@@ -140,7 +151,16 @@ export async function GET(request: Request) {
     console.log('[검색 API] 데이터베이스 쿼리 시작');
     const cafes = await prisma.cafe.findMany({
       where,
-      include: {
+      select: {
+        id: true,
+        name: true,
+        address: true,
+        phone: true,
+        description: true,
+        imageUrl: true,
+        businessHours: true,
+        businessHourNote: true,
+        snsLinks: true,
         coffees: {
           select: {
             id: true,
@@ -170,11 +190,14 @@ export async function GET(request: Request) {
     });
 
   } catch (error) {
-    const errorLogs: string[] = [];
+    const errorLogs: (string | Record<string, any>)[] = [];
     errorLogs.push('[검색 API] 오류 발생');
     if (error instanceof Error) {
-      errorLogs.push(`[검색 API] 오류 메시지: ${error.message}`);
-      errorLogs.push(`[검색 API] 오류 스택: ${error.stack}`);
+      errorLogs.push({
+        type: 'error',
+        message: error.message,
+        stack: error.stack
+      });
     }
 
     return NextResponse.json({
