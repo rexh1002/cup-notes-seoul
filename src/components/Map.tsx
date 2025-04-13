@@ -205,7 +205,7 @@ export default function Map({
   return (
     <div ref={mapRef} style={style} className="relative">
       {selectedCafe && (
-        <div className="absolute top-16 left-4 z-50 bg-white p-4 rounded-lg shadow-lg max-w-sm w-96 max-h-[80vh] overflow-y-auto">
+        <div className="absolute top-16 left-4 z-50 bg-white p-4 rounded-lg shadow-lg max-w-sm w-80 max-h-[80vh] overflow-y-auto">
           <div className="flex justify-between items-start mb-2">
             <h3 className="font-bold text-lg">{selectedCafe.name}</h3>
             <button 
@@ -280,8 +280,8 @@ export default function Map({
                 <h4 className="text-lg font-medium">Beans Line up</h4>
                 <div className="flex gap-1">
                   <span className="w-4 h-4 rounded bg-pink-200"></span>
-                  <span className="w-4 h-4 rounded bg-lime-200"></span>
-                  <span className="w-4 h-4 rounded bg-amber-200"></span>
+                  <span className="w-4 h-4 rounded bg-yellow-200"></span>
+                  <span className="w-4 h-4 rounded bg-amber-700"></span>
                 </div>
               </div>
               <div className="space-y-3">
@@ -289,10 +289,9 @@ export default function Map({
                   <div key={coffee.id} className="border-l-2 border-gray-200 pl-2">
                     <div className="flex justify-between items-baseline">
                       <span 
-                        className="text-sm font-medium px-2 py-0.5 rounded"
+                        className="text-sm font-medium px-2 py-0.5 rounded text-black"
                         style={{
-                          backgroundColor: coffee.noteColors?.[0] || '#F3F4F6',
-                          color: '#374151'
+                          backgroundColor: coffee.noteColors?.[0] || '#F3F4F6'
                         }}
                       >
                         {coffee.name}
