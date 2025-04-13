@@ -215,28 +215,40 @@ export default function Map({
               ✕
             </button>
           </div>
-          <p className="text-xs text-gray-600 mb-1">{selectedCafe.address}</p>
+          <p className="text-xs text-gray-600 mb-1">
+            <span className="inline-block mr-1">📍</span>
+            {selectedCafe.address}
+          </p>
           {selectedCafe.phone && (
-            <p className="text-xs text-gray-600 mb-1">{selectedCafe.phone}</p>
+            <p className="text-xs text-gray-600 mb-1">
+              <span className="inline-block mr-1">📞</span>
+              {selectedCafe.phone}
+            </p>
           )}
           {selectedCafe.description && (
-            <p className="text-xs text-gray-600 mb-3">{selectedCafe.description}</p>
+            <p className="text-xs text-gray-600 mb-3">
+              <span className="inline-block mr-1">📝</span>
+              {selectedCafe.description}
+            </p>
           )}
           
           {/* 영업시간 정보 */}
           {selectedCafe.businessHours && selectedCafe.businessHours.length > 0 && (
             <div className="mt-3 border-t pt-3">
-              <h4 className="font-medium text-sm mb-2">영업시간</h4>
               <div className="space-y-1">
                 {selectedCafe.businessHours.map((hour: any, index: number) => (
                   <div key={index} className="text-xs">
+                    <span className="inline-block mr-1">🕒</span>
                     <span className="text-gray-600">{hour.day}:</span>{' '}
                     <span className="text-gray-600">{hour.openTime} - {hour.closeTime}</span>
                   </div>
                 ))}
               </div>
               {selectedCafe.businessHourNote && (
-                <p className="text-xs text-gray-500 mt-1">{selectedCafe.businessHourNote}</p>
+                <p className="text-xs text-gray-500 mt-1">
+                  <span className="inline-block mr-1">ℹ️</span>
+                  {selectedCafe.businessHourNote}
+                </p>
               )}
             </div>
           )}
@@ -264,7 +276,14 @@ export default function Map({
           {/* 원두 정보 */}
           {selectedCafe.coffees && selectedCafe.coffees.length > 0 && (
             <div className="mt-3 border-t pt-3">
-              <h4 className="font-medium text-sm mb-2">Beans Line up</h4>
+              <div className="flex items-center gap-2 mb-2">
+                <h4 className="text-lg font-medium">Beans Line up</h4>
+                <div className="flex gap-1">
+                  <span className="w-4 h-4 rounded bg-pink-200"></span>
+                  <span className="w-4 h-4 rounded bg-lime-200"></span>
+                  <span className="w-4 h-4 rounded bg-amber-200"></span>
+                </div>
+              </div>
               <div className="space-y-3">
                 {selectedCafe.coffees.map((coffee) => (
                   <div key={coffee.id} className="border-l-2 border-gray-200 pl-2">
