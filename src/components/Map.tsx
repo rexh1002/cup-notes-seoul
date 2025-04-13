@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useRef, useState, useCallback } from 'react';
-import { Cafe } from '@prisma/client';
 
 declare global {
   interface Window {
@@ -9,9 +8,34 @@ declare global {
   }
 }
 
+interface CafeData {
+  id: string;
+  name: string;
+  address: string;
+  phone?: string | null;
+  description?: string | null;
+  businessHours?: any;
+  businessHourNote?: string | null;
+  snsLinks?: any;
+  imageUrl?: string | null;
+  adminId?: string | null;
+  managerId?: string | null;
+  coffees?: {
+    id: string;
+    name: string;
+    price?: number | null;
+    description?: string | null;
+    roastLevel?: string[] | null;
+    origins?: string[] | null;
+  }[];
+  createdAt?: Date;
+  updatedAt?: Date;
+  lastUpdated?: string;
+}
+
 interface MapProps {
-  cafes: Cafe[];
-  onCafeSelect?: (cafe: Cafe) => void;
+  cafes: CafeData[];
+  onCafeSelect?: (cafe: CafeData) => void;
   initialCenter?: { lat: number; lng: number };
   initialZoom?: number;
   style?: React.CSSProperties;
@@ -34,7 +58,7 @@ export default function Map({
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstance = useRef<any>(null);
   const markersRef = useRef<any[]>([]);
-  const [selectedCafe, setSelectedCafe] = useState<Cafe | null>(null);
+  const [selectedCafe, setSelectedCafe] = useState<CafeData | null>(null);
   const [center, setCenter] = useState(initialCenter);
   const [zoom, setZoom] = useState(initialZoom);
   const [cafeCoordinates, setCafeCoordinates] = useState<Record<string, Coordinates>>({});
@@ -177,7 +201,7 @@ export default function Map({
   return (
     <div ref={mapRef} style={style} className="relative">
       {selectedCafe && (
-        <div className="absolute top-16 left-4 z-50 bg-white p-4 rounded-lg shadow-lg max-w-sm w-72">
+        <div className="absolute top-16 left-4 z-50 bg-white p-4 rounded-lg shadow-lg max-w-sm w-96">
           <div className="flex justify-between items-start mb-2">
             <h3 className="font-bold text-lg">{selectedCafe.name}</h3>
             <button 
@@ -192,7 +216,43 @@ export default function Map({
             <p className="text-sm text-gray-600 mb-1">{selectedCafe.phone}</p>
           )}
           {selectedCafe.description && (
-            <p className="text-sm text-gray-600 mt-2 line-clamp-2">{selectedCafe.description}</p>
+            <p className="text-sm text-gray-600 mb-3">{selectedCafe.description}</p>
+          )}
+          
+          {/* 원두 정보 */}
+          {selectedCafe.coffees && selectedCafe.coffees.length > 0 && (
+            <div className="mt-3 border-t pt-3">
+              <h4 className="font-medium text-sm mb-2">판매중인 원두</h4>
+              <div className="space-y-2">
+                {selectedCafe.coffees.map((coffee) => (
+                  <div key={coffee.id} className="border-l-2 border-gray-200 pl-2">
+                    <div className="flex justify-between items-baseline">
+                      <span className="text-sm font-medium">{coffee.name}</span>
+                      <span className="text-sm text-gray-600">
+                        {coffee.price?.toLocaleString()}원
+                      </span>
+                    </div>
+                    {coffee.description && (
+                      <p className="text-xs text-gray-500 mt-0.5 line-clamp-2">
+                        {coffee.description}
+                      </p>
+                    )}
+                    <div className="flex flex-wrap gap-1 mt-1">
+                      {coffee.roastLevel?.map((level, idx) => (
+                        <span key={idx} className="text-xs px-1.5 py-0.5 bg-gray-100 rounded">
+                          {level}
+                        </span>
+                      ))}
+                      {coffee.origins?.map((origin, idx) => (
+                        <span key={idx} className="text-xs px-1.5 py-0.5 bg-gray-100 rounded">
+                          {origin}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           )}
         </div>
       )}
