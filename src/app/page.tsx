@@ -575,7 +575,7 @@ export default function HomePage() {
             </section>
 
             {/* 선택사항 적용 버튼 */}
-            <div className="sticky bottom-18 sm:bottom-14 left-0 right-0 bg-gray-50 p-4 border-t">
+            <div className="sticky bottom-20 sm:bottom-14 left-0 right-0 bg-gray-50 p-4 border-t">
               <div className="flex justify-end space-x-2 max-w-screen-xl mx-auto">
                 <button
                   onClick={clearSelections}
@@ -673,7 +673,7 @@ export default function HomePage() {
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
-            <span className="text-xs mt-1">취향 선택</span>
+            <span className="text-xs mt-1">필터링</span>
           </button>
 
           <button
