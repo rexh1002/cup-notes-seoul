@@ -215,12 +215,12 @@ export default function Map({
               ✕
             </button>
           </div>
-          <p className="text-sm text-gray-600 mb-1">{selectedCafe.address}</p>
+          <p className="text-xs text-gray-600 mb-1">{selectedCafe.address}</p>
           {selectedCafe.phone && (
-            <p className="text-sm text-gray-600 mb-1">{selectedCafe.phone}</p>
+            <p className="text-xs text-gray-600 mb-1">{selectedCafe.phone}</p>
           )}
           {selectedCafe.description && (
-            <p className="text-sm text-gray-600 mb-3">{selectedCafe.description}</p>
+            <p className="text-xs text-gray-600 mb-3">{selectedCafe.description}</p>
           )}
           
           {/* 영업시간 정보 */}
@@ -229,8 +229,8 @@ export default function Map({
               <h4 className="font-medium text-sm mb-2">영업시간</h4>
               <div className="space-y-1">
                 {selectedCafe.businessHours.map((hour: any, index: number) => (
-                  <div key={index} className="text-sm">
-                    <span className="font-medium">{hour.day}:</span>{' '}
+                  <div key={index} className="text-xs">
+                    <span className="text-gray-600">{hour.day}:</span>{' '}
                     <span className="text-gray-600">{hour.openTime} - {hour.closeTime}</span>
                   </div>
                 ))}
