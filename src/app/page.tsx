@@ -588,7 +588,7 @@ export default function HomePage() {
                   className="px-6 py-2.5 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
                   disabled={isSearching}
                 >
-                  {isSearching ? "What's my coffee today?" : '선택사항 적용'}
+                  {isSearching ? "탐색 중..." : '선택사항 적용'}
                 </button>
               </div>
             </div>
