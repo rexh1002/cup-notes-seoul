@@ -264,12 +264,20 @@ export default function Map({
           {/* 원두 정보 */}
           {selectedCafe.coffees && selectedCafe.coffees.length > 0 && (
             <div className="mt-3 border-t pt-3">
-              <h4 className="font-medium text-sm mb-2">판매중인 원두</h4>
+              <h4 className="font-medium text-sm mb-2">Beans Line up</h4>
               <div className="space-y-3">
                 {selectedCafe.coffees.map((coffee) => (
                   <div key={coffee.id} className="border-l-2 border-gray-200 pl-2">
                     <div className="flex justify-between items-baseline">
-                      <span className="text-sm font-medium">{coffee.name}</span>
+                      <span 
+                        className="text-sm font-medium px-2 py-0.5 rounded"
+                        style={{
+                          backgroundColor: coffee.noteColors?.[0] || '#F3F4F6',
+                          color: '#374151'
+                        }}
+                      >
+                        {coffee.name}
+                      </span>
                       <span className="text-sm text-gray-600">
                         {coffee.price?.toLocaleString()}원
                       </span>
@@ -282,22 +290,22 @@ export default function Map({
                     {/* 원두 특성 태그들 */}
                     <div className="flex flex-wrap gap-1 mt-1">
                       {coffee.roastLevel?.map((level, idx) => (
-                        <span key={`roast-${idx}`} className="text-xs px-1.5 py-0.5 bg-amber-50 text-amber-700 rounded">
+                        <span key={`roast-${idx}`} className="text-xs px-1.5 py-0.5 border border-gray-200 text-gray-600 rounded">
                           {level}
                         </span>
                       ))}
                       {coffee.origins?.map((origin, idx) => (
-                        <span key={`origin-${idx}`} className="text-xs px-1.5 py-0.5 bg-green-50 text-green-700 rounded">
+                        <span key={`origin-${idx}`} className="text-xs px-1.5 py-0.5 border border-gray-200 text-gray-600 rounded">
                           {origin}
                         </span>
                       ))}
                       {coffee.processes?.map((process, idx) => (
-                        <span key={`process-${idx}`} className="text-xs px-1.5 py-0.5 bg-blue-50 text-blue-700 rounded">
+                        <span key={`process-${idx}`} className="text-xs px-1.5 py-0.5 border border-gray-200 text-gray-600 rounded">
                           {process}
                         </span>
                       ))}
                       {coffee.brewMethods?.map((method, idx) => (
-                        <span key={`brew-${idx}`} className="text-xs px-1.5 py-0.5 bg-purple-50 text-purple-700 rounded">
+                        <span key={`brew-${idx}`} className="text-xs px-1.5 py-0.5 border border-gray-200 text-gray-600 rounded">
                           {method}
                         </span>
                       ))}
@@ -308,11 +316,7 @@ export default function Map({
                         {coffee.notes.map((note, idx) => (
                           <span
                             key={`note-${idx}`}
-                            className="text-xs px-1.5 py-0.5 rounded"
-                            style={{
-                              backgroundColor: coffee.noteColors?.[idx] || '#F3F4F6',
-                              color: '#374151'
-                            }}
+                            className="text-xs px-1.5 py-0.5 border border-gray-200 text-gray-600 rounded"
                           >
                             {note}
                           </span>
