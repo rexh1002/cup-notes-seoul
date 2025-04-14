@@ -141,7 +141,7 @@ export default function Map({
             '<div style="cursor:pointer;width:20px;height:20px;line-height:20px;',
             'font-size:10px;color:white;text-align:center;font-weight:bold;',
             'background:rgba(0,0,0,0.7);border-radius:50%;">',
-            cafe.name.substring(0, 2),
+            'C',
             '</div>'
           ].join(''),
           size: new window.naver.maps.Size(20, 20),
