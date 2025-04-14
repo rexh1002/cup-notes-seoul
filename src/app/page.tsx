@@ -167,6 +167,10 @@ export default function HomePage() {
       if (data && data.cafes) {
         console.log(`[클라이언트] 검색 결과: ${data.cafes.length}개의 카페 찾음`);
         setCafes(data.cafes);
+        // 모바일 환경에서 검색 후 자동으로 지도 화면으로 전환
+        if (window.innerWidth < 640) {
+          setShowMapOnMobile(true);
+        }
       } else {
         console.log('[클라이언트] 검색 결과 없음');
         setCafes([]);
