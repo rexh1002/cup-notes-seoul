@@ -255,6 +255,26 @@ export default function Map({
                 )}
               </div>
             )}
+
+            {/* SNS 링크 */}
+            {selectedCafe.snsLinks && selectedCafe.snsLinks.length > 0 && (
+              <div className="mt-3 border-t pt-3">
+                <h4 className="font-medium text-sm mb-2">SNS & 링크</h4>
+                <div className="flex flex-wrap gap-2">
+                  {selectedCafe.snsLinks.map((link: any, index: number) => (
+                    <a
+                      key={index}
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm text-blue-600 hover:text-blue-800 underline"
+                    >
+                      {link.type}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
             <hr className="my-3 border-gray-200" />
           </div>
 
@@ -333,26 +353,6 @@ export default function Map({
               </div>
             )}
           </div>
-
-          {/* SNS 링크 */}
-          {selectedCafe.snsLinks && selectedCafe.snsLinks.length > 0 && (
-            <div className="mt-3 border-t pt-3">
-              <h4 className="font-medium text-sm mb-2">SNS & 링크</h4>
-              <div className="flex flex-wrap gap-2">
-                {selectedCafe.snsLinks.map((link: any, index: number) => (
-                  <a
-                    key={index}
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm text-blue-600 hover:text-blue-800 underline"
-                  >
-                    {link.type}
-                  </a>
-                ))}
-              </div>
-            </div>
-          )}
         </div>
       )}
     </div>
