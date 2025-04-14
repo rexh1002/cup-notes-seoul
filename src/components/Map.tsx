@@ -205,7 +205,7 @@ export default function Map({
   return (
     <div ref={mapRef} style={style} className="relative">
       {selectedCafe && (
-        <div className="absolute top-16 left-4 z-50 bg-white p-4 rounded-lg shadow-lg max-w-sm w-80 max-h-[80vh] overflow-y-auto">
+        <div className="absolute top-16 left-4 z-50 bg-white p-4 rounded-lg shadow-lg max-w-[calc(100%-2rem)] w-72 max-h-[80vh] overflow-y-auto">
           <div className="flex justify-between items-start mb-2">
             <h3 className="font-bold text-lg">{selectedCafe.name}</h3>
             <button 
