@@ -254,7 +254,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       {/* 상단 헤더 */}
-      <div className="flex flex-col sm:flex-row justify-between items-center p-4 bg-white shadow-sm">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-4 bg-white shadow-sm">
         <div className="flex items-center gap-2">
           <h1 
             onClick={() => window.location.reload()}
