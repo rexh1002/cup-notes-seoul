@@ -138,14 +138,14 @@ export default function Map({
         title: cafe.name,
         icon: {
           content: [
-            '<div style="cursor:pointer;width:40px;height:40px;line-height:40px;',
+            '<div style="cursor:pointer;width:20px;height:20px;line-height:20px;',
             'font-size:10px;color:white;text-align:center;font-weight:bold;',
             'background:rgba(0,0,0,0.7);border-radius:50%;">',
             cafe.name.substring(0, 2),
             '</div>'
           ].join(''),
-          size: new window.naver.maps.Size(40, 40),
-          anchor: new window.naver.maps.Point(20, 20),
+          size: new window.naver.maps.Size(20, 20),
+          anchor: new window.naver.maps.Point(10, 10),
         },
       });
 
