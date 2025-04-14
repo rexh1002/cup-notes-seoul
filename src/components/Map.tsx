@@ -281,7 +281,7 @@ export default function Map({
           {/* 스크롤 가능한 Beans Line up 섹션 */}
           <div className="flex-1 overflow-y-auto">
             {selectedCafe.coffees && selectedCafe.coffees.length > 0 && (
-              <div className="space-y-3">
+              <div className="space-y-3 pb-8">
                 <div className="flex items-center gap-2 mb-2">
                   <h4 className="text-lg font-medium">Beans Line up</h4>
                   <div className="flex gap-1">
