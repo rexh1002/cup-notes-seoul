@@ -43,12 +43,18 @@ const CUP_NOTES = {
 };
 
 const NOTE_COLORS = [
-  '#FFE4E1', '#FFC0CB', '#FFB6C1', '#FF69B4', '#FF1493',
-  '#FFE4B5', '#FFDAB9', '#FFA07A', '#FF7F50', '#FF6347',
-  '#98FB98', '#90EE90', '#3CB371', '#2E8B57', '#006400',
-  '#E6E6FA', '#D8BFD8', '#DDA0DD', '#DA70D6', '#8B008B',
-  '#F0F8FF', '#87CEEB', '#87CEFA', '#4169E1', '#0000CD',
-  '#8B4513', '#A0522D', '#CD853F', '#DEB887', '#F4A460',
+  '#FFE4E1', // 연한 분홍
+  '#FFF0F5', // 라벤더 블러쉬
+  '#FFE4B5', // 모카신
+  '#FFEFD5', // 파파야
+  '#FFE5B4', // 피치
+  '#FFF8DC', // 콘실크
+  '#FFFACD', // 레몬 치프론
+  '#F0E68C', // 카키
+  '#EEE8AA', // 페일 골든로드
+  '#FFE4C4', // 비스크
+  '#FFDAB9', // 피치 퍼프
+  '#DEB887', // 버블우드
 ];
 
 interface BusinessHour {
