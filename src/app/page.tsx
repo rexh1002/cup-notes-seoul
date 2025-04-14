@@ -255,12 +255,19 @@ export default function HomePage() {
     <div className="min-h-screen bg-gray-50 flex flex-col">
       {/* 상단 헤더 */}
       <div className="flex flex-col sm:flex-row justify-between items-center p-4 bg-white shadow-sm">
-        <h1 
-          onClick={() => window.location.reload()}
-          className="text-3xl sm:text-4xl font-bold tracking-tight cursor-pointer hover:text-gray-700 transition-colors mb-2 sm:mb-0 self-start sm:self-auto"
-        >
-          CUP NOTES SEOUL
-        </h1>
+        <div className="flex items-center gap-2">
+          <h1 
+            onClick={() => window.location.reload()}
+            className="text-3xl sm:text-4xl font-bold tracking-tight cursor-pointer hover:text-gray-700 transition-colors mb-2 sm:mb-0 self-start sm:self-auto"
+          >
+            CUP NOTES SEOUL
+          </h1>
+          <div className="flex gap-1">
+            <span className="w-4 h-4 rounded bg-pink-200"></span>
+            <span className="w-4 h-4 rounded bg-yellow-200"></span>
+            <span className="w-4 h-4 rounded bg-amber-700"></span>
+          </div>
+        </div>
 
         {/* 로그인/회원가입 버튼 그룹 - 모바일에서는 숨김 */} 
         <div className="hidden sm:flex items-center font-sans w-full sm:w-auto justify-center sm:justify-end">   
