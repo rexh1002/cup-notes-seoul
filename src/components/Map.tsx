@@ -283,7 +283,7 @@ export default function Map({
             {selectedCafe.coffees && selectedCafe.coffees.length > 0 && (
               <div className="space-y-3 pb-12">
                 <div className="flex items-center gap-2 mb-2">
-                  <h4 className="text-lg font-medium">Beans Line up</h4>
+                  <h4 className="text-lg font-medium">Beans Lineup</h4>
                   <div className="flex gap-1">
                     <span className="w-4 h-4 rounded bg-pink-200"></span>
                     <span className="w-4 h-4 rounded bg-yellow-200"></span>
