@@ -205,7 +205,7 @@ export default function Map({
   return (
     <div ref={mapRef} style={style} className="relative">
       {selectedCafe && (
-        <div className="absolute top-16 left-4 z-50 bg-white p-4 rounded-lg shadow-lg max-w-[calc(100%-2rem)] w-72 max-h-[80vh] flex flex-col">
+        <div className="absolute top-0 left-0 z-50 bg-white p-4 rounded-lg shadow-lg max-w-[calc(100%-2rem)] w-72 max-h-[80vh] flex flex-col">
           {/* 고정된 상단 정보 */}
           <div className="flex-none">
             <div className="flex justify-between items-start mb-2">
