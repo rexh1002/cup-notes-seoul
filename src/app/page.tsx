@@ -483,7 +483,7 @@ export default function HomePage() {
             </section>
 
             {/* 컵노트 이미지 및 필터 */}
-            <section className="space-y-4">
+            <section className="space-y-4 pb-8 sm:pb-0">
               <h2 className="text-xl font-bold mb-4 border-b pb-2">My Cup Notes</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {/* Floral Section */}
