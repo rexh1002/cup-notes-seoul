@@ -258,7 +258,7 @@ export default function HomePage() {
         <div className="flex items-center gap-2">
           <h1 
             onClick={() => window.location.reload()}
-            className="text-2xl sm:text-4xl font-bold tracking-tight cursor-pointer hover:text-gray-700 transition-colors mb-2 sm:mb-0 text-center sm:text-left w-full sm:w-auto"
+            className="text-2xl sm:text-4xl font-bold tracking-tight cursor-pointer hover:text-gray-700 transition-colors mb-2 sm:mb-0 text-left w-full sm:w-auto"
           >
             CUP NOTES SEOUL
           </h1>
