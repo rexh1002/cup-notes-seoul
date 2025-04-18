@@ -252,7 +252,7 @@ export default function Map({
       className="relative sm:h-full"
     >
       {selectedCafe && (
-        <div className="absolute top-0 left-0 z-50 bg-white rounded-lg shadow-lg max-w-[calc(100%-2rem)] w-72 sm:w-[328px] max-h-[calc(80vh-80px)] sm:max-h-[calc(80vh-60px)] flex flex-col overflow-hidden">
+        <div className="absolute top-3 left-0 z-50 bg-white rounded-lg shadow-lg max-w-[calc(100%-2rem)] w-72 sm:w-[328px] max-h-[calc(80vh-80px)] sm:max-h-[calc(80vh-60px)] flex flex-col overflow-hidden">
           {/* 카페 이미지 섹션 */}
           {selectedCafe.imageUrl && (
             <div className="w-full h-[100px] relative">
@@ -282,18 +282,31 @@ export default function Map({
 
             <div className="space-y-0.5 text-xs text-gray-600 mt-0.5">
               <p className="leading-none">
-                <span className="inline-block mr-1">📍</span>
+                <span className="inline-block mr-1 text-gray-400">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                </span>
                 {selectedCafe.address}
               </p>
               {selectedCafe.phone && (
                 <p className="leading-none">
-                  <span className="inline-block mr-1">📞</span>
+                  <span className="inline-block mr-1 text-gray-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                    </svg>
+                  </span>
                   {selectedCafe.phone}
                 </p>
               )}
               {selectedCafe.description && (
                 <p className="leading-none">
-                  <span className="inline-block mr-1">📝</span>
+                  <span className="inline-block mr-1 text-gray-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                  </span>
                   {selectedCafe.description}
                 </p>
               )}
@@ -305,7 +318,11 @@ export default function Map({
                 <div className="space-y-0.5">
                   {selectedCafe.businessHours.map((hour: any, index: number) => (
                     <div key={index} className="text-xs leading-none">
-                      <span className="inline-block mr-1">🕒</span>
+                      <span className="inline-block mr-1 text-gray-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                      </span>
                       <span className="text-gray-600">{hour.day}:</span>{' '}
                       <span className="text-gray-600">{hour.openTime} - {hour.closeTime}</span>
                     </div>
@@ -313,7 +330,11 @@ export default function Map({
                 </div>
                 {selectedCafe.businessHourNote && (
                   <p className="text-xs text-gray-500 mt-0.5 leading-none">
-                    <span className="inline-block mr-1">ℹ️</span>
+                    <span className="inline-block mr-1 text-gray-400">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </span>
                     {selectedCafe.businessHourNote}
                   </p>
                 )}
