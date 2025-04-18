@@ -259,17 +259,17 @@ export default function HomePage() {
     <div className="min-h-screen bg-gray-50 flex flex-col">
       {/* 상단 헤더 */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-4 bg-white shadow-sm">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           <h1 
             onClick={() => window.location.reload()}
-            className="text-2xl sm:text-4xl font-bold tracking-tight cursor-pointer hover:text-gray-700 transition-colors mb-2 sm:mb-0 text-left w-full sm:w-auto"
+            className="text-2xl sm:text-4xl font-bold tracking-tight cursor-pointer text-gray-900 hover:text-gray-700 transition-colors mb-2 sm:mb-0 text-left w-full sm:w-auto font-sans"
           >
             CUP NOTES SEOUL
           </h1>
-          <div className="flex gap-1">
-            <span className="w-4 h-4 rounded bg-pink-200"></span>
-            <span className="w-4 h-4 rounded bg-yellow-200"></span>
-            <span className="w-4 h-4 rounded bg-amber-700"></span>
+          <div className="flex -space-x-2">
+            <span className="w-3 h-3 rounded-full bg-[#FFB5A7] z-10"></span>
+            <span className="w-3 h-3 rounded-full bg-[#FCD5CE] z-20"></span>
+            <span className="w-3 h-3 rounded-full bg-[#F8EDEB] z-30"></span>
           </div>
         </div>
 
