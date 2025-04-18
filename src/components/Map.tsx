@@ -151,22 +151,17 @@ export default function Map({
         title: cafe.name,
         icon: {
           content: [
-            '<div style="cursor:pointer;width:40px;height:40px;line-height:40px;',
-            'position:relative;">',
-            '<div style="position:absolute;width:32px;height:32px;background:#000000;border-radius:50%;',
-            'transform:translate(-50%,-50%);left:50%;top:40%;">',
-            '</div>',
-            '<div style="position:absolute;width:20px;height:12px;background:#FFFFFF;',
-            'border-radius:10px 10px 0 0;transform:translate(-50%,-50%);left:50%;top:35%;',
-            'box-shadow:0 0 0 2px #000000;">',
-            '</div>',
-            '<div style="position:absolute;width:6px;height:6px;border:2px solid #FFFFFF;',
-            'border-radius:50%;transform:translate(-50%,-50%);left:70%;top:35%;">',
+            '<div style="cursor:pointer;width:24px;height:24px;line-height:24px;',
+            'background:#000000;border-radius:50%;position:relative;">',
+            '<div style="position:absolute;width:12px;height:10px;',
+            'background:#FFFFFF;mask:url(\'data:image/svg+xml,<svg xmlns=\\\'http://www.w3.org/2000/svg\\\' viewBox=\\\'0 0 12 10\\\'><path d=\\\'M2 1h8v6a2 2 0 01-2 2H4a2 2 0 01-2-2V1z\\\' fill=\\\'white\\\'/><path d=\\\'M9 3a2 2 0 100 4\\\' fill=\\\'white\\\'/></svg>\');',
+            '-webkit-mask:url(\'data:image/svg+xml,<svg xmlns=\\\'http://www.w3.org/2000/svg\\\' viewBox=\\\'0 0 12 10\\\'><path d=\\\'M2 1h8v6a2 2 0 01-2 2H4a2 2 0 01-2-2V1z\\\' fill=\\\'white\\\'/><path d=\\\'M9 3a2 2 0 100 4\\\' fill=\\\'white\\\'/></svg>\');',
+            'transform:translate(-50%,-50%);left:50%;top:50%;">',
             '</div>',
             '</div>'
           ].join(''),
-          size: new window.naver.maps.Size(40, 40),
-          anchor: new window.naver.maps.Point(20, 40),
+          size: new window.naver.maps.Size(24, 24),
+          anchor: new window.naver.maps.Point(12, 12),
         },
       });
 
