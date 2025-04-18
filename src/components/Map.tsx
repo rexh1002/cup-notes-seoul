@@ -260,7 +260,10 @@ export default function Map({
                 src={selectedCafe.imageUrl}
                 alt={selectedCafe.name}
                 fill
+                sizes="100vw"
+                priority
                 className="object-cover"
+                unoptimized
               />
             </div>
           )}
