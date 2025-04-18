@@ -252,7 +252,7 @@ export default function Map({
       className="relative sm:h-full"
     >
       {selectedCafe && (
-        <div className="absolute top-10 left-3 bottom-24 z-50 bg-white rounded-lg shadow-lg w-[calc(100%-24px)] sm:w-[328px] flex flex-col overflow-hidden">
+        <div className="absolute top-10 left-3 z-50 bg-white rounded-lg shadow-lg w-[calc(100%-24px)] sm:w-[328px] max-h-[calc(100vh-140px)] flex flex-col overflow-hidden">
           {/* 카페 이미지 섹션 */}
           {selectedCafe.imageUrl && (
             <div className="w-full h-[160px] relative">
