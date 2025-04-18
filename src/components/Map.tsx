@@ -205,7 +205,7 @@ export default function Map({
   return (
     <div ref={mapRef} style={style} className="relative">
       {selectedCafe && (
-        <div className="absolute top-0 left-0 z-50 bg-white rounded-lg shadow-lg max-w-[calc(100%-2rem)] w-72 sm:w-[328px] max-h-[80vh] flex flex-col overflow-hidden">
+        <div className="absolute top-0 left-0 z-50 bg-white rounded-lg shadow-lg max-w-[calc(100%-2rem)] w-72 sm:w-[328px] max-h-[calc(80vh-80px)] flex flex-col overflow-hidden">
           {/* 카페 이미지 섹션 */}
           {selectedCafe.imageUrl && (
             <div className="w-full h-[100px]">
