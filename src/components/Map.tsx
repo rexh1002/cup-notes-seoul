@@ -280,8 +280,9 @@ export default function Map({
 
           {/* 스크롤 가능한 원두 라인업 섹션 */}
           <div className="flex-1 overflow-hidden flex flex-col">
+            {/* 카페 이미지 섹션 */}
             {selectedCafe.imageUrl && (
-              <div className="h-[100px] w-full relative">
+              <div className="w-full h-[100px]">
                 <img
                   src={selectedCafe.imageUrl}
                   alt={selectedCafe.name}
@@ -289,61 +290,79 @@ export default function Map({
                 />
               </div>
             )}
+
+            {/* 원두 라인업 섹션 */}
             {selectedCafe.coffees && selectedCafe.coffees.length > 0 && (
               <div className="flex-1 overflow-y-auto">
-                <div className="space-y-3 pb-12">
-                  <h4 className="text-lg font-medium px-3 py-2 sticky top-0 bg-white border-b">원두 라인업</h4>
-                  <div className="space-y-3 px-3">
+                <div className="p-4 space-y-4">
+                  <h4 className="text-lg font-medium sticky top-0 bg-white py-2">원두 라인업</h4>
+                  <div className="grid gap-4">
                     {selectedCafe.coffees.map((coffee) => (
-                      <div key={coffee.id} className="border-l-2 border-gray-200 pl-2">
-                        <div className="flex justify-between items-baseline">
-                          <span 
-                            className="text-sm font-medium px-2 py-0.5 rounded text-black"
-                            style={{
-                              backgroundColor: coffee.noteColors?.[0] || '#F3F4F6'
-                            }}
-                          >
-                            {coffee.name}
-                          </span>
-                          <span className="text-sm text-gray-600">
+                      <div
+                        key={coffee.id}
+                        className="rounded-lg p-4 shadow-sm"
+                        style={{
+                          backgroundColor: coffee.noteColors?.[0] || '#F3F4F6'
+                        }}
+                      >
+                        {/* 원두 이름과 가격 */}
+                        <div className="flex justify-between items-center mb-2">
+                          <h5 className="text-base font-medium">{coffee.name}</h5>
+                          <span className="text-sm font-medium">
                             {coffee.price?.toLocaleString()}원
                           </span>
                         </div>
+
+                        {/* 원두 설명 */}
                         {coffee.description && (
-                          <p className="text-xs text-gray-500 mt-0.5">
+                          <p className="text-sm text-gray-700 mb-3">
                             {coffee.description}
                           </p>
                         )}
+
                         {/* 원두 특성 태그들 */}
-                        <div className="flex flex-wrap gap-1 mt-1">
+                        <div className="flex flex-wrap gap-1.5">
                           {coffee.roastLevel?.map((level, idx) => (
-                            <span key={`roast-${idx}`} className="text-xs px-1.5 py-0.5 border border-gray-200 text-gray-600 rounded">
+                            <span
+                              key={`roast-${idx}`}
+                              className="text-xs px-2 py-1 bg-white/80 rounded-full text-gray-700"
+                            >
                               {level}
                             </span>
                           ))}
                           {coffee.origins?.map((origin, idx) => (
-                            <span key={`origin-${idx}`} className="text-xs px-1.5 py-0.5 border border-gray-200 text-gray-600 rounded">
+                            <span
+                              key={`origin-${idx}`}
+                              className="text-xs px-2 py-1 bg-white/80 rounded-full text-gray-700"
+                            >
                               {origin}
                             </span>
                           ))}
                           {coffee.processes?.map((process, idx) => (
-                            <span key={`process-${idx}`} className="text-xs px-1.5 py-0.5 border border-gray-200 text-gray-600 rounded">
+                            <span
+                              key={`process-${idx}`}
+                              className="text-xs px-2 py-1 bg-white/80 rounded-full text-gray-700"
+                            >
                               {process}
                             </span>
                           ))}
                           {coffee.brewMethods?.map((method, idx) => (
-                            <span key={`brew-${idx}`} className="text-xs px-1.5 py-0.5 border border-gray-200 text-gray-600 rounded">
+                            <span
+                              key={`brew-${idx}`}
+                              className="text-xs px-2 py-1 bg-white/80 rounded-full text-gray-700"
+                            >
                               {method}
                             </span>
                           ))}
                         </div>
+
                         {/* 커피 노트 */}
                         {coffee.notes && coffee.notes.length > 0 && (
-                          <div className="flex flex-wrap gap-1 mt-1">
+                          <div className="flex flex-wrap gap-1.5 mt-2">
                             {coffee.notes.map((note, idx) => (
                               <span
                                 key={`note-${idx}`}
-                                className="text-xs px-1.5 py-0.5 border border-gray-200 text-gray-600 rounded"
+                                className="text-xs px-2 py-1 bg-white/80 rounded-full text-gray-700"
                               >
                                 {note}
                               </span>
