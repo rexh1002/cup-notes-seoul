@@ -411,14 +411,14 @@ export default function HomePage() {
         {/* 왼쪽 컨텐츠 - 모바일에서는 조건부 표시 */}
         <div className={`w-full lg:w-1/2 flex flex-col ${showMapOnMobile ? 'hidden sm:flex' : ''}`}>
           <div className="p-4 sm:p-6 space-y-6 flex-grow">
-            {/* 추가 옵션 필터 */}
-            <section className="space-y-4">
+            {/* Coffee Filters 섹션 */}
+            <section className="space-y-4 sm:space-y-6">
               <h2 className="text-xl font-bold border-b pb-2">Coffee Filters</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4">
                 {/* 원산지 */}
                 <div>
-                  <h4 className="font-medium mb-2 text-sm">원산지</h4>
-                  <div className="flex flex-wrap gap-2">
+                  <h4 className="font-medium mb-1 sm:mb-2 text-sm">원산지</h4>
+                  <div className="flex flex-wrap gap-1 sm:gap-2">
                     {['에티오피아', '콜롬비아', '과테말라', '코스타리카', '파나마', '인도네시아', '브라질', '케냐', '엘살바도르', '르완다'].map((origin) => (
                       <button
                         key={origin}
@@ -434,8 +434,8 @@ export default function HomePage() {
                 </div>
                 {/* 프로세스 */}
                 <div>
-                  <h4 className="font-medium mb-2 text-sm">프로세스</h4>
-                  <div className="flex flex-wrap gap-2">
+                  <h4 className="font-medium mb-1 sm:mb-2 text-sm">프로세스</h4>
+                  <div className="flex flex-wrap gap-1 sm:gap-2">
                     {['워시드', '내추럴', '허니', '무산소 발효', '디카페인'].map((process) => (
                       <button
                         key={process}
@@ -451,8 +451,8 @@ export default function HomePage() {
                 </div>
                 {/* 추출방식 */}
                 <div>
-                  <h4 className="font-medium mb-2 text-sm">추출방식</h4>
-                  <div className="flex flex-wrap gap-2">
+                  <h4 className="font-medium mb-1 sm:mb-2 text-sm">추출방식</h4>
+                  <div className="flex flex-wrap gap-1 sm:gap-2">
                     {['핸드드립', '에스프레소', '콜드브루'].map((method) => (
                       <button
                         key={method}
@@ -468,8 +468,8 @@ export default function HomePage() {
                 </div>
                 {/* 로스팅 포인트 */}
                 <div>
-                  <h4 className="font-medium mb-2 text-sm">로스팅 포인트</h4>
-                  <div className="flex flex-wrap gap-2">
+                  <h4 className="font-medium mb-1 sm:mb-2 text-sm">로스팅 포인트</h4>
+                  <div className="flex flex-wrap gap-1 sm:gap-2">
                     {['다크', '미디엄다크', '미디엄', '미디엄라이트', '라이트'].map((roast) => (
                       <button
                         key={roast}
@@ -486,10 +486,10 @@ export default function HomePage() {
               </div>
             </section>
 
-            {/* 컵노트 이미지 및 필터 */}
-            <section className="space-y-4 pb-8 sm:pb-0">
-              <h2 className="text-xl font-bold mb-4 border-b pb-2">My Cup Notes</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {/* My Cup Notes 섹션 */}
+            <section className="space-y-3 sm:space-y-4 pb-8 sm:pb-0">
+              <h2 className="text-xl font-bold mb-2 sm:mb-4 border-b pb-2">My Cup Notes</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-4">
                 {/* Floral Section */}
                 <div className="relative">
                   <Image
