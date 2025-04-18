@@ -252,15 +252,15 @@ export default function Map({
       className="relative sm:h-full"
     >
       {selectedCafe && (
-        <div className="absolute top-3 left-0 z-50 bg-white rounded-lg shadow-lg max-w-[calc(100%-2rem)] w-72 sm:w-[328px] max-h-[calc(80vh-80px)] sm:max-h-[calc(80vh-60px)] flex flex-col overflow-hidden">
+        <div className="absolute top-3 left-3 z-50 bg-white rounded-lg shadow-lg w-[calc(100%-24px)] sm:w-[328px] max-h-[calc(100vh-80px)] sm:max-h-[calc(100vh-80px)] flex flex-col overflow-hidden">
           {/* 카페 이미지 섹션 */}
           {selectedCafe.imageUrl && (
-            <div className="w-full h-[100px] relative">
+            <div className="w-full h-[160px] relative">
               <Image
                 src={selectedCafe.imageUrl}
                 alt={selectedCafe.name}
                 fill
-                sizes="100vw"
+                sizes="(max-width: 768px) 100vw, 328px"
                 priority
                 className="object-cover"
                 unoptimized
