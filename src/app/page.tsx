@@ -594,11 +594,11 @@ export default function HomePage() {
 
         {/* 오른쪽 지도 - 모바일에서는 조건부 표시 및 전체 화면 */}
         <div className={`
-          ${showMapOnMobile ? 'fixed inset-0 z-40' : 'hidden sm:block'}
-          w-full h-[calc(100vh-200px)] sm:h-auto
+          ${showMapOnMobile ? 'fixed inset-0 z-[9999]' : 'hidden sm:block'}
+          w-full h-full
           lg:fixed lg:right-0 lg:top-[132px] lg:bottom-[3rem] lg:w-1/2 
-          overflow-hidden shadow-lg sm:rounded-lg sm:m-4
-          ${isLoggedIn ? 'mb-[120px]' : 'mb-[96px]'} sm:mb-0
+          lg:overflow-hidden lg:shadow-lg lg:rounded-lg lg:m-4
+          ${isLoggedIn ? 'lg:mb-[120px]' : 'lg:mb-[96px]'} lg:mb-0
           relative
         `}>
           {/* 선택된 필터 표시 */}
@@ -638,7 +638,7 @@ export default function HomePage() {
               </div>
             </div>
           )}
-          <div className={`w-full ${showMapOnMobile ? 'h-[100vh]' : 'h-full'}`}>
+          <div className="w-full h-screen">
             <Map cafes={processedCafes} searchKeyword={searchKeyword} />
           </div>
         </div>
