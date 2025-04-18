@@ -67,6 +67,7 @@ export default function Map({
   const [center, setCenter] = useState(initialCenter);
   const [zoom, setZoom] = useState(initialZoom);
   const [cafeCoordinates, setCafeCoordinates] = useState<Record<string, Coordinates>>({});
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
 
   // 주소를 좌표로 변환
   const getCoordinates = useCallback(async (address: string): Promise<Coordinates | null> => {
@@ -93,22 +94,27 @@ export default function Map({
     });
   }, []);
 
-  // 지도 초기화
-  const initMap = useCallback(() => {
-    if (!mapRef.current || mapInstance.current) return;
+  // 검색된 카페들의 중심점 계산 및 지도 이동
+  const updateMapCenter = useCallback((coordinates: Record<string, Coordinates>) => {
+    if (!mapInstance.current || Object.keys(coordinates).length === 0) return;
 
-    const mapOptions = {
-      center: new window.naver.maps.LatLng(center.lat, center.lng),
-      zoom: zoom,
-      minZoom: 10,
-      zoomControl: true,
-      zoomControlOptions: {
-        position: window.naver.maps.Position.TOP_RIGHT,
-      },
-    };
+    const coords = Object.values(coordinates);
+    const centerLat = coords.reduce((sum, coord) => sum + coord.lat, 0) / coords.length;
+    const centerLng = coords.reduce((sum, coord) => sum + coord.lng, 0) / coords.length;
+    
+    const newCenter = new window.naver.maps.LatLng(centerLat, centerLng);
+    mapInstance.current.setCenter(newCenter);
+    setCenter({ lat: centerLat, lng: centerLng });
 
-    mapInstance.current = new window.naver.maps.Map(mapRef.current, mapOptions);
-  }, [center.lat, center.lng, zoom]);
+    // 모든 마커가 보이도록 zoom level 조정
+    if (coords.length > 1) {
+      const bounds = new window.naver.maps.LatLngBounds();
+      coords.forEach(coord => {
+        bounds.extend(new window.naver.maps.LatLng(coord.lat, coord.lng));
+      });
+      mapInstance.current.fitBounds(bounds);
+    }
+  }, []);
 
   // 마커 생성 및 관리
   const updateMarkers = useCallback(async () => {
@@ -128,17 +134,11 @@ export default function Map({
     }
     setCafeCoordinates(coordinates);
 
-    // 검색된 카페들의 중심점 계산
-    if (Object.keys(coordinates).length > 0) {
-      const coords = Object.values(coordinates);
-      const centerLat = coords.reduce((sum, coord) => sum + coord.lat, 0) / coords.length;
-      const centerLng = coords.reduce((sum, coord) => sum + coord.lng, 0) / coords.length;
-      
-      // 지도 중심 이동
-      const newCenter = new window.naver.maps.LatLng(centerLat, centerLng);
-      mapInstance.current.setCenter(newCenter);
-      setCenter({ lat: centerLat, lng: centerLng });
+    // 초기 로드가 아닐 경우에만 중심점 업데이트
+    if (!isInitialLoad) {
+      updateMapCenter(coordinates);
     }
+    setIsInitialLoad(false);
 
     // 새로운 마커 생성
     cafes.forEach(cafe => {
@@ -164,6 +164,9 @@ export default function Map({
 
       // 마커 클릭 이벤트
       window.naver.maps.Event.addListener(marker, 'click', () => {
+        const newCenter = new window.naver.maps.LatLng(coord.lat, coord.lng);
+        mapInstance.current.setCenter(newCenter);
+        mapInstance.current.setZoom(15); // 클릭 시 더 가깝게 확대
         setCenter(coord);
         setSelectedCafe(cafe);
         if (onCafeSelect) onCafeSelect(cafe);
@@ -176,13 +179,40 @@ export default function Map({
 
       markersRef.current.push(marker);
     });
-  }, [cafes, getCoordinates, onCafeSelect]);
+  }, [cafes, getCoordinates, onCafeSelect, updateMapCenter, isInitialLoad]);
+
+  // 컴포넌트가 마운트될 때 실행
+  useEffect(() => {
+    const adjustMapHeight = () => {
+      if (mapRef.current) {
+        const vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
+        mapRef.current.style.height = `calc(var(--vh, 1vh) * 100 - 56px)`;
+      }
+    };
+
+    adjustMapHeight();
+    window.addEventListener('resize', adjustMapHeight);
+
+    return () => {
+      window.removeEventListener('resize', adjustMapHeight);
+    };
+  }, []);
 
   // 지도 초기화 및 마커 업데이트
   useEffect(() => {
     if (typeof window === 'undefined' || !window.naver) return;
 
-    initMap();
+    mapInstance.current = new window.naver.maps.Map(mapRef.current, {
+      center: new window.naver.maps.LatLng(center.lat, center.lng),
+      zoom: zoom,
+      minZoom: 10,
+      zoomControl: true,
+      zoomControlOptions: {
+        position: window.naver.maps.Position.TOP_RIGHT,
+      },
+    });
+
     updateMarkers();
 
     // 지도 이벤트 리스너
@@ -202,7 +232,7 @@ export default function Map({
         window.naver.maps.Event.clearInstanceListeners(mapInstance.current);
       }
     };
-  }, [initMap, updateMarkers]);
+  }, [center.lat, center.lng, zoom, updateMarkers]);
 
   // 선택된 카페가 변경될 때 지도 중심 이동
   useEffect(() => {
@@ -216,7 +246,11 @@ export default function Map({
   }, [selectedCafe, cafeCoordinates]);
 
   return (
-    <div ref={mapRef} style={style} className="relative h-[calc(100vh-56px)] sm:h-full">
+    <div 
+      ref={mapRef} 
+      style={{ ...style, height: 'calc(var(--vh, 1vh) * 100 - 56px)' }}
+      className="relative sm:h-full"
+    >
       {selectedCafe && (
         <div className="absolute top-0 left-0 z-50 bg-white rounded-lg shadow-lg max-w-[calc(100%-2rem)] w-72 sm:w-[328px] max-h-[calc(80vh-80px)] sm:max-h-[calc(80vh-60px)] flex flex-col overflow-hidden">
           {/* 카페 이미지 섹션 */}
