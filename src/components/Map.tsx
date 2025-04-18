@@ -341,7 +341,7 @@ export default function Map({
           {selectedCafe.coffees && selectedCafe.coffees.length > 0 && (
             <div className="flex-1 overflow-y-auto border-t border-gray-200">
               <div className="p-1.5 space-y-1.5">
-                <h4 className="text-base font-medium sticky top-0 bg-white py-1 leading-none">원두 라인업</h4>
+                <h4 className="text-base font-medium sticky top-0 bg-white py-1 leading-normal">원두 라인업</h4>
                 <div className="grid gap-1.5">
                   {selectedCafe.coffees.map((coffee) => (
                     <div
@@ -353,15 +353,15 @@ export default function Map({
                     >
                       {/* 원두 이름과 가격 */}
                       <div className="flex justify-between items-center mb-1">
-                        <h5 className="text-sm font-medium leading-none">{coffee.name}</h5>
-                        <span className="text-xs font-medium leading-none">
+                        <h5 className="text-sm font-medium leading-normal">{coffee.name}</h5>
+                        <span className="text-xs font-medium leading-normal">
                           {coffee.price?.toLocaleString()}원
                         </span>
                       </div>
 
                       {/* 원두 설명 */}
                       {coffee.description && (
-                        <p className="text-xs text-gray-700 mb-1.5 leading-tight">
+                        <p className="text-xs text-gray-700 mb-1.5 leading-relaxed">
                           {coffee.description}
                         </p>
                       )}
@@ -371,7 +371,7 @@ export default function Map({
                         {coffee.roastLevel?.map((level, idx) => (
                           <span
                             key={`roast-${idx}`}
-                            className="text-[10px] px-1.5 py-0.5 bg-white/80 rounded-full text-gray-700 leading-none"
+                            className="text-[10px] px-1.5 py-0.5 bg-white/80 rounded-full text-gray-700 leading-normal"
                           >
                             {level}
                           </span>
@@ -379,7 +379,7 @@ export default function Map({
                         {coffee.origins?.map((origin, idx) => (
                           <span
                             key={`origin-${idx}`}
-                            className="text-[10px] px-1.5 py-0.5 bg-white/80 rounded-full text-gray-700 leading-none"
+                            className="text-[10px] px-1.5 py-0.5 bg-white/80 rounded-full text-gray-700 leading-normal"
                           >
                             {origin}
                           </span>
@@ -387,7 +387,7 @@ export default function Map({
                         {coffee.processes?.map((process, idx) => (
                           <span
                             key={`process-${idx}`}
-                            className="text-[10px] px-1.5 py-0.5 bg-white/80 rounded-full text-gray-700 leading-none"
+                            className="text-[10px] px-1.5 py-0.5 bg-white/80 rounded-full text-gray-700 leading-normal"
                           >
                             {process}
                           </span>
@@ -395,7 +395,7 @@ export default function Map({
                         {coffee.brewMethods?.map((method, idx) => (
                           <span
                             key={`brew-${idx}`}
-                            className="text-[10px] px-1.5 py-0.5 bg-white/80 rounded-full text-gray-700 leading-none"
+                            className="text-[10px] px-1.5 py-0.5 bg-white/80 rounded-full text-gray-700 leading-normal"
                           >
                             {method}
                           </span>
@@ -408,7 +408,7 @@ export default function Map({
                           {coffee.notes.map((note, idx) => (
                             <span
                               key={`note-${idx}`}
-                              className="text-[10px] px-1.5 py-0.5 bg-white/80 rounded-full text-gray-700 leading-none"
+                              className="text-[10px] px-1.5 py-0.5 bg-white/80 rounded-full text-gray-700 leading-normal"
                             >
                               {note}
                             </span>
