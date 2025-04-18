@@ -258,7 +258,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       {/* 상단 헤더 */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-4 bg-white shadow-sm">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-4 bg-white shadow-sm sm:static fixed top-0 left-0 right-0 z-50">
         <div className="flex items-center gap-3">
           <h1 
             onClick={() => window.location.reload()}
@@ -373,8 +373,8 @@ export default function HomePage() {
       )}
 
       {/* 검색어 및 내 취향 선택 섹션 - 모바일에서 상단 고정 */}
-      <div className={`bg-white p-4 border-b sticky top-0 z-50 ${showMapOnMobile ? 'hidden sm:block' : ''}`}>
-        {/* 검색창 - 모바일에서는 전체 너비, 데스크톱에서는 왼쪽에만 */}
+      <div className={`bg-white p-4 border-b sm:static fixed top-[72px] left-0 right-0 z-40 ${showMapOnMobile ? 'hidden sm:block' : ''}`}>
+        {/* 검색창 */}
         <div className="relative w-full sm:max-w-xl">
           <input
             type="text"
@@ -399,7 +399,7 @@ export default function HomePage() {
       </div>
 
       {/* 메인 컨텐츠 영역 */}
-      <div className="flex flex-col lg:flex-row flex-grow">
+      <div className="flex flex-col lg:flex-row flex-grow mt-[132px] sm:mt-0">
         {/* 왼쪽 컨텐츠 - 모바일에서는 조건부 표시 */}
         <div className={`w-full lg:w-1/2 flex flex-col ${showMapOnMobile ? 'hidden sm:flex' : ''}`}>
           <div className="p-4 sm:p-6 space-y-6 flex-grow">
