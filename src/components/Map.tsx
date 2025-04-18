@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState, useCallback } from 'react';
+import Image from 'next/image';
 
 declare global {
   interface Window {
@@ -208,11 +209,12 @@ export default function Map({
         <div className="absolute top-0 left-0 z-50 bg-white rounded-lg shadow-lg max-w-[calc(100%-2rem)] w-72 sm:w-[328px] max-h-[calc(80vh-80px)] sm:max-h-[calc(80vh-60px)] flex flex-col overflow-hidden">
           {/* 카페 이미지 섹션 */}
           {selectedCafe.imageUrl && (
-            <div className="w-full h-[100px]">
-              <img
+            <div className="w-full h-[100px] relative">
+              <Image
                 src={selectedCafe.imageUrl}
                 alt={selectedCafe.name}
-                className="w-full h-full object-cover"
+                fill
+                className="object-cover"
               />
             </div>
           )}

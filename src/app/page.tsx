@@ -484,9 +484,11 @@ export default function HomePage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-4">
                 {/* Floral Section */}
                 <div className="relative">
-                  <img
+                  <Image
                     src="/images/floral.jpg"
                     alt="Floral Notes"
+                    width={400}
+                    height={192}
                     className="w-full h-48 object-cover rounded-lg"
                   />
                   <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col p-4 rounded-lg">
@@ -511,9 +513,11 @@ export default function HomePage() {
 
                 {/* Fruity Section */}
                 <div className="relative">
-                  <img
+                  <Image
                     src="/images/fruity.jpg"
                     alt="Fruity Notes"
+                    width={400}
+                    height={192}
                     className="w-full h-48 object-cover rounded-lg"
                   />
                   <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col p-4 rounded-lg">
@@ -538,9 +542,11 @@ export default function HomePage() {
 
                 {/* Nutty Section */}
                 <div className="relative">
-                  <img
+                  <Image
                     src="/images/nutty.jpg"
                     alt="Nutty Notes"
+                    width={400}
+                    height={192}
                     className="w-full h-48 object-cover rounded-lg"
                   />
                   <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col p-4 rounded-lg">
