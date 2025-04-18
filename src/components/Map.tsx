@@ -151,14 +151,21 @@ export default function Map({
         title: cafe.name,
         icon: {
           content: [
-            '<div style="cursor:pointer;width:20px;height:20px;line-height:20px;',
-            'font-size:10px;color:white;text-align:center;font-weight:bold;',
-            'background:rgba(0,0,0,0.7);border-radius:50%;">',
-            'C',
+            '<div style="cursor:pointer;width:40px;height:40px;line-height:40px;',
+            'position:relative;">',
+            '<div style="position:absolute;width:32px;height:32px;background:#FF6B6B;border-radius:50%;',
+            'transform:translate(-50%,-50%);left:50%;top:40%;">',
+            '</div>',
+            '<div style="position:absolute;width:20px;height:12px;background:#FF6B6B;',
+            'border-radius:10px 10px 0 0;transform:translate(-50%,-50%);left:50%;top:25%;">',
+            '</div>',
+            '<div style="position:absolute;width:16px;height:8px;border:2px solid #FF6B6B;border-bottom:0;',
+            'border-radius:8px 8px 0 0;transform:translate(-50%,-50%);left:50%;top:20%;">',
+            '</div>',
             '</div>'
           ].join(''),
-          size: new window.naver.maps.Size(20, 20),
-          anchor: new window.naver.maps.Point(10, 10),
+          size: new window.naver.maps.Size(40, 40),
+          anchor: new window.naver.maps.Point(20, 40),
         },
       });
 
