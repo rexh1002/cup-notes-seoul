@@ -292,38 +292,38 @@ export default function Map({
           {/* 원두 라인업 섹션 */}
           {selectedCafe.coffees && selectedCafe.coffees.length > 0 && (
             <div className="flex-1 overflow-y-auto border-t border-gray-200">
-              <div className="p-3 space-y-3">
-                <h4 className="text-lg font-medium sticky top-0 bg-white py-2">원두 라인업</h4>
-                <div className="grid gap-3">
+              <div className="p-2 space-y-2">
+                <h4 className="text-base font-medium sticky top-0 bg-white py-1.5">원두 라인업</h4>
+                <div className="grid gap-2">
                   {selectedCafe.coffees.map((coffee) => (
                     <div
                       key={coffee.id}
-                      className="rounded-lg p-4 shadow-sm"
+                      className="rounded-lg p-3 shadow-sm"
                       style={{
                         backgroundColor: coffee.noteColors?.[0] || '#F3F4F6'
                       }}
                     >
                       {/* 원두 이름과 가격 */}
-                      <div className="flex justify-between items-center mb-2">
-                        <h5 className="text-base font-medium">{coffee.name}</h5>
-                        <span className="text-sm font-medium">
+                      <div className="flex justify-between items-center mb-1.5">
+                        <h5 className="text-sm font-medium">{coffee.name}</h5>
+                        <span className="text-xs font-medium">
                           {coffee.price?.toLocaleString()}원
                         </span>
                       </div>
 
                       {/* 원두 설명 */}
                       {coffee.description && (
-                        <p className="text-sm text-gray-700 mb-3">
+                        <p className="text-xs text-gray-700 mb-2">
                           {coffee.description}
                         </p>
                       )}
 
                       {/* 원두 특성 태그들 */}
-                      <div className="flex flex-wrap gap-1.5">
+                      <div className="flex flex-wrap gap-1">
                         {coffee.roastLevel?.map((level, idx) => (
                           <span
                             key={`roast-${idx}`}
-                            className="text-xs px-2 py-1 bg-white/80 rounded-full text-gray-700"
+                            className="text-[10px] px-1.5 py-0.5 bg-white/80 rounded-full text-gray-700"
                           >
                             {level}
                           </span>
@@ -331,7 +331,7 @@ export default function Map({
                         {coffee.origins?.map((origin, idx) => (
                           <span
                             key={`origin-${idx}`}
-                            className="text-xs px-2 py-1 bg-white/80 rounded-full text-gray-700"
+                            className="text-[10px] px-1.5 py-0.5 bg-white/80 rounded-full text-gray-700"
                           >
                             {origin}
                           </span>
@@ -339,7 +339,7 @@ export default function Map({
                         {coffee.processes?.map((process, idx) => (
                           <span
                             key={`process-${idx}`}
-                            className="text-xs px-2 py-1 bg-white/80 rounded-full text-gray-700"
+                            className="text-[10px] px-1.5 py-0.5 bg-white/80 rounded-full text-gray-700"
                           >
                             {process}
                           </span>
@@ -347,7 +347,7 @@ export default function Map({
                         {coffee.brewMethods?.map((method, idx) => (
                           <span
                             key={`brew-${idx}`}
-                            className="text-xs px-2 py-1 bg-white/80 rounded-full text-gray-700"
+                            className="text-[10px] px-1.5 py-0.5 bg-white/80 rounded-full text-gray-700"
                           >
                             {method}
                           </span>
@@ -356,11 +356,11 @@ export default function Map({
 
                       {/* 커피 노트 */}
                       {coffee.notes && coffee.notes.length > 0 && (
-                        <div className="flex flex-wrap gap-1.5 mt-2">
+                        <div className="flex flex-wrap gap-1 mt-1.5">
                           {coffee.notes.map((note, idx) => (
                             <span
                               key={`note-${idx}`}
-                              className="text-xs px-2 py-1 bg-white/80 rounded-full text-gray-700"
+                              className="text-[10px] px-1.5 py-0.5 bg-white/80 rounded-full text-gray-700"
                             >
                               {note}
                             </span>
