@@ -128,6 +128,18 @@ export default function Map({
     }
     setCafeCoordinates(coordinates);
 
+    // 검색된 카페들의 중심점 계산
+    if (Object.keys(coordinates).length > 0) {
+      const coords = Object.values(coordinates);
+      const centerLat = coords.reduce((sum, coord) => sum + coord.lat, 0) / coords.length;
+      const centerLng = coords.reduce((sum, coord) => sum + coord.lng, 0) / coords.length;
+      
+      // 지도 중심 이동
+      const newCenter = new window.naver.maps.LatLng(centerLat, centerLng);
+      mapInstance.current.setCenter(newCenter);
+      setCenter({ lat: centerLat, lng: centerLng });
+    }
+
     // 새로운 마커 생성
     cafes.forEach(cafe => {
       const coord = coordinates[cafe.id];
@@ -204,7 +216,7 @@ export default function Map({
   }, [selectedCafe, cafeCoordinates]);
 
   return (
-    <div ref={mapRef} style={style} className="relative">
+    <div ref={mapRef} style={style} className="relative h-[calc(100vh-56px)] sm:h-full">
       {selectedCafe && (
         <div className="absolute top-0 left-0 z-50 bg-white rounded-lg shadow-lg max-w-[calc(100%-2rem)] w-72 sm:w-[328px] max-h-[calc(80vh-80px)] sm:max-h-[calc(80vh-60px)] flex flex-col overflow-hidden">
           {/* 카페 이미지 섹션 */}
