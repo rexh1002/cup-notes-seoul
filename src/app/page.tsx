@@ -485,14 +485,14 @@ export default function HomePage() {
                 {/* Floral Section */}
                 <div className="relative">
                   <Image
-                    src="/images/floral.jpg"
+                    src="/images/Floral.jpg"
                     alt="Floral Notes"
                     width={400}
-                    height={192}
+                    height={240}
                     className="w-full h-48 object-cover rounded-lg"
                   />
                   <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col p-4 rounded-lg">
-                    <h3 className="text-white text-lg font-bold mb-0.5 sm:mb-2">Floral</h3>
+                    <h3 className="text-white text-lg font-bold mb-2">Floral</h3>
                     <div className="flex flex-wrap gap-1.5">
                       {['라벤더', '아카시아', '장미', '자스민', '국화', '히비스커스', '제비꽃', '홍차', '얼그레이', '카모마일', '오렌지 블로섬', '은방울꽃', '블랙티', '베르가못', '라일락', '로즈마리'].map((note) => (
                         <button
@@ -514,14 +514,14 @@ export default function HomePage() {
                 {/* Fruity Section */}
                 <div className="relative">
                   <Image
-                    src="/images/fruity.jpg"
+                    src="/images/Fruity.jpg"
                     alt="Fruity Notes"
                     width={400}
-                    height={192}
+                    height={240}
                     className="w-full h-48 object-cover rounded-lg"
                   />
                   <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col p-4 rounded-lg">
-                    <h3 className="text-white text-lg font-bold mb-0.5 sm:mb-2">Fruity</h3>
+                    <h3 className="text-white text-lg font-bold mb-2">Fruity</h3>
                     <div className="flex flex-wrap gap-1.5">
                       {['파인애플', '복숭아', '리치', '사과', '감귤', '배', '패션후르츠', '메론', '파파야', '블루베리', '라즈베리', '자두', '딸기', '포도', '자몽', '오렌지', '레몬', '크랜베리', '망고', '체리', '살구'].map((note) => (
                         <button
@@ -543,14 +543,14 @@ export default function HomePage() {
                 {/* Nutty Section */}
                 <div className="relative">
                   <Image
-                    src="/images/nutty.jpg"
+                    src="/images/Nutty.jpg"
                     alt="Nutty Notes"
                     width={400}
-                    height={192}
+                    height={240}
                     className="w-full h-48 object-cover rounded-lg"
                   />
                   <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col p-4 rounded-lg">
-                    <h3 className="text-white text-lg font-bold mb-0.5 sm:mb-2">Nutty</h3>
+                    <h3 className="text-white text-lg font-bold mb-2">Nutty</h3>
                     <div className="flex flex-wrap gap-1.5">
                       {['초콜렛', '캐러멜', '고구마', '꿀', '헤이즐넛', '브라운슈거', '엿기름', '아몬드', '피칸', '호두', '로스트피넛', '마카다미아', '땅콩', '바닐라', '캐슈넛', '메이플 시럽', '토피', '피스타치오', '카카오닙스'].map((note) => (
                         <button
