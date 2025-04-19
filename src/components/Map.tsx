@@ -385,15 +385,19 @@ export default function Map({
                         key={coffee.id}
                         className="rounded-lg p-2 shadow-sm relative overflow-hidden"
                         style={{
-                          backgroundColor: 'transparent',
-                          boxShadow: 'inset 0 1px 3px rgba(0,0,0,0.08), inset 0 -1px 2px rgba(255,255,255,0.15)',
+                          backgroundColor: coffee.noteColors?.[0] || '#F3F4F6',
+                          boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.1)',
                           backgroundImage: `
-                            url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paper-texture'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.4' numOctaves='5' stitchTiles='stitch' result='noise'/%3E%3CfeColorMatrix type='matrix' in='noise' values='1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.15 0' result='colorNoise'/%3E%3CfeBlend mode='multiply' in='SourceGraphic' in2='colorNoise'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paper-texture)' fill='white'/%3E%3C/svg%3E"),
-                            url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paper-grain'%3E%3CfeTurbulence type='turbulence' baseFrequency='0.7' numOctaves='3' seed='2' stitchTiles='stitch' result='noise'/%3E%3CfeColorMatrix type='matrix' in='noise' values='1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.25 0' result='grainNoise'/%3E%3CfeBlend mode='multiply' in='SourceGraphic' in2='grainNoise'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paper-grain)' fill='white'/%3E%3C/svg%3E"),
-                            linear-gradient(to bottom, ${coffee.noteColors?.[0] + 'CC' || '#F3F4F6CC'}, ${coffee.noteColors?.[0] + 'CC' || '#F3F4F6CC'})
+                            radial-gradient(circle at 100% 150%, ${coffee.noteColors?.[0] || '#F3F4F6'} 24%, white 24%, white 28%, ${coffee.noteColors?.[0] || '#F3F4F6'} 28%, ${coffee.noteColors?.[0] || '#F3F4F6'} 36%, white 36%, white 40%, transparent 40%, transparent),
+                            radial-gradient(circle at 0    150%, ${coffee.noteColors?.[0] || '#F3F4F6'} 24%, white 24%, white 28%, ${coffee.noteColors?.[0] || '#F3F4F6'} 28%, ${coffee.noteColors?.[0] || '#F3F4F6'} 36%, white 36%, white 40%, transparent 40%, transparent),
+                            radial-gradient(circle at 50%  100%, white 10%, ${coffee.noteColors?.[0] || '#F3F4F6'} 10%, ${coffee.noteColors?.[0] || '#F3F4F6'} 23%, white 23%, white 30%, ${coffee.noteColors?.[0] || '#F3F4F6'} 30%, ${coffee.noteColors?.[0] || '#F3F4F6'}),
+                            radial-gradient(circle at 100% 50%, white 5%, ${coffee.noteColors?.[0] || '#F3F4F6'} 5%, ${coffee.noteColors?.[0] || '#F3F4F6'} 15%, white 15%, white 20%, ${coffee.noteColors?.[0] || '#F3F4F6'} 20%, ${coffee.noteColors?.[0] || '#F3F4F6'}),
+                            radial-gradient(circle at 0    50%, white 5%, ${coffee.noteColors?.[0] || '#F3F4F6'} 5%, ${coffee.noteColors?.[0] || '#F3F4F6'} 15%, white 15%, white 20%, ${coffee.noteColors?.[0] || '#F3F4F6'} 20%, ${coffee.noteColors?.[0] || '#F3F4F6'}),
+                            radial-gradient(circle at 50%  0%, white 5%, ${coffee.noteColors?.[0] || '#F3F4F6'} 5%, ${coffee.noteColors?.[0] || '#F3F4F6'} 15%, white 15%, white 20%, ${coffee.noteColors?.[0] || '#F3F4F6'} 20%, ${coffee.noteColors?.[0] || '#F3F4F6'})
                           `,
-                          backgroundSize: '100px 100px, 100px 100px, 100% 100%',
-                          backgroundBlendMode: 'multiply, multiply, normal'
+                          backgroundSize: '8px 8px',
+                          backgroundRepeat: 'repeat',
+                          opacity: 0.95
                         }}
                       >
                         {/* 원두 이름과 가격 */}
