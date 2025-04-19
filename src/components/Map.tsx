@@ -386,18 +386,15 @@ export default function Map({
                         className="rounded-lg p-2 shadow-sm relative overflow-hidden"
                         style={{
                           backgroundColor: coffee.noteColors?.[0] || '#F3F4F6',
-                          boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.1)',
+                          boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.05)',
                           backgroundImage: `
-                            radial-gradient(circle at 100% 150%, ${coffee.noteColors?.[0] || '#F3F4F6'} 24%, white 24%, white 28%, ${coffee.noteColors?.[0] || '#F3F4F6'} 28%, ${coffee.noteColors?.[0] || '#F3F4F6'} 36%, white 36%, white 40%, transparent 40%, transparent),
-                            radial-gradient(circle at 0    150%, ${coffee.noteColors?.[0] || '#F3F4F6'} 24%, white 24%, white 28%, ${coffee.noteColors?.[0] || '#F3F4F6'} 28%, ${coffee.noteColors?.[0] || '#F3F4F6'} 36%, white 36%, white 40%, transparent 40%, transparent),
-                            radial-gradient(circle at 50%  100%, white 10%, ${coffee.noteColors?.[0] || '#F3F4F6'} 10%, ${coffee.noteColors?.[0] || '#F3F4F6'} 23%, white 23%, white 30%, ${coffee.noteColors?.[0] || '#F3F4F6'} 30%, ${coffee.noteColors?.[0] || '#F3F4F6'}),
-                            radial-gradient(circle at 100% 50%, white 5%, ${coffee.noteColors?.[0] || '#F3F4F6'} 5%, ${coffee.noteColors?.[0] || '#F3F4F6'} 15%, white 15%, white 20%, ${coffee.noteColors?.[0] || '#F3F4F6'} 20%, ${coffee.noteColors?.[0] || '#F3F4F6'}),
-                            radial-gradient(circle at 0    50%, white 5%, ${coffee.noteColors?.[0] || '#F3F4F6'} 5%, ${coffee.noteColors?.[0] || '#F3F4F6'} 15%, white 15%, white 20%, ${coffee.noteColors?.[0] || '#F3F4F6'} 20%, ${coffee.noteColors?.[0] || '#F3F4F6'}),
-                            radial-gradient(circle at 50%  0%, white 5%, ${coffee.noteColors?.[0] || '#F3F4F6'} 5%, ${coffee.noteColors?.[0] || '#F3F4F6'} 15%, white 15%, white 20%, ${coffee.noteColors?.[0] || '#F3F4F6'} 20%, ${coffee.noteColors?.[0] || '#F3F4F6'})
+                            url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='5' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0.3 0 0 0 0 0 0.3 0 0 0 0 0 0.3 0 0 0 0 0 0.15 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E"),
+                            url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paper'%3E%3CfeTurbulence type='turbulence' baseFrequency='0.9' numOctaves='8' seed='1' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0.3 0 0 0 0 0 0.3 0 0 0 0 0 0.3 0 0 0 0 0 0.3 0'/%3E%3CfeGaussianBlur stdDeviation='0.5'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paper)'/%3E%3C/svg%3E"),
+                            linear-gradient(0deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0) 100%),
+                            linear-gradient(to right, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0) 100%)
                           `,
-                          backgroundSize: '8px 8px',
-                          backgroundRepeat: 'repeat',
-                          opacity: 0.95
+                          backgroundBlendMode: 'soft-light, overlay, overlay, overlay',
+                          backgroundSize: '256px 256px, 512px 512px, 100% 100%, 100% 100%'
                         }}
                       >
                         {/* 원두 이름과 가격 */}
