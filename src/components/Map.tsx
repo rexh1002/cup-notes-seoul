@@ -386,16 +386,17 @@ export default function Map({
                         className="rounded-lg p-2 shadow-sm relative overflow-hidden"
                         style={{
                           backgroundColor: coffee.noteColors?.[0] || '#F3F4F6',
-                          boxShadow: 'inset 0 0 4px rgba(0,0,0,0.1), inset 2px 2px 4px rgba(255,255,255,0.2)',
+                          boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.1), inset -2px -2px 4px rgba(255,255,255,0.2), 0 1px 3px rgba(0,0,0,0.05)',
                           backgroundImage: `
                             linear-gradient(${coffee.noteColors?.[0] || '#F3F4F6'}, ${coffee.noteColors?.[0] || '#F3F4F6'}),
-                            repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(0,0,0,0.03) 1px, rgba(0,0,0,0.03) 2px),
-                            repeating-linear-gradient(90deg, transparent, transparent 1px, rgba(0,0,0,0.03) 1px, rgba(0,0,0,0.03) 2px),
-                            linear-gradient(45deg, transparent 49%, rgba(0,0,0,0.05) 50%, transparent 51%),
-                            linear-gradient(-45deg, transparent 49%, rgba(0,0,0,0.05) 50%, transparent 51%)
+                            repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px),
+                            repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px),
+                            linear-gradient(45deg, transparent 49.5%, rgba(0,0,0,0.05) 49.5%, rgba(0,0,0,0.05) 50.5%, transparent 50.5%),
+                            linear-gradient(-45deg, transparent 49.5%, rgba(0,0,0,0.05) 49.5%, rgba(0,0,0,0.05) 50.5%)
                           `,
                           backgroundSize: '100% 100%, 4px 4px, 4px 4px, 60px 60px, 60px 60px',
-                          backgroundBlendMode: 'normal, overlay, overlay, overlay, overlay'
+                          backgroundBlendMode: 'normal, overlay, overlay, overlay, overlay',
+                          backgroundPosition: '0 0, 0 0, 0 0, 0 0, 30px 30px'
                         }}
                       >
                         {/* 원두 이름과 가격 */}
