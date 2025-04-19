@@ -386,22 +386,32 @@ export default function Map({
                         className="rounded-lg p-2 shadow-sm relative overflow-hidden"
                         style={{
                           backgroundColor: 'white',
-                          boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.05)'
+                          boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.1)'
                         }}
                       >
                         <div
                           className="absolute inset-0"
                           style={{
                             backgroundColor: coffee.noteColors?.[0] || '#F3F4F6',
-                            opacity: 0.85
+                            opacity: 0.75
                           }}
                         />
                         <div
                           className="absolute inset-0"
                           style={{
-                            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='5' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0.3 0 0 0 0 0 0.3 0 0 0 0 0 0.3 0 0 0 0 0 0.15 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+                            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='6' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0.5 0 0 0 0 0 0.5 0 0 0 0 0 0.5 0 0 0 0 0 0.35 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+                            backgroundSize: '256px 256px',
+                            mixBlendMode: 'overlay',
+                            opacity: 0.9
+                          }}
+                        />
+                        <div
+                          className="absolute inset-0"
+                          style={{
+                            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paperTexture'%3E%3CfeTurbulence type='turbulence' baseFrequency='0.8' numOctaves='4' seed='5' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0.4 0 0 0 0 0 0.4 0 0 0 0 0 0.4 0 0 0 0 0 0.3 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paperTexture)'/%3E%3C/svg%3E")`,
                             backgroundSize: '512px 512px',
-                            mixBlendMode: 'multiply'
+                            mixBlendMode: 'soft-light',
+                            opacity: 0.95
                           }}
                         />
                         <div className="relative">
