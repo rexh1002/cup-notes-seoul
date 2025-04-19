@@ -258,7 +258,7 @@ export default function Map({
         <div className="absolute top-10 left-3 right-5 sm:right-3 z-50 bg-white rounded-lg shadow-lg w-[calc(100%-32px)] sm:w-[328px] max-h-[calc(100vh-196px)] sm:max-h-[calc(100vh-256px)] flex flex-col overflow-hidden">
           {/* 카페 이미지 섹션 */}
           {selectedCafe.imageUrl && (
-            <div className="w-full h-[160px] relative">
+            <div className="w-full h-[186px] relative">
               <Image
                 src={selectedCafe.imageUrl}
                 alt={selectedCafe.name}
@@ -370,12 +370,12 @@ export default function Map({
               <div className="p-4 space-y-2">
                 <div className="flex items-center justify-between">
                   <h3 className="font-bold text-lg">원두 라인업</h3>
-                  <span className="text-sm text-gray-500">
-                    {selectedCafe.updatedAt ? new Date(selectedCafe.updatedAt).toLocaleDateString('ko-KR', {
+                  <span className="text-xs text-gray-500">
+                    {selectedCafe.updatedAt ? new Date(selectedCafe.updatedAt).toLocaleDateString('en-US', {
                       year: 'numeric',
-                      month: 'long',
-                      day: 'numeric'
-                    }) + ' 수정' : ''}
+                      month: '2-digit',
+                      day: '2-digit'
+                    }).replace(/(\d+)\/(\d+)\/(\d+)/, '$3/$1/$2') + ' last updated' : ''}
                   </span>
                 </div>
                 <div className="space-y-1">
