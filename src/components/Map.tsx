@@ -383,9 +383,11 @@ export default function Map({
                     {selectedCafe.coffees.map((coffee) => (
                       <div
                         key={coffee.id}
-                        className="rounded-lg p-2 shadow-sm"
+                        className="rounded-lg p-2 shadow-sm relative overflow-hidden"
                         style={{
-                          backgroundColor: coffee.noteColors?.[0] || '#F3F4F6'
+                          backgroundColor: coffee.noteColors?.[0] || '#F3F4F6',
+                          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Cdefs%3E%3Cfilter id='paper' x='0%25' y='0%25' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' result='noise'/%3E%3CfeDisplacementMap in='SourceGraphic' in2='noise' scale='3' xChannelSelector='R' yChannelSelector='G'/%3E%3C/filter%3E%3C/defs%3E%3Crect width='100%25' height='100%25' filter='url(%23paper)' opacity='0.15'/%3E%3C/svg%3E")`,
+                          backgroundBlendMode: 'overlay'
                         }}
                       >
                         {/* 원두 이름과 가격 */}
