@@ -407,6 +407,23 @@ export default function HomePage() {
             <section className="space-y-4 sm:space-y-6">
               <h2 className="text-xl font-bold border-b pb-2">Coffee Filters</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4">
+                {/* 추출방식 */}
+                <div>
+                  <h4 className="font-medium mb-1 sm:mb-2 text-sm">추출방식</h4>
+                  <div className="flex flex-wrap gap-1 sm:gap-2">
+                    {['핸드드립', '에스프레소', '콜드브루'].map((method) => (
+                      <button
+                        key={method}
+                        onClick={() => toggleItem(method, setSelectedBrewMethods)}
+                        className={`text-xs px-2 py-0.5 rounded-full cursor-pointer ${
+                          selectedBrewMethods.includes(method) ? 'bg-blue-500 text-white' : 'bg-gray-200'
+                        }`}
+                      >
+                        {method}
+                      </button>
+                    ))}
+                  </div>
+                </div>
                 {/* 원산지 */}
                 <div>
                   <h4 className="font-medium mb-1 sm:mb-2 text-sm">원산지</h4>
@@ -437,23 +454,6 @@ export default function HomePage() {
                         }`}
                       >
                         {process}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-                {/* 추출방식 */}
-                <div>
-                  <h4 className="font-medium mb-1 sm:mb-2 text-sm">추출방식</h4>
-                  <div className="flex flex-wrap gap-1 sm:gap-2">
-                    {['핸드드립', '에스프레소', '콜드브루'].map((method) => (
-                      <button
-                        key={method}
-                        onClick={() => toggleItem(method, setSelectedBrewMethods)}
-                        className={`text-xs px-2 py-0.5 rounded-full cursor-pointer ${
-                          selectedBrewMethods.includes(method) ? 'bg-blue-500 text-white' : 'bg-gray-200'
-                        }`}
-                      >
-                        {method}
                       </button>
                     ))}
                   </div>
