@@ -378,7 +378,7 @@ export default function HomePage() {
         <div className="relative w-full sm:max-w-xl">
           <input
             type="text"
-            placeholder="검색어를 입력하세요"
+            placeholder="검색어 입력 (예: 카페명, 원두이름, 컵노트 등)"
             value={searchKeyword}
             onChange={(e) => setSearchKeyword(e.target.value)}
             className="w-full px-4 py-2 text-gray-700 bg-gray-100 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white"
