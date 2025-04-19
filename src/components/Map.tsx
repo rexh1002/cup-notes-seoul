@@ -371,11 +371,11 @@ export default function Map({
                 <div className="flex items-center justify-between">
                   <h3 className="font-bold text-lg">원두 라인업</h3>
                   <span className="text-sm text-gray-500">
-                    {selectedCafe.lastUpdated ? new Date(selectedCafe.lastUpdated).toLocaleDateString('ko-KR', {
+                    {selectedCafe.updatedAt ? new Date(selectedCafe.updatedAt).toLocaleDateString('ko-KR', {
                       year: 'numeric',
                       month: 'long',
                       day: 'numeric'
-                    }) + ' 업데이트' : ''}
+                    }) + ' 수정' : ''}
                   </span>
                 </div>
                 <div className="space-y-1">
