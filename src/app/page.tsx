@@ -483,25 +483,27 @@ export default function HomePage() {
               <h2 className="text-xl font-bold mb-2 sm:mb-4 border-b pb-2">My Cup Notes</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-4">
                 {/* Floral Section */}
-                <div className="relative h-[400px] rounded-lg overflow-hidden">
+                <div className="relative h-[320px] rounded-lg overflow-hidden bg-gray-200">
                   <Image
                     src="/images/floral.jpg"
                     alt="Floral"
-                    fill
-                    className="object-cover"
+                    width={400}
+                    height={320}
+                    className="object-cover w-full h-full"
+                    priority
                   />
-                  <div className="absolute inset-0 bg-black bg-opacity-40 p-6 flex flex-col">
-                    <h3 className="text-2xl font-bold text-white mb-4">Floral</h3>
-                    <div className="flex flex-wrap gap-2">
+                  <div className="absolute inset-0 bg-black bg-opacity-40 p-4 flex flex-col">
+                    <h3 className="text-xl font-bold text-white mb-3">Floral</h3>
+                    <div className="flex flex-wrap gap-1.5 content-start">
                       {['라벤더', '아카시아', '장미', '자스민', '국화', '히비스커스', '제비꽃', '홍차', '얼그레이', '카모마일', '오렌지 블로섬', '은방울꽃', '블랙티', '베르가못', '라일락', '로즈마리'].map((note) => (
                         <button
                           key={note}
                           onClick={() => toggleNote(note)}
-                          className={`text-xs border border-white px-2 py-0.5 rounded-full cursor-pointer transition-all ${
+                          className={`px-2 py-1 rounded-full text-xs border border-white/50 transition-colors ${
                             selectedNotes.includes(note)
                               ? 'bg-white text-black'
-                              : 'bg-transparent text-white opacity-90 hover:opacity-100'
-                          } hover:scale-105 active:scale-95`}
+                              : 'text-white hover:bg-white/10'
+                          }`}
                         >
                           {note}
                         </button>
@@ -511,57 +513,61 @@ export default function HomePage() {
                 </div>
 
                 {/* Fruity Section */}
-                <div className="relative h-[400px] rounded-lg overflow-hidden">
+                <div className="relative h-[320px] rounded-lg overflow-hidden bg-gray-200">
                   <Image
                     src="/images/fruity.jpg"
                     alt="Fruity"
-                    fill
-                    className="object-cover"
+                    width={400}
+                    height={320}
+                    className="object-cover w-full h-full"
+                    priority
                   />
-                  <div className="absolute inset-0 bg-black bg-opacity-40 p-6 flex flex-col">
-                    <h3 className="text-2xl font-bold text-white mb-4">Fruity</h3>
-                    <div className="flex flex-wrap gap-2">
+                  <div className="absolute inset-0 bg-black bg-opacity-40 p-4 flex flex-col">
+                    <h3 className="text-xl font-bold text-white mb-3">Fruity</h3>
+                    <div className="flex flex-wrap gap-1.5 content-start">
                       {['파인애플', '복숭아', '리치', '사과', '감귤', '배', '패션후르츠', '메론', '파파야', '블루베리', '라즈베리', '자두', '딸기', '포도', '자몽', '오렌지', '레몬', '크랜베리', '망고', '체리', '살구'].map((note) => (
-                        <button
-                          key={note}
-                          onClick={() => toggleNote(note)}
-                          className={`text-xs border border-white px-2 py-0.5 rounded-full cursor-pointer transition-all ${
-                            selectedNotes.includes(note)
-                              ? 'bg-white text-black'
-                              : 'bg-transparent text-white opacity-90 hover:opacity-100'
-                          } hover:scale-105 active:scale-95`}
-                        >
-                          {note}
-                        </button>
-                      ))}
+                          <button
+                            key={note}
+                            onClick={() => toggleNote(note)}
+                            className={`px-2 py-1 rounded-full text-xs border border-white/50 transition-colors ${
+                              selectedNotes.includes(note)
+                                ? 'bg-white text-black'
+                                : 'text-white hover:bg-white/10'
+                            }`}
+                          >
+                            {note}
+                          </button>
+                        ))}
                     </div>
                   </div>
                 </div>
 
                 {/* Nutty Section */}
-                <div className="relative h-[400px] rounded-lg overflow-hidden">
+                <div className="relative h-[320px] rounded-lg overflow-hidden bg-gray-200">
                   <Image
                     src="/images/nutty.jpg"
                     alt="Nutty"
-                    fill
-                    className="object-cover"
+                    width={400}
+                    height={320}
+                    className="object-cover w-full h-full"
+                    priority
                   />
-                  <div className="absolute inset-0 bg-black bg-opacity-40 p-6 flex flex-col">
-                    <h3 className="text-2xl font-bold text-white mb-4">Nutty</h3>
-                    <div className="flex flex-wrap gap-2">
+                  <div className="absolute inset-0 bg-black bg-opacity-40 p-4 flex flex-col">
+                    <h3 className="text-xl font-bold text-white mb-3">Nutty</h3>
+                    <div className="flex flex-wrap gap-1.5 content-start">
                       {['초콜렛', '캐러멜', '고구마', '꿀', '헤이즐넛', '브라운슈거', '엿기름', '아몬드', '피칸', '호두', '로스트피넛', '마카다미아', '땅콩', '바닐라', '캐슈넛', '메이플 시럽', '토피', '피스타치오', '카카오닙스'].map((note) => (
-                        <button
-                          key={note}
-                          onClick={() => toggleNote(note)}
-                          className={`text-xs border border-white px-2 py-0.5 rounded-full cursor-pointer transition-all ${
-                            selectedNotes.includes(note)
-                              ? 'bg-white text-black'
-                              : 'bg-transparent text-white opacity-90 hover:opacity-100'
-                          } hover:scale-105 active:scale-95`}
-                        >
-                          {note}
-                        </button>
-                      ))}
+                          <button
+                            key={note}
+                            onClick={() => toggleNote(note)}
+                            className={`px-2 py-1 rounded-full text-xs border border-white/50 transition-colors ${
+                              selectedNotes.includes(note)
+                                ? 'bg-white text-black'
+                                : 'text-white hover:bg-white/10'
+                            }`}
+                          >
+                            {note}
+                          </button>
+                        ))}
                     </div>
                   </div>
                 </div>
