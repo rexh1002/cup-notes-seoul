@@ -479,21 +479,20 @@ export default function HomePage() {
             </section>
 
             {/* My Cup Notes 섹션 */}
-            <section className="space-y-3 sm:space-y-4 pb-8 sm:pb-0">
+            <section className="space-y-3 sm:space-y-4">
               <h2 className="text-xl font-bold mb-2 sm:mb-4 border-b pb-2">My Cup Notes</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-4">
                 {/* Floral Section */}
-                <div className="relative">
+                <div className="relative h-[400px] rounded-lg overflow-hidden">
                   <Image
-                    src="/images/Floral.jpg"
-                    alt="Floral Notes"
-                    width={400}
-                    height={240}
-                    className="w-full h-48 object-cover rounded-lg"
+                    src="/images/floral.jpg"
+                    alt="Floral"
+                    fill
+                    className="object-cover"
                   />
-                  <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col p-4 rounded-lg">
-                    <h3 className="text-white text-lg font-bold mb-2">Floral</h3>
-                    <div className="flex flex-wrap gap-1.5">
+                  <div className="absolute inset-0 bg-black bg-opacity-40 p-6 flex flex-col">
+                    <h3 className="text-2xl font-bold text-white mb-4">Floral</h3>
+                    <div className="flex flex-wrap gap-2">
                       {['라벤더', '아카시아', '장미', '자스민', '국화', '히비스커스', '제비꽃', '홍차', '얼그레이', '카모마일', '오렌지 블로섬', '은방울꽃', '블랙티', '베르가못', '라일락', '로즈마리'].map((note) => (
                         <button
                           key={note}
@@ -512,17 +511,16 @@ export default function HomePage() {
                 </div>
 
                 {/* Fruity Section */}
-                <div className="relative">
+                <div className="relative h-[400px] rounded-lg overflow-hidden">
                   <Image
-                    src="/images/Fruity.jpg"
-                    alt="Fruity Notes"
-                    width={400}
-                    height={240}
-                    className="w-full h-48 object-cover rounded-lg"
+                    src="/images/fruity.jpg"
+                    alt="Fruity"
+                    fill
+                    className="object-cover"
                   />
-                  <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col p-4 rounded-lg">
-                    <h3 className="text-white text-lg font-bold mb-2">Fruity</h3>
-                    <div className="flex flex-wrap gap-1.5">
+                  <div className="absolute inset-0 bg-black bg-opacity-40 p-6 flex flex-col">
+                    <h3 className="text-2xl font-bold text-white mb-4">Fruity</h3>
+                    <div className="flex flex-wrap gap-2">
                       {['파인애플', '복숭아', '리치', '사과', '감귤', '배', '패션후르츠', '메론', '파파야', '블루베리', '라즈베리', '자두', '딸기', '포도', '자몽', '오렌지', '레몬', '크랜베리', '망고', '체리', '살구'].map((note) => (
                         <button
                           key={note}
@@ -541,17 +539,16 @@ export default function HomePage() {
                 </div>
 
                 {/* Nutty Section */}
-                <div className="relative">
+                <div className="relative h-[400px] rounded-lg overflow-hidden">
                   <Image
-                    src="/images/Nutty.jpg"
-                    alt="Nutty Notes"
-                    width={400}
-                    height={240}
-                    className="w-full h-48 object-cover rounded-lg"
+                    src="/images/nutty.jpg"
+                    alt="Nutty"
+                    fill
+                    className="object-cover"
                   />
-                  <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col p-4 rounded-lg">
-                    <h3 className="text-white text-lg font-bold mb-2">Nutty</h3>
-                    <div className="flex flex-wrap gap-1.5">
+                  <div className="absolute inset-0 bg-black bg-opacity-40 p-6 flex flex-col">
+                    <h3 className="text-2xl font-bold text-white mb-4">Nutty</h3>
+                    <div className="flex flex-wrap gap-2">
                       {['초콜렛', '캐러멜', '고구마', '꿀', '헤이즐넛', '브라운슈거', '엿기름', '아몬드', '피칸', '호두', '로스트피넛', '마카다미아', '땅콩', '바닐라', '캐슈넛', '메이플 시럽', '토피', '피스타치오', '카카오닙스'].map((note) => (
                         <button
                           key={note}
