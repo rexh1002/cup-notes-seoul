@@ -399,7 +399,7 @@ export default function HomePage() {
       </div>
 
       {/* 메인 컨텐츠 영역 */}
-      <div className="flex flex-col lg:flex-row flex-grow mt-[132px] sm:mt-0">
+      <div className="flex flex-col lg:flex-row flex-grow mt-0">
         {/* 왼쪽 컨텐츠 - 모바일에서는 조건부 표시 */}
         <div className={`w-full lg:w-1/2 flex flex-col ${showMapOnMobile ? 'hidden sm:flex' : ''}`}>
           <div className="p-4 sm:p-6 space-y-6 flex-grow">
@@ -570,25 +570,6 @@ export default function HomePage() {
                 </div>
               </div>
             </section>
-
-            {/* 선택사항 적용 버튼 */}
-            <div className="sticky bottom-14 sm:bottom-14 left-0 right-0 bg-gray-50 p-4 border-t">
-              <div className="flex justify-end space-x-2 max-w-screen-xl mx-auto">
-                <button
-                  onClick={clearSelections}
-                  className="px-6 py-2.5 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
-                >
-                  선택 초기화
-                </button>
-                <button
-                  onClick={handleSearch}
-                  className="px-6 py-2.5 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-                  disabled={isSearching}
-                >
-                  {isSearching ? "탐색 중..." : '선택사항 적용'}
-                </button>
-              </div>
-            </div>
           </div>
         </div>
 
@@ -596,46 +577,14 @@ export default function HomePage() {
         <div className={`
           ${showMapOnMobile ? 'fixed inset-0 z-[9999]' : 'hidden sm:block'}
           w-full h-full
-          lg:fixed lg:right-0 lg:top-[132px] lg:bottom-[3rem] lg:w-1/2 
+          lg:fixed lg:right-0 lg:top-0 lg:bottom-0 lg:w-1/2 
           lg:overflow-hidden lg:shadow-lg lg:rounded-lg lg:m-4
-          ${isLoggedIn ? 'lg:mb-[120px]' : 'lg:mb-[96px]'} lg:mb-0
           relative
         `}>
           {/* 선택된 필터 표시 */}
           {isMounted && (showMapOnMobile || window.innerWidth >= 640) && (
             <div className="absolute top-0 left-0 right-0 bg-white border-b z-40 px-4 py-2 overflow-x-auto whitespace-nowrap">
-              <div className="flex gap-2">
-                {selectedNotes.map((note) => (
-                  <span key={note} className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-blue-100 text-blue-800">
-                    {note}
-                  </span>
-                ))}
-                {selectedOrigins.map((origin) => (
-                  <span key={origin} className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-green-100 text-green-800">
-                    {origin}
-                  </span>
-                ))}
-                {selectedProcesses.map((process) => (
-                  <span key={process} className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-yellow-100 text-yellow-800">
-                    {process}
-                  </span>
-                ))}
-                {selectedRoast.map((roast) => (
-                  <span key={roast} className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-red-100 text-red-800">
-                    {roast}
-                  </span>
-                ))}
-                {selectedBrewMethods.map((method) => (
-                  <span key={method} className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-purple-100 text-purple-800">
-                    {method}
-                  </span>
-                ))}
-                {searchKeyword && (
-                  <span className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-gray-100 text-gray-800">
-                    {searchKeyword}
-                  </span>
-                )}
-              </div>
+              {/* ... 필터 표시 내용 ... */}
             </div>
           )}
           <div className="w-full h-screen">
