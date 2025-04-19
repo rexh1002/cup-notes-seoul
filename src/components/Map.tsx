@@ -386,8 +386,13 @@ export default function Map({
                         className="rounded-lg p-2 shadow-sm relative overflow-hidden"
                         style={{
                           backgroundColor: coffee.noteColors?.[0] || '#F3F4F6',
-                          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Cdefs%3E%3Cfilter id='paper' x='-20%25' y='-20%25' width='140%25' height='140%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.4' numOctaves='5' seed='1' result='noise'/%3E%3CfeDisplacementMap in='SourceGraphic' in2='noise' scale='8' xChannelSelector='R' yChannelSelector='G' result='displacement'/%3E%3CfeGaussianBlur in='displacement' stdDeviation='0.5'/%3E%3C/filter%3E%3C/defs%3E%3Crect width='100%25' height='100%25' filter='url(%23paper)' fill='%23FFFFFF' opacity='0.07'/%3E%3C/svg%3E")`,
-                          backgroundBlendMode: 'soft-light'
+                          backgroundImage: `
+                            linear-gradient(${coffee.noteColors?.[0] || '#F3F4F6'}, ${coffee.noteColors?.[0] || '#F3F4F6'}),
+                            url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paper' x='0%25' y='0%25' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch' result='noise'/%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.15 0' result='paper'/%3E%3Crect width='100%25' height='100%25' filter='url(%23paper)'/%3E%3C/svg%3E"),
+                            url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.005' numOctaves='5' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.3'/%3E%3C/svg%3E")
+                          `,
+                          backgroundBlendMode: 'soft-light, overlay',
+                          backgroundSize: '100% 100%, 150px 150px, 200px 200px'
                         }}
                       >
                         {/* 원두 이름과 가격 */}
