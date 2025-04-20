@@ -129,6 +129,47 @@ export default function HomePage() {
     router.push('/');
   };
 
+  useEffect(() => {
+    // 페이지 첫 로딩 시에만 모든 카페 표시
+    if (isMounted) {
+      const initialLoad = async () => {
+        setIsLoading(true);
+        try {
+          const response = await fetch('/api/cafes/search', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              keyword: '',
+              notes: [],
+              origins: [],
+              processes: [],
+              roastLevel: [],
+              brewMethod: [],
+            }),
+          });
+
+          if (!response.ok) {
+            throw new Error('초기 데이터를 불러오는데 실패했습니다.');
+          }
+
+          const data = await response.json();
+          if (data && data.cafes) {
+            setCafes(data.cafes);
+          }
+        } catch (error) {
+          console.error('초기 데이터 로딩 오류:', error);
+          alert('카페 정보를 불러오는데 실패했습니다.');
+        } finally {
+          setIsLoading(false);
+        }
+      };
+
+      initialLoad();
+    }
+  }, [isMounted]);
+
   const handleSearch = useCallback(async () => {
     if (!isMounted) return;
     
@@ -193,24 +234,6 @@ export default function HomePage() {
     }
   }, [searchKeyword, selectedNotes, selectedOrigins, selectedProcesses, selectedRoast, selectedBrewMethods, isMounted]);
 
-  useEffect(() => {
-    // 데스크톱에서만 자동 검색 실행
-    if (isMounted && window.innerWidth >= 640) {
-      handleSearch();
-    }
-  }, [handleSearch, isMounted]);
-
-  useEffect(() => {
-    if (showAllStores) {
-      // 데스크톱에서만 자동 검색 실행
-      if (isMounted && window.innerWidth >= 640) {
-        handleSearch();
-      }
-    } else {
-      setCafes([]);
-    }
-  }, [showAllStores, handleSearch, isMounted]);
-
   const clearSelections = () => {
     setSelectedNotes([]);
     setSelectedOrigins([]);
@@ -224,8 +247,10 @@ export default function HomePage() {
   };
 
   const toggleNote = (note: string) => {
-    setSelectedNotes((prev) =>
-      prev.includes(note) ? prev.filter((n) => n !== note) : [...prev, note]
+    setSelectedNotes(prev =>
+      prev.includes(note)
+        ? prev.filter(n => n !== note)
+        : [...prev, note]
     );
   };
 
@@ -233,8 +258,10 @@ export default function HomePage() {
     item: string,
     setter: React.Dispatch<React.SetStateAction<string[]>>
   ) => {
-    setter((prev) =>
-      prev.includes(item) ? prev.filter((i) => i !== item) : [...prev, item]
+    setter(prev =>
+      prev.includes(item)
+        ? prev.filter(i => i !== item)
+        : [...prev, item]
     );
   };
 
@@ -605,11 +632,6 @@ export default function HomePage() {
                     ...selectedRoast
                   ];
                   setSearchKeyword(allSelections.join(' '));
-                  setSelectedNotes([]);
-                  setSelectedBrewMethods([]);
-                  setSelectedOrigins([]);
-                  setSelectedProcesses([]);
-                  setSelectedRoast([]);
                   handleSearch();
                 }
               }}
