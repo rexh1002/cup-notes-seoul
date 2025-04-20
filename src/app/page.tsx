@@ -483,9 +483,9 @@ export default function HomePage() {
               <h2 className="text-xl font-bold mb-2 sm:mb-4 border-b pb-2">My Cup Notes</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-4">
                 {/* Floral Section */}
-                <div className="relative h-[320px] rounded-lg overflow-hidden shadow-sm">
+                <div className="relative h-[280px] rounded-lg overflow-hidden shadow-sm">
                   <div className="absolute inset-0" style={{
-                    backgroundColor: '#fce7f3',
+                    backgroundColor: '#fbcfe8',
                     boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.15)'
                   }}>
                     <div className="absolute inset-0" style={{
@@ -522,9 +522,9 @@ export default function HomePage() {
                 </div>
 
                 {/* Fruity Section */}
-                <div className="relative h-[320px] rounded-lg overflow-hidden shadow-sm">
+                <div className="relative h-[280px] rounded-lg overflow-hidden shadow-sm">
                   <div className="absolute inset-0" style={{
-                    backgroundColor: '#ecfccb',
+                    backgroundColor: '#fef08a',
                     boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.15)'
                   }}>
                     <div className="absolute inset-0" style={{
@@ -561,9 +561,9 @@ export default function HomePage() {
                 </div>
 
                 {/* Nutty Section */}
-                <div className="relative h-[320px] rounded-lg overflow-hidden shadow-sm">
+                <div className="relative h-[280px] rounded-lg overflow-hidden shadow-sm">
                   <div className="absolute inset-0" style={{
-                    backgroundColor: '#fef3c7',
+                    backgroundColor: '#92400e',
                     boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.15)'
                   }}>
                     <div className="absolute inset-0" style={{
@@ -580,7 +580,7 @@ export default function HomePage() {
                     }} />
                   </div>
                   <div className="absolute inset-0 p-4 flex flex-col">
-                    <h3 className="text-xl font-bold text-gray-800 mb-3">Nutty</h3>
+                    <h3 className="text-xl font-bold text-white mb-3">Nutty</h3>
                     <div className="flex flex-wrap gap-1.5 content-start">
                       {['초콜렛', '캐러멜', '고구마', '꿀', '헤이즐넛', '브라운슈거', '엿기름', '아몬드', '피칸', '호두', '로스트피넛', '마카다미아', '땅콩', '바닐라', '캐슈넛', '메이플 시럽', '토피', '피스타치오', '카카오닙스'].map((note) => (
                           <button
