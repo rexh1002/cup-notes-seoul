@@ -486,7 +486,7 @@ export default function HomePage() {
                 <div className="relative h-[240px] rounded-lg overflow-hidden shadow-sm">
                   <div className="absolute inset-0">
                     <Image
-                      src="/images/floral.jpg"
+                      src="/images/Floral.jpg"
                       alt="Floral background"
                       fill
                       className="object-cover"
@@ -517,7 +517,7 @@ export default function HomePage() {
                 <div className="relative h-[240px] rounded-lg overflow-hidden shadow-sm">
                   <div className="absolute inset-0">
                     <Image
-                      src="/images/fruity.jpg"
+                      src="/images/Fruity.jpg"
                       alt="Fruity background"
                       fill
                       className="object-cover"
@@ -548,7 +548,7 @@ export default function HomePage() {
                 <div className="relative h-[240px] rounded-lg overflow-hidden shadow-sm">
                   <div className="absolute inset-0">
                     <Image
-                      src="/images/nutty.jpg"
+                      src="/images/Nutty.jpg"
                       alt="Nutty background"
                       fill
                       className="object-cover"
