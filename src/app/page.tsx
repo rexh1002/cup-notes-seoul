@@ -676,6 +676,33 @@ export default function HomePage() {
           )}
         </div>
       </nav>
+
+      {/* Action Buttons */}
+      <div className="fixed bottom-4 left-4 flex gap-2">
+        <button
+          onClick={() => setSelectedNotes([])}
+          className="px-3 py-1.5 bg-gray-500 text-white rounded-full text-sm hover:bg-gray-600 transition-colors"
+        >
+          선택 초기화
+        </button>
+        <button
+          onClick={() => {
+            if (selectedNotes.length > 0) {
+              setSearchKeyword(selectedNotes.join(' '));
+              setSelectedNotes([]);
+              handleSearch();
+            }
+          }}
+          className={`px-3 py-1.5 ${
+            selectedNotes.length > 0
+              ? 'bg-blue-500 hover:bg-blue-600'
+              : 'bg-gray-300 cursor-not-allowed'
+          } text-white rounded-full text-sm transition-colors min-w-[80px]`}
+          disabled={isLoading || selectedNotes.length === 0}
+        >
+          {isLoading ? '탐색중...' : '선택사항 적용'}
+        </button>
+      </div>
     </div>
   );
 }
