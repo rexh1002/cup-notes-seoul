@@ -483,31 +483,35 @@ export default function HomePage() {
               <h2 className="text-xl font-bold mb-2 sm:mb-4 border-b pb-2">My Cup Notes</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-4">
                 {/* Floral Section */}
-                <div className="relative h-[320px] rounded-lg overflow-hidden">
-                  <div className="absolute inset-0 bg-pink-100">
-                    {/* 종이 질감 효과 */}
+                <div className="relative h-[320px] rounded-lg overflow-hidden shadow-sm">
+                  <div className="absolute inset-0" style={{
+                    backgroundColor: '#fce7f3',
+                    boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.15)'
+                  }}>
                     <div className="absolute inset-0" style={{
-                      backgroundImage: `
-                        linear-gradient(0deg, rgba(0, 0, 0, 0.03) 2px, transparent 2px),
-                        linear-gradient(90deg, rgba(0, 0, 0, 0.03) 2px, transparent 2px),
-                        linear-gradient(45deg, rgba(0, 0, 0, 0.05) 2px, transparent 2px),
-                        linear-gradient(-45deg, rgba(0, 0, 0, 0.05) 2px, transparent 2px)
-                      `,
-                      backgroundSize: '60px 60px, 60px 60px, 60px 60px, 60px 60px',
-                      boxShadow: 'inset 0 0 30px rgba(0, 0, 0, 0.1)'
+                      backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='7' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.7 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+                      backgroundSize: '128px 128px',
+                      mixBlendMode: 'multiply',
+                      opacity: 0.7
+                    }} />
+                    <div className="absolute inset-0" style={{
+                      backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paperTexture'%3E%3CfeTurbulence type='turbulence' baseFrequency='1.4' numOctaves='5' seed='5' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0.8 0 0 0 0 0 0.8 0 0 0 0 0 0.8 0 0 0 0 0 0.8 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paperTexture)'/%3E%3C/svg%3E")`,
+                      backgroundSize: '256px 256px',
+                      mixBlendMode: 'multiply',
+                      opacity: 0.4
                     }} />
                   </div>
-                  <div className="absolute inset-0 bg-black bg-opacity-20 p-4 flex flex-col">
-                    <h3 className="text-xl font-bold text-white mb-3">Floral</h3>
+                  <div className="absolute inset-0 p-4 flex flex-col">
+                    <h3 className="text-xl font-bold text-gray-800 mb-3">Floral</h3>
                     <div className="flex flex-wrap gap-1.5 content-start">
                       {['라벤더', '아카시아', '장미', '자스민', '국화', '히비스커스', '제비꽃', '홍차', '얼그레이', '카모마일', '오렌지 블로섬', '은방울꽃', '블랙티', '베르가못', '라일락', '로즈마리'].map((note) => (
                         <button
                           key={note}
                           onClick={() => toggleNote(note)}
-                          className={`px-2 py-1 rounded-full text-xs border border-white/50 transition-colors ${
+                          className={`px-2 py-1 rounded-full text-xs border border-gray-800/50 transition-colors ${
                             selectedNotes.includes(note)
-                              ? 'bg-white text-black'
-                              : 'text-white hover:bg-white/10'
+                              ? 'bg-gray-800 text-white'
+                              : 'text-gray-800 hover:bg-gray-800/10'
                           }`}
                         >
                           {note}
@@ -518,71 +522,79 @@ export default function HomePage() {
                 </div>
 
                 {/* Fruity Section */}
-                <div className="relative h-[320px] rounded-lg overflow-hidden">
-                  <div className="absolute inset-0 bg-[#f4f1c1]">
-                    {/* 종이 질감 효과 */}
+                <div className="relative h-[320px] rounded-lg overflow-hidden shadow-sm">
+                  <div className="absolute inset-0" style={{
+                    backgroundColor: '#ecfccb',
+                    boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.15)'
+                  }}>
                     <div className="absolute inset-0" style={{
-                      backgroundImage: `
-                        linear-gradient(0deg, rgba(0, 0, 0, 0.03) 2px, transparent 2px),
-                        linear-gradient(90deg, rgba(0, 0, 0, 0.03) 2px, transparent 2px),
-                        linear-gradient(45deg, rgba(0, 0, 0, 0.05) 2px, transparent 2px),
-                        linear-gradient(-45deg, rgba(0, 0, 0, 0.05) 2px, transparent 2px)
-                      `,
-                      backgroundSize: '60px 60px, 60px 60px, 60px 60px, 60px 60px',
-                      boxShadow: 'inset 0 0 30px rgba(0, 0, 0, 0.1)'
+                      backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='7' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.7 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+                      backgroundSize: '128px 128px',
+                      mixBlendMode: 'multiply',
+                      opacity: 0.7
+                    }} />
+                    <div className="absolute inset-0" style={{
+                      backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paperTexture'%3E%3CfeTurbulence type='turbulence' baseFrequency='1.4' numOctaves='5' seed='5' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0.8 0 0 0 0 0 0.8 0 0 0 0 0 0.8 0 0 0 0 0 0.8 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paperTexture)'/%3E%3C/svg%3E")`,
+                      backgroundSize: '256px 256px',
+                      mixBlendMode: 'multiply',
+                      opacity: 0.4
                     }} />
                   </div>
-                  <div className="absolute inset-0 bg-black bg-opacity-20 p-4 flex flex-col">
-                    <h3 className="text-xl font-bold text-white mb-3">Fruity</h3>
+                  <div className="absolute inset-0 p-4 flex flex-col">
+                    <h3 className="text-xl font-bold text-gray-800 mb-3">Fruity</h3>
                     <div className="flex flex-wrap gap-1.5 content-start">
                       {['파인애플', '복숭아', '리치', '사과', '감귤', '배', '패션후르츠', '메론', '파파야', '블루베리', '라즈베리', '자두', '딸기', '포도', '자몽', '오렌지', '레몬', '크랜베리', '망고', '체리', '살구'].map((note) => (
-                          <button
-                            key={note}
-                            onClick={() => toggleNote(note)}
-                            className={`px-2 py-1 rounded-full text-xs border border-white/50 transition-colors ${
-                              selectedNotes.includes(note)
-                                ? 'bg-white text-black'
-                                : 'text-white hover:bg-white/10'
-                            }`}
-                          >
-                            {note}
-                          </button>
-                        ))}
+                        <button
+                          key={note}
+                          onClick={() => toggleNote(note)}
+                          className={`px-2 py-1 rounded-full text-xs border border-gray-800/50 transition-colors ${
+                            selectedNotes.includes(note)
+                              ? 'bg-gray-800 text-white'
+                              : 'text-gray-800 hover:bg-gray-800/10'
+                          }`}
+                        >
+                          {note}
+                        </button>
+                      ))}
                     </div>
                   </div>
                 </div>
 
                 {/* Nutty Section */}
-                <div className="relative h-[320px] rounded-lg overflow-hidden">
-                  <div className="absolute inset-0 bg-[#d4a072]">
-                    {/* 종이 질감 효과 */}
+                <div className="relative h-[320px] rounded-lg overflow-hidden shadow-sm">
+                  <div className="absolute inset-0" style={{
+                    backgroundColor: '#fef3c7',
+                    boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.15)'
+                  }}>
                     <div className="absolute inset-0" style={{
-                      backgroundImage: `
-                        linear-gradient(0deg, rgba(0, 0, 0, 0.03) 2px, transparent 2px),
-                        linear-gradient(90deg, rgba(0, 0, 0, 0.03) 2px, transparent 2px),
-                        linear-gradient(45deg, rgba(0, 0, 0, 0.05) 2px, transparent 2px),
-                        linear-gradient(-45deg, rgba(0, 0, 0, 0.05) 2px, transparent 2px)
-                      `,
-                      backgroundSize: '60px 60px, 60px 60px, 60px 60px, 60px 60px',
-                      boxShadow: 'inset 0 0 30px rgba(0, 0, 0, 0.1)'
+                      backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='7' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.7 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+                      backgroundSize: '128px 128px',
+                      mixBlendMode: 'multiply',
+                      opacity: 0.7
+                    }} />
+                    <div className="absolute inset-0" style={{
+                      backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paperTexture'%3E%3CfeTurbulence type='turbulence' baseFrequency='1.4' numOctaves='5' seed='5' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0.8 0 0 0 0 0 0.8 0 0 0 0 0 0.8 0 0 0 0 0 0.8 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paperTexture)'/%3E%3C/svg%3E")`,
+                      backgroundSize: '256px 256px',
+                      mixBlendMode: 'multiply',
+                      opacity: 0.4
                     }} />
                   </div>
-                  <div className="absolute inset-0 bg-black bg-opacity-20 p-4 flex flex-col">
-                    <h3 className="text-xl font-bold text-white mb-3">Nutty</h3>
+                  <div className="absolute inset-0 p-4 flex flex-col">
+                    <h3 className="text-xl font-bold text-gray-800 mb-3">Nutty</h3>
                     <div className="flex flex-wrap gap-1.5 content-start">
                       {['초콜렛', '캐러멜', '고구마', '꿀', '헤이즐넛', '브라운슈거', '엿기름', '아몬드', '피칸', '호두', '로스트피넛', '마카다미아', '땅콩', '바닐라', '캐슈넛', '메이플 시럽', '토피', '피스타치오', '카카오닙스'].map((note) => (
-                          <button
-                            key={note}
-                            onClick={() => toggleNote(note)}
-                            className={`px-2 py-1 rounded-full text-xs border border-white/50 transition-colors ${
-                              selectedNotes.includes(note)
-                                ? 'bg-white text-black'
-                                : 'text-white hover:bg-white/10'
-                            }`}
-                          >
-                            {note}
-                          </button>
-                        ))}
+                        <button
+                          key={note}
+                          onClick={() => toggleNote(note)}
+                          className={`px-2 py-1 rounded-full text-xs border border-gray-800/50 transition-colors ${
+                            selectedNotes.includes(note)
+                              ? 'bg-gray-800 text-white'
+                              : 'text-gray-800 hover:bg-gray-800/10'
+                          }`}
+                        >
+                          {note}
+                        </button>
+                      ))}
                     </div>
                   </div>
                 </div>
