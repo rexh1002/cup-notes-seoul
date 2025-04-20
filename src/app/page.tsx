@@ -578,8 +578,8 @@ export default function HomePage() {
             </section>
           </div>
 
-          {/* Action Buttons - 모든 섹션 아래에 위치 */}
-          <div className="flex gap-2 justify-end px-6 py-4 border-t">
+          {/* Action Buttons - 컵노트 섹션과 Footer 사이에 위치 */}
+          <div className="flex gap-2 justify-end px-6 py-4 bg-white z-50 relative">
             <button
               onClick={() => {
                 setSelectedNotes([]);
