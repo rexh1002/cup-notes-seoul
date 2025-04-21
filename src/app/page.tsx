@@ -299,7 +299,7 @@ export default function HomePage() {
           {/* 로그인/회원가입 버튼 그룹 - 모바일에서는 숨김 */} 
           <div className="hidden lg:flex items-center font-sans ml-auto">   
             {isLoggedIn ? (
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2">
                 <button
                   onClick={handleLogout}
                   className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
