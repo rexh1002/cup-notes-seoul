@@ -419,7 +419,7 @@ export default function HomePage() {
                       <button
                         key={method}
                         onClick={() => toggleItem(method, setSelectedBrewMethods)}
-                        className={`text-xs px-2 py-0.5 rounded-full cursor-pointer ${
+                        className={`text-sm px-2 py-0.5 rounded-full cursor-pointer ${
                           selectedBrewMethods.includes(method) ? 'bg-blue-500 text-white' : 'bg-gray-200'
                         }`}
                       >
@@ -436,7 +436,7 @@ export default function HomePage() {
                       <button
                         key={origin}
                         onClick={() => toggleItem(origin, setSelectedOrigins)}
-                        className={`text-xs px-2 py-0.5 rounded-full cursor-pointer ${
+                        className={`text-sm px-2 py-0.5 rounded-full cursor-pointer ${
                           selectedOrigins.includes(origin) ? 'bg-blue-500 text-white' : 'bg-gray-200'
                         }`}
                       >
@@ -453,7 +453,7 @@ export default function HomePage() {
                       <button
                         key={process}
                         onClick={() => toggleItem(process, setSelectedProcesses)}
-                        className={`text-xs px-2 py-0.5 rounded-full cursor-pointer ${
+                        className={`text-sm px-2 py-0.5 rounded-full cursor-pointer ${
                           selectedProcesses.includes(process) ? 'bg-blue-500 text-white' : 'bg-gray-200'
                         }`}
                       >
@@ -470,7 +470,7 @@ export default function HomePage() {
                       <button
                         key={roast}
                         onClick={() => toggleItem(roast, setSelectedRoast)}
-                        className={`text-xs px-2 py-0.5 rounded-full cursor-pointer ${
+                        className={`text-sm px-2 py-0.5 rounded-full cursor-pointer ${
                           selectedRoast.includes(roast) ? 'bg-blue-500 text-white' : 'bg-gray-200'
                         }`}
                       >
@@ -504,10 +504,8 @@ export default function HomePage() {
                         <button
                           key={note}
                           onClick={() => toggleNote(note)}
-                          className={`text-[10px] px-1.5 py-0.5 rounded-full transition-all duration-200 ${
-                            selectedNotes.includes(note)
-                              ? 'bg-blue-500 text-white shadow-sm'
-                              : 'bg-white/80 text-gray-700 hover:bg-white hover:shadow-sm'
+                          className={`text-sm px-2 py-0.5 rounded-full cursor-pointer ${
+                            selectedNotes.includes(note) ? 'bg-blue-500 text-white' : 'bg-gray-200'
                           }`}
                         >
                           {note}
@@ -535,10 +533,8 @@ export default function HomePage() {
                         <button
                           key={note}
                           onClick={() => toggleNote(note)}
-                          className={`text-[10px] px-1.5 py-0.5 rounded-full transition-all duration-200 ${
-                            selectedNotes.includes(note)
-                              ? 'bg-blue-500 text-white shadow-sm'
-                              : 'bg-white/80 text-gray-700 hover:bg-white hover:shadow-sm'
+                          className={`text-sm px-2 py-0.5 rounded-full cursor-pointer ${
+                            selectedNotes.includes(note) ? 'bg-blue-500 text-white' : 'bg-gray-200'
                           }`}
                         >
                           {note}
@@ -566,10 +562,8 @@ export default function HomePage() {
                         <button
                           key={note}
                           onClick={() => toggleNote(note)}
-                          className={`text-[10px] px-1.5 py-0.5 rounded-full transition-all duration-200 ${
-                            selectedNotes.includes(note)
-                              ? 'bg-blue-500 text-white shadow-sm'
-                              : 'bg-white/80 text-gray-700 hover:bg-white hover:shadow-sm'
+                          className={`text-sm px-2 py-0.5 rounded-full cursor-pointer ${
+                            selectedNotes.includes(note) ? 'bg-blue-500 text-white' : 'bg-gray-200'
                           }`}
                         >
                           {note}
