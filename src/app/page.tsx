@@ -301,7 +301,7 @@ export default function HomePage() {
         </div>
 
         {/* 로그인/회원가입 버튼 그룹 - 모바일에서는 숨김 */} 
-        <div className="hidden sm:flex items-center font-sans">   
+        <div className="hidden lg:flex items-center font-sans absolute lg:right-4 lg:top-4">   
           {isLoggedIn ? (     
             <>       
               {userName && (         
