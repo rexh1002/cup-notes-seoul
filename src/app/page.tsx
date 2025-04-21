@@ -283,134 +283,134 @@ export default function HomePage() {
   }));
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
-      {/* 상단 헤더 */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-4 sm:px-6 bg-white shadow-sm sm:static fixed top-0 left-0 right-0 z-50 lg:w-[50%]">
-        <div className="flex items-center gap-3">
-          <h1 
-            onClick={() => window.location.reload()}
-            className="text-3xl sm:text-5xl font-extrabold tracking-tight cursor-pointer text-gray-900 hover:text-gray-700 transition-colors mb-1 sm:mb-0 text-left w-full sm:w-auto font-sans"
-          >
-            CUP NOTES SEOUL
-          </h1>
-          <div className="flex -space-x-2">
-            <span className="w-3 h-3 rounded-full bg-[#FFB5A7] z-10"></span>
-            <span className="w-3 h-3 rounded-full bg-[#FCD5CE] z-20"></span>
-            <span className="w-3 h-3 rounded-full bg-[#F8EDEB] z-30"></span>
+    <div className="min-h-screen bg-gray-50 flex">
+      {/* 왼쪽 절반 영역 컨테이너 */}
+      <div className="w-full lg:w-1/2 flex flex-col min-h-screen relative">
+        {/* 상단 헤더 */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-4 sm:px-6 bg-white shadow-sm z-50">
+          <div className="flex items-center gap-3">
+            <h1 
+              onClick={() => window.location.reload()}
+              className="text-3xl sm:text-5xl font-extrabold tracking-tight cursor-pointer text-gray-900 hover:text-gray-700 transition-colors mb-1 sm:mb-0 text-left w-full sm:w-auto font-sans"
+            >
+              CUP NOTES SEOUL
+            </h1>
+            <div className="flex -space-x-2">
+              <span className="w-3 h-3 rounded-full bg-[#FFB5A7] z-10"></span>
+              <span className="w-3 h-3 rounded-full bg-[#FCD5CE] z-20"></span>
+              <span className="w-3 h-3 rounded-full bg-[#F8EDEB] z-30"></span>
+            </div>
+            {/* 로그인/회원가입 버튼 그룹 - 모바일에서는 숨김 */} 
+            <div className="hidden lg:flex items-center font-sans ml-auto">   
+              {isLoggedIn ? (
+                <div className="flex items-center gap-4">
+                  <button
+                    onClick={handleLogout}
+                    className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
+                  >
+                    LOGOUT
+                  </button>
+                  <Link
+                    href="/manager/dashboard"
+                    className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
+                  >
+                    카페관리
+                  </Link>
+                </div>
+              ) : (
+                <div className="flex items-center gap-4">
+                  <Link
+                    href="/auth/login"
+                    className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
+                  >
+                    LOGIN
+                  </Link>
+                  <Link
+                    href="/auth/signup"
+                    className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
+                  >
+                    SIGN UP
+                  </Link>
+                </div>
+              )}
+            </div>
           </div>
-          {/* 로그인/회원가입 버튼 그룹 - 모바일에서는 숨김 */} 
-          <div className="hidden lg:flex items-center font-sans ml-auto">   
-            {isLoggedIn ? (
-              <div className="flex items-center gap-4">
-                <button
-                  onClick={handleLogout}
-                  className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
+        </div>
+
+        {/* 회원가입 모달 */}
+        {isModalOpen && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-lg p-4 sm:p-6 w-full max-w-md shadow-xl">
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-xl font-bold">회원가입</h2>
+                <button 
+                  onClick={() => setIsModalOpen(false)}
+                  className="text-gray-500 hover:text-gray-700"
                 >
-                  LOGOUT
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
                 </button>
-                <Link
-                  href="/manager/dashboard"
-                  className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
-                >
-                  카페관리
-                </Link>
               </div>
-            ) : (
-              <div className="flex items-center gap-4">
-                <Link
-                  href="/auth/login"
-                  className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
-                >
-                  LOGIN
-                </Link>
+              
+              <div className="space-y-4">
                 <Link
                   href="/auth/signup"
-                  className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
+                  className="block w-full py-3 px-4 text-center bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+                  onClick={() => setIsModalOpen(false)}
                 >
-                  SIGN UP
+                  일반 회원가입
+                </Link>
+
+                <div className="relative">
+                  <div className="absolute inset-0 flex items-center">
+                    <div className="w-full border-t border-gray-300"></div>
+                  </div>
+                  <div className="relative flex justify-center text-sm">
+                    <span className="px-2 bg-white text-gray-500">또는</span>
+                  </div>
+                </div>
+
+                <Link
+                  href="/auth/manager/signup"
+                  className="block w-full py-3 px-4 text-center border border-blue-500 text-blue-500 rounded-lg hover:bg-blue-50 transition-colors"
+                  onClick={() => setIsModalOpen(false)}
+                >
+                  카페 매니저 회원가입
                 </Link>
               </div>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* 회원가입 모달 */}
-      {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg p-4 sm:p-6 w-full max-w-md shadow-xl">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-bold">회원가입</h2>
-              <button 
-                onClick={() => setIsModalOpen(false)}
-                className="text-gray-500 hover:text-gray-700"
-              >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-            
-            <div className="space-y-4">
-              <Link
-                href="/auth/signup"
-                className="block w-full py-3 px-4 text-center bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-                onClick={() => setIsModalOpen(false)}
-              >
-                일반 회원가입
-              </Link>
-
-              <div className="relative">
-                <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-gray-300"></div>
-                </div>
-                <div className="relative flex justify-center text-sm">
-                  <span className="px-2 bg-white text-gray-500">또는</span>
-                </div>
-              </div>
-
-              <Link
-                href="/auth/manager/signup"
-                className="block w-full py-3 px-4 text-center border border-blue-500 text-blue-500 rounded-lg hover:bg-blue-50 transition-colors"
-                onClick={() => setIsModalOpen(false)}
-              >
-                카페 매니저 회원가입
-              </Link>
             </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {/* 검색어 및 내 취향 선택 섹션 - 모바일에서 상단 고정 */}
-      <div className={`bg-white p-4 sm:px-6 border-b sm:static fixed top-[72px] left-0 right-0 z-40 ${showMapOnMobile ? 'hidden sm:block' : ''} lg:w-[50%]`}>
-        {/* 검색창 */}
-        <div className="relative w-full sm:max-w-xl">
-          <input
-            type="text"
-            placeholder="검색어 입력 (예: 카페명, 원두이름, 컵노트 등)"
-            value={searchKeyword}
-            onChange={(e) => setSearchKeyword(e.target.value)}
-            className="w-full px-4 py-2 text-gray-700 bg-gray-100 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white"
-          />
-          <button className="absolute right-3 top-1/2 -translate-y-1/2">
-            <Search className="w-5 h-5 text-gray-400" />
-          </button>
+        {/* 검색어 및 내 취향 선택 섹션 */}
+        <div className={`bg-white p-4 sm:px-6 border-b z-40 ${showMapOnMobile ? 'hidden sm:block' : ''}`}>
+          {/* 검색창 */}
+          <div className="relative w-full sm:max-w-xl">
+            <input
+              type="text"
+              placeholder="검색어 입력 (예: 카페명, 원두이름, 컵노트 등)"
+              value={searchKeyword}
+              onChange={(e) => setSearchKeyword(e.target.value)}
+              className="w-full px-4 py-2 text-gray-700 bg-gray-100 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white"
+            />
+            <button className="absolute right-3 top-1/2 -translate-y-1/2">
+              <Search className="w-5 h-5 text-gray-400" />
+            </button>
+          </div>
+          
+          {/* 두 번째 줄: 체크박스 - 숨김 처리하고 기능만 유지 */}
+          <div className="hidden">
+            <input
+              type="checkbox"
+              checked={showAllStores}
+              onChange={() => setShowAllStores((prev) => !prev)}
+            />
+          </div>
         </div>
-        
-        {/* 두 번째 줄: 체크박스 - 숨김 처리하고 기능만 유지 */}
-        <div className="hidden">
-          <input
-            type="checkbox"
-            checked={showAllStores}
-            onChange={() => setShowAllStores((prev) => !prev)}
-          />
-        </div>
-      </div>
 
-      {/* 메인 컨텐츠 영역 */}
-      <div className="flex flex-col lg:flex-row flex-grow mt-0">
-        {/* 왼쪽 컨텐츠 - 모바일에서는 조건부 표시 */}
-        <div className={`w-full lg:w-[50%] flex flex-col ${showMapOnMobile ? 'hidden sm:flex' : ''}`}>
+        {/* 메인 컨텐츠 영역 */}
+        <div className={`flex-1 ${showMapOnMobile ? 'hidden sm:block' : ''}`}>
           <div className="p-4 sm:px-6 space-y-6 flex-grow">
             {/* Coffee Filters 섹션 */}
             <section className="space-y-4 sm:space-y-6">
@@ -633,35 +633,24 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* 오른쪽 지도 - 모바일에서는 조건부 표시 및 전체 화면 */}
-        <div className={`
-          ${showMapOnMobile ? 'fixed inset-0 z-[99999]' : 'hidden sm:block'}
-          w-full h-full
-          lg:fixed lg:right-0 lg:top-[88px] lg:bottom-[56px] lg:w-1/2 
-          lg:overflow-hidden lg:shadow-lg lg:rounded-lg lg:mx-4
-          relative
-        `}>
-          {/* 선택된 필터 표시 */}
-          {isMounted && (showMapOnMobile || window.innerWidth >= 640) && (
-            <div className="absolute top-0 left-0 right-0 bg-white border-b z-[99999] px-4 py-2 overflow-x-auto whitespace-nowrap">
-              {/* ... 필터 표시 내용 ... */}
-            </div>
-          )}
-          <div className="w-full h-full">
-            <Map cafes={processedCafes} searchKeyword={searchKeyword} />
-          </div>
-        </div>
+        {/* Footer */}
+        <footer className="bg-gray-100 py-4 sm:px-6 text-center w-full z-10 hidden sm:block">
+          <p className="text-sm text-gray-600">
+            © 2024 Cup Notes Korea. All rights reserved. 
+            <span className="block sm:inline mt-1 sm:mt-0 sm:ml-2">
+              문의: <a href="mailto:cupnotes@outlook.com" className="text-blue-600 hover:underline">cupnotes@outlook.com</a>
+            </span>
+          </p>
+        </footer>
       </div>
 
-      {/* Footer */}
-      <footer className="bg-gray-100 py-4 sm:px-6 text-center w-full fixed bottom-0 left-0 z-10 hidden sm:block lg:w-[50%]">
-        <p className="text-sm text-gray-600">
-          © 2024 Cup Notes Korea. All rights reserved. 
-          <span className="block sm:inline mt-1 sm:mt-0 sm:ml-2">
-            문의: <a href="mailto:cupnotes@outlook.com" className="text-blue-600 hover:underline">cupnotes@outlook.com</a>
-          </span>
-        </p>
-      </footer>
+      {/* 오른쪽 지도 영역 */}
+      <div className={`
+        ${showMapOnMobile ? 'fixed inset-0 z-[99999]' : 'hidden lg:block'}
+        lg:w-1/2 lg:fixed lg:right-0 lg:top-0 lg:bottom-0
+      `}>
+        <Map cafes={processedCafes} searchKeyword={searchKeyword} />
+      </div>
 
       {/* 모바일 하단 네비게이션 바 */}
       <nav className="sm:hidden fixed bottom-0 left-0 right-0 bg-white border-t z-50">
