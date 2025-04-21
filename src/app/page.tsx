@@ -285,7 +285,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       {/* 상단 헤더 */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-4 bg-white shadow-sm sm:static fixed top-0 left-0 right-0 z-50">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-4 bg-white shadow-sm sm:static fixed top-0 left-0 right-0 z-50 lg:w-1/2">
         <div className="flex items-center gap-3">
           <h1 
             onClick={() => window.location.reload()}
@@ -301,7 +301,7 @@ export default function HomePage() {
         </div>
 
         {/* 로그인/회원가입 버튼 그룹 - 모바일에서는 숨김 */} 
-        <div className="hidden lg:flex items-center font-sans absolute lg:right-4 lg:top-4">   
+        <div className="hidden lg:flex items-center font-sans absolute lg:right-0 lg:top-4 lg:w-[50%] lg:justify-end lg:pr-4">   
           {isLoggedIn ? (     
             <>       
               {userName && (         
