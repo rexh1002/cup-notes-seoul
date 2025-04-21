@@ -289,7 +289,7 @@ export default function HomePage() {
         <div className="flex items-center gap-3">
           <h1 
             onClick={() => window.location.reload()}
-            className="text-2xl sm:text-4xl font-bold tracking-tight cursor-pointer text-gray-900 hover:text-gray-700 transition-colors mb-1 sm:mb-6 text-left w-full sm:w-auto font-sans"
+            className="text-2xl sm:text-4xl font-bold tracking-tight cursor-pointer text-gray-900 hover:text-gray-700 transition-colors mb-1 sm:mb-0 text-left w-full sm:w-auto font-sans"
           >
             CUP NOTES SEOUL
           </h1>
@@ -301,30 +301,30 @@ export default function HomePage() {
         </div>
 
         {/* 로그인/회원가입 버튼 그룹 - 모바일에서는 숨김 */} 
-        <div className="hidden sm:flex items-center font-sans w-full sm:w-auto justify-center sm:justify-end">   
+        <div className="hidden sm:flex items-center font-sans">   
           {isLoggedIn ? (     
             <>       
               {userName && (         
-                <span className="text-gray-600 text-xs px-2 py-1">           
+                <span className="text-gray-600 text-xs">           
                   {userName} 님         
                 </span>       
               )}              
               
-              <div className="h-4 w-px bg-gray-300 mx-0.75"></div>              
+              <div className="h-4 w-px bg-gray-300 mx-2"></div>              
               
               <button         
                 onClick={handleLogout}         
-                className="px-2 py-1 text-gray-600 hover:text-gray-900 transition-colors text-xs"       
+                className="text-gray-600 hover:text-gray-900 transition-colors text-xs"       
               >         
                 LOGOUT       
               </button>              
               
               {userRole === 'manager' ? (         
                 <>           
-                  <div className="h-4 w-px bg-gray-300 ml-0.75 mr-1.5"></div>           
+                  <div className="h-4 w-px bg-gray-300 mx-2"></div>           
                   <Link             
                     href="/manager/dashboard"             
-                    className="px-2 py-1 text-gray-600 hover:text-gray-900 transition-colors text-xs"           
+                    className="text-gray-600 hover:text-gray-900 transition-colors text-xs"           
                   >             
                     카페관리           
                   </Link>         
@@ -335,16 +335,16 @@ export default function HomePage() {
             <>       
               <Link         
                 href="/auth/login"         
-                className="px-2 py-1 text-gray-600 hover:text-gray-900 transition-colors text-xs"       
+                className="text-gray-600 hover:text-gray-900 transition-colors text-xs"       
               >         
                 LOGIN       
               </Link>        
               
-              <div className="h-4 w-px bg-gray-300 mx-0.75"></div>        
+              <div className="h-4 w-px bg-gray-300 mx-2"></div>        
               
               <button          
                 onClick={() => setIsModalOpen(true)}         
-                className="px-2 py-1 text-gray-600 hover:text-gray-900 transition-colors text-xs"       
+                className="text-gray-600 hover:text-gray-900 transition-colors text-xs"       
               >         
                 SIGN UP       
               </button>     
