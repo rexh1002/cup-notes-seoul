@@ -379,7 +379,7 @@ export default function HomePage() {
         )}
 
         {/* 검색어 및 내 취향 선택 섹션 */}
-        <div className={`bg-white p-4 sm:px-6 border-b z-40 ${showMapOnMobile ? 'hidden sm:block' : ''}`}>
+        <div className={`bg-transparent p-4 sm:px-6 z-40 ${showMapOnMobile ? 'hidden sm:block' : ''}`}>
           {/* 검색창 */}
           <div className="relative w-full sm:max-w-xl">
             <input
