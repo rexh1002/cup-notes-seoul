@@ -654,7 +654,7 @@ export default function HomePage() {
       </div>
 
       {/* Footer */}
-      <footer className="bg-gray-100 py-4 text-center w-full fixed bottom-0 left-0 right-0 z-10 hidden sm:block">
+      <footer className="bg-gray-100 py-4 text-center w-full fixed bottom-0 left-0 z-10 hidden sm:block lg:w-1/2">
         <p className="text-sm text-gray-600">
           © 2024 Cup Notes Korea. All rights reserved. 
           <span className="block sm:inline mt-1 sm:mt-0 sm:ml-2">
