@@ -487,7 +487,7 @@ export default function HomePage() {
               <h2 className="text-xl font-bold mb-2 sm:mb-4 border-b pb-2">My Cup Notes</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-4">
                 {/* Floral Section */}
-                <div className="relative h-[240px] rounded-lg overflow-hidden shadow-sm">
+                <div className="relative h-[252px] rounded-lg overflow-hidden shadow-sm">
                   <div className="absolute inset-0">
                     <Image
                       src="/images/Floral.jpg"
@@ -516,7 +516,7 @@ export default function HomePage() {
                 </div>
 
                 {/* Fruity Section */}
-                <div className="relative h-[240px] rounded-lg overflow-hidden shadow-sm">
+                <div className="relative h-[252px] rounded-lg overflow-hidden shadow-sm">
                   <div className="absolute inset-0">
                     <Image
                       src="/images/Fruity.jpg"
@@ -545,7 +545,7 @@ export default function HomePage() {
                 </div>
 
                 {/* Nutty Section */}
-                <div className="relative h-[240px] rounded-lg overflow-hidden shadow-sm">
+                <div className="relative h-[252px] rounded-lg overflow-hidden shadow-sm">
                   <div className="absolute inset-0">
                     <Image
                       src="/images/Nutty.jpg"
