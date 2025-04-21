@@ -285,9 +285,9 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-gray-50 flex">
       {/* 왼쪽 절반 영역 컨테이너 */}
-      <div className="w-full lg:w-1/2 flex flex-col min-h-screen relative bg-white shadow-[5px_0_10px_-3px_rgba(0,0,0,0.3)] z-10">
+      <div className="w-full lg:w-1/2 flex flex-col min-h-screen relative bg-white shadow-[5px_0_10px_-3px_rgba(0,0,0,0.3)] z-[60]">
         {/* 상단 헤더 */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-4 sm:px-6 bg-white shadow-sm z-50">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-4 sm:px-6 bg-white shadow-sm z-[70]">
           <div className="flex items-center gap-3">
             <h1 
               onClick={() => window.location.reload()}
@@ -642,7 +642,7 @@ export default function HomePage() {
       {/* 오른쪽 지도 영역 */}
       <div className={`
         ${showMapOnMobile ? 'fixed inset-0 z-[99999]' : 'hidden lg:block'}
-        lg:w-1/2 lg:fixed lg:right-0 lg:top-0 lg:bottom-0 lg:z-50 lg:h-screen
+        lg:w-1/2 lg:fixed lg:right-0 lg:top-0 lg:bottom-0 lg:z-[40] lg:h-screen
       `}>
         <Map cafes={processedCafes} searchKeyword={searchKeyword} />
       </div>
