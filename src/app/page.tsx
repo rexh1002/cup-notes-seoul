@@ -285,7 +285,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       {/* 상단 헤더 */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-4 bg-white shadow-sm sm:static fixed top-0 left-0 right-0 z-50 lg:w-1/2">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-4 sm:p-6 bg-white shadow-sm sm:static fixed top-0 left-0 right-0 z-50 lg:w-1/2">
         <div className="flex items-center gap-3">
           <h1 
             onClick={() => window.location.reload()}
@@ -654,7 +654,7 @@ export default function HomePage() {
       </div>
 
       {/* Footer */}
-      <footer className="bg-gray-100 py-4 text-center w-full fixed bottom-0 left-0 z-10 hidden sm:block lg:w-1/2">
+      <footer className="bg-gray-100 py-4 px-6 text-center w-full fixed bottom-0 left-0 z-10 hidden sm:block lg:w-1/2">
         <p className="text-sm text-gray-600">
           © 2024 Cup Notes Korea. All rights reserved. 
           <span className="block sm:inline mt-1 sm:mt-0 sm:ml-2">
