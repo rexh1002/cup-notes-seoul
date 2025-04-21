@@ -251,8 +251,8 @@ export default function Map({
   return (
     <div 
       ref={mapRef} 
-      style={{ ...style, height: 'calc(var(--vh, 1vh) * 100 - 56px)' }}
-      className="relative sm:h-full"
+      style={{ ...style, height: '100%' }}
+      className="relative w-full h-full"
     >
       {selectedCafe && (
         <div className="absolute top-10 left-3 right-5 sm:right-3 z-50 bg-white rounded-lg shadow-lg w-[calc(100%-32px)] sm:w-[328px] max-h-[calc(100vh-196px)] sm:max-h-[calc(100vh-256px)] flex flex-col overflow-hidden">
