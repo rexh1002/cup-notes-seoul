@@ -190,7 +190,7 @@ export default function Map({
       if (mapRef.current) {
         const vh = window.innerHeight * 0.01;
         document.documentElement.style.setProperty('--vh', `${vh}px`);
-        mapRef.current.style.height = `calc(var(--vh, 1vh) * 100 - 56px)`;
+        mapRef.current.style.height = '100%';
       }
     };
 
