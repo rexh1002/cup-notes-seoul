@@ -255,7 +255,7 @@ export default function Map({
       className="relative w-full h-full"
     >
       {selectedCafe && (
-        <div className="absolute top-10 left-3 right-5 sm:right-3 z-50 bg-white rounded-lg shadow-lg w-[calc(100%-32px)] sm:w-[328px] max-h-[calc(100vh-36px)] sm:max-h-[calc(100vh-96px)] flex flex-col overflow-hidden">
+        <div className="absolute top-10 left-3 right-5 sm:right-3 z-50 bg-white rounded-lg shadow-lg w-[calc(100%-32px)] sm:w-[328px] max-h-[calc(100vh-12px)] sm:max-h-[calc(100vh-72px)] flex flex-col overflow-hidden">
           {/* 카페 이미지 섹션 */}
           {selectedCafe.imageUrl && (
             <div className="w-full h-[186px] relative">
