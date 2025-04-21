@@ -408,12 +408,12 @@ export default function HomePage() {
         <div className={`flex-1 ${showMapOnMobile ? 'hidden sm:block' : ''}`}>
           <div className="p-4 sm:px-6 space-y-6 flex-grow">
             {/* Coffee Filters 섹션 */}
-            <section className="space-y-4 sm:space-y-6">
+            <section className="space-y-3 sm:space-y-4">
               <h2 className="text-xl font-bold border-b pb-2">Coffee Filters</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3">
                 {/* 추출방식 */}
                 <div>
-                  <h4 className="font-medium mb-1 sm:mb-2 text-sm">추출방식</h4>
+                  <h4 className="font-medium mb-1 text-sm">추출방식</h4>
                   <div className="flex flex-wrap gap-1 sm:gap-2">
                     {['핸드드립', '에스프레소', '콜드브루'].map((method) => (
                       <button
@@ -483,11 +483,11 @@ export default function HomePage() {
             </section>
 
             {/* My Cup Notes 섹션 */}
-            <section className="space-y-3 sm:space-y-4">
-              <h2 className="text-xl font-bold mb-2 sm:mb-4 border-b pb-2">My Cup Notes</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-4">
+            <section className="space-y-2 sm:space-y-3">
+              <h2 className="text-xl font-bold mb-2 border-b pb-2">My Cup Notes</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-3">
                 {/* Floral Section */}
-                <div className="relative h-[252px] rounded-lg overflow-hidden shadow-sm">
+                <div className="relative h-[259px] rounded-lg overflow-hidden shadow-sm">
                   <div className="absolute inset-0">
                     <Image
                       src="/images/Floral.jpg"
@@ -516,7 +516,7 @@ export default function HomePage() {
                 </div>
 
                 {/* Fruity Section */}
-                <div className="relative h-[252px] rounded-lg overflow-hidden shadow-sm">
+                <div className="relative h-[259px] rounded-lg overflow-hidden shadow-sm">
                   <div className="absolute inset-0">
                     <Image
                       src="/images/Fruity.jpg"
@@ -545,7 +545,7 @@ export default function HomePage() {
                 </div>
 
                 {/* Nutty Section */}
-                <div className="relative h-[252px] rounded-lg overflow-hidden shadow-sm">
+                <div className="relative h-[259px] rounded-lg overflow-hidden shadow-sm">
                   <div className="absolute inset-0">
                     <Image
                       src="/images/Nutty.jpg"
@@ -577,7 +577,7 @@ export default function HomePage() {
           </div>
 
           {/* Action Buttons - 컵노트 섹션과 Footer 사이에 위치 */}
-          <div className="flex gap-2 justify-end px-6 py-4 bg-white z-50 relative">
+          <div className="flex gap-2 justify-end px-6 py-3 bg-white z-50 relative">
             <button
               onClick={() => {
                 setSelectedNotes([]);
