@@ -309,7 +309,7 @@ export default function HomePage() {
                   LOGOUT
                 </button>
                 <Link
-                  href="/admin"
+                  href="/manager/dashboard"
                   className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
                 >
                   카페관리
