@@ -653,7 +653,7 @@ export default function HomePage() {
 
         {/* 오른쪽 지도 - 모바일에서는 조건부 표시 및 전체 화면 */}
         <div className={`
-          ${showMapOnMobile ? 'fixed inset-0 z-[9999]' : 'hidden sm:block'}
+          ${showMapOnMobile ? 'fixed inset-0 z-[99999]' : 'hidden sm:block'}
           w-full h-full
           lg:fixed lg:right-0 lg:top-0 lg:bottom-0 lg:w-1/2 
           lg:overflow-hidden lg:shadow-lg lg:rounded-lg lg:m-4
@@ -661,7 +661,7 @@ export default function HomePage() {
         `}>
           {/* 선택된 필터 표시 */}
           {isMounted && (showMapOnMobile || window.innerWidth >= 640) && (
-            <div className="absolute top-0 left-0 right-0 bg-white border-b z-40 px-4 py-2 overflow-x-auto whitespace-nowrap">
+            <div className="absolute top-0 left-0 right-0 bg-white border-b z-[99999] px-4 py-2 overflow-x-auto whitespace-nowrap">
               {/* ... 필터 표시 내용 ... */}
             </div>
           )}
