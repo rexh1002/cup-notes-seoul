@@ -529,7 +529,7 @@ export default function HomePage() {
                           onClick={() => toggleNote(note)}
                           className={`text-[10px] px-1.5 py-0.5 rounded-full transition-all duration-200 ${
                             selectedNotes.includes(note)
-                              ? 'bg-white text-gray-800 shadow-sm transform scale-105'
+                              ? 'bg-blue-500 text-white shadow-sm'
                               : 'bg-white/80 text-gray-700 hover:bg-white hover:shadow-sm'
                           }`}
                         >
@@ -560,7 +560,7 @@ export default function HomePage() {
                           onClick={() => toggleNote(note)}
                           className={`text-[10px] px-1.5 py-0.5 rounded-full transition-all duration-200 ${
                             selectedNotes.includes(note)
-                              ? 'bg-white text-gray-800 shadow-sm transform scale-105'
+                              ? 'bg-blue-500 text-white shadow-sm'
                               : 'bg-white/80 text-gray-700 hover:bg-white hover:shadow-sm'
                           }`}
                         >
@@ -591,7 +591,7 @@ export default function HomePage() {
                           onClick={() => toggleNote(note)}
                           className={`text-[10px] px-1.5 py-0.5 rounded-full transition-all duration-200 ${
                             selectedNotes.includes(note)
-                              ? 'bg-white text-gray-800 shadow-sm transform scale-105'
+                              ? 'bg-blue-500 text-white shadow-sm'
                               : 'bg-white/80 text-gray-700 hover:bg-white hover:shadow-sm'
                           }`}
                         >
