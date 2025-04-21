@@ -382,7 +382,7 @@ export default function HomePage() {
       )}
 
       {/* 검색어 및 내 취향 선택 섹션 - 모바일에서 상단 고정 */}
-      <div className={`bg-white p-4 border-b sm:static fixed top-[72px] left-0 right-0 z-40 ${showMapOnMobile ? 'hidden sm:block' : ''}`}>
+      <div className={`bg-white p-4 border-b sm:static fixed top-[72px] left-0 right-0 z-40 ${showMapOnMobile ? 'hidden sm:block' : ''} lg:w-1/2`}>
         {/* 검색창 */}
         <div className="relative w-full sm:max-w-xl">
           <input
