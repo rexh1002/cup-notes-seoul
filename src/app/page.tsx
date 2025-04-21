@@ -295,45 +295,40 @@ export default function HomePage() {
             >
               CUP NOTES SEOUL
             </h1>
-            <div className="flex -space-x-2">
-              <span className="w-3 h-3 rounded-full bg-[#FFB5A7] z-10"></span>
-              <span className="w-3 h-3 rounded-full bg-[#FCD5CE] z-20"></span>
-              <span className="w-3 h-3 rounded-full bg-[#F8EDEB] z-30"></span>
-            </div>
-            {/* 로그인/회원가입 버튼 그룹 - 모바일에서는 숨김 */} 
-            <div className="hidden lg:flex items-center font-sans ml-auto">   
-              {isLoggedIn ? (
-                <div className="flex items-center gap-4">
-                  <button
-                    onClick={handleLogout}
-                    className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
-                  >
-                    LOGOUT
-                  </button>
-                  <Link
-                    href="/manager/dashboard"
-                    className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
-                  >
-                    카페관리
-                  </Link>
-                </div>
-              ) : (
-                <div className="flex items-center gap-4">
-                  <Link
-                    href="/auth/login"
-                    className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
-                  >
-                    LOGIN
-                  </Link>
-                  <Link
-                    href="/auth/signup"
-                    className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
-                  >
-                    SIGN UP
-                  </Link>
-                </div>
-              )}
-            </div>
+          </div>
+          {/* 로그인/회원가입 버튼 그룹 - 모바일에서는 숨김 */} 
+          <div className="hidden lg:flex items-center font-sans ml-auto">   
+            {isLoggedIn ? (
+              <div className="flex items-center gap-4">
+                <button
+                  onClick={handleLogout}
+                  className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
+                >
+                  LOGOUT
+                </button>
+                <Link
+                  href="/manager/dashboard"
+                  className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
+                >
+                  카페관리
+                </Link>
+              </div>
+            ) : (
+              <div className="flex items-center gap-4">
+                <Link
+                  href="/auth/login"
+                  className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
+                >
+                  LOGIN
+                </Link>
+                <Link
+                  href="/auth/signup"
+                  className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
+                >
+                  SIGN UP
+                </Link>
+              </div>
+            )}
           </div>
         </div>
 
