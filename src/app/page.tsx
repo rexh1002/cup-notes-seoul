@@ -321,12 +321,12 @@ export default function HomePage() {
                 >
                   LOGIN
                 </Link>
-                <Link
-                  href="/auth/signup"
+                <button
+                  onClick={() => setIsModalOpen(true)}
                   className="px-2 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
                 >
                   SIGN UP
-                </Link>
+                </button>
               </div>
             )}
           </div>
@@ -334,10 +334,10 @@ export default function HomePage() {
 
         {/* 회원가입 모달 */}
         {isModalOpen && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-lg p-4 sm:p-6 w-full max-w-md shadow-xl">
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[999] p-4">
+            <div className="bg-white rounded-lg p-6 w-full max-w-md shadow-xl">
               <div className="flex justify-between items-center mb-6">
-                <h2 className="text-xl font-bold">회원가입</h2>
+                <h2 className="text-xl font-bold">회원 유형 선택</h2>
                 <button 
                   onClick={() => setIsModalOpen(false)}
                   className="text-gray-500 hover:text-gray-700"
