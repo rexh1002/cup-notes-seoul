@@ -655,8 +655,8 @@ export default function HomePage() {
         <div className={`
           ${showMapOnMobile ? 'fixed inset-0 z-[99999]' : 'hidden sm:block'}
           w-full h-full
-          lg:fixed lg:right-0 lg:top-0 lg:bottom-0 lg:w-1/2 
-          lg:overflow-hidden lg:shadow-lg lg:rounded-lg lg:m-4
+          lg:fixed lg:right-0 lg:top-[88px] lg:bottom-[56px] lg:w-1/2 
+          lg:overflow-hidden lg:shadow-lg lg:rounded-lg lg:mx-4
           relative
         `}>
           {/* 선택된 필터 표시 */}
@@ -665,7 +665,7 @@ export default function HomePage() {
               {/* ... 필터 표시 내용 ... */}
             </div>
           )}
-          <div className="w-full h-screen">
+          <div className="w-full h-full">
             <Map cafes={processedCafes} searchKeyword={searchKeyword} />
           </div>
         </div>
