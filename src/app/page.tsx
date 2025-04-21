@@ -298,58 +298,40 @@ export default function HomePage() {
             <span className="w-3 h-3 rounded-full bg-[#FCD5CE] z-20"></span>
             <span className="w-3 h-3 rounded-full bg-[#F8EDEB] z-30"></span>
           </div>
-        </div>
-
-        {/* 로그인/회원가입 버튼 그룹 - 모바일에서는 숨김 */} 
-        <div className="hidden lg:flex items-center font-sans absolute lg:right-0 lg:top-4 lg:w-[50%] lg:justify-end lg:pr-4">   
-          {isLoggedIn ? (     
-            <>       
-              {userName && (         
-                <span className="text-gray-600 text-xs">           
-                  {userName} 님         
-                </span>       
-              )}              
-              
-              <div className="h-4 w-px bg-gray-300 mx-2"></div>              
-              
-              <button         
-                onClick={handleLogout}         
-                className="text-gray-600 hover:text-gray-900 transition-colors text-xs"       
-              >         
-                LOGOUT       
-              </button>              
-              
-              {userRole === 'manager' ? (         
-                <>           
-                  <div className="h-4 w-px bg-gray-300 mx-2"></div>           
-                  <Link             
-                    href="/manager/dashboard"             
-                    className="text-gray-600 hover:text-gray-900 transition-colors text-xs"           
-                  >             
-                    카페관리           
-                  </Link>         
-                </>       
-              ) : null}     
-            </>   
-          ) : (     
-            <>       
-              <Link         
-                href="/auth/login"         
-                className="text-gray-600 hover:text-gray-900 transition-colors text-xs"       
-              >         
-                LOGIN       
-              </Link>        
-              
-              <div className="h-4 w-px bg-gray-300 mx-2"></div>        
-              
-              <button          
-                onClick={() => setIsModalOpen(true)}         
-                className="text-gray-600 hover:text-gray-900 transition-colors text-xs"       
-              >         
-                SIGN UP       
-              </button>     
-            </>   
-          )} 
+          {/* 로그인/회원가입 버튼 그룹 - 모바일에서는 숨김 */} 
+          <div className="hidden lg:flex items-center font-sans ml-auto">   
+            {isLoggedIn ? (
+              <div className="flex items-center gap-4">
+                <button
+                  onClick={handleLogout}
+                  className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
+                >
+                  LOGOUT
+                </button>
+                <Link
+                  href="/admin"
+                  className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
+                >
+                  카페관리
+                </Link>
+              </div>
+            ) : (
+              <div className="flex items-center gap-4">
+                <Link
+                  href="/auth/login"
+                  className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
+                >
+                  LOGIN
+                </Link>
+                <Link
+                  href="/auth/signup"
+                  className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
+                >
+                  SIGN UP
+                </Link>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
