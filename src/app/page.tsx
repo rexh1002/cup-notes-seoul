@@ -527,10 +527,10 @@ export default function HomePage() {
                         <button
                           key={note}
                           onClick={() => toggleNote(note)}
-                          className={`text-[10px] px-1.5 py-0.5 bg-white/80 rounded-full text-gray-700 leading-normal ${
+                          className={`text-[10px] px-1.5 py-0.5 rounded-full transition-all duration-200 ${
                             selectedNotes.includes(note)
-                              ? 'bg-opacity-100'
-                              : 'hover:bg-opacity-100'
+                              ? 'bg-white text-gray-800 shadow-sm transform scale-105'
+                              : 'bg-white/80 text-gray-700 hover:bg-white hover:shadow-sm'
                           }`}
                         >
                           {note}
@@ -558,10 +558,10 @@ export default function HomePage() {
                         <button
                           key={note}
                           onClick={() => toggleNote(note)}
-                          className={`text-[10px] px-1.5 py-0.5 bg-white/80 rounded-full text-gray-700 leading-normal ${
+                          className={`text-[10px] px-1.5 py-0.5 rounded-full transition-all duration-200 ${
                             selectedNotes.includes(note)
-                              ? 'bg-opacity-100'
-                              : 'hover:bg-opacity-100'
+                              ? 'bg-white text-gray-800 shadow-sm transform scale-105'
+                              : 'bg-white/80 text-gray-700 hover:bg-white hover:shadow-sm'
                           }`}
                         >
                           {note}
@@ -589,10 +589,10 @@ export default function HomePage() {
                         <button
                           key={note}
                           onClick={() => toggleNote(note)}
-                          className={`text-[10px] px-1.5 py-0.5 bg-white/80 rounded-full text-gray-700 leading-normal ${
+                          className={`text-[10px] px-1.5 py-0.5 rounded-full transition-all duration-200 ${
                             selectedNotes.includes(note)
-                              ? 'bg-opacity-100'
-                              : 'hover:bg-opacity-100'
+                              ? 'bg-white text-gray-800 shadow-sm transform scale-105'
+                              : 'bg-white/80 text-gray-700 hover:bg-white hover:shadow-sm'
                           }`}
                         >
                           {note}
