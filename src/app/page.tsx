@@ -305,7 +305,7 @@ export default function HomePage() {
           {isLoggedIn ? (     
             <>       
               {userName && (         
-                <span className="text-black font-normal text-xs px-2 py-1">           
+                <span className="text-gray-600 text-xs px-2 py-1">           
                   {userName} 님         
                 </span>       
               )}              
@@ -314,7 +314,7 @@ export default function HomePage() {
               
               <button         
                 onClick={handleLogout}         
-                className="px-2 py-1 text-black font-bold hover:text-gray-700 transition-colors text-xs"       
+                className="px-2 py-1 text-gray-600 hover:text-gray-900 transition-colors text-xs"       
               >         
                 LOGOUT       
               </button>              
@@ -324,9 +324,9 @@ export default function HomePage() {
                   <div className="h-4 w-px bg-gray-300 ml-0.75 mr-1.5"></div>           
                   <Link             
                     href="/manager/dashboard"             
-                    className="px-2 py-1 text-white bg-blue-500 rounded hover:bg-blue-600 transition-colors text-xs font-bold"           
+                    className="px-2 py-1 text-gray-600 hover:text-gray-900 transition-colors text-xs"           
                   >             
-                    내 카페 관리           
+                    카페관리           
                   </Link>         
                 </>       
               ) : null}     
@@ -335,7 +335,7 @@ export default function HomePage() {
             <>       
               <Link         
                 href="/auth/login"         
-                className="px-2 py-1 text-black font-bold hover:text-gray-700 transition-colors text-xs"       
+                className="px-2 py-1 text-gray-600 hover:text-gray-900 transition-colors text-xs"       
               >         
                 LOGIN       
               </Link>        
@@ -344,7 +344,7 @@ export default function HomePage() {
               
               <button          
                 onClick={() => setIsModalOpen(true)}         
-                className="px-2 py-1 text-white bg-blue-500 rounded hover:bg-blue-600 transition-colors text-xs font-bold"       
+                className="px-2 py-1 text-gray-600 hover:text-gray-900 transition-colors text-xs"       
               >         
                 SIGN UP       
               </button>     
