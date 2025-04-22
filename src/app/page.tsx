@@ -315,58 +315,40 @@ export default function HomePage() {
       {/* 왼쪽 절반 영역 컨테이너 */}
       <div className="w-full lg:w-1/2 flex flex-col min-h-screen relative bg-[#F5F2E8] z-[60]">
         {/* 상단 헤더 */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-6 sm:p-8 bg-[#F5F2E8] z-[70]">
-          <div className="flex items-center gap-3">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center px-6 sm:px-8 py-4 sm:py-6 bg-[#F5F2E8] z-[70] fixed w-full lg:w-1/2 top-0">
+          <div className="flex items-center">
             <h1 
               onClick={() => window.location.reload()}
-              className="text-6xl sm:text-8xl font-black tracking-tight cursor-pointer text-[#F15A2B] hover:text-[#d14d24] transition-colors mb-1 sm:mb-0 text-left w-full sm:w-auto font-sans"
+              className="text-5xl sm:text-6xl font-black tracking-tighter cursor-pointer text-[#F15A2B] hover:text-[#d14d24] transition-colors text-left font-sans leading-none"
             >
               CUP NOTES SEOUL
             </h1>
           </div>
-          {isLoggedIn ? (
-            <div className="flex items-center gap-4">
+          <div className="flex items-center gap-6 mt-4 sm:mt-0">
+            {isLoggedIn ? (
               <button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className="px-3 py-2 text-sm font-light text-[#F15A2B] hover:text-[#d14d24] transition-colors"
+                className="text-sm text-[#F15A2B] hover:text-[#d14d24] transition-colors tracking-wide uppercase"
               >
                 {userName}님
               </button>
-              {isDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-[#F5F2E8] rounded-none shadow-lg py-1 z-50">
-                  {userRole === 'manager' && (
-                    <Link
-                      href="/manager/dashboard"
-                      className="block px-4 py-2 text-sm text-[#F15A2B] hover:bg-[#d14d24]"
-                    >
-                      카페 관리
-                    </Link>
-                  )}
-                  <button
-                    onClick={handleLogout}
-                    className="block w-full text-left px-4 py-2 text-sm text-[#F15A2B] hover:bg-[#d14d24]"
-                  >
-                    로그아웃
-                  </button>
-                </div>
-              )}
-            </div>
-          ) : (
-            <div className="flex items-center gap-4">
-              <Link
-                href="/auth/login"
-                className="px-4 py-2 text-sm font-light text-[#F15A2B] hover:text-[#d14d24] transition-colors"
-              >
-                LOGIN
-              </Link>
-              <button
-                onClick={() => setIsModalOpen(true)}
-                className="px-6 py-2 text-sm font-light text-[#F15A2B] bg-[#F15A2B] hover:bg-[#d14d24] transition-colors"
-              >
-                SIGN UP
-              </button>
-            </div>
-          )}
+            ) : (
+              <>
+                <button
+                  onClick={() => router.push('/auth/login')}
+                  className="text-sm text-[#F15A2B] hover:text-[#d14d24] transition-colors tracking-wide uppercase"
+                >
+                  Sign In
+                </button>
+                <button
+                  onClick={() => setIsModalOpen(true)}
+                  className="text-sm text-[#F15A2B] hover:text-[#d14d24] transition-colors tracking-wide uppercase"
+                >
+                  Sign Up
+                </button>
+              </>
+            )}
+          </div>
         </div>
 
         {/* 회원가입 모달 */}
@@ -416,23 +398,23 @@ export default function HomePage() {
         )}
 
         {/* 검색어 및 내 취향 선택 섹션 */}
-        <div className="p-6 sm:p-8 space-y-12 flex-grow bg-[#F5F2E8]">
+        <div className="p-6 sm:p-8 space-y-8 flex-grow bg-[#F5F2E8] mt-20 sm:mt-24">
           {/* Coffee Filters 섹션 */}
           <section className="space-y-6">
-            <h2 className="text-2xl font-bold text-[#F15A2B] pb-4 uppercase">Coffee Filters</h2>
-            <div className="flex flex-col gap-4">
+            <h2 className="text-3xl font-bold text-[#F15A2B] tracking-tight uppercase leading-none">Coffee Filters</h2>
+            <div className="flex flex-col gap-3">
               {/* 추출방식 */}
-              <div className="bg-gray-100 p-6 rounded-sm">
-                <h4 className="font-light text-[#F15A2B] mb-4 uppercase">Brew Method</h4>
+              <div className="bg-gray-100 p-5 rounded">
+                <h4 className="text-sm font-medium text-[#F15A2B] mb-3 uppercase tracking-wider">Brew Method</h4>
                 <div className="flex flex-wrap gap-2">
                   {['핸드드립', '에스프레소', '콜드브루'].map((method) => (
                     <button
                       key={method}
                       onClick={() => toggleItem(method, setSelectedBrewMethods)}
-                      className={`text-xs px-3 py-1.5 transition-colors ${
+                      className={`text-xs px-3 py-1.5 rounded-sm transition-all ${
                         selectedBrewMethods.includes(method) 
-                          ? 'bg-[#F15A2B] text-white' 
-                          : 'bg-white border border-gray-300 text-[#F15A2B] hover:border-[#F15A2B]'
+                          ? 'bg-[#F15A2B] text-white shadow-sm' 
+                          : 'bg-white border border-gray-200 text-[#F15A2B] hover:border-[#F15A2B] hover:shadow-sm'
                       }`}
                     >
                       {method}
@@ -441,17 +423,17 @@ export default function HomePage() {
                 </div>
               </div>
               {/* 원산지 */}
-              <div className="bg-gray-100 p-6 rounded-sm">
-                <h4 className="font-light text-[#F15A2B] mb-4 uppercase">Origin</h4>
+              <div className="bg-gray-100 p-5 rounded">
+                <h4 className="text-sm font-medium text-[#F15A2B] mb-3 uppercase tracking-wider">Origin</h4>
                 <div className="flex flex-wrap gap-2">
                   {['에티오피아', '콜롬비아', '과테말라', '코스타리카', '파나마', '인도네시아', '브라질', '케냐', '엘살바도르', '르완다'].map((origin) => (
                     <button
                       key={origin}
                       onClick={() => toggleItem(origin, setSelectedOrigins)}
-                      className={`text-xs px-3 py-1.5 transition-colors ${
+                      className={`text-xs px-3 py-1.5 rounded-sm transition-all ${
                         selectedOrigins.includes(origin) 
-                          ? 'bg-[#F15A2B] text-white' 
-                          : 'bg-white border border-gray-300 text-[#F15A2B] hover:border-[#F15A2B]'
+                          ? 'bg-[#F15A2B] text-white shadow-sm' 
+                          : 'bg-white border border-gray-200 text-[#F15A2B] hover:border-[#F15A2B] hover:shadow-sm'
                       }`}
                     >
                       {origin}
@@ -460,17 +442,17 @@ export default function HomePage() {
                 </div>
               </div>
               {/* 프로세스 */}
-              <div className="bg-gray-100 p-6 rounded-sm">
-                <h4 className="font-light text-[#F15A2B] mb-4 uppercase">Process</h4>
+              <div className="bg-gray-100 p-5 rounded">
+                <h4 className="text-sm font-medium text-[#F15A2B] mb-3 uppercase tracking-wider">Process</h4>
                 <div className="flex flex-wrap gap-2">
                   {['워시드', '내추럴', '허니', '무산소 발효', '디카페인'].map((process) => (
                     <button
                       key={process}
                       onClick={() => toggleItem(process, setSelectedProcesses)}
-                      className={`text-xs px-3 py-1.5 transition-colors ${
+                      className={`text-xs px-3 py-1.5 rounded-sm transition-all ${
                         selectedProcesses.includes(process) 
-                          ? 'bg-[#F15A2B] text-white' 
-                          : 'bg-white border border-gray-300 text-[#F15A2B] hover:border-[#F15A2B]'
+                          ? 'bg-[#F15A2B] text-white shadow-sm' 
+                          : 'bg-white border border-gray-200 text-[#F15A2B] hover:border-[#F15A2B] hover:shadow-sm'
                       }`}
                     >
                       {process}
@@ -479,17 +461,17 @@ export default function HomePage() {
                 </div>
               </div>
               {/* 로스팅 포인트 */}
-              <div className="bg-gray-100 p-6 rounded-sm">
-                <h4 className="font-light text-[#F15A2B] mb-4 uppercase">Roasting Point</h4>
+              <div className="bg-gray-100 p-5 rounded">
+                <h4 className="text-sm font-medium text-[#F15A2B] mb-3 uppercase tracking-wider">Roasting Point</h4>
                 <div className="flex flex-wrap gap-2">
                   {['다크', '미디엄다크', '미디엄', '미디엄라이트', '라이트'].map((roast) => (
                     <button
                       key={roast}
                       onClick={() => toggleItem(roast, setSelectedRoast)}
-                      className={`text-xs px-3 py-1.5 transition-colors ${
+                      className={`text-xs px-3 py-1.5 rounded-sm transition-all ${
                         selectedRoast.includes(roast) 
-                          ? 'bg-[#F15A2B] text-white' 
-                          : 'bg-white border border-gray-300 text-[#F15A2B] hover:border-[#F15A2B]'
+                          ? 'bg-[#F15A2B] text-white shadow-sm' 
+                          : 'bg-white border border-gray-200 text-[#F15A2B] hover:border-[#F15A2B] hover:shadow-sm'
                       }`}
                     >
                       {roast}
@@ -501,19 +483,19 @@ export default function HomePage() {
           </section>
 
           {/* My Cup Notes 섹션 */}
-          <section className="space-y-6">
+          <section className="space-y-6 mt-12">
             <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-bold text-[#F15A2B] pb-4 uppercase">My Cup Notes</h2>
-              <div className="flex gap-4">
+              <h2 className="text-3xl font-bold text-[#F15A2B] tracking-tight uppercase leading-none">My Cup Notes</h2>
+              <div className="flex gap-6">
                 <button
                   onClick={handleReset}
-                  className="text-sm text-[#F15A2B] hover:text-[#d14d24] transition-colors"
+                  className="text-sm text-[#F15A2B] hover:text-[#d14d24] transition-colors tracking-wide uppercase"
                 >
                   Reset
                 </button>
                 <button
                   onClick={handleApply}
-                  className="text-sm text-[#F15A2B] hover:text-[#d14d24] transition-colors"
+                  className="text-sm text-[#F15A2B] hover:text-[#d14d24] transition-colors tracking-wide uppercase"
                 >
                   Apply
                 </button>
@@ -617,8 +599,8 @@ export default function HomePage() {
         </div>
 
         {/* Footer */}
-        <footer className="bg-[#F5F2E8] py-6 px-8 text-center border-t border-gray-100 w-full z-10 hidden sm:block mt-auto">
-          <p className="text-sm text-[#F15A2B]">
+        <footer className="bg-[#F5F2E8] py-4 px-8 text-center w-full z-10 hidden sm:block mt-auto border-t border-gray-100">
+          <p className="text-xs text-[#F15A2B] tracking-wide">
             © 2024 Cup Notes Seoul. All rights reserved.
           </p>
         </footer>
@@ -634,68 +616,29 @@ export default function HomePage() {
 
       {/* 모바일 하단 네비게이션 바 */}
       <nav className="sm:hidden fixed bottom-0 left-0 right-0 bg-[#F5F2E8] border-t border-gray-100 z-50">
-        <div className="flex justify-around items-center h-16">
-          <button
-            onClick={() => {
-              setShowMapOnMobile(false);
-              setSearchKeyword('');
-              clearSelections();
-            }}
-            className={`flex flex-col items-center justify-center w-1/4 h-full ${
-              !showMapOnMobile ? 'text-[#F15A2B]' : 'text-gray-400'
-            }`}
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-            <span className="text-xs mt-1 font-light">필터링</span>
-          </button>
-
-          <button
-            onClick={() => setShowMapOnMobile(true)}
-            className={`flex flex-col items-center justify-center w-1/4 h-full ${
-              showMapOnMobile ? 'text-[#F15A2B]' : 'text-gray-400'
-            }`}
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
-            </svg>
-            <span className="text-xs mt-1 font-light">지도</span>
-          </button>
-
-          {!isLoggedIn ? (
-            <button
-              onClick={() => router.push('/auth/login')}
-              className="flex flex-col items-center justify-center w-1/4 h-full text-gray-400"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-              </svg>
-              <span className="text-xs mt-1">로그인</span>
-            </button>
-          ) : (
+        <div className="flex justify-around items-center h-14">
+          {isLoggedIn ? (
             <button
               onClick={handleLogout}
-              className="flex flex-col items-center justify-center w-1/4 h-full text-gray-400"
+              className="text-sm text-[#F15A2B] hover:text-[#d14d24] transition-colors tracking-wide uppercase"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-              </svg>
-              <span className="text-xs mt-1">로그아웃</span>
+              Sign Out
             </button>
-          )}
-
-          {/* 내카페 메뉴는 카페 매니저 권한일 때만 표시 */}
-          {userRole === 'manager' && (
-            <button
-              onClick={() => router.push('/manager/dashboard')}
-              className="flex flex-col items-center justify-center w-1/4 h-full text-gray-400"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-              </svg>
-              <span className="text-xs mt-1">내카페</span>
-            </button>
+          ) : (
+            <>
+              <button
+                onClick={() => router.push('/auth/login')}
+                className="text-sm text-[#F15A2B] hover:text-[#d14d24] transition-colors tracking-wide uppercase"
+              >
+                Sign In
+              </button>
+              <button
+                onClick={() => setIsModalOpen(true)}
+                className="text-sm text-[#F15A2B] hover:text-[#d14d24] transition-colors tracking-wide uppercase"
+              >
+                Sign Up
+              </button>
+            </>
           )}
         </div>
       </nav>
