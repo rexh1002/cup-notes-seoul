@@ -311,7 +311,7 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
+    <div className="min-h-screen bg-white flex">
       {/* 왼쪽 절반 영역 컨테이너 */}
       <div className="w-full lg:w-1/2 flex flex-col min-h-screen relative bg-white z-[60]">
         {/* 상단 헤더 */}
@@ -319,7 +319,7 @@ export default function HomePage() {
           <div className="flex items-center gap-3">
             <h1 
               onClick={() => window.location.reload()}
-              className="text-3xl sm:text-4xl font-light tracking-tight cursor-pointer text-gray-900 hover:text-gray-700 transition-colors mb-1 sm:mb-0 text-left w-full sm:w-auto font-sans"
+              className="text-3xl sm:text-4xl font-bold tracking-tight cursor-pointer text-gray-900 hover:text-gray-700 transition-colors mb-1 sm:mb-0 text-left w-full sm:w-auto font-sans uppercase"
             >
               CUP NOTES SEOUL
             </h1>
@@ -419,11 +419,11 @@ export default function HomePage() {
         <div className="p-6 sm:p-8 space-y-12 flex-grow bg-white">
           {/* Coffee Filters 섹션 */}
           <section className="space-y-6">
-            <h2 className="text-2xl font-light text-gray-900 border-b border-gray-200 pb-4">Coffee Filters</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <h2 className="text-2xl font-bold text-gray-900 border-b border-gray-200 pb-4 uppercase">Coffee Filters</h2>
+            <div className="flex flex-col gap-4">
               {/* 추출방식 */}
-              <div className="space-y-3">
-                <h4 className="font-light text-gray-900">추출방식</h4>
+              <div className="bg-[#F8F8F8] p-6">
+                <h4 className="font-light text-gray-900 mb-4">추출방식</h4>
                 <div className="flex flex-wrap gap-2">
                   {['핸드드립', '에스프레소', '콜드브루'].map((method) => (
                     <button
@@ -441,8 +441,8 @@ export default function HomePage() {
                 </div>
               </div>
               {/* 원산지 */}
-              <div className="space-y-3">
-                <h4 className="font-light text-gray-900">원산지</h4>
+              <div className="bg-[#F2F2F2] p-6">
+                <h4 className="font-light text-gray-900 mb-4">원산지</h4>
                 <div className="flex flex-wrap gap-2">
                   {['에티오피아', '콜롬비아', '과테말라', '코스타리카', '파나마', '인도네시아', '브라질', '케냐', '엘살바도르', '르완다'].map((origin) => (
                     <button
@@ -460,8 +460,8 @@ export default function HomePage() {
                 </div>
               </div>
               {/* 프로세스 */}
-              <div className="space-y-3">
-                <h4 className="font-light text-gray-900">프로세스</h4>
+              <div className="bg-[#EBEBEB] p-6">
+                <h4 className="font-light text-gray-900 mb-4">프로세스</h4>
                 <div className="flex flex-wrap gap-2">
                   {['워시드', '내추럴', '허니', '무산소 발효', '디카페인'].map((process) => (
                     <button
@@ -479,8 +479,8 @@ export default function HomePage() {
                 </div>
               </div>
               {/* 로스팅 포인트 */}
-              <div className="space-y-3">
-                <h4 className="font-light text-gray-900">로스팅 포인트</h4>
+              <div className="bg-[#E5E5E5] p-6">
+                <h4 className="font-light text-gray-900 mb-4">로스팅 포인트</h4>
                 <div className="flex flex-wrap gap-2">
                   {['다크', '미디엄다크', '미디엄', '미디엄라이트', '라이트'].map((roast) => (
                     <button
@@ -503,7 +503,7 @@ export default function HomePage() {
           {/* My Cup Notes 섹션 */}
           <section className="space-y-6">
             <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-light text-gray-900 border-b border-gray-200 pb-4">My Cup Notes</h2>
+              <h2 className="text-2xl font-bold text-gray-900 border-b border-gray-200 pb-4 uppercase">My Cup Notes</h2>
               <div className="flex gap-4">
                 <button
                   onClick={handleReset}
