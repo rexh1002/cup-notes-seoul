@@ -313,13 +313,13 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-gray-50 flex">
       {/* 왼쪽 절반 영역 컨테이너 */}
-      <div className="w-full lg:w-1/2 flex flex-col min-h-screen relative bg-[#FAFAFA] z-[60]">
+      <div className="w-full lg:w-1/2 flex flex-col min-h-screen relative bg-white z-[60]">
         {/* 상단 헤더 */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-6 sm:px-8 bg-white border-b border-gray-100 z-[70]">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-6 sm:p-8 bg-white border-b border-gray-100 z-[70]">
           <div className="flex items-center gap-3">
             <h1 
               onClick={() => window.location.reload()}
-              className="text-3xl sm:text-4xl font-bold tracking-tight cursor-pointer text-[#2C2C2C] hover:text-[#4A4A4A] transition-colors mb-1 sm:mb-0 text-left w-full sm:w-auto font-serif"
+              className="text-3xl sm:text-4xl font-light tracking-tight cursor-pointer text-gray-900 hover:text-gray-700 transition-colors mb-1 sm:mb-0 text-left w-full sm:w-auto font-sans"
             >
               CUP NOTES SEOUL
             </h1>
@@ -328,23 +328,23 @@ export default function HomePage() {
             <div className="flex items-center gap-4">
               <button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className="px-3 py-2 text-sm font-medium text-[#2C2C2C] hover:text-[#4A4A4A] transition-colors"
+                className="px-3 py-2 text-sm font-light text-gray-700 hover:text-gray-900 transition-colors"
               >
                 {userName}님
               </button>
               {isDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-none shadow-lg py-1 z-50">
                   {userRole === 'manager' && (
                     <Link
                       href="/manager/dashboard"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
                     >
                       카페 관리
                     </Link>
                   )}
                   <button
                     onClick={handleLogout}
-                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
                   >
                     로그아웃
                   </button>
@@ -352,16 +352,16 @@ export default function HomePage() {
               )}
             </div>
           ) : (
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-4">
               <Link
                 href="/auth/login"
-                className="px-4 py-2 text-sm font-medium text-[#2C2C2C] hover:text-[#4A4A4A] border border-[#2C2C2C] rounded-full transition-colors"
+                className="px-4 py-2 text-sm font-light text-gray-700 hover:text-gray-900 transition-colors"
               >
                 LOGIN
               </Link>
               <button
                 onClick={() => setIsModalOpen(true)}
-                className="px-4 py-2 text-sm font-medium text-white bg-[#2C2C2C] hover:bg-[#4A4A4A] rounded-full transition-colors"
+                className="px-6 py-2 text-sm font-light text-white bg-gray-900 hover:bg-gray-800 transition-colors"
               >
                 SIGN UP
               </button>
@@ -416,23 +416,23 @@ export default function HomePage() {
         )}
 
         {/* 검색어 및 내 취향 선택 섹션 */}
-        <div className="p-6 sm:p-8 space-y-8 flex-grow bg-[#FAFAFA]">
+        <div className="p-6 sm:p-8 space-y-12 flex-grow bg-white">
           {/* Coffee Filters 섹션 */}
-          <section className="space-y-4">
-            <h2 className="text-2xl font-bold text-[#2C2C2C] border-b border-gray-200 pb-2">Coffee Filters</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <section className="space-y-6">
+            <h2 className="text-2xl font-light text-gray-900 border-b border-gray-200 pb-4">Coffee Filters</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
               {/* 추출방식 */}
-              <div className="space-y-2">
-                <h4 className="font-medium text-[#4A4A4A]">추출방식</h4>
+              <div className="space-y-3">
+                <h4 className="font-light text-gray-900">추출방식</h4>
                 <div className="flex flex-wrap gap-2">
                   {['핸드드립', '에스프레소', '콜드브루'].map((method) => (
                     <button
                       key={method}
                       onClick={() => toggleItem(method, setSelectedBrewMethods)}
-                      className={`text-[11px] px-3 py-1 rounded-full transition-colors ${
+                      className={`text-xs px-3 py-1.5 transition-colors ${
                         selectedBrewMethods.includes(method) 
-                          ? 'bg-[#2C2C2C] text-white' 
-                          : 'bg-white border border-gray-200 text-[#4A4A4A] hover:border-[#2C2C2C]'
+                          ? 'bg-gray-900 text-white' 
+                          : 'bg-white border border-gray-300 text-gray-700 hover:border-gray-900'
                       }`}
                     >
                       {method}
@@ -441,17 +441,17 @@ export default function HomePage() {
                 </div>
               </div>
               {/* 원산지 */}
-              <div className="space-y-2">
-                <h4 className="font-medium text-[#4A4A4A]">원산지</h4>
+              <div className="space-y-3">
+                <h4 className="font-light text-gray-900">원산지</h4>
                 <div className="flex flex-wrap gap-2">
                   {['에티오피아', '콜롬비아', '과테말라', '코스타리카', '파나마', '인도네시아', '브라질', '케냐', '엘살바도르', '르완다'].map((origin) => (
                     <button
                       key={origin}
                       onClick={() => toggleItem(origin, setSelectedOrigins)}
-                      className={`text-[11px] px-3 py-1 rounded-full transition-colors ${
+                      className={`text-xs px-3 py-1.5 transition-colors ${
                         selectedOrigins.includes(origin) 
-                          ? 'bg-[#2C2C2C] text-white' 
-                          : 'bg-white border border-gray-200 text-[#4A4A4A] hover:border-[#2C2C2C]'
+                          ? 'bg-gray-900 text-white' 
+                          : 'bg-white border border-gray-300 text-gray-700 hover:border-gray-900'
                       }`}
                     >
                       {origin}
@@ -460,17 +460,17 @@ export default function HomePage() {
                 </div>
               </div>
               {/* 프로세스 */}
-              <div className="space-y-2">
-                <h4 className="font-medium text-[#4A4A4A]">프로세스</h4>
+              <div className="space-y-3">
+                <h4 className="font-light text-gray-900">프로세스</h4>
                 <div className="flex flex-wrap gap-2">
                   {['워시드', '내추럴', '허니', '무산소 발효', '디카페인'].map((process) => (
                     <button
                       key={process}
                       onClick={() => toggleItem(process, setSelectedProcesses)}
-                      className={`text-[11px] px-3 py-1 rounded-full transition-colors ${
+                      className={`text-xs px-3 py-1.5 transition-colors ${
                         selectedProcesses.includes(process) 
-                          ? 'bg-[#2C2C2C] text-white' 
-                          : 'bg-white border border-gray-200 text-[#4A4A4A] hover:border-[#2C2C2C]'
+                          ? 'bg-gray-900 text-white' 
+                          : 'bg-white border border-gray-300 text-gray-700 hover:border-gray-900'
                       }`}
                     >
                       {process}
@@ -479,17 +479,17 @@ export default function HomePage() {
                 </div>
               </div>
               {/* 로스팅 포인트 */}
-              <div className="space-y-2">
-                <h4 className="font-medium text-[#4A4A4A]">로스팅 포인트</h4>
+              <div className="space-y-3">
+                <h4 className="font-light text-gray-900">로스팅 포인트</h4>
                 <div className="flex flex-wrap gap-2">
                   {['다크', '미디엄다크', '미디엄', '미디엄라이트', '라이트'].map((roast) => (
                     <button
                       key={roast}
                       onClick={() => toggleItem(roast, setSelectedRoast)}
-                      className={`text-[11px] px-3 py-1 rounded-full transition-colors ${
+                      className={`text-xs px-3 py-1.5 transition-colors ${
                         selectedRoast.includes(roast) 
-                          ? 'bg-[#2C2C2C] text-white' 
-                          : 'bg-white border border-gray-200 text-[#4A4A4A] hover:border-[#2C2C2C]'
+                          ? 'bg-gray-900 text-white' 
+                          : 'bg-white border border-gray-300 text-gray-700 hover:border-gray-900'
                       }`}
                     >
                       {roast}
@@ -501,52 +501,52 @@ export default function HomePage() {
           </section>
 
           {/* My Cup Notes 섹션 */}
-          <section className="space-y-4">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-2xl font-bold">My Cup Notes</h2>
-              <div className="flex gap-2">
+          <section className="space-y-6">
+            <div className="flex justify-between items-center">
+              <h2 className="text-2xl font-light text-gray-900 border-b border-gray-200 pb-4">My Cup Notes</h2>
+              <div className="flex gap-4">
                 <button
                   onClick={handleReset}
-                  className="px-4 py-2 text-sm bg-gray-200 hover:bg-gray-300 rounded-md transition-colors"
+                  className="px-4 py-2 text-sm font-light text-gray-700 border border-gray-300 hover:border-gray-900 transition-colors"
                 >
                   선택 초기화
                 </button>
                 <button
                   onClick={handleApply}
-                  className={`px-4 py-2 text-sm ${
+                  className={`px-6 py-2 text-sm font-light transition-colors ${
                     hasSelections
-                      ? 'bg-blue-500 hover:bg-blue-600 text-white'
-                      : 'bg-gray-200 cursor-not-allowed'
-                  } rounded-md transition-colors`}
+                      ? 'bg-gray-900 text-white hover:bg-gray-800'
+                      : 'bg-gray-200 text-gray-500 cursor-not-allowed'
+                  }`}
                   disabled={!hasSelections}
                 >
                   선택사항 적용
                 </button>
               </div>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {/* Floral Section */}
-              <div className="relative h-[264px] rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+              <div className="relative h-[300px] overflow-hidden group">
                 <div className="absolute inset-0">
                   <Image
                     src="/images/Floral.jpg"
                     alt="Floral background"
                     fill
-                    className="object-cover"
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-black/30" />
+                  <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors" />
                 </div>
-                <div className="absolute inset-0 p-5 flex flex-col">
-                  <h3 className="text-xl font-bold text-white mb-4">Floral</h3>
+                <div className="absolute inset-0 p-6 flex flex-col">
+                  <h3 className="text-xl font-light text-white mb-6">Floral</h3>
                   <div className="flex flex-wrap gap-2 content-start">
                     {['라벤더', '아카시아', '장미', '자스민', '국화', '히비스커스', '제비꽃', '홍차', '얼그레이', '카모마일', '오렌지 블로섬', '은방울꽃', '블랙티', '베르가못', '라일락', '로즈마리'].map((note) => (
                       <button
                         key={note}
                         onClick={() => toggleNote(note)}
-                        className={`text-[11px] px-3 py-1 rounded-full transition-colors ${
+                        className={`text-xs px-3 py-1.5 transition-colors ${
                           selectedNotes.includes(note)
-                            ? 'bg-[#2C2C2C] text-white'
-                            : 'bg-white/90 text-[#2C2C2C] hover:bg-white'
+                            ? 'bg-white text-gray-900'
+                            : 'bg-black/40 text-white hover:bg-white hover:text-gray-900'
                         }`}
                       >
                         {note}
@@ -557,27 +557,27 @@ export default function HomePage() {
               </div>
 
               {/* Fruity Section */}
-              <div className="relative h-[264px] rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+              <div className="relative h-[300px] overflow-hidden group">
                 <div className="absolute inset-0">
                   <Image
                     src="/images/Fruity.jpg"
                     alt="Fruity background"
                     fill
-                    className="object-cover"
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-black/30" />
+                  <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors" />
                 </div>
-                <div className="absolute inset-0 p-5 flex flex-col">
-                  <h3 className="text-xl font-bold text-white mb-4">Fruity</h3>
+                <div className="absolute inset-0 p-6 flex flex-col">
+                  <h3 className="text-xl font-light text-white mb-6">Fruity</h3>
                   <div className="flex flex-wrap gap-2 content-start">
                     {['파인애플', '복숭아', '리치', '사과', '감귤', '배', '패션후르츠', '메론', '파파야', '블루베리', '라즈베리', '자두', '딸기', '포도', '자몽', '오렌지', '레몬', '크랜베리', '망고', '체리', '살구'].map((note) => (
                       <button
                         key={note}
                         onClick={() => toggleNote(note)}
-                        className={`text-[11px] px-3 py-1 rounded-full transition-colors ${
+                        className={`text-xs px-3 py-1.5 transition-colors ${
                           selectedNotes.includes(note)
-                            ? 'bg-[#2C2C2C] text-white'
-                            : 'bg-white/90 text-[#2C2C2C] hover:bg-white'
+                            ? 'bg-white text-gray-900'
+                            : 'bg-black/40 text-white hover:bg-white hover:text-gray-900'
                         }`}
                       >
                         {note}
@@ -588,27 +588,27 @@ export default function HomePage() {
               </div>
 
               {/* Nutty Section */}
-              <div className="relative h-[264px] rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+              <div className="relative h-[300px] overflow-hidden group">
                 <div className="absolute inset-0">
                   <Image
                     src="/images/Nutty.jpg"
                     alt="Nutty background"
                     fill
-                    className="object-cover"
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-black/30" />
+                  <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors" />
                 </div>
-                <div className="absolute inset-0 p-5 flex flex-col">
-                  <h3 className="text-xl font-bold text-white mb-4">Nutty</h3>
+                <div className="absolute inset-0 p-6 flex flex-col">
+                  <h3 className="text-xl font-light text-white mb-6">Nutty</h3>
                   <div className="flex flex-wrap gap-2 content-start">
                     {['초콜렛', '캐러멜', '고구마', '꿀', '헤이즐넛', '브라운슈거', '엿기름', '아몬드', '피칸', '호두', '로스트피넛', '마카다미아', '땅콩', '바닐라', '캐슈넛', '메이플 시럽', '토피', '피스타치오', '카카오닙스'].map((note) => (
                       <button
                         key={note}
                         onClick={() => toggleNote(note)}
-                        className={`text-[11px] px-3 py-1 rounded-full transition-colors ${
+                        className={`text-xs px-3 py-1.5 transition-colors ${
                           selectedNotes.includes(note)
-                            ? 'bg-[#2C2C2C] text-white'
-                            : 'bg-white/90 text-[#2C2C2C] hover:bg-white'
+                            ? 'bg-white text-gray-900'
+                            : 'bg-black/40 text-white hover:bg-white hover:text-gray-900'
                         }`}
                       >
                         {note}
@@ -622,8 +622,8 @@ export default function HomePage() {
         </div>
 
         {/* Footer */}
-        <footer className="bg-[#FAFAFA] py-4 px-8 text-center border-t border-gray-100 w-full z-10 hidden sm:block mt-auto">
-          <p className="text-sm text-gray-500">&copy; 2024 Cup Notes Seoul. All rights reserved.</p>
+        <footer className="bg-white py-6 px-8 text-center border-t border-gray-100 w-full z-10 hidden sm:block mt-auto">
+          <p className="text-sm font-light text-gray-500">&copy; 2024 Cup Notes Seoul. All rights reserved.</p>
         </footer>
       </div>
 
@@ -636,8 +636,8 @@ export default function HomePage() {
       </div>
 
       {/* 모바일 하단 네비게이션 바 */}
-      <nav className="sm:hidden fixed bottom-0 left-0 right-0 bg-white border-t z-50">
-        <div className="flex justify-around items-center h-14">
+      <nav className="sm:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 z-50">
+        <div className="flex justify-around items-center h-16">
           <button
             onClick={() => {
               setShowMapOnMobile(false);
@@ -645,25 +645,25 @@ export default function HomePage() {
               clearSelections();
             }}
             className={`flex flex-col items-center justify-center w-1/4 h-full ${
-              !showMapOnMobile ? 'text-blue-500' : 'text-gray-400'
+              !showMapOnMobile ? 'text-gray-900' : 'text-gray-400'
             }`}
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
-            <span className="text-xs mt-1">필터링</span>
+            <span className="text-xs mt-1 font-light">필터링</span>
           </button>
 
           <button
             onClick={() => setShowMapOnMobile(true)}
             className={`flex flex-col items-center justify-center w-1/4 h-full ${
-              showMapOnMobile ? 'text-blue-500' : 'text-gray-400'
+              showMapOnMobile ? 'text-gray-900' : 'text-gray-400'
             }`}
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
             </svg>
-            <span className="text-xs mt-1">지도</span>
+            <span className="text-xs mt-1 font-light">지도</span>
           </button>
 
           {!isLoggedIn ? (
