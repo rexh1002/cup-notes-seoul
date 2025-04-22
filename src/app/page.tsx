@@ -328,7 +328,7 @@ export default function HomePage() {
             {isLoggedIn ? (
               <button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className="text-sm text-[#F15A2B] hover:text-[#d14d24] transition-colors tracking-wide uppercase"
+                className="text-sm text-black hover:text-gray-600 transition-colors tracking-wide uppercase"
               >
                 {userName}님
               </button>
@@ -336,13 +336,13 @@ export default function HomePage() {
               <>
                 <button
                   onClick={() => router.push('/auth/login')}
-                  className="text-sm text-[#F15A2B] hover:text-[#d14d24] transition-colors tracking-wide uppercase"
+                  className="text-sm text-black hover:text-gray-600 transition-colors tracking-wide uppercase"
                 >
                   Sign In
                 </button>
                 <button
                   onClick={() => setIsModalOpen(true)}
-                  className="text-sm text-[#F15A2B] hover:text-[#d14d24] transition-colors tracking-wide uppercase"
+                  className="text-sm text-black hover:text-gray-600 transition-colors tracking-wide uppercase"
                 >
                   Sign Up
                 </button>
@@ -401,11 +401,11 @@ export default function HomePage() {
         <div className="p-6 sm:p-8 space-y-8 flex-grow bg-[#F5F2E8] mt-20 sm:mt-24">
           {/* Coffee Filters 섹션 */}
           <section className="space-y-6">
-            <h2 className="text-3xl font-bold text-[#F15A2B] tracking-tight uppercase leading-none">Coffee Filters</h2>
+            <h2 className="text-3xl font-bold text-black tracking-tight uppercase leading-none">Coffee Filters</h2>
             <div className="flex flex-col gap-3">
               {/* 추출방식 */}
               <div className="bg-gray-100 p-5 rounded">
-                <h4 className="text-sm font-medium text-[#F15A2B] mb-3 uppercase tracking-wider">Brew Method</h4>
+                <h4 className="text-sm font-medium text-black mb-3 uppercase tracking-wider">Brew Method</h4>
                 <div className="flex flex-wrap gap-2">
                   {['핸드드립', '에스프레소', '콜드브루'].map((method) => (
                     <button
@@ -413,8 +413,8 @@ export default function HomePage() {
                       onClick={() => toggleItem(method, setSelectedBrewMethods)}
                       className={`text-xs px-3 py-1.5 rounded-sm transition-all ${
                         selectedBrewMethods.includes(method) 
-                          ? 'bg-[#F15A2B] text-white shadow-sm' 
-                          : 'bg-white border border-gray-200 text-[#F15A2B] hover:border-[#F15A2B] hover:shadow-sm'
+                          ? 'bg-black text-white shadow-sm' 
+                          : 'bg-white border border-gray-200 text-black hover:border-black hover:shadow-sm'
                       }`}
                     >
                       {method}
@@ -424,7 +424,7 @@ export default function HomePage() {
               </div>
               {/* 원산지 */}
               <div className="bg-gray-100 p-5 rounded">
-                <h4 className="text-sm font-medium text-[#F15A2B] mb-3 uppercase tracking-wider">Origin</h4>
+                <h4 className="text-sm font-medium text-black mb-3 uppercase tracking-wider">Origin</h4>
                 <div className="flex flex-wrap gap-2">
                   {['에티오피아', '콜롬비아', '과테말라', '코스타리카', '파나마', '인도네시아', '브라질', '케냐', '엘살바도르', '르완다'].map((origin) => (
                     <button
@@ -432,8 +432,8 @@ export default function HomePage() {
                       onClick={() => toggleItem(origin, setSelectedOrigins)}
                       className={`text-xs px-3 py-1.5 rounded-sm transition-all ${
                         selectedOrigins.includes(origin) 
-                          ? 'bg-[#F15A2B] text-white shadow-sm' 
-                          : 'bg-white border border-gray-200 text-[#F15A2B] hover:border-[#F15A2B] hover:shadow-sm'
+                          ? 'bg-black text-white shadow-sm' 
+                          : 'bg-white border border-gray-200 text-black hover:border-black hover:shadow-sm'
                       }`}
                     >
                       {origin}
@@ -443,7 +443,7 @@ export default function HomePage() {
               </div>
               {/* 프로세스 */}
               <div className="bg-gray-100 p-5 rounded">
-                <h4 className="text-sm font-medium text-[#F15A2B] mb-3 uppercase tracking-wider">Process</h4>
+                <h4 className="text-sm font-medium text-black mb-3 uppercase tracking-wider">Process</h4>
                 <div className="flex flex-wrap gap-2">
                   {['워시드', '내추럴', '허니', '무산소 발효', '디카페인'].map((process) => (
                     <button
@@ -451,8 +451,8 @@ export default function HomePage() {
                       onClick={() => toggleItem(process, setSelectedProcesses)}
                       className={`text-xs px-3 py-1.5 rounded-sm transition-all ${
                         selectedProcesses.includes(process) 
-                          ? 'bg-[#F15A2B] text-white shadow-sm' 
-                          : 'bg-white border border-gray-200 text-[#F15A2B] hover:border-[#F15A2B] hover:shadow-sm'
+                          ? 'bg-black text-white shadow-sm' 
+                          : 'bg-white border border-gray-200 text-black hover:border-black hover:shadow-sm'
                       }`}
                     >
                       {process}
@@ -462,7 +462,7 @@ export default function HomePage() {
               </div>
               {/* 로스팅 포인트 */}
               <div className="bg-gray-100 p-5 rounded">
-                <h4 className="text-sm font-medium text-[#F15A2B] mb-3 uppercase tracking-wider">Roasting Point</h4>
+                <h4 className="text-sm font-medium text-black mb-3 uppercase tracking-wider">Roasting Point</h4>
                 <div className="flex flex-wrap gap-2">
                   {['다크', '미디엄다크', '미디엄', '미디엄라이트', '라이트'].map((roast) => (
                     <button
@@ -470,8 +470,8 @@ export default function HomePage() {
                       onClick={() => toggleItem(roast, setSelectedRoast)}
                       className={`text-xs px-3 py-1.5 rounded-sm transition-all ${
                         selectedRoast.includes(roast) 
-                          ? 'bg-[#F15A2B] text-white shadow-sm' 
-                          : 'bg-white border border-gray-200 text-[#F15A2B] hover:border-[#F15A2B] hover:shadow-sm'
+                          ? 'bg-black text-white shadow-sm' 
+                          : 'bg-white border border-gray-200 text-black hover:border-black hover:shadow-sm'
                       }`}
                     >
                       {roast}
@@ -485,17 +485,17 @@ export default function HomePage() {
           {/* My Cup Notes 섹션 */}
           <section className="space-y-6 mt-12">
             <div className="flex justify-between items-center">
-              <h2 className="text-3xl font-bold text-[#F15A2B] tracking-tight uppercase leading-none">My Cup Notes</h2>
+              <h2 className="text-3xl font-bold text-black tracking-tight uppercase leading-none">My Cup Notes</h2>
               <div className="flex gap-6">
                 <button
                   onClick={handleReset}
-                  className="text-sm text-[#F15A2B] hover:text-[#d14d24] transition-colors tracking-wide uppercase"
+                  className="text-sm text-black hover:text-gray-600 transition-colors tracking-wide uppercase"
                 >
                   Reset
                 </button>
                 <button
                   onClick={handleApply}
-                  className="text-sm text-[#F15A2B] hover:text-[#d14d24] transition-colors tracking-wide uppercase"
+                  className="text-sm text-black hover:text-gray-600 transition-colors tracking-wide uppercase"
                 >
                   Apply
                 </button>
@@ -600,7 +600,7 @@ export default function HomePage() {
 
         {/* Footer */}
         <footer className="bg-[#F5F2E8] py-4 px-8 text-center w-full z-10 hidden sm:block mt-auto border-t border-gray-100">
-          <p className="text-xs text-[#F15A2B] tracking-wide">
+          <p className="text-xs text-black tracking-wide">
             © 2024 Cup Notes Seoul. All rights reserved.
           </p>
         </footer>
@@ -620,7 +620,7 @@ export default function HomePage() {
           {isLoggedIn ? (
             <button
               onClick={handleLogout}
-              className="text-sm text-[#F15A2B] hover:text-[#d14d24] transition-colors tracking-wide uppercase"
+              className="text-sm text-black hover:text-gray-600 transition-colors tracking-wide uppercase"
             >
               Sign Out
             </button>
@@ -628,13 +628,13 @@ export default function HomePage() {
             <>
               <button
                 onClick={() => router.push('/auth/login')}
-                className="text-sm text-[#F15A2B] hover:text-[#d14d24] transition-colors tracking-wide uppercase"
+                className="text-sm text-black hover:text-gray-600 transition-colors tracking-wide uppercase"
               >
                 Sign In
               </button>
               <button
                 onClick={() => setIsModalOpen(true)}
-                className="text-sm text-[#F15A2B] hover:text-[#d14d24] transition-colors tracking-wide uppercase"
+                className="text-sm text-black hover:text-gray-600 transition-colors tracking-wide uppercase"
               >
                 Sign Up
               </button>
