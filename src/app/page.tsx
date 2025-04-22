@@ -55,6 +55,12 @@ export default function HomePage() {
     nutty: false
   });
 
+  const hasSelections = selectedNotes.length > 0 || 
+    selectedBrewMethods.length > 0 || 
+    selectedOrigins.length > 0 || 
+    selectedProcesses.length > 0 || 
+    selectedRoast.length > 0;
+
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -282,54 +288,85 @@ export default function HomePage() {
     snsLinks: JSON.parse(JSON.stringify(cafe.snsLinks || [])),
   }));
 
+  const handleReset = () => {
+    setSelectedNotes([]);
+    setSelectedBrewMethods([]);
+    setSelectedOrigins([]);
+    setSelectedProcesses([]);
+    setSelectedRoast([]);
+  };
+
+  const handleApply = () => {
+    if (hasSelections) {
+      const allSelections = [
+        ...selectedNotes,
+        ...selectedBrewMethods,
+        ...selectedOrigins,
+        ...selectedProcesses,
+        ...selectedRoast
+      ];
+      setSearchKeyword(allSelections.join(' '));
+      handleSearch();
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 flex">
       {/* 왼쪽 절반 영역 컨테이너 */}
-      <div className="w-full lg:w-1/2 flex flex-col min-h-screen relative bg-white shadow-[5px_0_10px_-3px_rgba(0,0,0,0.3)] z-[60]">
+      <div className="w-full lg:w-1/2 flex flex-col min-h-screen relative bg-[#FAFAFA] z-[60]">
         {/* 상단 헤더 */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-4 sm:px-6 bg-white shadow-sm z-[70]">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-6 sm:px-8 bg-white border-b border-gray-100 z-[70]">
           <div className="flex items-center gap-3">
             <h1 
               onClick={() => window.location.reload()}
-              className="text-3xl sm:text-5xl font-extrabold tracking-tight cursor-pointer text-gray-900 hover:text-gray-700 transition-colors mb-1 sm:mb-0 text-left w-full sm:w-auto font-sans"
+              className="text-3xl sm:text-4xl font-bold tracking-tight cursor-pointer text-[#2C2C2C] hover:text-[#4A4A4A] transition-colors mb-1 sm:mb-0 text-left w-full sm:w-auto font-serif"
             >
               CUP NOTES SEOUL
             </h1>
           </div>
-          {/* 로그인/회원가입 버튼 그룹 - 모바일에서는 숨김 */} 
-          <div className="hidden lg:flex items-center font-sans ml-auto">   
-            {isLoggedIn ? (
-              <div className="flex items-center">
-                <button
-                  onClick={handleLogout}
-                  className="px-2 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
-                >
-                  LOGOUT
-                </button>
-                <Link
-                  href="/manager/dashboard"
-                  className="px-2 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
-                >
-                  카페관리
-                </Link>
-              </div>
-            ) : (
-              <div className="flex items-center">
-                <Link
-                  href="/auth/login"
-                  className="px-2 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
-                >
-                  LOGIN
-                </Link>
-                <button
-                  onClick={() => setIsModalOpen(true)}
-                  className="px-2 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
-                >
-                  SIGN UP
-                </button>
-              </div>
-            )}
-          </div>
+          {isLoggedIn ? (
+            <div className="flex items-center gap-4">
+              <button
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                className="px-3 py-2 text-sm font-medium text-[#2C2C2C] hover:text-[#4A4A4A] transition-colors"
+              >
+                {userName}님
+              </button>
+              {isDropdownOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                  {userRole === 'manager' && (
+                    <Link
+                      href="/manager/dashboard"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    >
+                      카페 관리
+                    </Link>
+                  )}
+                  <button
+                    onClick={handleLogout}
+                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  >
+                    로그아웃
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="flex items-center gap-2">
+              <Link
+                href="/auth/login"
+                className="px-4 py-2 text-sm font-medium text-[#2C2C2C] hover:text-[#4A4A4A] border border-[#2C2C2C] rounded-full transition-colors"
+              >
+                LOGIN
+              </Link>
+              <button
+                onClick={() => setIsModalOpen(true)}
+                className="px-4 py-2 text-sm font-medium text-white bg-[#2C2C2C] hover:bg-[#4A4A4A] rounded-full transition-colors"
+              >
+                SIGN UP
+              </button>
+            </div>
+          )}
         </div>
 
         {/* 회원가입 모달 */}
@@ -379,257 +416,214 @@ export default function HomePage() {
         )}
 
         {/* 검색어 및 내 취향 선택 섹션 */}
-        <div className={`bg-transparent p-4 sm:px-6 z-40 ${showMapOnMobile ? 'hidden sm:block' : ''}`}>
-          {/* 검색창 */}
-          <div className="relative w-full sm:max-w-xl">
-            <input
-              type="text"
-              placeholder="검색어 입력 (예: 카페명, 원두이름, 컵노트 등)"
-              value={searchKeyword}
-              onChange={(e) => setSearchKeyword(e.target.value)}
-              className="w-full px-4 py-2 text-gray-700 bg-gray-100 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white"
-            />
-            <button className="absolute right-3 top-1/2 -translate-y-1/2">
-              <Search className="w-5 h-5 text-gray-400" />
-            </button>
-          </div>
-          
-          {/* 두 번째 줄: 체크박스 - 숨김 처리하고 기능만 유지 */}
-          <div className="hidden">
-            <input
-              type="checkbox"
-              checked={showAllStores}
-              onChange={() => setShowAllStores((prev) => !prev)}
-            />
-          </div>
-        </div>
+        <div className="p-6 sm:p-8 space-y-8 flex-grow bg-[#FAFAFA]">
+          {/* Coffee Filters 섹션 */}
+          <section className="space-y-4">
+            <h2 className="text-2xl font-bold text-[#2C2C2C] border-b border-gray-200 pb-2">Coffee Filters</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {/* 추출방식 */}
+              <div className="space-y-2">
+                <h4 className="font-medium text-[#4A4A4A]">추출방식</h4>
+                <div className="flex flex-wrap gap-2">
+                  {['핸드드립', '에스프레소', '콜드브루'].map((method) => (
+                    <button
+                      key={method}
+                      onClick={() => toggleItem(method, setSelectedBrewMethods)}
+                      className={`text-[11px] px-3 py-1 rounded-full transition-colors ${
+                        selectedBrewMethods.includes(method) 
+                          ? 'bg-[#2C2C2C] text-white' 
+                          : 'bg-white border border-gray-200 text-[#4A4A4A] hover:border-[#2C2C2C]'
+                      }`}
+                    >
+                      {method}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              {/* 원산지 */}
+              <div className="space-y-2">
+                <h4 className="font-medium text-[#4A4A4A]">원산지</h4>
+                <div className="flex flex-wrap gap-2">
+                  {['에티오피아', '콜롬비아', '과테말라', '코스타리카', '파나마', '인도네시아', '브라질', '케냐', '엘살바도르', '르완다'].map((origin) => (
+                    <button
+                      key={origin}
+                      onClick={() => toggleItem(origin, setSelectedOrigins)}
+                      className={`text-[11px] px-3 py-1 rounded-full transition-colors ${
+                        selectedOrigins.includes(origin) 
+                          ? 'bg-[#2C2C2C] text-white' 
+                          : 'bg-white border border-gray-200 text-[#4A4A4A] hover:border-[#2C2C2C]'
+                      }`}
+                    >
+                      {origin}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              {/* 프로세스 */}
+              <div className="space-y-2">
+                <h4 className="font-medium text-[#4A4A4A]">프로세스</h4>
+                <div className="flex flex-wrap gap-2">
+                  {['워시드', '내추럴', '허니', '무산소 발효', '디카페인'].map((process) => (
+                    <button
+                      key={process}
+                      onClick={() => toggleItem(process, setSelectedProcesses)}
+                      className={`text-[11px] px-3 py-1 rounded-full transition-colors ${
+                        selectedProcesses.includes(process) 
+                          ? 'bg-[#2C2C2C] text-white' 
+                          : 'bg-white border border-gray-200 text-[#4A4A4A] hover:border-[#2C2C2C]'
+                      }`}
+                    >
+                      {process}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              {/* 로스팅 포인트 */}
+              <div className="space-y-2">
+                <h4 className="font-medium text-[#4A4A4A]">로스팅 포인트</h4>
+                <div className="flex flex-wrap gap-2">
+                  {['다크', '미디엄다크', '미디엄', '미디엄라이트', '라이트'].map((roast) => (
+                    <button
+                      key={roast}
+                      onClick={() => toggleItem(roast, setSelectedRoast)}
+                      className={`text-[11px] px-3 py-1 rounded-full transition-colors ${
+                        selectedRoast.includes(roast) 
+                          ? 'bg-[#2C2C2C] text-white' 
+                          : 'bg-white border border-gray-200 text-[#4A4A4A] hover:border-[#2C2C2C]'
+                      }`}
+                    >
+                      {roast}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
 
-        {/* 메인 컨텐츠 영역 */}
-        <div className={`flex-1 ${showMapOnMobile ? 'hidden sm:block' : ''}`}>
-          <div className="p-4 sm:px-6 space-y-6 flex-grow">
-            {/* Coffee Filters 섹션 */}
-            <section className="space-y-2 sm:space-y-3">
-              <h2 className="text-xl font-bold border-b pb-1">Coffee Filters</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
-                {/* 추출방식 */}
-                <div>
-                  <h4 className="font-medium mb-1 text-sm">추출방식</h4>
-                  <div className="flex flex-wrap gap-1 sm:gap-2">
-                    {['핸드드립', '에스프레소', '콜드브루'].map((method) => (
-                      <button
-                        key={method}
-                        onClick={() => toggleItem(method, setSelectedBrewMethods)}
-                        className={`text-[13px] px-2 py-0.5 rounded-full cursor-pointer ${
-                          selectedBrewMethods.includes(method) ? 'bg-blue-500 text-white' : 'bg-gray-200'
-                        }`}
-                      >
-                        {method}
-                      </button>
-                    ))}
-                  </div>
+          {/* My Cup Notes 섹션 */}
+          <section className="space-y-4">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-bold">My Cup Notes</h2>
+              <div className="flex gap-2">
+                <button
+                  onClick={handleReset}
+                  className="px-4 py-2 text-sm bg-gray-200 hover:bg-gray-300 rounded-md transition-colors"
+                >
+                  선택 초기화
+                </button>
+                <button
+                  onClick={handleApply}
+                  className={`px-4 py-2 text-sm ${
+                    hasSelections
+                      ? 'bg-blue-500 hover:bg-blue-600 text-white'
+                      : 'bg-gray-200 cursor-not-allowed'
+                  } rounded-md transition-colors`}
+                  disabled={!hasSelections}
+                >
+                  선택사항 적용
+                </button>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {/* Floral Section */}
+              <div className="relative h-[264px] rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div className="absolute inset-0">
+                  <Image
+                    src="/images/Floral.jpg"
+                    alt="Floral background"
+                    fill
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-0 bg-black/30" />
                 </div>
-                {/* 원산지 */}
-                <div>
-                  <h4 className="font-medium mb-1 sm:mb-2 text-sm">원산지</h4>
-                  <div className="flex flex-wrap gap-1 sm:gap-2">
-                    {['에티오피아', '콜롬비아', '과테말라', '코스타리카', '파나마', '인도네시아', '브라질', '케냐', '엘살바도르', '르완다'].map((origin) => (
+                <div className="absolute inset-0 p-5 flex flex-col">
+                  <h3 className="text-xl font-bold text-white mb-4">Floral</h3>
+                  <div className="flex flex-wrap gap-2 content-start">
+                    {['라벤더', '아카시아', '장미', '자스민', '국화', '히비스커스', '제비꽃', '홍차', '얼그레이', '카모마일', '오렌지 블로섬', '은방울꽃', '블랙티', '베르가못', '라일락', '로즈마리'].map((note) => (
                       <button
-                        key={origin}
-                        onClick={() => toggleItem(origin, setSelectedOrigins)}
-                        className={`text-[13px] px-2 py-0.5 rounded-full cursor-pointer ${
-                          selectedOrigins.includes(origin) ? 'bg-blue-500 text-white' : 'bg-gray-200'
+                        key={note}
+                        onClick={() => toggleNote(note)}
+                        className={`text-[11px] px-3 py-1 rounded-full transition-colors ${
+                          selectedNotes.includes(note)
+                            ? 'bg-[#2C2C2C] text-white'
+                            : 'bg-white/90 text-[#2C2C2C] hover:bg-white'
                         }`}
                       >
-                        {origin}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-                {/* 프로세스 */}
-                <div>
-                  <h4 className="font-medium mb-1 sm:mb-2 text-sm">프로세스</h4>
-                  <div className="flex flex-wrap gap-1 sm:gap-2">
-                    {['워시드', '내추럴', '허니', '무산소 발효', '디카페인'].map((process) => (
-                      <button
-                        key={process}
-                        onClick={() => toggleItem(process, setSelectedProcesses)}
-                        className={`text-[13px] px-2 py-0.5 rounded-full cursor-pointer ${
-                          selectedProcesses.includes(process) ? 'bg-blue-500 text-white' : 'bg-gray-200'
-                        }`}
-                      >
-                        {process}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-                {/* 로스팅 포인트 */}
-                <div>
-                  <h4 className="font-medium mb-1 sm:mb-2 text-sm">로스팅 포인트</h4>
-                  <div className="flex flex-wrap gap-1 sm:gap-2">
-                    {['다크', '미디엄다크', '미디엄', '미디엄라이트', '라이트'].map((roast) => (
-                      <button
-                        key={roast}
-                        onClick={() => toggleItem(roast, setSelectedRoast)}
-                        className={`text-[13px] px-2 py-0.5 rounded-full cursor-pointer ${
-                          selectedRoast.includes(roast) ? 'bg-blue-500 text-white' : 'bg-gray-200'
-                        }`}
-                      >
-                        {roast}
+                        {note}
                       </button>
                     ))}
                   </div>
                 </div>
               </div>
-            </section>
 
-            {/* My Cup Notes 섹션 */}
-            <section className="space-y-2">
-              <h2 className="text-xl font-bold border-b pb-1">My Cup Notes</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
-                {/* Floral Section */}
-                <div className="relative h-[264px] rounded-lg overflow-hidden shadow-sm">
-                  <div className="absolute inset-0">
-                    <Image
-                      src="/images/Floral.jpg"
-                      alt="Floral background"
-                      fill
-                      className="object-cover"
-                    />
-                    <div className="absolute inset-0 bg-black/20" />
-                  </div>
-                  <div className="absolute inset-0 p-4 flex flex-col">
-                    <h3 className="text-xl font-bold text-white mb-3">Floral</h3>
-                    <div className="flex flex-wrap gap-1.5 content-start">
-                      {['라벤더', '아카시아', '장미', '자스민', '국화', '히비스커스', '제비꽃', '홍차', '얼그레이', '카모마일', '오렌지 블로섬', '은방울꽃', '블랙티', '베르가못', '라일락', '로즈마리'].map((note) => (
-                        <button
-                          key={note}
-                          onClick={() => toggleNote(note)}
-                          className={`text-[13px] px-2 py-0.5 rounded-full cursor-pointer ${
-                            selectedNotes.includes(note) ? 'bg-blue-500 text-white' : 'bg-gray-200'
-                          }`}
-                        >
-                          {note}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
+              {/* Fruity Section */}
+              <div className="relative h-[264px] rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div className="absolute inset-0">
+                  <Image
+                    src="/images/Fruity.jpg"
+                    alt="Fruity background"
+                    fill
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-0 bg-black/30" />
                 </div>
-
-                {/* Fruity Section */}
-                <div className="relative h-[264px] rounded-lg overflow-hidden shadow-sm">
-                  <div className="absolute inset-0">
-                    <Image
-                      src="/images/Fruity.jpg"
-                      alt="Fruity background"
-                      fill
-                      className="object-cover"
-                    />
-                    <div className="absolute inset-0 bg-black/20" />
-                  </div>
-                  <div className="absolute inset-0 p-4 flex flex-col">
-                    <h3 className="text-xl font-bold text-white mb-3">Fruity</h3>
-                    <div className="flex flex-wrap gap-1.5 content-start">
-                      {['파인애플', '복숭아', '리치', '사과', '감귤', '배', '패션후르츠', '메론', '파파야', '블루베리', '라즈베리', '자두', '딸기', '포도', '자몽', '오렌지', '레몬', '크랜베리', '망고', '체리', '살구'].map((note) => (
-                        <button
-                          key={note}
-                          onClick={() => toggleNote(note)}
-                          className={`text-[13px] px-2 py-0.5 rounded-full cursor-pointer ${
-                            selectedNotes.includes(note) ? 'bg-blue-500 text-white' : 'bg-gray-200'
-                          }`}
-                        >
-                          {note}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Nutty Section */}
-                <div className="relative h-[264px] rounded-lg overflow-hidden shadow-sm">
-                  <div className="absolute inset-0">
-                    <Image
-                      src="/images/Nutty.jpg"
-                      alt="Nutty background"
-                      fill
-                      className="object-cover"
-                    />
-                    <div className="absolute inset-0 bg-black/20" />
-                  </div>
-                  <div className="absolute inset-0 p-4 flex flex-col">
-                    <h3 className="text-xl font-bold text-white mb-3">Nutty</h3>
-                    <div className="flex flex-wrap gap-1.5 content-start">
-                      {['초콜렛', '캐러멜', '고구마', '꿀', '헤이즐넛', '브라운슈거', '엿기름', '아몬드', '피칸', '호두', '로스트피넛', '마카다미아', '땅콩', '바닐라', '캐슈넛', '메이플 시럽', '토피', '피스타치오', '카카오닙스'].map((note) => (
-                        <button
-                          key={note}
-                          onClick={() => toggleNote(note)}
-                          className={`text-[13px] px-2 py-0.5 rounded-full cursor-pointer ${
-                            selectedNotes.includes(note) ? 'bg-blue-500 text-white' : 'bg-gray-200'
-                          }`}
-                        >
-                          {note}
-                        </button>
-                      ))}
-                    </div>
+                <div className="absolute inset-0 p-5 flex flex-col">
+                  <h3 className="text-xl font-bold text-white mb-4">Fruity</h3>
+                  <div className="flex flex-wrap gap-2 content-start">
+                    {['파인애플', '복숭아', '리치', '사과', '감귤', '배', '패션후르츠', '메론', '파파야', '블루베리', '라즈베리', '자두', '딸기', '포도', '자몽', '오렌지', '레몬', '크랜베리', '망고', '체리', '살구'].map((note) => (
+                      <button
+                        key={note}
+                        onClick={() => toggleNote(note)}
+                        className={`text-[11px] px-3 py-1 rounded-full transition-colors ${
+                          selectedNotes.includes(note)
+                            ? 'bg-[#2C2C2C] text-white'
+                            : 'bg-white/90 text-[#2C2C2C] hover:bg-white'
+                        }`}
+                      >
+                        {note}
+                      </button>
+                    ))}
                   </div>
                 </div>
               </div>
-            </section>
-          </div>
 
-          {/* Action Buttons - 컵노트 섹션과 Footer 사이에 위치 */}
-          <div className="flex gap-2 justify-end px-6 py-2 bg-white z-50 relative">
-            <button
-              onClick={() => {
-                setSelectedNotes([]);
-                setSelectedBrewMethods([]);
-                setSelectedOrigins([]);
-                setSelectedProcesses([]);
-                setSelectedRoast([]);
-              }}
-              className="px-3 py-1.5 bg-gray-500 text-white rounded-full text-sm hover:bg-gray-600 transition-colors"
-            >
-              선택 초기화
-            </button>
-            <button
-              onClick={() => {
-                if (selectedNotes.length > 0 || selectedBrewMethods.length > 0 || 
-                    selectedOrigins.length > 0 || selectedProcesses.length > 0 || 
-                    selectedRoast.length > 0) {
-                  const allSelections = [
-                    ...selectedNotes,
-                    ...selectedBrewMethods,
-                    ...selectedOrigins,
-                    ...selectedProcesses,
-                    ...selectedRoast
-                  ];
-                  setSearchKeyword(allSelections.join(' '));
-                  handleSearch();
-                }
-              }}
-              className={`px-3 py-1.5 ${
-                selectedNotes.length > 0 || selectedBrewMethods.length > 0 || 
-                selectedOrigins.length > 0 || selectedProcesses.length > 0 || 
-                selectedRoast.length > 0
-                  ? 'bg-blue-500 hover:bg-blue-600'
-                  : 'bg-gray-300 cursor-not-allowed'
-              } text-white rounded-full text-sm transition-colors min-w-[80px]`}
-              disabled={isLoading || (selectedNotes.length === 0 && selectedBrewMethods.length === 0 && 
-                       selectedOrigins.length === 0 && selectedProcesses.length === 0 && 
-                       selectedRoast.length === 0)}
-            >
-              {isLoading ? '탐색중...' : '선택사항 적용'}
-            </button>
-          </div>
+              {/* Nutty Section */}
+              <div className="relative h-[264px] rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div className="absolute inset-0">
+                  <Image
+                    src="/images/Nutty.jpg"
+                    alt="Nutty background"
+                    fill
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-0 bg-black/30" />
+                </div>
+                <div className="absolute inset-0 p-5 flex flex-col">
+                  <h3 className="text-xl font-bold text-white mb-4">Nutty</h3>
+                  <div className="flex flex-wrap gap-2 content-start">
+                    {['초콜렛', '캐러멜', '고구마', '꿀', '헤이즐넛', '브라운슈거', '엿기름', '아몬드', '피칸', '호두', '로스트피넛', '마카다미아', '땅콩', '바닐라', '캐슈넛', '메이플 시럽', '토피', '피스타치오', '카카오닙스'].map((note) => (
+                      <button
+                        key={note}
+                        onClick={() => toggleNote(note)}
+                        className={`text-[11px] px-3 py-1 rounded-full transition-colors ${
+                          selectedNotes.includes(note)
+                            ? 'bg-[#2C2C2C] text-white'
+                            : 'bg-white/90 text-[#2C2C2C] hover:bg-white'
+                        }`}
+                      >
+                        {note}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
         </div>
 
         {/* Footer */}
-        <footer className="bg-gray-100 py-4 sm:px-6 text-center w-full z-10 hidden sm:block mt-auto">
-          <p className="text-sm text-gray-600">
-            © 2024 Cup Notes Korea. All rights reserved. 
-            <span className="block sm:inline mt-1 sm:mt-0 sm:ml-2">
-              문의: <a href="mailto:cupnotes@outlook.com" className="text-blue-600 hover:underline">cupnotes@outlook.com</a>
-            </span>
-          </p>
+        <footer className="bg-[#FAFAFA] py-4 px-8 text-center border-t border-gray-100 w-full z-10 hidden sm:block mt-auto">
+          <p className="text-sm text-gray-500">&copy; 2024 Cup Notes Seoul. All rights reserved.</p>
         </footer>
       </div>
 
