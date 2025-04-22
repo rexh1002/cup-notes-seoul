@@ -319,7 +319,7 @@ export default function HomePage() {
           <div className="flex items-center gap-3">
             <h1 
               onClick={() => window.location.reload()}
-              className="text-3xl sm:text-4xl font-bold tracking-tight cursor-pointer text-gray-900 hover:text-gray-700 transition-colors mb-1 sm:mb-0 text-left w-full sm:w-auto font-sans uppercase"
+              className="text-6xl sm:text-8xl font-black tracking-tight cursor-pointer text-gray-900 hover:text-gray-700 transition-colors mb-1 sm:mb-0 text-left w-full sm:w-auto font-sans uppercase"
             >
               CUP NOTES SEOUL
             </h1>
@@ -420,81 +420,89 @@ export default function HomePage() {
           {/* Coffee Filters 섹션 */}
           <section className="space-y-6">
             <h2 className="text-2xl font-bold text-gray-900 border-b border-gray-200 pb-4 uppercase">Coffee Filters</h2>
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-6">
               {/* 추출방식 */}
-              <div className="bg-[#F8F8F8] p-6">
-                <h4 className="font-light text-gray-900 mb-4">추출방식</h4>
-                <div className="flex flex-wrap gap-2">
-                  {['핸드드립', '에스프레소', '콜드브루'].map((method) => (
-                    <button
-                      key={method}
-                      onClick={() => toggleItem(method, setSelectedBrewMethods)}
-                      className={`text-xs px-3 py-1.5 transition-colors ${
-                        selectedBrewMethods.includes(method) 
-                          ? 'bg-gray-900 text-white' 
-                          : 'bg-white border border-gray-300 text-gray-700 hover:border-gray-900'
-                      }`}
-                    >
-                      {method}
-                    </button>
-                  ))}
+              <div className="bg-gray-100 p-6 rounded-sm">
+                <h4 className="font-light text-gray-900 mb-4 uppercase">Brew Method</h4>
+                <div className="bg-white p-4 border border-gray-200">
+                  <div className="flex flex-wrap gap-2">
+                    {['핸드드립', '에스프레소', '콜드브루'].map((method) => (
+                      <button
+                        key={method}
+                        onClick={() => toggleItem(method, setSelectedBrewMethods)}
+                        className={`text-xs px-3 py-1.5 transition-colors ${
+                          selectedBrewMethods.includes(method) 
+                            ? 'bg-gray-900 text-white' 
+                            : 'bg-white border border-gray-300 text-gray-700 hover:border-gray-900'
+                        }`}
+                      >
+                        {method}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
               {/* 원산지 */}
-              <div className="bg-[#F2F2F2] p-6">
-                <h4 className="font-light text-gray-900 mb-4">원산지</h4>
-                <div className="flex flex-wrap gap-2">
-                  {['에티오피아', '콜롬비아', '과테말라', '코스타리카', '파나마', '인도네시아', '브라질', '케냐', '엘살바도르', '르완다'].map((origin) => (
-                    <button
-                      key={origin}
-                      onClick={() => toggleItem(origin, setSelectedOrigins)}
-                      className={`text-xs px-3 py-1.5 transition-colors ${
-                        selectedOrigins.includes(origin) 
-                          ? 'bg-gray-900 text-white' 
-                          : 'bg-white border border-gray-300 text-gray-700 hover:border-gray-900'
-                      }`}
-                    >
-                      {origin}
-                    </button>
-                  ))}
+              <div className="bg-gray-100 p-6 rounded-sm">
+                <h4 className="font-light text-gray-900 mb-4 uppercase">Origin</h4>
+                <div className="bg-white p-4 border border-gray-200">
+                  <div className="flex flex-wrap gap-2">
+                    {['에티오피아', '콜롬비아', '과테말라', '코스타리카', '파나마', '인도네시아', '브라질', '케냐', '엘살바도르', '르완다'].map((origin) => (
+                      <button
+                        key={origin}
+                        onClick={() => toggleItem(origin, setSelectedOrigins)}
+                        className={`text-xs px-3 py-1.5 transition-colors ${
+                          selectedOrigins.includes(origin) 
+                            ? 'bg-gray-900 text-white' 
+                            : 'bg-white border border-gray-300 text-gray-700 hover:border-gray-900'
+                        }`}
+                      >
+                        {origin}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
               {/* 프로세스 */}
-              <div className="bg-[#EBEBEB] p-6">
-                <h4 className="font-light text-gray-900 mb-4">프로세스</h4>
-                <div className="flex flex-wrap gap-2">
-                  {['워시드', '내추럴', '허니', '무산소 발효', '디카페인'].map((process) => (
-                    <button
-                      key={process}
-                      onClick={() => toggleItem(process, setSelectedProcesses)}
-                      className={`text-xs px-3 py-1.5 transition-colors ${
-                        selectedProcesses.includes(process) 
-                          ? 'bg-gray-900 text-white' 
-                          : 'bg-white border border-gray-300 text-gray-700 hover:border-gray-900'
-                      }`}
-                    >
-                      {process}
-                    </button>
-                  ))}
+              <div className="bg-gray-100 p-6 rounded-sm">
+                <h4 className="font-light text-gray-900 mb-4 uppercase">Process</h4>
+                <div className="bg-white p-4 border border-gray-200">
+                  <div className="flex flex-wrap gap-2">
+                    {['워시드', '내추럴', '허니', '무산소 발효', '디카페인'].map((process) => (
+                      <button
+                        key={process}
+                        onClick={() => toggleItem(process, setSelectedProcesses)}
+                        className={`text-xs px-3 py-1.5 transition-colors ${
+                          selectedProcesses.includes(process) 
+                            ? 'bg-gray-900 text-white' 
+                            : 'bg-white border border-gray-300 text-gray-700 hover:border-gray-900'
+                        }`}
+                      >
+                        {process}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
               {/* 로스팅 포인트 */}
-              <div className="bg-[#E5E5E5] p-6">
-                <h4 className="font-light text-gray-900 mb-4">로스팅 포인트</h4>
-                <div className="flex flex-wrap gap-2">
-                  {['다크', '미디엄다크', '미디엄', '미디엄라이트', '라이트'].map((roast) => (
-                    <button
-                      key={roast}
-                      onClick={() => toggleItem(roast, setSelectedRoast)}
-                      className={`text-xs px-3 py-1.5 transition-colors ${
-                        selectedRoast.includes(roast) 
-                          ? 'bg-gray-900 text-white' 
-                          : 'bg-white border border-gray-300 text-gray-700 hover:border-gray-900'
-                      }`}
-                    >
-                      {roast}
-                    </button>
-                  ))}
+              <div className="bg-gray-100 p-6 rounded-sm">
+                <h4 className="font-light text-gray-900 mb-4 uppercase">Roasting Point</h4>
+                <div className="bg-white p-4 border border-gray-200">
+                  <div className="flex flex-wrap gap-2">
+                    {['다크', '미디엄다크', '미디엄', '미디엄라이트', '라이트'].map((roast) => (
+                      <button
+                        key={roast}
+                        onClick={() => toggleItem(roast, setSelectedRoast)}
+                        className={`text-xs px-3 py-1.5 transition-colors ${
+                          selectedRoast.includes(roast) 
+                            ? 'bg-gray-900 text-white' 
+                            : 'bg-white border border-gray-300 text-gray-700 hover:border-gray-900'
+                        }`}
+                      >
+                        {roast}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
