@@ -311,7 +311,7 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F5F2E8]">
+    <div className="min-h-screen bg-[#F5F2E8] scale-80 origin-top">
       {/* 왼쪽 절반 영역 컨테이너 */}
       <div className="w-full lg:w-1/2 flex flex-col min-h-screen relative bg-[#F5F2E8] z-[60]">
         {/* 상단 헤더 */}
@@ -319,7 +319,7 @@ export default function HomePage() {
           <div className="flex items-center">
             <h1 
               onClick={() => window.location.reload()}
-              className="text-5xl sm:text-6xl font-black tracking-tighter cursor-pointer text-[#F15A2B] hover:text-[#d14d24] transition-colors text-left font-sans leading-none"
+              className="text-5xl sm:text-6xl font-black tracking-tighter cursor-pointer text-black hover:text-gray-800 transition-colors text-left font-sans leading-none"
             >
               CUP NOTES SEOUL
             </h1>
