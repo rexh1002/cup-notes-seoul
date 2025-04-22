@@ -65,7 +65,7 @@ export default function SignupPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 font-sans">
       <div className="max-w-md w-full p-6 bg-white rounded-lg shadow-md">
-        <h1 className="text-2xl font-bold text-center mb-6">회원가입</h1>
+        <h1 className="text-2xl font-bold text-center mb-6">일반 회원가입</h1>
 
         {error && (
           <div className="mb-4 p-3 bg-red-100 text-red-600 rounded text-sm">
@@ -158,36 +158,6 @@ export default function SignupPage() {
               autoComplete="new-password"
               disabled={isLoading}
             />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              회원 유형
-            </label>
-            <div className="flex gap-4">
-              <label className="flex items-center">
-                <input
-                  type="radio"
-                  name="role"
-                  value="user"
-                  checked={role === 'user'}
-                  onChange={(e) => setRole(e.target.value)}
-                  className="mr-2"
-                />
-                <span className="text-sm text-gray-700">일반 회원</span>
-              </label>
-              <label className="flex items-center">
-                <input
-                  type="radio"
-                  name="role"
-                  value="manager"
-                  checked={role === 'manager'}
-                  onChange={(e) => setRole(e.target.value)}
-                  className="mr-2"
-                />
-                <span className="text-sm text-gray-700">카페 매니저</span>
-              </label>
-            </div>
           </div>
 
           <Button type="submit" className="w-full" disabled={isLoading}>
