@@ -311,20 +311,20 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F5F2E8] scale-80 origin-top">
+    <div className="min-h-screen bg-[#F5F2E8]">
       {/* 왼쪽 절반 영역 컨테이너 */}
       <div className="w-full lg:w-1/2 flex flex-col min-h-screen relative bg-[#F5F2E8] z-[60]">
         {/* 상단 헤더 */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center px-6 sm:px-8 py-4 sm:py-6 bg-[#F5F2E8] z-[70] fixed w-full lg:w-1/2 top-0">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center px-4 sm:px-6 py-2 sm:py-4 bg-[#F5F2E8] z-[70] fixed w-full lg:w-1/2 top-0">
           <div className="flex items-center">
             <h1 
               onClick={() => window.location.reload()}
-              className="text-5xl sm:text-6xl font-black tracking-tighter cursor-pointer text-black hover:text-gray-800 transition-colors text-left font-sans leading-none"
+              className="text-4xl sm:text-5xl font-black tracking-tighter cursor-pointer text-black hover:text-gray-800 transition-colors text-left font-sans leading-none"
             >
               CUP NOTES SEOUL
             </h1>
           </div>
-          <div className="flex items-center gap-6 mt-4 sm:mt-0">
+          <div className="flex items-center gap-4 mt-2 sm:mt-0">
             {isLoggedIn ? (
               <button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
@@ -398,15 +398,15 @@ export default function HomePage() {
         )}
 
         {/* 검색어 및 내 취향 선택 섹션 */}
-        <div className="p-6 sm:p-8 space-y-8 flex-grow bg-[#F5F2E8] mt-20 sm:mt-24">
+        <div className="p-4 sm:p-6 space-y-6 flex-grow bg-[#F5F2E8] mt-16 sm:mt-20">
           {/* Coffee Filters 섹션 */}
-          <section className="space-y-6">
-            <h2 className="text-3xl font-bold text-black tracking-tight uppercase leading-none">Coffee Filters</h2>
-            <div className="flex flex-col gap-3">
+          <section className="space-y-4">
+            <h2 className="text-2xl font-bold text-black tracking-tight uppercase leading-none">Coffee Filters</h2>
+            <div className="flex flex-col gap-2">
               {/* 추출방식 */}
-              <div className="bg-gray-100 p-5 rounded">
-                <h4 className="text-sm font-medium text-black mb-3 uppercase tracking-wider">Brew Method</h4>
-                <div className="flex flex-wrap gap-2">
+              <div className="bg-gray-100 p-4 rounded">
+                <h4 className="text-sm font-medium text-black mb-2 uppercase tracking-wider">Brew Method</h4>
+                <div className="flex flex-wrap gap-1.5">
                   {['핸드드립', '에스프레소', '콜드브루'].map((method) => (
                     <button
                       key={method}
@@ -423,9 +423,9 @@ export default function HomePage() {
                 </div>
               </div>
               {/* 원산지 */}
-              <div className="bg-gray-100 p-5 rounded">
-                <h4 className="text-sm font-medium text-black mb-3 uppercase tracking-wider">Origin</h4>
-                <div className="flex flex-wrap gap-2">
+              <div className="bg-gray-100 p-4 rounded">
+                <h4 className="text-sm font-medium text-black mb-2 uppercase tracking-wider">Origin</h4>
+                <div className="flex flex-wrap gap-1.5">
                   {['에티오피아', '콜롬비아', '과테말라', '코스타리카', '파나마', '인도네시아', '브라질', '케냐', '엘살바도르', '르완다'].map((origin) => (
                     <button
                       key={origin}
@@ -442,9 +442,9 @@ export default function HomePage() {
                 </div>
               </div>
               {/* 프로세스 */}
-              <div className="bg-gray-100 p-5 rounded">
-                <h4 className="text-sm font-medium text-black mb-3 uppercase tracking-wider">Process</h4>
-                <div className="flex flex-wrap gap-2">
+              <div className="bg-gray-100 p-4 rounded">
+                <h4 className="text-sm font-medium text-black mb-2 uppercase tracking-wider">Process</h4>
+                <div className="flex flex-wrap gap-1.5">
                   {['워시드', '내추럴', '허니', '무산소 발효', '디카페인'].map((process) => (
                     <button
                       key={process}
@@ -461,9 +461,9 @@ export default function HomePage() {
                 </div>
               </div>
               {/* 로스팅 포인트 */}
-              <div className="bg-gray-100 p-5 rounded">
-                <h4 className="text-sm font-medium text-black mb-3 uppercase tracking-wider">Roasting Point</h4>
-                <div className="flex flex-wrap gap-2">
+              <div className="bg-gray-100 p-4 rounded">
+                <h4 className="text-sm font-medium text-black mb-2 uppercase tracking-wider">Roasting Point</h4>
+                <div className="flex flex-wrap gap-1.5">
                   {['다크', '미디엄다크', '미디엄', '미디엄라이트', '라이트'].map((roast) => (
                     <button
                       key={roast}
@@ -483,10 +483,10 @@ export default function HomePage() {
           </section>
 
           {/* My Cup Notes 섹션 */}
-          <section className="space-y-6 mt-12">
+          <section className="space-y-4 mt-8">
             <div className="flex justify-between items-center">
-              <h2 className="text-3xl font-bold text-black tracking-tight uppercase leading-none">My Cup Notes</h2>
-              <div className="flex gap-6">
+              <h2 className="text-2xl font-bold text-black tracking-tight uppercase leading-none">My Cup Notes</h2>
+              <div className="flex gap-4">
                 <button
                   onClick={handleReset}
                   className="text-sm text-black hover:text-gray-600 transition-colors tracking-wide uppercase"
@@ -501,9 +501,9 @@ export default function HomePage() {
                 </button>
               </div>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {/* Floral Section */}
-              <div className="relative h-[300px] overflow-hidden group">
+              <div className="relative h-[250px] overflow-hidden group">
                 <div className="absolute inset-0">
                   <Image
                     src="/images/Floral.jpg"
@@ -513,9 +513,9 @@ export default function HomePage() {
                   />
                   <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors" />
                 </div>
-                <div className="absolute inset-0 p-6 flex flex-col">
-                  <h3 className="text-xl font-light text-white mb-6">Floral</h3>
-                  <div className="flex flex-wrap gap-2 content-start">
+                <div className="absolute inset-0 p-4 flex flex-col">
+                  <h3 className="text-lg font-light text-white mb-4">Floral</h3>
+                  <div className="flex flex-wrap gap-1.5 content-start">
                     {['라벤더', '아카시아', '장미', '자스민', '국화', '히비스커스', '제비꽃', '홍차', '얼그레이', '카모마일', '오렌지 블로섬', '은방울꽃', '블랙티', '베르가못', '라일락', '로즈마리'].map((note) => (
                       <button
                         key={note}
@@ -534,7 +534,7 @@ export default function HomePage() {
               </div>
 
               {/* Fruity Section */}
-              <div className="relative h-[300px] overflow-hidden group">
+              <div className="relative h-[250px] overflow-hidden group">
                 <div className="absolute inset-0">
                   <Image
                     src="/images/Fruity.jpg"
@@ -544,9 +544,9 @@ export default function HomePage() {
                   />
                   <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors" />
                 </div>
-                <div className="absolute inset-0 p-6 flex flex-col">
-                  <h3 className="text-xl font-light text-white mb-6">Fruity</h3>
-                  <div className="flex flex-wrap gap-2 content-start">
+                <div className="absolute inset-0 p-4 flex flex-col">
+                  <h3 className="text-lg font-light text-white mb-4">Fruity</h3>
+                  <div className="flex flex-wrap gap-1.5 content-start">
                     {['파인애플', '복숭아', '리치', '사과', '감귤', '배', '패션후르츠', '메론', '파파야', '블루베리', '라즈베리', '자두', '딸기', '포도', '자몽', '오렌지', '레몬', '크랜베리', '망고', '체리', '살구'].map((note) => (
                       <button
                         key={note}
@@ -565,7 +565,7 @@ export default function HomePage() {
               </div>
 
               {/* Nutty Section */}
-              <div className="relative h-[300px] overflow-hidden group">
+              <div className="relative h-[250px] overflow-hidden group">
                 <div className="absolute inset-0">
                   <Image
                     src="/images/Nutty.jpg"
@@ -575,9 +575,9 @@ export default function HomePage() {
                   />
                   <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors" />
                 </div>
-                <div className="absolute inset-0 p-6 flex flex-col">
-                  <h3 className="text-xl font-light text-white mb-6">Nutty</h3>
-                  <div className="flex flex-wrap gap-2 content-start">
+                <div className="absolute inset-0 p-4 flex flex-col">
+                  <h3 className="text-lg font-light text-white mb-4">Nutty</h3>
+                  <div className="flex flex-wrap gap-1.5 content-start">
                     {['초콜렛', '캐러멜', '고구마', '꿀', '헤이즐넛', '브라운슈거', '엿기름', '아몬드', '피칸', '호두', '로스트피넛', '마카다미아', '땅콩', '바닐라', '캐슈넛', '메이플 시럽', '토피', '피스타치오', '카카오닙스'].map((note) => (
                       <button
                         key={note}
@@ -599,7 +599,7 @@ export default function HomePage() {
         </div>
 
         {/* Footer */}
-        <footer className="bg-[#F5F2E8] py-4 px-8 text-center w-full z-10 hidden sm:block mt-auto border-t border-gray-100">
+        <footer className="bg-[#F5F2E8] py-3 px-6 text-center w-full z-10 hidden sm:block mt-auto border-t border-gray-100">
           <p className="text-xs text-black tracking-wide">
             © 2024 Cup Notes Seoul. All rights reserved.
           </p>
