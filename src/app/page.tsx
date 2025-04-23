@@ -326,12 +326,28 @@ export default function HomePage() {
           </div>
           <div className="flex items-center gap-4 mt-2 sm:mt-0">
             {isLoggedIn ? (
-              <button
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className="text-sm text-black hover:text-gray-600 transition-colors tracking-wide uppercase"
-              >
-                {userName}님
-              </button>
+              <>
+                <button
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  className="text-sm text-black hover:text-gray-600 transition-colors tracking-wide uppercase"
+                >
+                  {userName}님
+                </button>
+                {userRole === 'manager' && (
+                  <button
+                    onClick={() => router.push('/manager/dashboard')}
+                    className="text-sm text-black hover:text-gray-600 transition-colors tracking-wide uppercase"
+                  >
+                    내 카페 정보
+                  </button>
+                )}
+                <button
+                  onClick={handleLogout}
+                  className="text-sm text-black hover:text-gray-600 transition-colors tracking-wide uppercase"
+                >
+                  Sign Out
+                </button>
+              </>
             ) : (
               <>
                 <button
