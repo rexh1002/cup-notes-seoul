@@ -400,9 +400,9 @@ export default function HomePage() {
         {/* 검색어 및 내 취향 선택 섹션 */}
         <div className="p-4 sm:p-6 space-y-6 flex-grow bg-[#F5F2E8] mt-16 sm:mt-20">
           {/* Coffee Filters 섹션 */}
-          <section className="space-y-4">
+          <section className="space-y-2">
             <h2 className="text-2xl font-bold text-black tracking-tight uppercase leading-none">Coffee Filters</h2>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-1">
               {/* 추출방식 */}
               <div className="bg-gray-100 p-4 rounded">
                 <h4 className="text-sm font-medium text-black mb-2 uppercase tracking-wider">Brew Method</h4>
