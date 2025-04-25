@@ -395,7 +395,7 @@ export default function HomePage() {
             animate={{ opacity: 1, y: 0 }}
             className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
           >
-            Cup Notes
+            Cup Notes Seoul
           </motion.h1>
 
           {/* 네비게이션 */}
