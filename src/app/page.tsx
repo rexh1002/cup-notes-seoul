@@ -310,6 +310,61 @@ export default function HomePage() {
     }
   };
 
+  const handleCategorySearch = async (category: string) => {
+    setIsLoading(true);
+    let searchTerms: string[] = [];
+    
+    switch (category) {
+      case 'floral':
+        searchTerms = ['라벤더', '아카시아', '장미', '자스민', '국화', '히비스커스', '제비꽃', '홍차', '얼그레이', '카모마일', '오렌지 블로섬', '은방울꽃', '블랙티', '베르가못', '라일락', '로즈마리'];
+        setSelectedNotes(searchTerms);
+        break;
+      case 'fruity':
+        searchTerms = ['파인애플', '복숭아', '리치', '사과', '감귤', '배', '패션후르츠', '메론', '파파야', '블루베리', '라즈베리', '자두', '딸기', '포도', '자몽', '오렌지', '레몬', '크랜베리', '망고', '체리', '살구'];
+        setSelectedNotes(searchTerms);
+        break;
+      case 'nutty':
+        searchTerms = ['초콜렛', '캐러멜', '고구마', '꿀', '헤이즐넛', '브라운슈거', '엿기름', '아몬드', '피칸', '호두', '로스트피넛', '마카다미아', '땅콩', '바닐라', '캐슈넛', '메이플 시럽', '토피', '피스타치오', '카카오닙스'];
+        setSelectedNotes(searchTerms);
+        break;
+      case 'all':
+        searchTerms = [];
+        setSelectedNotes([]);
+        break;
+    }
+
+    try {
+      const response = await fetch('/api/cafes/search', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          keyword: '',
+          notes: searchTerms,
+          origins: [],
+          processes: [],
+          roastLevel: [],
+          brewMethod: [],
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('검색 중 오류가 발생했습니다.');
+      }
+
+      const data = await response.json();
+      if (data && data.cafes) {
+        setCafes(data.cafes);
+      }
+    } catch (error) {
+      console.error('검색 오류:', error);
+      alert('검색 중 오류가 발생했습니다.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white">
       {/* 왼쪽 절반 영역 컨테이너 */}
@@ -648,7 +703,11 @@ export default function HomePage() {
         lg:w-1/2 lg:fixed lg:right-0 lg:top-0 lg:bottom-0 lg:z-[40] lg:h-screen lg:p-8
       `}>
         <div className="w-full h-full rounded-3xl overflow-hidden">
-          <Map cafes={processedCafes} searchKeyword={searchKeyword} />
+          <Map 
+            cafes={processedCafes} 
+            searchKeyword={searchKeyword} 
+            onSearch={handleCategorySearch}
+          />
         </div>
       </div>
 

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, useCallback } from 'react';
 import Image from 'next/image';
+import { Cafe } from '../types/types';
 
 declare global {
   interface Window {
@@ -45,6 +46,7 @@ interface MapProps {
   initialZoom?: number;
   style?: React.CSSProperties;
   searchKeyword?: string;
+  onSearch?: (category: string) => void;
 }
 
 interface Coordinates {
@@ -59,6 +61,7 @@ export default function Map({
   initialZoom = 13,
   style = { width: '100%', height: '100%' },
   searchKeyword,
+  onSearch,
 }: MapProps) {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstance = useRef<any>(null);
@@ -68,6 +71,13 @@ export default function Map({
   const [zoom, setZoom] = useState(initialZoom);
   const [cafeCoordinates, setCafeCoordinates] = useState<Record<string, Coordinates>>({});
   const [isInitialLoad, setIsInitialLoad] = useState(true);
+
+  // 검색 카테고리 정의
+  const searchCategories = {
+    floral: ['라벤더', '아카시아', '장미', '자스민', '국화', '히비스커스', '제비꽃', '홍차', '얼그레이', '카모마일', '오렌지 블로섬', '은방울꽃', '블랙티', '베르가못', '라일락', '로즈마리'],
+    fruity: ['파인애플', '복숭아', '리치', '사과', '감귤', '배', '패션후르츠', '메론', '파파야', '블루베리', '라즈베리', '자두', '딸기', '포도', '자몽', '오렌지', '레몬', '크랜베리', '망고', '체리', '살구'],
+    nutty: ['초콜렛', '캐러멜', '고구마', '꿀', '헤이즐넛', '브라운슈거', '엿기름', '아몬드', '피칸', '호두', '로스트피넛', '마카다미아', '땅콩', '바닐라', '캐슈넛', '메이플 시럽', '토피', '피스타치오', '카카오닙스']
+  };
 
   // 주소를 좌표로 변환
   const getCoordinates = useCallback(async (address: string): Promise<Coordinates | null> => {
@@ -210,9 +220,13 @@ export default function Map({
       center: new window.naver.maps.LatLng(center.lat, center.lng),
       zoom: zoom,
       minZoom: 10,
+      mapTypeControl: false,
+      scaleControl: false,
+      logoControl: false,
+      mapDataControl: false,
       zoomControl: true,
       zoomControlOptions: {
-        position: window.naver.maps.Position.TOP_RIGHT,
+        position: window.naver.maps.Position.RIGHT_TOP
       },
     });
 
@@ -249,11 +263,41 @@ export default function Map({
   }, [selectedCafe, cafeCoordinates]);
 
   return (
-    <div 
-      ref={mapRef} 
-      style={{ ...style, height: '100%' }}
-      className="relative w-full h-full"
-    >
+    <div className="relative w-full h-full">
+      <div ref={mapRef} className="w-full h-full rounded-3xl overflow-hidden" />
+      
+      {/* 검색 버튼들 */}
+      <div className="absolute top-4 left-4 flex flex-col gap-4 z-10">
+        <button
+          onClick={() => onSearch && onSearch('floral')}
+          className="w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center hover:bg-gray-50 transition-colors"
+          title="Floral"
+        >
+          <span className="text-sm font-medium">1</span>
+        </button>
+        <button
+          onClick={() => onSearch && onSearch('fruity')}
+          className="w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center hover:bg-gray-50 transition-colors"
+          title="Fruity"
+        >
+          <span className="text-sm font-medium">2</span>
+        </button>
+        <button
+          onClick={() => onSearch && onSearch('nutty')}
+          className="w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center hover:bg-gray-50 transition-colors"
+          title="Nutty"
+        >
+          <span className="text-sm font-medium">3</span>
+        </button>
+        <button
+          onClick={() => onSearch && onSearch('all')}
+          className="w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center hover:bg-gray-50 transition-colors"
+          title="All Cafes"
+        >
+          <span className="text-sm font-medium">4</span>
+        </button>
+      </div>
+
       {selectedCafe && (
         <div className="absolute top-10 left-3 right-5 sm:right-3 z-50 bg-white rounded-lg shadow-lg w-[calc(100%-32px)] sm:w-[328px] max-h-[calc(100vh-12px)] sm:max-h-[calc(100vh-72px)] flex flex-col overflow-hidden">
           {/* 카페 이미지 섹션 */}
