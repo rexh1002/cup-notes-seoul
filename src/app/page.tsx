@@ -10,6 +10,8 @@ import { Search } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useTheme } from 'next-themes';
 
 const Map = dynamic(() => import('../components/Map'), {
   ssr: false
@@ -54,6 +56,8 @@ export default function HomePage() {
     fruity: false,
     nutty: false
   });
+  const { theme, setTheme } = useTheme();
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   const hasSelections = selectedNotes.length > 0 || 
     selectedBrewMethods.length > 0 || 
@@ -365,380 +369,223 @@ export default function HomePage() {
     }
   };
 
+  // 스크롤 프로그레스 계산
+  useEffect(() => {
+    const handleScroll = () => {
+      const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = (window.scrollY / totalScroll) * 100;
+      setScrollProgress(progress);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <div className="min-h-screen bg-white">
-      {/* 왼쪽 절반 영역 컨테이너 */}
-      <div className="w-full lg:w-1/2 flex flex-col min-h-screen relative bg-white z-[60]">
-        {/* 상단 헤더 */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center px-4 sm:px-6 py-2 sm:py-4 bg-white z-[70] fixed w-full lg:w-1/2 top-0">
-          <div className="flex items-center">
-            <h1 
-              onClick={() => window.location.reload()}
-              className="text-6xl sm:text-7xl font-black tracking-tighter cursor-pointer text-black hover:text-gray-800 transition-colors text-left font-sans leading-none"
+    <main className="min-h-screen bg-[#F5F2E8] dark:bg-gray-900 transition-colors duration-300">
+      {/* 스크롤 프로그레스 바 */}
+      <motion.div
+        className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 z-50"
+        style={{ scaleX: scrollProgress / 100, transformOrigin: '0%' }}
+      />
+
+      {/* 헤더 섹션 */}
+      <header className="fixed top-0 left-0 right-0 bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg z-40">
+        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+          {/* 로고 */}
+          <motion.h1
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
+          >
+            Cup Notes
+          </motion.h1>
+
+          {/* 네비게이션 */}
+          <nav className="hidden md:flex items-center space-x-8">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
             >
-              visual poetry
-            </h1>
-          </div>
-          <div className="flex items-center gap-4 mt-2 sm:mt-0">
-            {isLoggedIn ? (
-              <>
-                <button
-                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  className="text-sm text-black hover:text-gray-600 transition-colors tracking-wide"
-                >
-                  {userName}님
-                </button>
-                {userRole === 'manager' && (
-                  <button
-                    onClick={() => router.push('/manager/dashboard')}
-                    className="text-sm text-black hover:text-gray-600 transition-colors tracking-wide"
-                  >
-                    내 카페 정보
-                  </button>
-                )}
-                <button
-                  onClick={handleLogout}
-                  className="text-sm text-black hover:text-gray-600 transition-colors tracking-wide"
-                >
-                  Sign Out
-                </button>
-              </>
-            ) : (
-              <>
-                <button
-                  onClick={() => router.push('/auth/login')}
-                  className="text-sm text-black hover:text-gray-600 transition-colors tracking-wide"
-                >
-                  Sign In
-                </button>
-                <button
-                  onClick={() => setIsModalOpen(true)}
-                  className="text-sm text-black hover:text-gray-600 transition-colors tracking-wide"
-                >
-                  Sign Up
-                </button>
-              </>
-            )}
-          </div>
+              {theme === 'dark' ? '라이트 모드' : '다크 모드'}
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+            >
+              로그인
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+            >
+              회원가입
+            </motion.button>
+          </nav>
+
+          {/* 모바일 메뉴 버튼 */}
+          <motion.button
+            whileTap={{ scale: 0.95 }}
+            className="md:hidden p-2"
+            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6 text-gray-700 dark:text-gray-300"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            </svg>
+          </motion.button>
         </div>
+      </header>
 
-        {/* 회원가입 모달 */}
-        {isModalOpen && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[999] p-4">
-            <div className="bg-white rounded-lg p-6 w-full max-w-md shadow-xl">
-              <div className="flex justify-between items-center mb-6">
-                <h2 className="text-xl font-bold">회원 유형 선택</h2>
-                <button 
-                  onClick={() => setIsModalOpen(false)}
-                  className="text-gray-500 hover:text-gray-700"
-                >
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-              </div>
-              
-              <div className="space-y-4">
-                <Link
-                  href="/auth/signup"
-                  className="block w-full py-3 px-4 text-center bg-[#F15A2B] text-[#F5F2E8] rounded-lg hover:bg-[#d14d24] transition-colors"
-                  onClick={() => setIsModalOpen(false)}
-                >
-                  일반 회원가입
-                </Link>
-
-                <div className="relative">
-                  <div className="absolute inset-0 flex items-center">
-                    <div className="w-full border-t border-gray-300"></div>
-                  </div>
-                  <div className="relative flex justify-center text-sm">
-                    <span className="px-2 bg-white text-gray-500">또는</span>
-                  </div>
-                </div>
-
-                <Link
-                  href="/auth/manager/signup"
-                  className="block w-full py-3 px-4 text-center border border-[#F15A2B] text-[#F15A2B] rounded-lg hover:bg-[#d14d24] transition-colors"
-                  onClick={() => setIsModalOpen(false)}
-                >
-                  카페 매니저 회원가입
-                </Link>
-              </div>
+      {/* 모바일 메뉴 */}
+      <AnimatePresence>
+        {isDropdownOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="fixed top-16 left-0 right-0 bg-white dark:bg-gray-900 shadow-lg z-30 md:hidden"
+          >
+            <div className="container mx-auto py-4 px-4 space-y-4">
+              <button
+                className="w-full text-left text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+              >
+                {theme === 'dark' ? '라이트 모드' : '다크 모드'}
+              </button>
+              <button className="w-full text-left text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                로그인
+              </button>
+              <button className="w-full text-left text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                회원가입
+              </button>
             </div>
-          </div>
+          </motion.div>
         )}
+      </AnimatePresence>
 
-        {/* 검색어 및 내 취향 선택 섹션 */}
-        <div className="p-8 sm:p-12 space-y-12 flex-grow bg-white mt-24 sm:mt-28">
-          {/* 통계 섹션 */}
-          <section className="grid grid-cols-2 gap-8">
-            <div>
-              <div className="text-5xl font-bold mb-2">+250k</div>
-              <p className="text-gray-600 text-sm">Videos that reaching a wide audience and give lasting impression</p>
-            </div>
-            <div>
-              <div className="text-5xl font-bold mb-2">+800k</div>
-              <p className="text-gray-600 text-sm">Hours watched, engaging storytelling that captivates viewers</p>
-            </div>
-          </section>
-
-          {/* Coffee Filters 섹션 */}
-          <section className="space-y-6">
-            <h2 className="text-3xl font-bold text-black tracking-tight">Coffee Filters</h2>
-            <div className="flex flex-col gap-4">
-              {/* 추출방식 */}
-              <div>
-                <h4 className="text-sm font-medium text-black mb-3">Brew Method</h4>
-                <div className="bg-gray-50 p-6 rounded-2xl">
-                  <div className="flex flex-wrap gap-2">
-                    {['핸드드립', '에스프레소', '콜드브루'].map((method) => (
-                      <button
-                        key={method}
-                        onClick={() => toggleItem(method, setSelectedBrewMethods)}
-                        className={`text-sm px-4 py-2 rounded-full transition-all ${
-                          selectedBrewMethods.includes(method) 
-                            ? 'bg-black text-white shadow-sm' 
-                            : 'bg-white border border-gray-200 text-black hover:border-black hover:shadow-sm'
-                        }`}
-                      >
-                        {method}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-              {/* 원산지 */}
-              <div>
-                <h4 className="text-sm font-medium text-black mb-3">Origin</h4>
-                <div className="bg-gray-50 p-6 rounded-2xl">
-                  <div className="flex flex-wrap gap-2">
-                    {['에티오피아', '콜롬비아', '과테말라', '코스타리카', '파나마', '인도네시아', '브라질', '케냐', '엘살바도르', '르완다'].map((origin) => (
-                      <button
-                        key={origin}
-                        onClick={() => toggleItem(origin, setSelectedOrigins)}
-                        className={`text-sm px-4 py-2 rounded-full transition-all ${
-                          selectedOrigins.includes(origin) 
-                            ? 'bg-black text-white shadow-sm' 
-                            : 'bg-white border border-gray-200 text-black hover:border-black hover:shadow-sm'
-                        }`}
-                      >
-                        {origin}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-              {/* 프로세스 */}
-              <div>
-                <h4 className="text-sm font-medium text-black mb-3">Process</h4>
-                <div className="bg-gray-50 p-6 rounded-2xl">
-                  <div className="flex flex-wrap gap-2">
-                    {['워시드', '내추럴', '허니', '무산소 발효', '디카페인'].map((process) => (
-                      <button
-                        key={process}
-                        onClick={() => toggleItem(process, setSelectedProcesses)}
-                        className={`text-sm px-4 py-2 rounded-full transition-all ${
-                          selectedProcesses.includes(process) 
-                            ? 'bg-black text-white shadow-sm' 
-                            : 'bg-white border border-gray-200 text-black hover:border-black hover:shadow-sm'
-                        }`}
-                      >
-                        {process}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-              {/* 로스팅 포인트 */}
-              <div>
-                <h4 className="text-sm font-medium text-black mb-3">Roasting Point</h4>
-                <div className="bg-gray-50 p-6 rounded-2xl">
-                  <div className="flex flex-wrap gap-2">
-                    {['다크', '미디엄다크', '미디엄', '미디엄라이트', '라이트'].map((roast) => (
-                      <button
-                        key={roast}
-                        onClick={() => toggleItem(roast, setSelectedRoast)}
-                        className={`text-sm px-4 py-2 rounded-full transition-all ${
-                          selectedRoast.includes(roast) 
-                            ? 'bg-black text-white shadow-sm' 
-                            : 'bg-white border border-gray-200 text-black hover:border-black hover:shadow-sm'
-                        }`}
-                      >
-                        {roast}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          {/* My Cup Notes 섹션 */}
-          <section className="space-y-6">
-            <div className="flex justify-between items-center">
-              <h2 className="text-3xl font-bold text-black tracking-tight">My Cup Notes</h2>
-              <div className="flex gap-6">
-                <button
-                  onClick={handleReset}
-                  className="text-sm text-black hover:text-gray-600 transition-colors tracking-wide"
-                >
-                  Reset
-                </button>
-                <button
-                  onClick={handleApply}
-                  className="text-sm text-black hover:text-gray-600 transition-colors tracking-wide"
-                >
-                  Apply
-                </button>
-              </div>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {/* Floral Section */}
-              <div className="relative h-[300px] overflow-hidden group rounded-3xl">
-                <div className="absolute inset-0">
-                  <Image
-                    src="/images/Floral.jpg"
-                    alt="Floral background"
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors" />
-                </div>
-                <div className="absolute inset-0 p-6 flex flex-col">
-                  <h3 className="text-xl font-light text-white mb-6">Floral</h3>
-                  <div className="flex flex-wrap gap-2 content-start">
-                    {['라벤더', '아카시아', '장미', '자스민', '국화', '히비스커스', '제비꽃', '홍차', '얼그레이', '카모마일', '오렌지 블로섬', '은방울꽃', '블랙티', '베르가못', '라일락', '로즈마리'].map((note) => (
-                      <button
-                        key={note}
-                        onClick={() => toggleNote(note)}
-                        className={`text-sm px-4 py-2 rounded-full transition-colors ${
-                          selectedNotes.includes(note)
-                            ? 'bg-white text-gray-900'
-                            : 'bg-black/40 text-white hover:bg-white hover:text-gray-900'
-                        }`}
-                      >
-                        {note}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* Fruity Section */}
-              <div className="relative h-[300px] overflow-hidden group rounded-3xl">
-                <div className="absolute inset-0">
-                  <Image
-                    src="/images/Fruity.jpg"
-                    alt="Fruity background"
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors" />
-                </div>
-                <div className="absolute inset-0 p-6 flex flex-col">
-                  <h3 className="text-xl font-light text-white mb-6">Fruity</h3>
-                  <div className="flex flex-wrap gap-2 content-start">
-                    {['파인애플', '복숭아', '리치', '사과', '감귤', '배', '패션후르츠', '메론', '파파야', '블루베리', '라즈베리', '자두', '딸기', '포도', '자몽', '오렌지', '레몬', '크랜베리', '망고', '체리', '살구'].map((note) => (
-                      <button
-                        key={note}
-                        onClick={() => toggleNote(note)}
-                        className={`text-sm px-4 py-2 rounded-full transition-colors ${
-                          selectedNotes.includes(note)
-                            ? 'bg-white text-gray-900'
-                            : 'bg-black/40 text-white hover:bg-white hover:text-gray-900'
-                        }`}
-                      >
-                        {note}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* Nutty Section */}
-              <div className="relative h-[300px] overflow-hidden group rounded-3xl">
-                <div className="absolute inset-0">
-                  <Image
-                    src="/images/Nutty.jpg"
-                    alt="Nutty background"
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors" />
-                </div>
-                <div className="absolute inset-0 p-6 flex flex-col">
-                  <h3 className="text-xl font-light text-white mb-6">Nutty</h3>
-                  <div className="flex flex-wrap gap-2 content-start">
-                    {['초콜렛', '캐러멜', '고구마', '꿀', '헤이즐넛', '브라운슈거', '엿기름', '아몬드', '피칸', '호두', '로스트피넛', '마카다미아', '땅콩', '바닐라', '캐슈넛', '메이플 시럽', '토피', '피스타치오', '카카오닙스'].map((note) => (
-                      <button
-                        key={note}
-                        onClick={() => toggleNote(note)}
-                        className={`text-sm px-4 py-2 rounded-full transition-colors ${
-                          selectedNotes.includes(note)
-                            ? 'bg-white text-gray-900'
-                            : 'bg-black/40 text-white hover:bg-white hover:text-gray-900'
-                        }`}
-                      >
-                        {note}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-        </div>
-
-        {/* Footer */}
-        <footer className="bg-white py-4 px-8 text-center w-full z-10 hidden sm:block mt-auto border-t border-gray-100">
-          <p className="text-sm text-gray-600">
-            © 2024 Cup Notes Seoul. All rights reserved.
-          </p>
-        </footer>
-      </div>
-
-      {/* 오른쪽 지도 영역 */}
-      <div className={`
-        ${showMapOnMobile ? 'fixed inset-0 z-[99999]' : 'hidden lg:block'}
-        lg:w-1/2 lg:fixed lg:right-0 lg:top-0 lg:bottom-0 lg:z-[40] lg:h-screen bg-[#F5F2E8]
-      `}>
-        <div className="w-full h-full">
-          <Map 
-            cafes={processedCafes} 
-            searchKeyword={searchKeyword} 
-            onSearch={handleCategorySearch}
+      {/* 메인 컨텐츠 */}
+      <div className="pt-16">
+        {/* 히어로 섹션 */}
+        <section className="relative h-[80vh] overflow-hidden">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1 }}
+            className="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-600/20 to-pink-600/20"
           />
-        </div>
+          
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="text-center space-y-6 px-4">
+              <motion.h2
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                className="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white"
+              >
+                당신의 완벽한 커피를 찾아보세요
+              </motion.h2>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                className="text-lg md:text-xl text-gray-700 dark:text-gray-300"
+              >
+                서울의 숨은 커피 명소들을 발견하고 공유하세요
+              </motion.p>
+            </div>
+          </div>
+
+          {/* 스크롤 다운 인디케이터 */}
+          <motion.div
+            animate={{
+              y: [0, 10, 0],
+            }}
+            transition={{
+              duration: 1.5,
+              repeat: Infinity,
+              repeatType: "reverse",
+            }}
+            className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6 text-gray-700 dark:text-gray-300"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 14l-7 7m0 0l-7-7m7 7V3"
+              />
+            </svg>
+          </motion.div>
+        </section>
+
+        {/* 지도 섹션 */}
+        <section className="relative h-[calc(100vh-4rem)] bg-white dark:bg-gray-800">
+          {isLoading ? (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <motion.div
+                animate={{
+                  rotate: 360,
+                }}
+                transition={{
+                  duration: 1,
+                  repeat: Infinity,
+                  ease: "linear",
+                }}
+                className="w-8 h-8 border-2 border-blue-600 border-t-transparent rounded-full"
+              />
+            </div>
+          ) : (
+            <Map
+              cafes={processedCafes}
+              searchKeyword={searchKeyword}
+              onSearch={handleCategorySearch}
+            />
+          )}
+        </section>
       </div>
 
-      {/* 모바일 하단 네비게이션 바 */}
-      <nav className="sm:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 z-50">
-        <div className="flex justify-around items-center h-16">
-          {isLoggedIn ? (
-            <button
-              onClick={handleLogout}
-              className="text-sm text-black hover:text-gray-600 transition-colors tracking-wide"
-            >
-              Sign Out
-            </button>
-          ) : (
-            <>
-              <button
-                onClick={() => router.push('/auth/login')}
-                className="text-sm text-black hover:text-gray-600 transition-colors tracking-wide"
-              >
-                Sign In
-              </button>
-              <button
-                onClick={() => setIsModalOpen(true)}
-                className="text-sm text-black hover:text-gray-600 transition-colors tracking-wide"
-              >
-                Sign Up
-              </button>
-            </>
-          )}
+      {/* 푸터 */}
+      <footer className="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800">
+        <div className="container mx-auto px-4 py-8">
+          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              © 2025 Cup Notes. All rights reserved.
+            </p>
+            <div className="flex space-x-6">
+              <a href="#" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
+                Privacy Policy
+              </a>
+              <a href="#" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
+                Terms of Service
+              </a>
+              <a href="#" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
+                Contact
+              </a>
+            </div>
+          </div>
         </div>
-      </nav>
-    </div>
+      </footer>
+    </main>
   );
 }
