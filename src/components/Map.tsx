@@ -207,10 +207,15 @@ export default function Map({
     adjustMapHeight();
     window.addEventListener('resize', adjustMapHeight);
 
+    // 컴포넌트 마운트 시 자동으로 'all' 필터 실행
+    if (onSearch) {
+      onSearch('all');
+    }
+
     return () => {
       window.removeEventListener('resize', adjustMapHeight);
     };
-  }, []);
+  }, [onSearch]);
 
   // 지도 초기화 및 마커 업데이트
   useEffect(() => {
