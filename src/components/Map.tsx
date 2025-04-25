@@ -267,47 +267,38 @@ export default function Map({
     <div className="relative w-full h-full">
       {/* 베이지색 배경 */}
       <div className="absolute inset-0 bg-[#F5F2E8]">
+        {/* 실제 지도 */}
+        <div ref={mapRef} className="w-full h-full" />
+
+        {/* 둥근 모서리 마스크 */}
+        <div className="absolute inset-0 pointer-events-none">
+          {/* 왼쪽 상단 */}
+          <div className="absolute left-0 top-0 w-[120px] h-[120px] bg-[#F5F2E8]" />
+          <div className="absolute left-[120px] top-0 w-[120px] h-[120px] bg-[#F5F2E8] rounded-bl-[120px]" />
+          
+          {/* 오른쪽 상단 */}
+          <div className="absolute right-0 top-0 w-[120px] h-[120px] bg-[#F5F2E8]" />
+          <div className="absolute right-[120px] top-0 w-[120px] h-[120px] bg-[#F5F2E8] rounded-br-[120px]" />
+          
+          {/* 왼쪽 하단 */}
+          <div className="absolute left-0 bottom-0 w-[120px] h-[360px] bg-[#F5F2E8]" />
+          <div className="absolute left-[120px] bottom-0 w-[120px] h-[360px] bg-[#F5F2E8] rounded-tr-[120px]" />
+          
+          {/* 오른쪽 하단 */}
+          <div className="absolute right-0 bottom-0 w-[120px] h-[120px] bg-[#F5F2E8]" />
+          <div className="absolute right-[120px] bottom-0 w-[120px] h-[120px] bg-[#F5F2E8] rounded-tl-[120px]" />
+        </div>
+
         {/* 대각선 패턴 마스크 */}
-        <div className="absolute inset-0" style={{
+        <div className="absolute inset-0 pointer-events-none" style={{
           backgroundImage: `repeating-linear-gradient(
             -45deg,
             transparent,
             transparent 40px,
             rgba(0, 0, 0, 0.03) 40px,
             rgba(0, 0, 0, 0.03) 80px
-          )`,
-          clipPath: `polygon(
-            /* 시작점 */
-            0 0,
-            100% 0,
-            100% 100%,
-            0 100%,
-            0 0,
-            /* 대각선 패턴 - 왼쪽에서 오른쪽으로 */
-            calc(10% + 0px) 0%,
-            calc(25% + 0px) 100%,
-            calc(40% + 0px) 0%,
-            calc(55% + 0px) 100%,
-            calc(70% + 0px) 0%,
-            calc(85% + 0px) 100%,
-            100% 0%,
-            /* 오른쪽 상단 영역 */
-            100% 0,
-            100% 120px,
-            calc(100% - 120px) 120px,
-            calc(100% - 120px) 0,
-            /* 왼쪽 하단 영역들 */
-            120px calc(100% - 360px),
-            0 calc(100% - 360px),
-            0 calc(100% - 240px),
-            120px calc(100% - 240px),
-            120px calc(100% - 120px),
-            0 calc(100% - 120px)
           )`
         }} />
-        
-        {/* 실제 지도 */}
-        <div ref={mapRef} className="w-full h-full" />
       </div>
       
       {/* 왼쪽 하단 버튼 박스 */}
