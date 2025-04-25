@@ -12,6 +12,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from 'next-themes';
+import FilterPanel from '../components/FilterPanel';
 
 const Map = dynamic(() => import('../components/Map'), {
   ssr: false
@@ -58,6 +59,7 @@ export default function HomePage() {
   });
   const { theme, setTheme } = useTheme();
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const hasSelections = selectedNotes.length > 0 || 
     selectedBrewMethods.length > 0 || 
@@ -257,40 +259,34 @@ export default function HomePage() {
   };
 
   const toggleNote = (note: string) => {
-    setSelectedNotes(prev =>
-      prev.includes(note)
-        ? prev.filter(n => n !== note)
-        : [...prev, note]
+    setSelectedNotes(prev => 
+      prev.includes(note) ? prev.filter(n => n !== note) : [...prev, note]
     );
   };
 
-  const toggleItem = (
-    item: string,
-    setter: React.Dispatch<React.SetStateAction<string[]>>
-  ) => {
-    setter(prev =>
-      prev.includes(item)
-        ? prev.filter(i => i !== item)
-        : [...prev, item]
+  const toggleBrewMethod = (method: string) => {
+    setSelectedBrewMethods(prev =>
+      prev.includes(method) ? prev.filter(m => m !== method) : [...prev, method]
     );
   };
 
-  // 모바일에서 지도 <-> 필터 토글
-  const toggleMapView = () => {
-    setShowMapOnMobile(prev => !prev);
+  const toggleOrigin = (origin: string) => {
+    setSelectedOrigins(prev =>
+      prev.includes(origin) ? prev.filter(o => o !== origin) : [...prev, origin]
+    );
   };
 
-  // Map 컴포넌트에 전달하기 전에 타입 변환
-  const processedCafes = cafes.map(cafe => ({
-    ...cafe,
-    description: cafe.description ?? null,
-    imageUrl: cafe.imageUrl ?? null,
-    businessHourNote: cafe.businessHourNote ?? null,
-    adminId: cafe.adminId ?? null,
-    managerId: cafe.managerId ?? null,
-    businessHours: JSON.parse(JSON.stringify(cafe.businessHours || [])),
-    snsLinks: JSON.parse(JSON.stringify(cafe.snsLinks || [])),
-  }));
+  const toggleProcess = (process: string) => {
+    setSelectedProcesses(prev =>
+      prev.includes(process) ? prev.filter(p => p !== process) : [...prev, process]
+    );
+  };
+
+  const toggleRoast = (roast: string) => {
+    setSelectedRoast(prev =>
+      prev.includes(roast) ? prev.filter(r => r !== roast) : [...prev, roast]
+    );
+  };
 
   const handleReset = () => {
     setSelectedNotes([]);
@@ -312,6 +308,7 @@ export default function HomePage() {
       setSearchKeyword(allSelections.join(' '));
       handleSearch();
     }
+    setIsFilterOpen(false);
   };
 
   const handleCategorySearch = async (category: string) => {
@@ -478,6 +475,24 @@ export default function HomePage() {
         )}
       </AnimatePresence>
 
+      {/* 필터 패널 */}
+      <FilterPanel
+        isOpen={isFilterOpen}
+        onClose={() => setIsFilterOpen(false)}
+        selectedNotes={selectedNotes}
+        toggleNote={toggleNote}
+        selectedBrewMethods={selectedBrewMethods}
+        toggleBrewMethod={toggleBrewMethod}
+        selectedOrigins={selectedOrigins}
+        toggleOrigin={toggleOrigin}
+        selectedProcesses={selectedProcesses}
+        toggleProcess={toggleProcess}
+        selectedRoast={selectedRoast}
+        toggleRoast={toggleRoast}
+        onReset={handleReset}
+        onApply={handleApply}
+      />
+
       {/* 메인 컨텐츠 */}
       <div className="pt-16">
         {/* 히어로 섹션 */}
@@ -541,25 +556,40 @@ export default function HomePage() {
 
         {/* 지도 섹션 */}
         <section className="relative h-[calc(100vh-4rem)] bg-white dark:bg-gray-800">
+          {/* 필터 토글 버튼 */}
+          <button
+            onClick={() => setIsFilterOpen(true)}
+            className="absolute left-4 top-4 z-10 p-3 bg-white dark:bg-gray-900 rounded-full shadow-lg hover:shadow-xl transition-shadow"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
+              />
+            </svg>
+          </button>
+
           {isLoading ? (
             <div className="absolute inset-0 flex items-center justify-center">
               <motion.div
-                animate={{
-                  rotate: 360,
-                }}
-                transition={{
-                  duration: 1,
-                  repeat: Infinity,
-                  ease: "linear",
-                }}
+                animate={{ rotate: 360 }}
+                transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
                 className="w-8 h-8 border-2 border-blue-600 border-t-transparent rounded-full"
               />
             </div>
           ) : (
             <Map
-              cafes={processedCafes}
+              cafes={cafes}
               searchKeyword={searchKeyword}
-              onSearch={handleCategorySearch}
+              onSearch={handleSearch}
             />
           )}
         </section>
