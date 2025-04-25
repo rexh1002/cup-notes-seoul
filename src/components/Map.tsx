@@ -226,7 +226,8 @@ export default function Map({
       mapDataControl: false,
       zoomControl: true,
       zoomControlOptions: {
-        position: window.naver.maps.Position.RIGHT_TOP
+        position: window.naver.maps.Position.RIGHT_BOTTOM,
+        style: window.naver.maps.ZoomControlStyle.SMALL
       },
     });
 
