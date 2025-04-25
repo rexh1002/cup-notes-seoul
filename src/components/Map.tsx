@@ -264,38 +264,81 @@ export default function Map({
 
   return (
     <div className="relative w-full h-full">
-      <div ref={mapRef} className="w-full h-full rounded-3xl overflow-hidden" />
+      {/* 지도 영역 */}
+      <div className="absolute inset-0 bg-white">
+        {/* 빗살 무늬 패턴 */}
+        <div className="absolute inset-0" style={{
+          backgroundImage: `repeating-linear-gradient(
+            -45deg,
+            transparent,
+            transparent 40px,
+            rgba(0, 0, 0, 0.05) 40px,
+            rgba(0, 0, 0, 0.05) 80px
+          )`,
+          clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
+          mask: `
+            linear-gradient(45deg, transparent 40px, black 40px) 0 0,
+            linear-gradient(-45deg, transparent 40px, black 40px) 100% 0,
+            linear-gradient(135deg, transparent 40px, black 40px) 0 100%,
+            linear-gradient(-135deg, transparent 40px, black 40px) 100% 100%
+          `,
+          maskSize: '50% 50%',
+          maskRepeat: 'no-repeat'
+        }} />
+        
+        {/* 실제 지도 */}
+        <div ref={mapRef} className="w-full h-full" />
+      </div>
       
-      {/* 검색 버튼들 */}
+      {/* 검색 버튼들 - 흰색 배경 영역 */}
       <div className="absolute top-4 left-4 flex flex-col gap-4 z-10">
-        <button
-          onClick={() => onSearch && onSearch('floral')}
-          className="w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center hover:bg-gray-50 transition-colors"
-          title="Floral"
-        >
-          <span className="text-sm font-medium">1</span>
-        </button>
-        <button
-          onClick={() => onSearch && onSearch('fruity')}
-          className="w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center hover:bg-gray-50 transition-colors"
-          title="Fruity"
-        >
-          <span className="text-sm font-medium">2</span>
-        </button>
-        <button
-          onClick={() => onSearch && onSearch('nutty')}
-          className="w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center hover:bg-gray-50 transition-colors"
-          title="Nutty"
-        >
-          <span className="text-sm font-medium">3</span>
-        </button>
-        <button
-          onClick={() => onSearch && onSearch('all')}
-          className="w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center hover:bg-gray-50 transition-colors"
-          title="All Cafes"
-        >
-          <span className="text-sm font-medium">4</span>
-        </button>
+        {/* 1번 버튼 영역 */}
+        <div className="relative">
+          <div className="absolute inset-0 bg-white rounded-full" />
+          <button
+            onClick={() => onSearch && onSearch('floral')}
+            className="relative w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center hover:bg-gray-50 transition-colors"
+            title="Floral"
+          >
+            <span className="text-sm font-medium">1</span>
+          </button>
+        </div>
+
+        {/* 2번 버튼 영역 */}
+        <div className="relative">
+          <div className="absolute inset-0 bg-white rounded-full" />
+          <button
+            onClick={() => onSearch && onSearch('fruity')}
+            className="relative w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center hover:bg-gray-50 transition-colors"
+            title="Fruity"
+          >
+            <span className="text-sm font-medium">2</span>
+          </button>
+        </div>
+
+        {/* 3번 버튼 영역 */}
+        <div className="relative">
+          <div className="absolute inset-0 bg-white rounded-full" />
+          <button
+            onClick={() => onSearch && onSearch('nutty')}
+            className="relative w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center hover:bg-gray-50 transition-colors"
+            title="Nutty"
+          >
+            <span className="text-sm font-medium">3</span>
+          </button>
+        </div>
+
+        {/* 4번 버튼 영역 */}
+        <div className="relative">
+          <div className="absolute inset-0 bg-white rounded-full" />
+          <button
+            onClick={() => onSearch && onSearch('all')}
+            className="relative w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center hover:bg-gray-50 transition-colors"
+            title="All Cafes"
+          >
+            <span className="text-sm font-medium">4</span>
+          </button>
+        </div>
       </div>
 
       {selectedCafe && (

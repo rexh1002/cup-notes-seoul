@@ -700,9 +700,9 @@ export default function HomePage() {
       {/* 오른쪽 지도 영역 */}
       <div className={`
         ${showMapOnMobile ? 'fixed inset-0 z-[99999]' : 'hidden lg:block'}
-        lg:w-1/2 lg:fixed lg:right-0 lg:top-0 lg:bottom-0 lg:z-[40] lg:h-screen lg:p-8
+        lg:w-1/2 lg:fixed lg:right-0 lg:top-0 lg:bottom-0 lg:z-[40] lg:h-screen
       `}>
-        <div className="w-full h-full rounded-3xl overflow-hidden">
+        <div className="w-full h-full">
           <Map 
             cafes={processedCafes} 
             searchKeyword={searchKeyword} 
