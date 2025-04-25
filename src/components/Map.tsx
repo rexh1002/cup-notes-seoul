@@ -309,55 +309,46 @@ export default function Map({
         <div ref={mapRef} className="w-full h-full" />
       </div>
       
-      {/* 검색 버튼들 - 베이지색 배경 영역 */}
-      <div className="absolute top-4 left-4 flex flex-col gap-4 z-10">
-        {/* 1번 버튼 영역 */}
-        <div className="relative">
-          <div className="absolute inset-0 bg-[#F5F2E8] rounded-full" />
-          <button
-            onClick={() => onSearch && onSearch('floral')}
-            className="relative w-12 h-12 rounded-full bg-[#F5F2E8] shadow-lg flex items-center justify-center hover:bg-[#ebe8de] transition-colors"
-            title="Floral"
-          >
-            <span className="text-sm font-medium">1</span>
-          </button>
-        </div>
+      {/* 왼쪽 하단 버튼 박스 */}
+      <div className="absolute left-0 bottom-0 bg-[#F5F2E8] p-6 rounded-tr-3xl flex flex-col gap-4 z-10">
+        {/* 1번 버튼 */}
+        <button
+          onClick={() => onSearch && onSearch('floral')}
+          className="w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center hover:bg-gray-50 transition-colors"
+          title="Floral"
+        >
+          <span className="text-sm font-medium">1</span>
+        </button>
 
-        {/* 2번 버튼 영역 */}
-        <div className="relative">
-          <div className="absolute inset-0 bg-[#F5F2E8] rounded-full" />
-          <button
-            onClick={() => onSearch && onSearch('fruity')}
-            className="relative w-12 h-12 rounded-full bg-[#F5F2E8] shadow-lg flex items-center justify-center hover:bg-[#ebe8de] transition-colors"
-            title="Fruity"
-          >
-            <span className="text-sm font-medium">2</span>
-          </button>
-        </div>
+        {/* 2번 버튼 */}
+        <button
+          onClick={() => onSearch && onSearch('fruity')}
+          className="w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center hover:bg-gray-50 transition-colors"
+          title="Fruity"
+        >
+          <span className="text-sm font-medium">2</span>
+        </button>
 
-        {/* 3번 버튼 영역 */}
-        <div className="relative">
-          <div className="absolute inset-0 bg-[#F5F2E8] rounded-full" />
-          <button
-            onClick={() => onSearch && onSearch('nutty')}
-            className="relative w-12 h-12 rounded-full bg-[#F5F2E8] shadow-lg flex items-center justify-center hover:bg-[#ebe8de] transition-colors"
-            title="Nutty"
-          >
-            <span className="text-sm font-medium">3</span>
-          </button>
-        </div>
+        {/* 3번 버튼 */}
+        <button
+          onClick={() => onSearch && onSearch('nutty')}
+          className="w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center hover:bg-gray-50 transition-colors"
+          title="Nutty"
+        >
+          <span className="text-sm font-medium">3</span>
+        </button>
+      </div>
 
-        {/* 4번 버튼 영역 */}
-        <div className="relative">
-          <div className="absolute inset-0 bg-[#F5F2E8] rounded-full" />
-          <button
-            onClick={() => onSearch && onSearch('all')}
-            className="relative w-12 h-12 rounded-full bg-[#F5F2E8] shadow-lg flex items-center justify-center hover:bg-[#ebe8de] transition-colors"
-            title="All Cafes"
-          >
-            <span className="text-sm font-medium">4</span>
-          </button>
-        </div>
+      {/* 오른쪽 상단 버튼 박스 */}
+      <div className="absolute right-0 top-0 bg-[#F5F2E8] p-6 rounded-bl-3xl z-10">
+        {/* 4번 버튼 */}
+        <button
+          onClick={() => onSearch && onSearch('all')}
+          className="w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center hover:bg-gray-50 transition-colors"
+          title="All Cafes"
+        >
+          <span className="text-sm font-medium">4</span>
+        </button>
       </div>
 
       {selectedCafe && (
@@ -595,6 +586,17 @@ export default function Map({
           )}
         </div>
       )}
+
+      <style jsx>{`
+        .marker-content {
+          padding: 5px 10px;
+          background: white;
+          border: 1px solid #ddd;
+          border-radius: 20px;
+          font-size: 12px;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+      `}</style>
     </div>
   );
 }
