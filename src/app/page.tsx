@@ -311,17 +311,17 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F5F2E8]">
+    <div className="min-h-screen bg-white">
       {/* 왼쪽 절반 영역 컨테이너 */}
-      <div className="w-full lg:w-1/2 flex flex-col min-h-screen relative bg-[#F5F2E8] z-[60]">
+      <div className="w-full lg:w-1/2 flex flex-col min-h-screen relative bg-white z-[60]">
         {/* 상단 헤더 */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center px-4 sm:px-6 py-2 sm:py-4 bg-[#F5F2E8] z-[70] fixed w-full lg:w-1/2 top-0">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center px-4 sm:px-6 py-2 sm:py-4 bg-white z-[70] fixed w-full lg:w-1/2 top-0">
           <div className="flex items-center">
             <h1 
               onClick={() => window.location.reload()}
-              className="text-4xl sm:text-5xl font-black tracking-tighter cursor-pointer text-black hover:text-gray-800 transition-colors text-left font-sans leading-none"
+              className="text-6xl sm:text-7xl font-black tracking-tighter cursor-pointer text-black hover:text-gray-800 transition-colors text-left font-sans leading-none"
             >
-              CUP NOTES SEOUL
+              visual poetry
             </h1>
           </div>
           <div className="flex items-center gap-4 mt-2 sm:mt-0">
@@ -329,21 +329,21 @@ export default function HomePage() {
               <>
                 <button
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  className="text-sm text-black hover:text-gray-600 transition-colors tracking-wide uppercase"
+                  className="text-sm text-black hover:text-gray-600 transition-colors tracking-wide"
                 >
                   {userName}님
                 </button>
                 {userRole === 'manager' && (
                   <button
                     onClick={() => router.push('/manager/dashboard')}
-                    className="text-sm text-black hover:text-gray-600 transition-colors tracking-wide uppercase"
+                    className="text-sm text-black hover:text-gray-600 transition-colors tracking-wide"
                   >
                     내 카페 정보
                   </button>
                 )}
                 <button
                   onClick={handleLogout}
-                  className="text-sm text-black hover:text-gray-600 transition-colors tracking-wide uppercase"
+                  className="text-sm text-black hover:text-gray-600 transition-colors tracking-wide"
                 >
                   Sign Out
                 </button>
@@ -352,13 +352,13 @@ export default function HomePage() {
               <>
                 <button
                   onClick={() => router.push('/auth/login')}
-                  className="text-sm text-black hover:text-gray-600 transition-colors tracking-wide uppercase"
+                  className="text-sm text-black hover:text-gray-600 transition-colors tracking-wide"
                 >
                   Sign In
                 </button>
                 <button
                   onClick={() => setIsModalOpen(true)}
-                  className="text-sm text-black hover:text-gray-600 transition-colors tracking-wide uppercase"
+                  className="text-sm text-black hover:text-gray-600 transition-colors tracking-wide"
                 >
                   Sign Up
                 </button>
@@ -414,21 +414,33 @@ export default function HomePage() {
         )}
 
         {/* 검색어 및 내 취향 선택 섹션 */}
-        <div className="p-4 sm:p-6 space-y-6 flex-grow bg-[#F5F2E8] mt-16 sm:mt-20">
+        <div className="p-8 sm:p-12 space-y-12 flex-grow bg-white mt-24 sm:mt-28">
+          {/* 통계 섹션 */}
+          <section className="grid grid-cols-2 gap-8">
+            <div>
+              <div className="text-5xl font-bold mb-2">+250k</div>
+              <p className="text-gray-600 text-sm">Videos that reaching a wide audience and give lasting impression</p>
+            </div>
+            <div>
+              <div className="text-5xl font-bold mb-2">+800k</div>
+              <p className="text-gray-600 text-sm">Hours watched, engaging storytelling that captivates viewers</p>
+            </div>
+          </section>
+
           {/* Coffee Filters 섹션 */}
-          <section className="space-y-2">
-            <h2 className="text-2xl font-bold text-black tracking-tight uppercase leading-none">Coffee Filters</h2>
-            <div className="flex flex-col gap-1">
+          <section className="space-y-6">
+            <h2 className="text-3xl font-bold text-black tracking-tight">Coffee Filters</h2>
+            <div className="flex flex-col gap-4">
               {/* 추출방식 */}
               <div>
-                <h4 className="text-sm font-medium text-black mb-2 uppercase tracking-wider">Brew Method</h4>
-                <div className="bg-gray-100 p-4 rounded">
-                  <div className="flex flex-wrap gap-1.5">
+                <h4 className="text-sm font-medium text-black mb-3">Brew Method</h4>
+                <div className="bg-gray-50 p-6 rounded-2xl">
+                  <div className="flex flex-wrap gap-2">
                     {['핸드드립', '에스프레소', '콜드브루'].map((method) => (
                       <button
                         key={method}
                         onClick={() => toggleItem(method, setSelectedBrewMethods)}
-                        className={`text-xs px-3 py-1.5 rounded-sm transition-all ${
+                        className={`text-sm px-4 py-2 rounded-full transition-all ${
                           selectedBrewMethods.includes(method) 
                             ? 'bg-black text-white shadow-sm' 
                             : 'bg-white border border-gray-200 text-black hover:border-black hover:shadow-sm'
@@ -442,14 +454,14 @@ export default function HomePage() {
               </div>
               {/* 원산지 */}
               <div>
-                <h4 className="text-sm font-medium text-black mb-2 uppercase tracking-wider">Origin</h4>
-                <div className="bg-gray-100 p-4 rounded">
-                  <div className="flex flex-wrap gap-1.5">
+                <h4 className="text-sm font-medium text-black mb-3">Origin</h4>
+                <div className="bg-gray-50 p-6 rounded-2xl">
+                  <div className="flex flex-wrap gap-2">
                     {['에티오피아', '콜롬비아', '과테말라', '코스타리카', '파나마', '인도네시아', '브라질', '케냐', '엘살바도르', '르완다'].map((origin) => (
                       <button
                         key={origin}
                         onClick={() => toggleItem(origin, setSelectedOrigins)}
-                        className={`text-xs px-3 py-1.5 rounded-sm transition-all ${
+                        className={`text-sm px-4 py-2 rounded-full transition-all ${
                           selectedOrigins.includes(origin) 
                             ? 'bg-black text-white shadow-sm' 
                             : 'bg-white border border-gray-200 text-black hover:border-black hover:shadow-sm'
@@ -463,14 +475,14 @@ export default function HomePage() {
               </div>
               {/* 프로세스 */}
               <div>
-                <h4 className="text-sm font-medium text-black mb-2 uppercase tracking-wider">Process</h4>
-                <div className="bg-gray-100 p-4 rounded">
-                  <div className="flex flex-wrap gap-1.5">
+                <h4 className="text-sm font-medium text-black mb-3">Process</h4>
+                <div className="bg-gray-50 p-6 rounded-2xl">
+                  <div className="flex flex-wrap gap-2">
                     {['워시드', '내추럴', '허니', '무산소 발효', '디카페인'].map((process) => (
                       <button
                         key={process}
                         onClick={() => toggleItem(process, setSelectedProcesses)}
-                        className={`text-xs px-3 py-1.5 rounded-sm transition-all ${
+                        className={`text-sm px-4 py-2 rounded-full transition-all ${
                           selectedProcesses.includes(process) 
                             ? 'bg-black text-white shadow-sm' 
                             : 'bg-white border border-gray-200 text-black hover:border-black hover:shadow-sm'
@@ -484,14 +496,14 @@ export default function HomePage() {
               </div>
               {/* 로스팅 포인트 */}
               <div>
-                <h4 className="text-sm font-medium text-black mb-2 uppercase tracking-wider">Roasting Point</h4>
-                <div className="bg-gray-100 p-4 rounded">
-                  <div className="flex flex-wrap gap-1.5">
+                <h4 className="text-sm font-medium text-black mb-3">Roasting Point</h4>
+                <div className="bg-gray-50 p-6 rounded-2xl">
+                  <div className="flex flex-wrap gap-2">
                     {['다크', '미디엄다크', '미디엄', '미디엄라이트', '라이트'].map((roast) => (
                       <button
                         key={roast}
                         onClick={() => toggleItem(roast, setSelectedRoast)}
-                        className={`text-xs px-3 py-1.5 rounded-sm transition-all ${
+                        className={`text-sm px-4 py-2 rounded-full transition-all ${
                           selectedRoast.includes(roast) 
                             ? 'bg-black text-white shadow-sm' 
                             : 'bg-white border border-gray-200 text-black hover:border-black hover:shadow-sm'
@@ -507,27 +519,27 @@ export default function HomePage() {
           </section>
 
           {/* My Cup Notes 섹션 */}
-          <section className="space-y-4 mt-8">
+          <section className="space-y-6">
             <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-bold text-black tracking-tight uppercase leading-none">My Cup Notes</h2>
-              <div className="flex gap-4">
+              <h2 className="text-3xl font-bold text-black tracking-tight">My Cup Notes</h2>
+              <div className="flex gap-6">
                 <button
                   onClick={handleReset}
-                  className="text-sm text-black hover:text-gray-600 transition-colors tracking-wide uppercase"
+                  className="text-sm text-black hover:text-gray-600 transition-colors tracking-wide"
                 >
                   Reset
                 </button>
                 <button
                   onClick={handleApply}
-                  className="text-sm text-black hover:text-gray-600 transition-colors tracking-wide uppercase"
+                  className="text-sm text-black hover:text-gray-600 transition-colors tracking-wide"
                 >
                   Apply
                 </button>
               </div>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {/* Floral Section */}
-              <div className="relative h-[250px] overflow-hidden group">
+              <div className="relative h-[300px] overflow-hidden group rounded-3xl">
                 <div className="absolute inset-0">
                   <Image
                     src="/images/Floral.jpg"
@@ -537,14 +549,14 @@ export default function HomePage() {
                   />
                   <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors" />
                 </div>
-                <div className="absolute inset-0 p-4 flex flex-col">
-                  <h3 className="text-lg font-light text-white mb-4">Floral</h3>
-                  <div className="flex flex-wrap gap-1.5 content-start">
+                <div className="absolute inset-0 p-6 flex flex-col">
+                  <h3 className="text-xl font-light text-white mb-6">Floral</h3>
+                  <div className="flex flex-wrap gap-2 content-start">
                     {['라벤더', '아카시아', '장미', '자스민', '국화', '히비스커스', '제비꽃', '홍차', '얼그레이', '카모마일', '오렌지 블로섬', '은방울꽃', '블랙티', '베르가못', '라일락', '로즈마리'].map((note) => (
                       <button
                         key={note}
                         onClick={() => toggleNote(note)}
-                        className={`text-xs px-3 py-1.5 transition-colors ${
+                        className={`text-sm px-4 py-2 rounded-full transition-colors ${
                           selectedNotes.includes(note)
                             ? 'bg-white text-gray-900'
                             : 'bg-black/40 text-white hover:bg-white hover:text-gray-900'
@@ -558,7 +570,7 @@ export default function HomePage() {
               </div>
 
               {/* Fruity Section */}
-              <div className="relative h-[250px] overflow-hidden group">
+              <div className="relative h-[300px] overflow-hidden group rounded-3xl">
                 <div className="absolute inset-0">
                   <Image
                     src="/images/Fruity.jpg"
@@ -568,14 +580,14 @@ export default function HomePage() {
                   />
                   <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors" />
                 </div>
-                <div className="absolute inset-0 p-4 flex flex-col">
-                  <h3 className="text-lg font-light text-white mb-4">Fruity</h3>
-                  <div className="flex flex-wrap gap-1.5 content-start">
+                <div className="absolute inset-0 p-6 flex flex-col">
+                  <h3 className="text-xl font-light text-white mb-6">Fruity</h3>
+                  <div className="flex flex-wrap gap-2 content-start">
                     {['파인애플', '복숭아', '리치', '사과', '감귤', '배', '패션후르츠', '메론', '파파야', '블루베리', '라즈베리', '자두', '딸기', '포도', '자몽', '오렌지', '레몬', '크랜베리', '망고', '체리', '살구'].map((note) => (
                       <button
                         key={note}
                         onClick={() => toggleNote(note)}
-                        className={`text-xs px-3 py-1.5 transition-colors ${
+                        className={`text-sm px-4 py-2 rounded-full transition-colors ${
                           selectedNotes.includes(note)
                             ? 'bg-white text-gray-900'
                             : 'bg-black/40 text-white hover:bg-white hover:text-gray-900'
@@ -589,7 +601,7 @@ export default function HomePage() {
               </div>
 
               {/* Nutty Section */}
-              <div className="relative h-[250px] overflow-hidden group">
+              <div className="relative h-[300px] overflow-hidden group rounded-3xl">
                 <div className="absolute inset-0">
                   <Image
                     src="/images/Nutty.jpg"
@@ -599,14 +611,14 @@ export default function HomePage() {
                   />
                   <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors" />
                 </div>
-                <div className="absolute inset-0 p-4 flex flex-col">
-                  <h3 className="text-lg font-light text-white mb-4">Nutty</h3>
-                  <div className="flex flex-wrap gap-1.5 content-start">
+                <div className="absolute inset-0 p-6 flex flex-col">
+                  <h3 className="text-xl font-light text-white mb-6">Nutty</h3>
+                  <div className="flex flex-wrap gap-2 content-start">
                     {['초콜렛', '캐러멜', '고구마', '꿀', '헤이즐넛', '브라운슈거', '엿기름', '아몬드', '피칸', '호두', '로스트피넛', '마카다미아', '땅콩', '바닐라', '캐슈넛', '메이플 시럽', '토피', '피스타치오', '카카오닙스'].map((note) => (
                       <button
                         key={note}
                         onClick={() => toggleNote(note)}
-                        className={`text-xs px-3 py-1.5 transition-colors ${
+                        className={`text-sm px-4 py-2 rounded-full transition-colors ${
                           selectedNotes.includes(note)
                             ? 'bg-white text-gray-900'
                             : 'bg-black/40 text-white hover:bg-white hover:text-gray-900'
@@ -623,8 +635,8 @@ export default function HomePage() {
         </div>
 
         {/* Footer */}
-        <footer className="bg-[#F5F2E8] py-3 px-6 text-center w-full z-10 hidden sm:block mt-auto border-t border-gray-100">
-          <p className="text-xs text-black tracking-wide">
+        <footer className="bg-white py-4 px-8 text-center w-full z-10 hidden sm:block mt-auto border-t border-gray-100">
+          <p className="text-sm text-gray-600">
             © 2024 Cup Notes Seoul. All rights reserved.
           </p>
         </footer>
@@ -633,18 +645,20 @@ export default function HomePage() {
       {/* 오른쪽 지도 영역 */}
       <div className={`
         ${showMapOnMobile ? 'fixed inset-0 z-[99999]' : 'hidden lg:block'}
-        lg:w-1/2 lg:fixed lg:right-0 lg:top-0 lg:bottom-0 lg:z-[40] lg:h-screen
+        lg:w-1/2 lg:fixed lg:right-0 lg:top-0 lg:bottom-0 lg:z-[40] lg:h-screen lg:p-8
       `}>
-        <Map cafes={processedCafes} searchKeyword={searchKeyword} />
+        <div className="w-full h-full rounded-3xl overflow-hidden">
+          <Map cafes={processedCafes} searchKeyword={searchKeyword} />
+        </div>
       </div>
 
       {/* 모바일 하단 네비게이션 바 */}
-      <nav className="sm:hidden fixed bottom-0 left-0 right-0 bg-[#F5F2E8] border-t border-gray-100 z-50">
-        <div className="flex justify-around items-center h-14">
+      <nav className="sm:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 z-50">
+        <div className="flex justify-around items-center h-16">
           {isLoggedIn ? (
             <button
               onClick={handleLogout}
-              className="text-sm text-black hover:text-gray-600 transition-colors tracking-wide uppercase"
+              className="text-sm text-black hover:text-gray-600 transition-colors tracking-wide"
             >
               Sign Out
             </button>
@@ -652,13 +666,13 @@ export default function HomePage() {
             <>
               <button
                 onClick={() => router.push('/auth/login')}
-                className="text-sm text-black hover:text-gray-600 transition-colors tracking-wide uppercase"
+                className="text-sm text-black hover:text-gray-600 transition-colors tracking-wide"
               >
                 Sign In
               </button>
               <button
                 onClick={() => setIsModalOpen(true)}
-                className="text-sm text-black hover:text-gray-600 transition-colors tracking-wide uppercase"
+                className="text-sm text-black hover:text-gray-600 transition-colors tracking-wide"
               >
                 Sign Up
               </button>
