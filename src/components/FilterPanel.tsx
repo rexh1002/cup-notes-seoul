@@ -242,10 +242,25 @@ export default function FilterPanel({
                     <div className="grid grid-cols-1 gap-4 mt-2">
                       {/* Floral */}
                       <div className="rounded-xl shadow bg-white/80 dark:bg-gray-800">
-                        <button className="w-full flex justify-between items-center px-4 py-3 rounded-xl font-bold text-lg text-left transition-all hover:bg-pink-50 dark:hover:bg-gray-700" onClick={() => setOpenFloral((v) => !v)}>
-                          <span>Floral</span>
-                          <motion.span animate={{ rotate: openFloral ? 180 : 0 }} transition={{ duration: 0.2 }}>
-                            <FiChevronDown size={20} />
+                        <button
+                          className="relative w-full h-16 flex items-center rounded-xl overflow-hidden group focus:outline-none"
+                          onClick={() => setOpenFloral((v) => !v)}
+                        >
+                          <Image
+                            src="/images/Floral.jpg"
+                            alt="Floral"
+                            fill
+                            className="object-cover group-hover:scale-105 transition-transform duration-300"
+                            style={{ zIndex: 1 }}
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-r from-pink-400/60 via-white/10 to-yellow-200/60 group-hover:bg-pink-300/70 transition-colors duration-300" style={{ zIndex: 2 }} />
+                          <span className="relative z-10 text-xl font-bold text-white drop-shadow-lg pl-6">Floral</span>
+                          <motion.span
+                            className="relative z-10 ml-auto pr-6 text-white"
+                            animate={{ rotate: openFloral ? 180 : 0 }}
+                            transition={{ duration: 0.2 }}
+                          >
+                            <FiChevronDown size={24} />
                           </motion.span>
                         </button>
                         <AnimatePresence initial={false}>
@@ -258,7 +273,7 @@ export default function FilterPanel({
                               transition={{ duration: 0.25 }}
                               className="overflow-hidden"
                             >
-                              <div className="relative h-[200px] overflow-hidden rounded-xl mb-2">
+                              <div className="relative h-[200px] overflow-hidden rounded-xl mb-2 mt-2">
                                 <Image
                                   src="/images/Floral.jpg"
                                   alt="Floral background"
@@ -290,10 +305,25 @@ export default function FilterPanel({
                       </div>
                       {/* Fruity */}
                       <div className="rounded-xl shadow bg-white/80 dark:bg-gray-800">
-                        <button className="w-full flex justify-between items-center px-4 py-3 rounded-xl font-bold text-lg text-left transition-all hover:bg-yellow-50 dark:hover:bg-gray-700" onClick={() => setOpenFruity((v) => !v)}>
-                          <span>Fruity</span>
-                          <motion.span animate={{ rotate: openFruity ? 180 : 0 }} transition={{ duration: 0.2 }}>
-                            <FiChevronDown size={20} />
+                        <button
+                          className="relative w-full h-16 flex items-center rounded-xl overflow-hidden group focus:outline-none"
+                          onClick={() => setOpenFruity((v) => !v)}
+                        >
+                          <Image
+                            src="/images/Fruity.jpg"
+                            alt="Fruity"
+                            fill
+                            className="object-cover group-hover:scale-105 transition-transform duration-300"
+                            style={{ zIndex: 1 }}
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-r from-yellow-200/60 via-white/10 to-pink-400/60 group-hover:bg-yellow-300/70 transition-colors duration-300" style={{ zIndex: 2 }} />
+                          <span className="relative z-10 text-xl font-bold text-white drop-shadow-lg pl-6">Fruity</span>
+                          <motion.span
+                            className="relative z-10 ml-auto pr-6 text-white"
+                            animate={{ rotate: openFruity ? 180 : 0 }}
+                            transition={{ duration: 0.2 }}
+                          >
+                            <FiChevronDown size={24} />
                           </motion.span>
                         </button>
                         <AnimatePresence initial={false}>
@@ -306,7 +336,7 @@ export default function FilterPanel({
                               transition={{ duration: 0.25 }}
                               className="overflow-hidden"
                             >
-                              <div className="relative h-[200px] overflow-hidden rounded-xl mb-2">
+                              <div className="relative h-[200px] overflow-hidden rounded-xl mb-2 mt-2">
                                 <Image
                                   src="/images/Fruity.jpg"
                                   alt="Fruity background"
@@ -338,10 +368,25 @@ export default function FilterPanel({
                       </div>
                       {/* Nutty */}
                       <div className="rounded-xl shadow bg-white/80 dark:bg-gray-800">
-                        <button className="w-full flex justify-between items-center px-4 py-3 rounded-xl font-bold text-lg text-left transition-all hover:bg-yellow-50 dark:hover:bg-gray-700" onClick={() => setOpenNutty((v) => !v)}>
-                          <span>Nutty</span>
-                          <motion.span animate={{ rotate: openNutty ? 180 : 0 }} transition={{ duration: 0.2 }}>
-                            <FiChevronDown size={20} />
+                        <button
+                          className="relative w-full h-16 flex items-center rounded-xl overflow-hidden group focus:outline-none"
+                          onClick={() => setOpenNutty((v) => !v)}
+                        >
+                          <Image
+                            src="/images/Nutty.jpg"
+                            alt="Nutty"
+                            fill
+                            className="object-cover group-hover:scale-105 transition-transform duration-300"
+                            style={{ zIndex: 1 }}
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-r from-yellow-200/60 via-white/10 to-amber-700/60 group-hover:bg-yellow-300/70 transition-colors duration-300" style={{ zIndex: 2 }} />
+                          <span className="relative z-10 text-xl font-bold text-white drop-shadow-lg pl-6">Nutty</span>
+                          <motion.span
+                            className="relative z-10 ml-auto pr-6 text-white"
+                            animate={{ rotate: openNutty ? 180 : 0 }}
+                            transition={{ duration: 0.2 }}
+                          >
+                            <FiChevronDown size={24} />
                           </motion.span>
                         </button>
                         <AnimatePresence initial={false}>
@@ -354,7 +399,7 @@ export default function FilterPanel({
                               transition={{ duration: 0.25 }}
                               className="overflow-hidden"
                             >
-                              <div className="relative h-[200px] overflow-hidden rounded-xl mb-2">
+                              <div className="relative h-[200px] overflow-hidden rounded-xl mb-2 mt-2">
                                 <Image
                                   src="/images/Nutty.jpg"
                                   alt="Nutty background"
