@@ -126,101 +126,9 @@ export default function Map({
     }
   }, []);
 
-  // 마커 생성 및 관리
-  const updateMarkers = useCallback(async () => {
-    if (!mapInstance.current) return;
-
-    // 기존 마커 제거
-    markersRef.current.forEach(marker => marker.setMap(null));
-    markersRef.current = [];
-
-    // 카페 좌표 가져오기
-    const coordinates: Record<string, Coordinates> = {};
-    for (const cafe of cafes) {
-      const coord = await getCoordinates(cafe.address);
-      if (coord) {
-        coordinates[cafe.id] = coord;
-      }
-    }
-    setCafeCoordinates(coordinates);
-
-    // 초기 로드가 아닐 경우에만 중심점 업데이트
-    if (!isInitialLoad) {
-      updateMapCenter(coordinates);
-    }
-    setIsInitialLoad(false);
-
-    // 새로운 마커 생성
-    cafes.forEach(cafe => {
-      const coord = coordinates[cafe.id];
-      if (!coord) return;
-
-      const marker = new window.naver.maps.Marker({
-        position: new window.naver.maps.LatLng(coord.lat, coord.lng),
-        map: mapInstance.current,
-        title: cafe.name,
-        icon: {
-          content: [
-            '<div style="cursor:pointer;width:24px;height:24px;line-height:24px;',
-            'background:#000000;border-radius:50%;position:relative;">',
-            '<div style="position:absolute;width:12px;height:10px;',
-            'background:#FFFFFF;mask:url(\'data:image/svg+xml,<svg xmlns=\\\'http://www.w3.org/2000/svg\\\' viewBox=\\\'0 0 12 10\\\'><path d=\\\'M2 1h8v6a2 2 0 01-2 2H4a2 2 0 01-2-2V1z\\\' fill=\\\'white\\\'/><path d=\\\'M9 3a2 2 0 100 4\\\' fill=\\\'white\\\'/></svg>\');',
-            '-webkit-mask:url(\'data:image/svg+xml,<svg xmlns=\\\'http://www.w3.org/2000/svg\\\' viewBox=\\\'0 0 12 10\\\'><path d=\\\'M2 1h8v6a2 2 0 01-2 2H4a2 2 0 01-2-2V1z\\\' fill=\\\'white\\\'/><path d=\\\'M9 3a2 2 0 100 4\\\' fill=\\\'white\\\'/></svg>\');',
-            'transform:translate(-50%,-50%);left:50%;top:50%;">',
-            '</div>',
-            '</div>'
-          ].join(''),
-          size: new window.naver.maps.Size(24, 24),
-          anchor: new window.naver.maps.Point(12, 12),
-        },
-      });
-
-      // 마커 클릭 이벤트
-      window.naver.maps.Event.addListener(marker, 'click', () => {
-        const newCenter = new window.naver.maps.LatLng(coord.lat, coord.lng);
-        mapInstance.current.setCenter(newCenter);
-        mapInstance.current.setZoom(15); // 클릭 시 더 가깝게 확대
-        setCenter(coord);
-        setSelectedCafe(cafe);
-        if (onCafeSelect) onCafeSelect(cafe);
-        
-        // 선택된 마커 강조
-        markersRef.current.forEach(m => {
-          m.setZIndex(m === marker ? 1000 : 1);
-        });
-      });
-
-      markersRef.current.push(marker);
-    });
-  }, [cafes, getCoordinates, onCafeSelect, updateMapCenter, isInitialLoad]);
-
-  // 컴포넌트가 마운트될 때 실행
-  useEffect(() => {
-    const adjustMapHeight = () => {
-      if (mapRef.current) {
-        const vh = window.innerHeight * 0.01;
-        document.documentElement.style.setProperty('--vh', `${vh}px`);
-        mapRef.current.style.height = '100%';
-      }
-    };
-
-    adjustMapHeight();
-    window.addEventListener('resize', adjustMapHeight);
-
-    // 컴포넌트 마운트 시 자동으로 'all' 필터 실행
-    if (onSearch) {
-      onSearch('all');
-    }
-
-    return () => {
-      window.removeEventListener('resize', adjustMapHeight);
-    };
-  }, [onSearch]);
-
-  // 지도 초기화 및 마커 업데이트
+  // 지도 인스턴스는 한 번만 생성
   useEffect(() => {
     if (typeof window === 'undefined') return;
-
     let interval: NodeJS.Timeout | null = null;
     function initializeMap() {
       if (window.naver && window.naver.maps) {
@@ -238,8 +146,6 @@ export default function Map({
             style: window.naver.maps.ZoomControlStyle.SMALL
           },
         });
-
-        updateMarkers();
 
         // 지도 이벤트 리스너
         if (mapInstance.current) {
@@ -272,7 +178,102 @@ export default function Map({
         window.naver.maps.Event.clearInstanceListeners(mapInstance.current);
       }
     };
-  }, [center.lat, center.lng, zoom, updateMarkers]);
+  }, [center.lat, center.lng, zoom]);
+
+  // cafes가 바뀔 때마다 마커만 갱신
+  useEffect(() => {
+    if (mapInstance.current) {
+      updateMarkers();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cafes]);
+
+  // updateMarkers에서 isInitialLoad 의존성 제거
+  const updateMarkers = useCallback(async () => {
+    if (!mapInstance.current) return;
+
+    // 기존 마커 제거
+    markersRef.current.forEach(marker => marker.setMap(null));
+    markersRef.current = [];
+
+    // 카페 좌표 가져오기
+    const coordinates: Record<string, Coordinates> = {};
+    for (const cafe of cafes) {
+      const coord = await getCoordinates(cafe.address);
+      if (coord) {
+        coordinates[cafe.id] = coord;
+      }
+    }
+    setCafeCoordinates(coordinates);
+
+    // 중심점 업데이트
+    updateMapCenter(coordinates);
+
+    // 새로운 마커 생성
+    cafes.forEach(cafe => {
+      const coord = coordinates[cafe.id];
+      if (!coord) return;
+
+      const marker = new window.naver.maps.Marker({
+        position: new window.naver.maps.LatLng(coord.lat, coord.lng),
+        map: mapInstance.current,
+        title: cafe.name,
+        icon: {
+          content: [
+            '<div style="cursor:pointer;width:24px;height:24px;line-height:24px;',
+            'background:#000000;border-radius:50%;position:relative;">',
+            '<div style="position:absolute;width:12px;height:10px;',
+            'background:#FFFFFF;mask:url(\'data:image/svg+xml,<svg xmlns=\\\'http://www.w3.org/2000/svg\\\' viewBox=\\\'0 0 12 10\\\'><path d=\\\'M2 1h8v6a2 2 0 01-2 2H4a2 2 0 01-2-2V1z\\\' fill=\\\'white\\\'/><path d=\\\'M9 3a2 2 0 100 4\\\' fill=\\\'white\\\'/></svg>\');',
+            '-webkit-mask:url(\'data:image/svg+xml,<svg xmlns=\\\'http://www.w3.org/2000/svg\\\' viewBox=\\\'0 0 12 10\\\'><path d=\\\'M2 1h8v6a2 2 0 01-2 2H4a2 2 0 01-2-2V1z\\\' fill=\\\'white\\\'/><path d=\\\'M9 3a2 2 0 100 4\\\' fill=\\\'white\\\'/></svg>\');',
+            'transform:translate(-50%,-50%);left:50%;top:50%">',
+            '</div>',
+            '</div>'
+          ].join(''),
+          size: new window.naver.maps.Size(24, 24),
+          anchor: new window.naver.maps.Point(12, 12),
+        },
+      });
+
+      // 마커 클릭 이벤트
+      window.naver.maps.Event.addListener(marker, 'click', () => {
+        const newCenter = new window.naver.maps.LatLng(coord.lat, coord.lng);
+        mapInstance.current.setCenter(newCenter);
+        mapInstance.current.setZoom(15); // 클릭 시 더 가깝게 확대
+        setCenter(coord);
+        setSelectedCafe(cafe);
+        if (onCafeSelect) onCafeSelect(cafe);
+        // 선택된 마커 강조
+        markersRef.current.forEach(m => {
+          m.setZIndex(m === marker ? 1000 : 1);
+        });
+      });
+
+      markersRef.current.push(marker);
+    });
+  }, [cafes, getCoordinates, onCafeSelect, updateMapCenter]);
+
+  // 컴포넌트가 마운트될 때 실행
+  useEffect(() => {
+    const adjustMapHeight = () => {
+      if (mapRef.current) {
+        const vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
+        mapRef.current.style.height = '100%';
+      }
+    };
+
+    adjustMapHeight();
+    window.addEventListener('resize', adjustMapHeight);
+
+    // 컴포넌트 마운트 시 자동으로 'all' 필터 실행
+    if (onSearch) {
+      onSearch('all');
+    }
+
+    return () => {
+      window.removeEventListener('resize', adjustMapHeight);
+    };
+  }, [onSearch]);
 
   // 선택된 카페가 변경될 때 지도 중심 이동
   useEffect(() => {
