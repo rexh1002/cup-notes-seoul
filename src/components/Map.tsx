@@ -289,7 +289,11 @@ export default function Map({
   return (
     <div className="relative w-full h-full">
       {/* 실제 지도 */}
-      <div ref={mapRef} className="w-full h-full" />
+      <div
+        ref={mapRef}
+        className="w-full h-full"
+        style={{ minHeight: 400, minWidth: 400, background: 'red' }}
+      />
 
       {/* 필터 버튼 */}
       <div className="absolute left-0 bottom-0 bg-white p-6 rounded-tr-3xl flex flex-col gap-4 z-10 shadow-lg">
