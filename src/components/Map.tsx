@@ -219,38 +219,55 @@ export default function Map({
 
   // 지도 초기화 및 마커 업데이트
   useEffect(() => {
-    if (typeof window === 'undefined' || !window.naver) return;
+    if (typeof window === 'undefined') return;
 
-    mapInstance.current = new window.naver.maps.Map(mapRef.current, {
-      center: new window.naver.maps.LatLng(center.lat, center.lng),
-      zoom: zoom,
-      minZoom: 10,
-      mapTypeControl: false,
-      scaleControl: false,
-      logoControl: false,
-      mapDataControl: false,
-      zoomControl: true,
-      zoomControlOptions: {
-        position: window.naver.maps.Position.RIGHT_BOTTOM,
-        style: window.naver.maps.ZoomControlStyle.SMALL
-      },
-    });
+    let interval: NodeJS.Timeout | null = null;
+    function initializeMap() {
+      if (window.naver && window.naver.maps) {
+        mapInstance.current = new window.naver.maps.Map(mapRef.current, {
+          center: new window.naver.maps.LatLng(center.lat, center.lng),
+          zoom: zoom,
+          minZoom: 10,
+          mapTypeControl: false,
+          scaleControl: false,
+          logoControl: false,
+          mapDataControl: false,
+          zoomControl: true,
+          zoomControlOptions: {
+            position: window.naver.maps.Position.RIGHT_BOTTOM,
+            style: window.naver.maps.ZoomControlStyle.SMALL
+          },
+        });
 
-    updateMarkers();
+        updateMarkers();
 
-    // 지도 이벤트 리스너
-    if (mapInstance.current) {
-      window.naver.maps.Event.addListener(mapInstance.current, 'dragend', () => {
-        const center = mapInstance.current.getCenter();
-        setCenter({ lat: center.y, lng: center.x });
-      });
+        // 지도 이벤트 리스너
+        if (mapInstance.current) {
+          window.naver.maps.Event.addListener(mapInstance.current, 'dragend', () => {
+            const center = mapInstance.current.getCenter();
+            setCenter({ lat: center.y, lng: center.x });
+          });
 
-      window.naver.maps.Event.addListener(mapInstance.current, 'zoom_changed', () => {
-        setZoom(mapInstance.current.getZoom());
-      });
+          window.naver.maps.Event.addListener(mapInstance.current, 'zoom_changed', () => {
+            setZoom(mapInstance.current.getZoom());
+          });
+        }
+        if (interval) clearInterval(interval);
+      }
+    }
+
+    if (window.naver && window.naver.maps) {
+      initializeMap();
+    } else {
+      interval = setInterval(() => {
+        if (window.naver && window.naver.maps) {
+          initializeMap();
+        }
+      }, 100);
     }
 
     return () => {
+      if (interval) clearInterval(interval);
       if (mapInstance.current) {
         window.naver.maps.Event.clearInstanceListeners(mapInstance.current);
       }
