@@ -426,38 +426,64 @@ export default function HomePage() {
             >
               {theme === 'dark' ? '라이트 모드' : '다크 모드'}
             </motion.button>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-              onClick={handleLogin}
-            >
-              로그인
-            </motion.button>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-              onClick={handleSignup}
-            >
-              회원가입
-            </motion.button>
-            {/* 회원가입 드롭다운 */}
-            {isSignupDropdownOpen && (
-              <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg z-50 border border-gray-200 dark:border-gray-700">
-                <button
-                  className="block w-full text-left px-4 py-3 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-100"
-                  onClick={handleUserSignup}
+            {!isLoggedIn && (
+              <>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                  onClick={handleLogin}
                 >
-                  일반 회원가입
-                </button>
-                <button
-                  className="block w-full text-left px-4 py-3 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-100"
-                  onClick={handleManagerSignup}
+                  로그인
+                </motion.button>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                  onClick={handleSignup}
                 >
-                  카페 관리자 회원가입
-                </button>
-              </div>
+                  회원가입
+                </motion.button>
+                {/* 회원가입 드롭다운 */}
+                {isSignupDropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg z-50 border border-gray-200 dark:border-gray-700">
+                    <button
+                      className="block w-full text-left px-4 py-3 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-100"
+                      onClick={handleUserSignup}
+                    >
+                      일반 회원가입
+                    </button>
+                    <button
+                      className="block w-full text-left px-4 py-3 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-100"
+                      onClick={handleManagerSignup}
+                    >
+                      카페 관리자 회원가입
+                    </button>
+                  </div>
+                )}
+              </>
+            )}
+            {isLoggedIn && (
+              <>
+                {userRole === 'cafeManager' || userRole === 'manager' ? (
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                    onClick={() => router.push('/manager/dashboard')}
+                  >
+                    내 카페 관리
+                  </motion.button>
+                ) : null}
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                  onClick={handleLogout}
+                >
+                  로그아웃
+                </motion.button>
+              </>
             )}
           </nav>
 
@@ -501,12 +527,51 @@ export default function HomePage() {
               >
                 {theme === 'dark' ? '라이트 모드' : '다크 모드'}
               </button>
-              <button className="w-full text-left text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors" onClick={handleLogin}>
-                로그인
-              </button>
-              <button className="w-full text-left text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors" onClick={handleSignup}>
-                회원가입
-              </button>
+              {!isLoggedIn && (
+                <>
+                  <button className="w-full text-left text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors" onClick={handleLogin}>
+                    로그인
+                  </button>
+                  <button className="w-full text-left text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors" onClick={handleSignup}>
+                    회원가입
+                  </button>
+                  {/* 모바일 회원가입 드롭다운 */}
+                  {isSignupDropdownOpen && (
+                    <div className="mt-2 w-full bg-white dark:bg-gray-800 rounded-lg shadow-lg z-50 border border-gray-200 dark:border-gray-700">
+                      <button
+                        className="block w-full text-left px-4 py-3 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-100"
+                        onClick={handleUserSignup}
+                      >
+                        일반 회원가입
+                      </button>
+                      <button
+                        className="block w-full text-left px-4 py-3 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-100"
+                        onClick={handleManagerSignup}
+                      >
+                        카페 관리자 회원가입
+                      </button>
+                    </div>
+                  )}
+                </>
+              )}
+              {isLoggedIn && (
+                <>
+                  {userRole === 'cafeManager' || userRole === 'manager' ? (
+                    <button
+                      className="w-full text-left text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                      onClick={() => router.push('/manager/dashboard')}
+                    >
+                      내 카페 관리
+                    </button>
+                  ) : null}
+                  <button
+                    className="w-full text-left text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                    onClick={handleLogout}
+                  >
+                    로그아웃
+                  </button>
+                </>
+              )}
             </div>
           </motion.div>
         )}
