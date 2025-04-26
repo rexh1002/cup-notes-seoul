@@ -34,11 +34,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <Script 
-          type="text/javascript" 
-          src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=sn5m2djclr&submodules=geocoder`}
-          strategy="beforeInteractive"
-        />
+        <script
+          type="text/javascript"
+          src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=sn5m2djclr&submodules=geocoder"
+        ></script>
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} ${notoSansKr.variable} font-noto-sans-kr antialiased`}>
         {children}
