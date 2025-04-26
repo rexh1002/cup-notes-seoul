@@ -131,7 +131,7 @@ export default function Map({
     if (typeof window === 'undefined') return;
     let interval: NodeJS.Timeout | null = null;
     function initializeMap() {
-      if (window.naver && window.naver.maps) {
+      if (window.naver && window.naver.maps && mapRef.current) {
         mapInstance.current = new window.naver.maps.Map(mapRef.current, {
           center: new window.naver.maps.LatLng(center.lat, center.lng),
           zoom: zoom,
@@ -146,7 +146,7 @@ export default function Map({
             style: window.naver.maps.ZoomControlStyle.SMALL
           },
         });
-
+        console.log('지도 인스턴스 생성됨', mapRef.current);
         // 지도 이벤트 리스너
         if (mapInstance.current) {
           window.naver.maps.Event.addListener(mapInstance.current, 'dragend', () => {
@@ -162,11 +162,11 @@ export default function Map({
       }
     }
 
-    if (window.naver && window.naver.maps) {
+    if (window.naver && window.naver.maps && mapRef.current) {
       initializeMap();
     } else {
       interval = setInterval(() => {
-        if (window.naver && window.naver.maps) {
+        if (window.naver && window.naver.maps && mapRef.current) {
           initializeMap();
         }
       }, 100);
@@ -291,8 +291,7 @@ export default function Map({
       {/* 실제 지도 */}
       <div
         ref={mapRef}
-        className="w-full h-full"
-        style={{ minHeight: 400, minWidth: 400, background: 'red' }}
+        style={{ minHeight: '400px', minWidth: '400px', width: '100%', height: '100%', background: 'red', border: '2px solid blue', zIndex: 1000, position: 'relative' }}
       />
 
       {/* 필터 버튼 */}
