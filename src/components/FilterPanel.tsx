@@ -80,6 +80,72 @@ export default function FilterPanel({
               </div>
             </section>
 
+            {/* 원산지(Origin) */}
+            <section className="mt-6">
+              <h3 className="text-sm font-medium mb-3">Origin</h3>
+              <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-xl">
+                <div className="flex flex-wrap gap-2">
+                  {['에티오피아', '콜롬비아', '브라질', '과테말라', '케냐', '코스타리카', '파나마', '인도네시아', '르완다', '엘살바도르'].map((origin) => (
+                    <button
+                      key={origin}
+                      onClick={() => toggleOrigin(origin)}
+                      className={`text-sm px-4 py-2 rounded-full transition-all ${
+                        selectedOrigins.includes(origin)
+                          ? 'bg-black dark:bg-white text-white dark:text-black'
+                          : 'bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 hover:border-black dark:hover:border-white'
+                      }`}
+                    >
+                      {origin}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            {/* 프로세스(Process) */}
+            <section className="mt-6">
+              <h3 className="text-sm font-medium mb-3">Process</h3>
+              <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-xl">
+                <div className="flex flex-wrap gap-2">
+                  {['워시드', '내추럴', '허니', '무산소 발효', '디카페인'].map((process) => (
+                    <button
+                      key={process}
+                      onClick={() => toggleProcess(process)}
+                      className={`text-sm px-4 py-2 rounded-full transition-all ${
+                        selectedProcesses.includes(process)
+                          ? 'bg-black dark:bg-white text-white dark:text-black'
+                          : 'bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 hover:border-black dark:hover:border-white'
+                      }`}
+                    >
+                      {process}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            {/* 로스팅레벨(Roast Level) */}
+            <section className="mt-6">
+              <h3 className="text-sm font-medium mb-3">Roast Level</h3>
+              <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-xl">
+                <div className="flex flex-wrap gap-2">
+                  {['라이트', '미디엄라이트', '미디엄', '미디엄다크', '다크'].map((roast) => (
+                    <button
+                      key={roast}
+                      onClick={() => toggleRoast(roast)}
+                      className={`text-sm px-4 py-2 rounded-full transition-all ${
+                        selectedRoast.includes(roast)
+                          ? 'bg-black dark:bg-white text-white dark:text-black'
+                          : 'bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 hover:border-black dark:hover:border-white'
+                      }`}
+                    >
+                      {roast}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </section>
+
             {/* My Cup Notes */}
             <section className="space-y-6">
               <h3 className="text-xl font-bold">My Cup Notes</h3>
