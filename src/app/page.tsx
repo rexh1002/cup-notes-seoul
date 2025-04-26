@@ -60,6 +60,7 @@ export default function HomePage() {
   const { theme, setTheme } = useTheme();
   const [scrollProgress, setScrollProgress] = useState(0);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [isSignupDropdownOpen, setIsSignupDropdownOpen] = useState(false);
 
   const hasSelections = selectedNotes.length > 0 || 
     selectedBrewMethods.length > 0 || 
@@ -385,7 +386,15 @@ export default function HomePage() {
 
   // 로그인/회원가입 버튼 핸들러
   const handleLogin = () => router.push('/auth/login');
-  const handleSignup = () => router.push('/auth/signup');
+  const handleSignup = () => setIsSignupDropdownOpen((v) => !v);
+  const handleUserSignup = () => {
+    setIsSignupDropdownOpen(false);
+    router.push('/auth/signup');
+  };
+  const handleManagerSignup = () => {
+    setIsSignupDropdownOpen(false);
+    router.push('/auth/manager/signup');
+  };
 
   return (
     <main className="min-h-screen bg-[#F5F2E8] dark:bg-gray-900 transition-colors duration-300">
@@ -408,7 +417,7 @@ export default function HomePage() {
           </motion.h1>
 
           {/* 네비게이션 */}
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="hidden md:flex items-center space-x-8 relative">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -433,6 +442,23 @@ export default function HomePage() {
             >
               회원가입
             </motion.button>
+            {/* 회원가입 드롭다운 */}
+            {isSignupDropdownOpen && (
+              <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg z-50 border border-gray-200 dark:border-gray-700">
+                <button
+                  className="block w-full text-left px-4 py-3 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-100"
+                  onClick={handleUserSignup}
+                >
+                  일반 회원가입
+                </button>
+                <button
+                  className="block w-full text-left px-4 py-3 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-100"
+                  onClick={handleManagerSignup}
+                >
+                  카페 관리자 회원가입
+                </button>
+              </div>
+            )}
           </nav>
 
           {/* 모바일 메뉴 버튼 */}
