@@ -378,6 +378,15 @@ export default function HomePage() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // 다크모드 버튼 핸들러
+  const handleThemeToggle = () => {
+    setTheme(theme === 'dark' ? 'light' : 'dark');
+  };
+
+  // 로그인/회원가입 버튼 핸들러
+  const handleLogin = () => router.push('/auth/login');
+  const handleSignup = () => router.push('/auth/signup');
+
   return (
     <main className="min-h-screen bg-[#F5F2E8] dark:bg-gray-900 transition-colors duration-300">
       {/* 스크롤 프로그레스 바 */}
@@ -404,7 +413,7 @@ export default function HomePage() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+              onClick={handleThemeToggle}
             >
               {theme === 'dark' ? '라이트 모드' : '다크 모드'}
             </motion.button>
@@ -412,6 +421,7 @@ export default function HomePage() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+              onClick={handleLogin}
             >
               로그인
             </motion.button>
@@ -419,6 +429,7 @@ export default function HomePage() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+              onClick={handleSignup}
             >
               회원가입
             </motion.button>
@@ -460,14 +471,14 @@ export default function HomePage() {
             <div className="container mx-auto py-4 px-4 space-y-4">
               <button
                 className="w-full text-left text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                onClick={handleThemeToggle}
               >
                 {theme === 'dark' ? '라이트 모드' : '다크 모드'}
               </button>
-              <button className="w-full text-left text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+              <button className="w-full text-left text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors" onClick={handleLogin}>
                 로그인
               </button>
-              <button className="w-full text-left text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+              <button className="w-full text-left text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors" onClick={handleSignup}>
                 회원가입
               </button>
             </div>
