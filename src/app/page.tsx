@@ -70,6 +70,7 @@ export default function HomePage() {
 
   useEffect(() => {
     setIsMounted(true);
+    console.log('isMounted true');
   }, []);
 
   useEffect(() => {
@@ -147,6 +148,7 @@ export default function HomePage() {
     if (isMounted) {
       const initialLoad = async () => {
         setIsLoading(true);
+        console.log('isLoading true (initialLoad)');
         try {
           const response = await fetch('/api/cafes/search', {
             method: 'POST',
@@ -170,12 +172,14 @@ export default function HomePage() {
           const data = await response.json();
           if (data && data.cafes) {
             setCafes(data.cafes);
+            console.log('cafes set:', data.cafes);
           }
         } catch (error) {
           console.error('초기 데이터 로딩 오류:', error);
           alert('카페 정보를 불러오는데 실패했습니다.');
         } finally {
           setIsLoading(false);
+          console.log('isLoading false (initialLoad)');
         }
       };
 
@@ -185,11 +189,9 @@ export default function HomePage() {
 
   const handleSearch = useCallback(async () => {
     if (!isMounted) return;
-    
     setIsLoading(true);
     setIsSearching(true);
-    console.log('[클라이언트] 검색 시작');
-    
+    console.log('[클라이언트] 검색 시작', { searchKeyword, selectedNotes, selectedOrigins, selectedProcesses, selectedRoast, selectedBrewMethods });
     try {
       const response = await fetch('/api/cafes/search', {
         method: 'POST',
@@ -232,19 +234,17 @@ export default function HomePage() {
     } catch (error) {
       console.error('[클라이언트] 검색 오류:', error);
       setCafes([]);
-      // 사용자에게 오류 메시지 표시
       if (error instanceof Error) {
         alert(error.message);
       } else {
         alert('검색 중 오류가 발생했습니다. 다시 시도해주세요.');
       }
-    } finally {
-      setIsLoading(false);
-      setTimeout(() => {
-        setIsSearching(false);
-      }, 1000);
-      console.log('[클라이언트] 검색 완료');
     }
+    setIsLoading(false);
+    setTimeout(() => {
+      setIsSearching(false);
+    }, 1000);
+    console.log('[클라이언트] 검색 완료');
   }, [searchKeyword, selectedNotes, selectedOrigins, selectedProcesses, selectedRoast, selectedBrewMethods, isMounted]);
 
   const clearSelections = () => {
@@ -688,11 +688,14 @@ export default function HomePage() {
               />
             </div>
           ) : (
-            <Map
-              cafes={cafes}
-              searchKeyword={searchKeyword}
-              onSearch={handleSearch}
-            />
+            <>
+              {console.log('Map 렌더링', { cafes, searchKeyword })}
+              <Map
+                cafes={cafes}
+                searchKeyword={searchKeyword}
+                onSearch={handleSearch}
+              />
+            </>
           )}
         </section>
       </div>
