@@ -239,150 +239,151 @@ export default function FilterPanel({
                     transition={{ duration: 0.25 }}
                     className="overflow-hidden"
                   >
-                    <div className="grid grid-cols-1 gap-6 mt-2">
-                      {/* Floral Section */}
-                      <motion.div layout className="relative h-[300px] overflow-hidden group rounded-xl shadow-lg">
-                        <div className="absolute inset-0">
-                          <Image
-                            src="/images/Floral.jpg"
-                            alt="Floral background"
-                            fill
-                            className="object-cover transition-transform duration-700 group-hover:scale-105"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent group-hover:bg-black/30 transition-colors" />
-                        </div>
-                        <div className="absolute inset-0 p-6 flex flex-col">
-                          <button className="text-xl font-bold text-white mb-6 flex justify-between items-center drop-shadow-lg" onClick={() => setOpenFloral((v) => !v)}>
-                            Floral <motion.span animate={{ rotate: openFloral ? 180 : 0 }} transition={{ duration: 0.2 }}><FiChevronDown size={20} /></motion.span>
-                          </button>
-                          <AnimatePresence initial={false}>
-                            {openFloral && (
-                              <motion.div
-                                key="floral"
-                                initial={{ opacity: 0, height: 0 }}
-                                animate={{ opacity: 1, height: 'auto' }}
-                                exit={{ opacity: 0, height: 0 }}
-                                transition={{ duration: 0.25 }}
-                                className="overflow-hidden"
-                              >
-                                <div className="flex flex-wrap gap-2 content-start">
-                                  {[
-                                    '라벤더', '아카시아', '장미', '자스민', '국화', '히비스커스', '제비꽃', '홍차', '얼그레이', '카모마일', '오렌지 블로섬', '은방울꽃', '블랙티', '베르가못', '라일락', '로즈마리'
-                                  ].map((note) => (
-                                    <button
-                                      key={note}
-                                      onClick={() => toggleNote(note)}
-                                      className={`text-sm px-4 py-2 rounded-full shadow transition-colors font-medium ${
-                                        selectedNotes.includes(note)
-                                          ? 'bg-gradient-to-r from-pink-400 to-yellow-300 text-gray-900 shadow-lg scale-105'
-                                          : 'bg-white/80 text-gray-900 hover:bg-pink-50 hover:scale-105'
-                                      }`}
-                                    >
-                                      {note}
-                                    </button>
-                                  ))}
-                                </div>
-                              </motion.div>
-                            )}
-                          </AnimatePresence>
-                        </div>
-                      </motion.div>
-
-                      {/* Fruity Section */}
-                      <motion.div layout className="relative h-[300px] overflow-hidden group rounded-xl shadow-lg">
-                        <div className="absolute inset-0">
-                          <Image
-                            src="/images/Fruity.jpg"
-                            alt="Fruity background"
-                            fill
-                            className="object-cover transition-transform duration-700 group-hover:scale-105"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent group-hover:bg-black/30 transition-colors" />
-                        </div>
-                        <div className="absolute inset-0 p-6 flex flex-col">
-                          <button className="text-xl font-bold text-white mb-6 flex justify-between items-center drop-shadow-lg" onClick={() => setOpenFruity((v) => !v)}>
-                            Fruity <motion.span animate={{ rotate: openFruity ? 180 : 0 }} transition={{ duration: 0.2 }}><FiChevronDown size={20} /></motion.span>
-                          </button>
-                          <AnimatePresence initial={false}>
-                            {openFruity && (
-                              <motion.div
-                                key="fruity"
-                                initial={{ opacity: 0, height: 0 }}
-                                animate={{ opacity: 1, height: 'auto' }}
-                                exit={{ opacity: 0, height: 0 }}
-                                transition={{ duration: 0.25 }}
-                                className="overflow-hidden"
-                              >
-                                <div className="flex flex-wrap gap-2 content-start">
-                                  {[
-                                    '파인애플', '복숭아', '리치', '사과', '감귤', '배', '패션후르츠', '메론', '파파야', '블루베리', '라즈베리', '자두', '딸기', '포도', '자몽', '오렌지', '레몬', '크랜베리', '망고', '체리', '살구'
-                                  ].map((note) => (
-                                    <button
-                                      key={note}
-                                      onClick={() => toggleNote(note)}
-                                      className={`text-sm px-4 py-2 rounded-full shadow transition-colors font-medium ${
-                                        selectedNotes.includes(note)
-                                          ? 'bg-gradient-to-r from-yellow-300 to-pink-400 text-gray-900 shadow-lg scale-105'
-                                          : 'bg-white/80 text-gray-900 hover:bg-yellow-50 hover:scale-105'
-                                      }`}
-                                    >
-                                      {note}
-                                    </button>
-                                  ))}
-                                </div>
-                              </motion.div>
-                            )}
-                          </AnimatePresence>
-                        </div>
-                      </motion.div>
-
-                      {/* Nutty Section */}
-                      <motion.div layout className="relative h-[300px] overflow-hidden group rounded-xl shadow-lg">
-                        <div className="absolute inset-0">
-                          <Image
-                            src="/images/Nutty.jpg"
-                            alt="Nutty background"
-                            fill
-                            className="object-cover transition-transform duration-700 group-hover:scale-105"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent group-hover:bg-black/30 transition-colors" />
-                        </div>
-                        <div className="absolute inset-0 p-6 flex flex-col">
-                          <button className="text-xl font-bold text-white mb-6 flex justify-between items-center drop-shadow-lg" onClick={() => setOpenNutty((v) => !v)}>
-                            Nutty <motion.span animate={{ rotate: openNutty ? 180 : 0 }} transition={{ duration: 0.2 }}><FiChevronDown size={20} /></motion.span>
-                          </button>
-                          <AnimatePresence initial={false}>
-                            {openNutty && (
-                              <motion.div
-                                key="nutty"
-                                initial={{ opacity: 0, height: 0 }}
-                                animate={{ opacity: 1, height: 'auto' }}
-                                exit={{ opacity: 0, height: 0 }}
-                                transition={{ duration: 0.25 }}
-                                className="overflow-hidden"
-                              >
-                                <div className="flex flex-wrap gap-2 content-start">
-                                  {[
-                                    '초콜렛', '캐러멜', '고구마', '꿀', '헤이즐넛', '브라운슈거', '엿기름', '아몬드', '피칸', '호두', '로스트피넛', '마카다미아', '땅콩', '바닐라', '캐슈넛', '메이플 시럽', '토피', '피스타치오', '카카오닙스'
-                                  ].map((note) => (
-                                    <button
-                                      key={note}
-                                      onClick={() => toggleNote(note)}
-                                      className={`text-sm px-4 py-2 rounded-full shadow transition-colors font-medium ${
-                                        selectedNotes.includes(note)
-                                          ? 'bg-gradient-to-r from-yellow-400 to-amber-700 text-gray-900 shadow-lg scale-105'
-                                          : 'bg-white/80 text-gray-900 hover:bg-yellow-50 hover:scale-105'
-                                      }`}
-                                    >
-                                      {note}
-                                    </button>
-                                  ))}
-                                </div>
-                              </motion.div>
-                            )}
-                          </AnimatePresence>
-                        </div>
-                      </motion.div>
+                    <div className="grid grid-cols-1 gap-4 mt-2">
+                      {/* Floral */}
+                      <div className="rounded-xl shadow bg-white/80 dark:bg-gray-800">
+                        <button className="w-full flex justify-between items-center px-4 py-3 rounded-xl font-bold text-lg text-left transition-all hover:bg-pink-50 dark:hover:bg-gray-700" onClick={() => setOpenFloral((v) => !v)}>
+                          <span>Floral</span>
+                          <motion.span animate={{ rotate: openFloral ? 180 : 0 }} transition={{ duration: 0.2 }}>
+                            <FiChevronDown size={20} />
+                          </motion.span>
+                        </button>
+                        <AnimatePresence initial={false}>
+                          {openFloral && (
+                            <motion.div
+                              key="floral"
+                              initial={{ opacity: 0, height: 0 }}
+                              animate={{ opacity: 1, height: 'auto' }}
+                              exit={{ opacity: 0, height: 0 }}
+                              transition={{ duration: 0.25 }}
+                              className="overflow-hidden"
+                            >
+                              <div className="relative h-[200px] overflow-hidden rounded-xl mb-2">
+                                <Image
+                                  src="/images/Floral.jpg"
+                                  alt="Floral background"
+                                  fill
+                                  className="object-cover"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent" />
+                              </div>
+                              <div className="flex flex-wrap gap-2 content-start px-4 pb-4">
+                                {[
+                                  '라벤더', '아카시아', '장미', '자스민', '국화', '히비스커스', '제비꽃', '홍차', '얼그레이', '카모마일', '오렌지 블로섬', '은방울꽃', '블랙티', '베르가못', '라일락', '로즈마리'
+                                ].map((note) => (
+                                  <button
+                                    key={note}
+                                    onClick={() => toggleNote(note)}
+                                    className={`text-sm px-4 py-2 rounded-full shadow transition-colors font-medium ${
+                                      selectedNotes.includes(note)
+                                        ? 'bg-gradient-to-r from-pink-400 to-yellow-300 text-gray-900 shadow-lg scale-105'
+                                        : 'bg-white/80 text-gray-900 hover:bg-pink-50 hover:scale-105'
+                                    }`}
+                                  >
+                                    {note}
+                                  </button>
+                                ))}
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                      {/* Fruity */}
+                      <div className="rounded-xl shadow bg-white/80 dark:bg-gray-800">
+                        <button className="w-full flex justify-between items-center px-4 py-3 rounded-xl font-bold text-lg text-left transition-all hover:bg-yellow-50 dark:hover:bg-gray-700" onClick={() => setOpenFruity((v) => !v)}>
+                          <span>Fruity</span>
+                          <motion.span animate={{ rotate: openFruity ? 180 : 0 }} transition={{ duration: 0.2 }}>
+                            <FiChevronDown size={20} />
+                          </motion.span>
+                        </button>
+                        <AnimatePresence initial={false}>
+                          {openFruity && (
+                            <motion.div
+                              key="fruity"
+                              initial={{ opacity: 0, height: 0 }}
+                              animate={{ opacity: 1, height: 'auto' }}
+                              exit={{ opacity: 0, height: 0 }}
+                              transition={{ duration: 0.25 }}
+                              className="overflow-hidden"
+                            >
+                              <div className="relative h-[200px] overflow-hidden rounded-xl mb-2">
+                                <Image
+                                  src="/images/Fruity.jpg"
+                                  alt="Fruity background"
+                                  fill
+                                  className="object-cover"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent" />
+                              </div>
+                              <div className="flex flex-wrap gap-2 content-start px-4 pb-4">
+                                {[
+                                  '파인애플', '복숭아', '리치', '사과', '감귤', '배', '패션후르츠', '메론', '파파야', '블루베리', '라즈베리', '자두', '딸기', '포도', '자몽', '오렌지', '레몬', '크랜베리', '망고', '체리', '살구'
+                                ].map((note) => (
+                                  <button
+                                    key={note}
+                                    onClick={() => toggleNote(note)}
+                                    className={`text-sm px-4 py-2 rounded-full shadow transition-colors font-medium ${
+                                      selectedNotes.includes(note)
+                                        ? 'bg-gradient-to-r from-yellow-300 to-pink-400 text-gray-900 shadow-lg scale-105'
+                                        : 'bg-white/80 text-gray-900 hover:bg-yellow-50 hover:scale-105'
+                                    }`}
+                                  >
+                                    {note}
+                                  </button>
+                                ))}
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                      {/* Nutty */}
+                      <div className="rounded-xl shadow bg-white/80 dark:bg-gray-800">
+                        <button className="w-full flex justify-between items-center px-4 py-3 rounded-xl font-bold text-lg text-left transition-all hover:bg-yellow-50 dark:hover:bg-gray-700" onClick={() => setOpenNutty((v) => !v)}>
+                          <span>Nutty</span>
+                          <motion.span animate={{ rotate: openNutty ? 180 : 0 }} transition={{ duration: 0.2 }}>
+                            <FiChevronDown size={20} />
+                          </motion.span>
+                        </button>
+                        <AnimatePresence initial={false}>
+                          {openNutty && (
+                            <motion.div
+                              key="nutty"
+                              initial={{ opacity: 0, height: 0 }}
+                              animate={{ opacity: 1, height: 'auto' }}
+                              exit={{ opacity: 0, height: 0 }}
+                              transition={{ duration: 0.25 }}
+                              className="overflow-hidden"
+                            >
+                              <div className="relative h-[200px] overflow-hidden rounded-xl mb-2">
+                                <Image
+                                  src="/images/Nutty.jpg"
+                                  alt="Nutty background"
+                                  fill
+                                  className="object-cover"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent" />
+                              </div>
+                              <div className="flex flex-wrap gap-2 content-start px-4 pb-4">
+                                {[
+                                  '초콜렛', '캐러멜', '고구마', '꿀', '헤이즐넛', '브라운슈거', '엿기름', '아몬드', '피칸', '호두', '로스트피넛', '마카다미아', '땅콩', '바닐라', '캐슈넛', '메이플 시럽', '토피', '피스타치오', '카카오닙스'
+                                ].map((note) => (
+                                  <button
+                                    key={note}
+                                    onClick={() => toggleNote(note)}
+                                    className={`text-sm px-4 py-2 rounded-full shadow transition-colors font-medium ${
+                                      selectedNotes.includes(note)
+                                        ? 'bg-gradient-to-r from-yellow-400 to-amber-700 text-gray-900 shadow-lg scale-105'
+                                        : 'bg-white/80 text-gray-900 hover:bg-yellow-50 hover:scale-105'
+                                    }`}
+                                  >
+                                    {note}
+                                  </button>
+                                ))}
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
                     </div>
                   </motion.div>
                 )}
