@@ -273,16 +273,7 @@ export default function FilterPanel({
                               transition={{ duration: 0.25 }}
                               className="overflow-hidden"
                             >
-                              <div className="relative h-[200px] overflow-hidden rounded-xl mb-2 mt-2">
-                                <Image
-                                  src="/images/Floral.jpg"
-                                  alt="Floral background"
-                                  fill
-                                  className="object-cover"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent" />
-                              </div>
-                              <div className="flex flex-wrap gap-2 content-start px-4 pb-4">
+                              <div className="flex flex-wrap gap-2 content-start px-4 pb-4 pt-2">
                                 {[
                                   '라벤더', '아카시아', '장미', '자스민', '국화', '히비스커스', '제비꽃', '홍차', '얼그레이', '카모마일', '오렌지 블로섬', '은방울꽃', '블랙티', '베르가못', '라일락', '로즈마리'
                                 ].map((note) => (
@@ -336,16 +327,7 @@ export default function FilterPanel({
                               transition={{ duration: 0.25 }}
                               className="overflow-hidden"
                             >
-                              <div className="relative h-[200px] overflow-hidden rounded-xl mb-2 mt-2">
-                                <Image
-                                  src="/images/Fruity.jpg"
-                                  alt="Fruity background"
-                                  fill
-                                  className="object-cover"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent" />
-                              </div>
-                              <div className="flex flex-wrap gap-2 content-start px-4 pb-4">
+                              <div className="flex flex-wrap gap-2 content-start px-4 pb-4 pt-2">
                                 {[
                                   '파인애플', '복숭아', '리치', '사과', '감귤', '배', '패션후르츠', '메론', '파파야', '블루베리', '라즈베리', '자두', '딸기', '포도', '자몽', '오렌지', '레몬', '크랜베리', '망고', '체리', '살구'
                                 ].map((note) => (
@@ -399,16 +381,7 @@ export default function FilterPanel({
                               transition={{ duration: 0.25 }}
                               className="overflow-hidden"
                             >
-                              <div className="relative h-[200px] overflow-hidden rounded-xl mb-2 mt-2">
-                                <Image
-                                  src="/images/Nutty.jpg"
-                                  alt="Nutty background"
-                                  fill
-                                  className="object-cover"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent" />
-                              </div>
-                              <div className="flex flex-wrap gap-2 content-start px-4 pb-4">
+                              <div className="flex flex-wrap gap-2 content-start px-4 pb-4 pt-2">
                                 {[
                                   '초콜렛', '캐러멜', '고구마', '꿀', '헤이즐넛', '브라운슈거', '엿기름', '아몬드', '피칸', '호두', '로스트피넛', '마카다미아', '땅콩', '바닐라', '캐슈넛', '메이플 시럽', '토피', '피스타치오', '카카오닙스'
                                 ].map((note) => (
