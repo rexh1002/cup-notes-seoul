@@ -71,10 +71,14 @@ export default function FilterPanel({
           <div className="p-6 space-y-4">
             {/* Brew Method */}
             <section>
-              <button className={`w-full flex justify-between items-center px-4 py-3 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 font-semibold text-base transition-all hover:shadow-md hover:bg-gray-50 dark:hover:bg-gray-700 ${openSection === 'brew' ? 'ring-2 ring-blue-400' : ''}`} onClick={() => toggleSection('brew')}>
+              <button
+                className={`w-full flex justify-between items-center py-4 px-2 bg-transparent border-none rounded-none shadow-none transition-all text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none group ${openSection === 'brew' ? 'text-blue-600 dark:text-blue-400' : ''}`}
+                onClick={() => toggleSection('brew')}
+                style={{ borderBottom: '1.5px solid #e5e7eb', marginBottom: '0.5rem' }}
+              >
                 <span>Brew Method</span>
-                <motion.span animate={{ rotate: openSection === 'brew' ? 180 : 0 }} transition={{ duration: 0.2 }}>
-                  <FiChevronDown size={22} />
+                <motion.span animate={{ rotate: openSection === 'brew' ? 180 : 0 }} transition={{ duration: 0.2 }} className="ml-2">
+                  <FiChevronDown size={28} className="transition-colors group-hover:text-blue-600 dark:group-hover:text-blue-400" />
                 </motion.span>
               </button>
               <AnimatePresence initial={false}>
@@ -87,7 +91,7 @@ export default function FilterPanel({
                     transition={{ duration: 0.25 }}
                     className="overflow-hidden"
                   >
-                    <div className="flex flex-wrap gap-2 p-4">
+                    <div className="flex flex-wrap gap-2 px-2 pb-4">
                       {['핸드드립', '에스프레소', '콜드브루'].map((method) => (
                         <button
                           key={method}
@@ -109,10 +113,14 @@ export default function FilterPanel({
 
             {/* Origin */}
             <section>
-              <button className={`w-full flex justify-between items-center px-4 py-3 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 font-semibold text-base transition-all hover:shadow-md hover:bg-gray-50 dark:hover:bg-gray-700 ${openSection === 'origin' ? 'ring-2 ring-blue-400' : ''}`} onClick={() => toggleSection('origin')}>
+              <button
+                className={`w-full flex justify-between items-center py-4 px-2 bg-transparent border-none rounded-none shadow-none transition-all text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none group ${openSection === 'origin' ? 'text-blue-600 dark:text-blue-400' : ''}`}
+                onClick={() => toggleSection('origin')}
+                style={{ borderBottom: '1.5px solid #e5e7eb', marginBottom: '0.5rem' }}
+              >
                 <span>Origin</span>
-                <motion.span animate={{ rotate: openSection === 'origin' ? 180 : 0 }} transition={{ duration: 0.2 }}>
-                  <FiChevronDown size={22} />
+                <motion.span animate={{ rotate: openSection === 'origin' ? 180 : 0 }} transition={{ duration: 0.2 }} className="ml-2">
+                  <FiChevronDown size={28} className="transition-colors group-hover:text-blue-600 dark:group-hover:text-blue-400" />
                 </motion.span>
               </button>
               <AnimatePresence initial={false}>
@@ -125,7 +133,7 @@ export default function FilterPanel({
                     transition={{ duration: 0.25 }}
                     className="overflow-hidden"
                   >
-                    <div className="flex flex-wrap gap-2 p-4">
+                    <div className="flex flex-wrap gap-2 px-2 pb-4">
                       {['에티오피아', '콜롬비아', '브라질', '과테말라', '케냐', '코스타리카', '파나마', '인도네시아', '르완다', '엘살바도르'].map((origin) => (
                         <button
                           key={origin}
@@ -147,10 +155,14 @@ export default function FilterPanel({
 
             {/* Process */}
             <section>
-              <button className={`w-full flex justify-between items-center px-4 py-3 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 font-semibold text-base transition-all hover:shadow-md hover:bg-gray-50 dark:hover:bg-gray-700 ${openSection === 'process' ? 'ring-2 ring-blue-400' : ''}`} onClick={() => toggleSection('process')}>
+              <button
+                className={`w-full flex justify-between items-center py-4 px-2 bg-transparent border-none rounded-none shadow-none transition-all text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none group ${openSection === 'process' ? 'text-blue-600 dark:text-blue-400' : ''}`}
+                onClick={() => toggleSection('process')}
+                style={{ borderBottom: '1.5px solid #e5e7eb', marginBottom: '0.5rem' }}
+              >
                 <span>Process</span>
-                <motion.span animate={{ rotate: openSection === 'process' ? 180 : 0 }} transition={{ duration: 0.2 }}>
-                  <FiChevronDown size={22} />
+                <motion.span animate={{ rotate: openSection === 'process' ? 180 : 0 }} transition={{ duration: 0.2 }} className="ml-2">
+                  <FiChevronDown size={28} className="transition-colors group-hover:text-blue-600 dark:group-hover:text-blue-400" />
                 </motion.span>
               </button>
               <AnimatePresence initial={false}>
@@ -163,7 +175,7 @@ export default function FilterPanel({
                     transition={{ duration: 0.25 }}
                     className="overflow-hidden"
                   >
-                    <div className="flex flex-wrap gap-2 p-4">
+                    <div className="flex flex-wrap gap-2 px-2 pb-4">
                       {['워시드', '내추럴', '허니', '무산소 발효', '디카페인'].map((process) => (
                         <button
                           key={process}
@@ -185,10 +197,14 @@ export default function FilterPanel({
 
             {/* Roast Level */}
             <section>
-              <button className={`w-full flex justify-between items-center px-4 py-3 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 font-semibold text-base transition-all hover:shadow-md hover:bg-gray-50 dark:hover:bg-gray-700 ${openSection === 'roast' ? 'ring-2 ring-blue-400' : ''}`} onClick={() => toggleSection('roast')}>
+              <button
+                className={`w-full flex justify-between items-center py-4 px-2 bg-transparent border-none rounded-none shadow-none transition-all text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none group ${openSection === 'roast' ? 'text-blue-600 dark:text-blue-400' : ''}`}
+                onClick={() => toggleSection('roast')}
+                style={{ borderBottom: '1.5px solid #e5e7eb', marginBottom: '0.5rem' }}
+              >
                 <span>Roast Level</span>
-                <motion.span animate={{ rotate: openSection === 'roast' ? 180 : 0 }} transition={{ duration: 0.2 }}>
-                  <FiChevronDown size={22} />
+                <motion.span animate={{ rotate: openSection === 'roast' ? 180 : 0 }} transition={{ duration: 0.2 }} className="ml-2">
+                  <FiChevronDown size={28} className="transition-colors group-hover:text-blue-600 dark:group-hover:text-blue-400" />
                 </motion.span>
               </button>
               <AnimatePresence initial={false}>
@@ -201,7 +217,7 @@ export default function FilterPanel({
                     transition={{ duration: 0.25 }}
                     className="overflow-hidden"
                   >
-                    <div className="flex flex-wrap gap-2 p-4">
+                    <div className="flex flex-wrap gap-2 px-2 pb-4">
                       {['라이트', '미디엄라이트', '미디엄', '미디엄다크', '다크'].map((roast) => (
                         <button
                           key={roast}
@@ -223,10 +239,14 @@ export default function FilterPanel({
 
             {/* My Cup Notes */}
             <section>
-              <button className={`w-full flex justify-between items-center px-4 py-3 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 font-bold text-lg transition-all hover:shadow-md hover:bg-gray-50 dark:hover:bg-gray-700 ${openSection === 'notes' ? 'ring-2 ring-purple-400' : ''}`} onClick={() => toggleSection('notes')}>
+              <button
+                className={`w-full flex justify-between items-center py-4 px-2 bg-transparent border-none rounded-none shadow-none transition-all text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none group ${openSection === 'notes' ? 'text-blue-600 dark:text-blue-400' : ''}`}
+                onClick={() => toggleSection('notes')}
+                style={{ borderBottom: '1.5px solid #e5e7eb', marginBottom: '0.5rem' }}
+              >
                 <span>My Cup Notes</span>
-                <motion.span animate={{ rotate: openSection === 'notes' ? 180 : 0 }} transition={{ duration: 0.2 }}>
-                  <FiChevronDown size={22} />
+                <motion.span animate={{ rotate: openSection === 'notes' ? 180 : 0 }} transition={{ duration: 0.2 }} className="ml-2">
+                  <FiChevronDown size={28} className="transition-colors group-hover:text-blue-600 dark:group-hover:text-blue-400" />
                 </motion.span>
               </button>
               <AnimatePresence initial={false}>
