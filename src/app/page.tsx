@@ -660,7 +660,7 @@ export default function HomePage() {
         <section className="relative w-full h-[calc(100vh-4rem)]">
           {/* 필터 버튼 */}
           <button
-            onClick={() => setIsFilterOpen(true)}
+            onClick={() => setIsFiltersOpen(true)}
             className="absolute top-4 left-4 z-10 flex items-center gap-2 bg-white rounded-full px-4 py-2 shadow-lg hover:shadow-xl transition-shadow"
           >
             <div className="flex items-center justify-center w-8 h-8 bg-indigo-600 rounded-full">
@@ -668,6 +668,24 @@ export default function HomePage() {
             </div>
             <span className="text-sm font-medium text-gray-700">필터 설정</span>
           </button>
+
+          {/* FilterPanel 컴포넌트 */}
+          <FilterPanel
+            isOpen={isFiltersOpen}
+            onClose={() => setIsFiltersOpen(false)}
+            selectedNotes={selectedNotes}
+            toggleNote={toggleNote}
+            selectedBrewMethods={selectedBrewMethods}
+            toggleBrewMethod={toggleBrewMethod}
+            selectedOrigins={selectedOrigins}
+            toggleOrigin={toggleOrigin}
+            selectedProcesses={selectedProcesses}
+            toggleProcess={toggleProcess}
+            selectedRoast={selectedRoast}
+            toggleRoast={toggleRoast}
+            onReset={handleReset}
+            onApply={handleApply}
+          />
 
           {/* 지도 컴포넌트 */}
           <Map
