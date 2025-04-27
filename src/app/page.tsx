@@ -400,7 +400,7 @@ export default function HomePage() {
   console.log('Map 렌더링', { cafes, searchKeyword });
 
   return (
-    <main className="min-h-screen bg-[#F5F2E8] dark:bg-gray-900 transition-colors duration-300">
+    <main className="min-h-screen bg-[#F5F2E8] dark:bg-gray-900 transition-colors duration-300 overflow-y-auto">
       {/* 스크롤 프로그레스 바 */}
       <motion.div
         className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 z-50"
@@ -580,9 +580,9 @@ export default function HomePage() {
         )}
       </AnimatePresence>
 
-      {/* 필터 패널 */}
+      {/* 필터 패널 항상 렌더 */}
       <FilterPanel
-        isOpen={isFilterOpen}
+        isOpen={true}
         onClose={() => setIsFilterOpen(false)}
         selectedNotes={selectedNotes}
         toggleNote={toggleNote}
@@ -660,7 +660,7 @@ export default function HomePage() {
         </section>
 
         {/* 지도 섹션 */}
-        <section className="relative h-[calc(100vh-4rem)] bg-white dark:bg-gray-800">
+        <section className="relative h-[calc(100vh-4rem)] bg-white dark:bg-gray-800 overflow-y-auto">
           {/* 필터 토글 버튼 */}
           <button
             onClick={() => setIsFilterOpen(true)}

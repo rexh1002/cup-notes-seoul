@@ -309,11 +309,11 @@ export default function Map({
         {/* 실제 지도 */}
         <div
           ref={mapRef}
-          style={{ minHeight: '400px', minWidth: '400px', width: '100%', height: '100%', background: 'red', border: '2px solid blue', zIndex: 1000, position: 'relative' }}
+          style={{ minHeight: '400px', minWidth: '400px', width: '100%', height: '100%', background: 'rgb(248, 249, 250)', zIndex: 1000, position: 'relative', overflow: 'hidden' }}
         />
 
         {/* 필터 버튼 */}
-        <div className="absolute left-0 bottom-0 bg-white p-6 rounded-tr-3xl flex flex-col gap-4 z-10 shadow-lg">
+        <div className="absolute left-0 bottom-0 bg-white p-6 rounded-tr-3xl flex flex-col gap-4 z-50 shadow-lg">
           <button
             onClick={() => onSearch && onSearch('floral')}
             className="w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center hover:bg-gray-50 transition-colors"
@@ -340,7 +340,7 @@ export default function Map({
         </div>
 
         {/* 전체보기 버튼 */}
-        <div className="absolute right-0 top-0 bg-white p-6 rounded-bl-3xl z-10 shadow-lg">
+        <div className="absolute right-0 top-0 bg-white p-6 rounded-bl-3xl z-50 shadow-lg">
           <button
             onClick={() => onSearch && onSearch('all')}
             className="w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center hover:bg-gray-50 transition-colors"
