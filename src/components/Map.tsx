@@ -302,7 +302,7 @@ export default function Map({
     <>
       <Script
         src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=sn5m2djclr&submodules=geocoder"
-        strategy="beforeInteractive"
+        strategy="afterInteractive"
         onLoad={() => console.log('[Map] 네이버 지도 스크립트 로드 완료')}
       />
       <div className="relative w-full h-full">
