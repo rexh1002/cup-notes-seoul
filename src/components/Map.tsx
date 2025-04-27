@@ -289,21 +289,11 @@ export default function Map({
           map: mapInstance.current,
           title: cafe.name,
           icon: {
-            content: [
-              '<div class="marker-container" style="cursor:pointer;width:40px;height:40px;position:relative;">',
-              '<div style="position:absolute;width:40px;height:40px;background:#6366F1;border-radius:50%;box-shadow:0 2px 6px rgba(0,0,0,0.2);',
-              'display:flex;justify-content:center;align-items:center;transform-origin:center bottom;">',
-              '<div style="width:24px;height:24px;background:#FFFFFF;mask:url(\'data:image/svg+xml,<svg xmlns=\\\'http://www.w3.org/2000/svg\\\' viewBox=\\\'0 0 24 24\\\'><path d=\\\'M8 2C6.9 2 6 2.9 6 4V5H4C2.9 5 2 5.9 2 7V8C2 9.1 2.9 10 4 10H4.5C4.8 10 5 10.2 5 10.5V16.5C5 16.8 4.8 17 4.5 17H4C2.9 17 2 17.9 2 19V20C2 21.1 2.9 22 4 22H20C21.1 22 22 21.1 22 20V19C22 17.9 21.1 17 20 17H19.5C19.2 17 19 16.8 19 16.5V10.5C19 10.2 19.2 10 19.5 10H20C21.1 10 22 9.1 22 8V7C22 5.9 21.1 5 20 5H18V4C18 2.9 17.1 2 16 2H8M12 11.3C13.7 11.3 15 12.6 15 14.3V17.5C15 17.8 14.8 18 14.5 18H9.5C9.2 18 9 17.8 9 17.5V14.3C9 12.6 10.3 11.3 12 11.3Z\\\' fill=\\\'white\\\'/></svg>\');',
-              '-webkit-mask:url(\'data:image/svg+xml,<svg xmlns=\\\'http://www.w3.org/2000/svg\\\' viewBox=\\\'0 0 24 24\\\'><path d=\\\'M8 2C6.9 2 6 2.9 6 4V5H4C2.9 5 2 5.9 2 7V8C2 9.1 2.9 10 4 10H4.5C4.8 10 5 10.2 5 10.5V16.5C5 16.8 4.8 17 4.5 17H4C2.9 17 2 17.9 2 19V20C2 21.1 2.9 22 4 22H20C21.1 22 22 21.1 22 20V19C22 17.9 21.1 17 20 17H19.5C19.2 17 19 16.8 19 16.5V10.5C19 10.2 19.2 10 19.5 10H20C21.1 10 22 9.1 22 8V7C22 5.9 21.1 5 20 5H18V4C18 2.9 17.1 2 16 2H8M12 11.3C13.7 11.3 15 12.6 15 14.3V17.5C15 17.8 14.8 18 14.5 18H9.5C9.2 18 9 17.8 9 17.5V14.3C9 12.6 10.3 11.3 12 11.3Z\\\' fill=\\\'white\\\'/></svg>\');',
-              'mask-size:cover;-webkit-mask-size:cover;"></div>',
-              '<div style="position:absolute;top:50%;left:50%;transform:translate(-50%, -50%) rotate(-45deg);width:10px;height:10px;background:#FFFFFF;border-radius:50%;box-shadow:0 0 0 2px #6366F1;"></div>',
-              '</div>',
-              '<div style="position:absolute;bottom:-2px;left:50%;transform:translateX(-50%);width:0;height:0;',
-              'border-left:6px solid transparent;border-right:6px solid transparent;border-top:8px solid #6366F1;"></div>',
-              '</div>'
-            ].join(''),
-            size: new window.naver.maps.Size(40, 48),
-            anchor: new window.naver.maps.Point(20, 48),
+            url: '/images/cupnoteicon.png',
+            size: new window.naver.maps.Size(40, 40),
+            scaledSize: new window.naver.maps.Size(40, 40),
+            origin: new window.naver.maps.Point(0, 0),
+            anchor: new window.naver.maps.Point(20, 40)
           }
         });
 
@@ -311,18 +301,12 @@ export default function Map({
         const markerDom = marker.getElement();
         if (markerDom) {
           markerDom.addEventListener('mouseover', () => {
-            const container = markerDom.querySelector('.marker-container');
-            if (container) {
-              container.style.transform = 'scale(1.1)';
-              container.style.transition = 'all 0.2s ease';
-            }
+            markerDom.style.transform = 'scale(1.1)';
+            markerDom.style.transition = 'transform 0.2s ease';
           });
 
           markerDom.addEventListener('mouseout', () => {
-            const container = markerDom.querySelector('.marker-container');
-            if (container) {
-              container.style.transform = 'scale(1)';
-            }
+            markerDom.style.transform = 'scale(1)';
           });
         }
 
