@@ -128,9 +128,13 @@ export default function Map({
 
   // 지도 인스턴스는 한 번만 생성
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined') {
+      console.log('[Map] 브라우저 환경이 아님');
+      return;
+    }
     let interval: NodeJS.Timeout | null = null;
     function initializeMap() {
+      console.log('[Map] initializeMap 호출', { naver: !!window.naver, maps: !!window.naver?.maps, mapRef: !!mapRef.current });
       if (window.naver && window.naver.maps && mapRef.current) {
         mapInstance.current = new window.naver.maps.Map(mapRef.current, {
           center: new window.naver.maps.LatLng(center.lat, center.lng),
@@ -146,16 +150,18 @@ export default function Map({
             style: window.naver.maps.ZoomControlStyle.SMALL
           },
         });
-        console.log('지도 인스턴스 생성됨', mapRef.current);
+        console.log('[Map] 지도 인스턴스 생성됨', mapRef.current);
         // 지도 이벤트 리스너
         if (mapInstance.current) {
           window.naver.maps.Event.addListener(mapInstance.current, 'dragend', () => {
             const center = mapInstance.current.getCenter();
             setCenter({ lat: center.y, lng: center.x });
+            console.log('[Map] 지도 dragend', { lat: center.y, lng: center.x });
           });
 
           window.naver.maps.Event.addListener(mapInstance.current, 'zoom_changed', () => {
             setZoom(mapInstance.current.getZoom());
+            console.log('[Map] 지도 zoom_changed', mapInstance.current.getZoom());
           });
         }
         if (interval) clearInterval(interval);
@@ -163,10 +169,13 @@ export default function Map({
     }
 
     if (window.naver && window.naver.maps && mapRef.current) {
+      console.log('[Map] 네이버 지도 객체 즉시 사용 가능');
       initializeMap();
     } else {
+      console.log('[Map] 네이버 지도 객체 대기 중...');
       interval = setInterval(() => {
         if (window.naver && window.naver.maps && mapRef.current) {
+          console.log('[Map] 네이버 지도 객체 준비됨, 초기화 시도');
           initializeMap();
         }
       }, 100);
@@ -176,6 +185,7 @@ export default function Map({
       if (interval) clearInterval(interval);
       if (mapInstance.current) {
         window.naver.maps.Event.clearInstanceListeners(mapInstance.current);
+        console.log('[Map] 지도 인스턴스 리스너 해제');
       }
     };
   }, [center.lat, center.lng, zoom]);
@@ -183,6 +193,7 @@ export default function Map({
   // cafes가 바뀔 때마다 마커만 갱신
   useEffect(() => {
     if (mapInstance.current) {
+      console.log('[Map] cafes 변경, 마커 갱신');
       updateMarkers();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -190,30 +201,31 @@ export default function Map({
 
   // updateMarkers에서 isInitialLoad 의존성 제거
   const updateMarkers = useCallback(async () => {
-    if (!mapInstance.current) return;
-
+    if (!mapInstance.current) {
+      console.log('[Map] updateMarkers: mapInstance 없음');
+      return;
+    }
     // 기존 마커 제거
     markersRef.current.forEach(marker => marker.setMap(null));
     markersRef.current = [];
-
     // 카페 좌표 가져오기
     const coordinates: Record<string, Coordinates> = {};
     for (const cafe of cafes) {
       const coord = await getCoordinates(cafe.address);
       if (coord) {
         coordinates[cafe.id] = coord;
+        console.log(`[Map] ${cafe.name} 좌표 변환 성공`, coord);
+      } else {
+        console.warn(`[Map] ${cafe.name} 좌표 변환 실패`, cafe.address);
       }
     }
     setCafeCoordinates(coordinates);
-
     // 중심점 업데이트
     updateMapCenter(coordinates);
-
     // 새로운 마커 생성
     cafes.forEach(cafe => {
       const coord = coordinates[cafe.id];
       if (!coord) return;
-
       const marker = new window.naver.maps.Marker({
         position: new window.naver.maps.LatLng(coord.lat, coord.lng),
         map: mapInstance.current,
@@ -233,8 +245,6 @@ export default function Map({
           anchor: new window.naver.maps.Point(12, 12),
         },
       });
-
-      // 마커 클릭 이벤트
       window.naver.maps.Event.addListener(marker, 'click', () => {
         const newCenter = new window.naver.maps.LatLng(coord.lat, coord.lng);
         mapInstance.current.setCenter(newCenter);
@@ -246,9 +256,10 @@ export default function Map({
         markersRef.current.forEach(m => {
           m.setZIndex(m === marker ? 1000 : 1);
         });
+        console.log(`[Map] 마커 클릭: ${cafe.name}`);
       });
-
       markersRef.current.push(marker);
+      console.log(`[Map] 마커 생성: ${cafe.name}`, coord);
     });
   }, [cafes, getCoordinates, onCafeSelect, updateMapCenter]);
 
