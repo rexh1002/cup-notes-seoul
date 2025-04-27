@@ -191,14 +191,14 @@ export default function Map({
     };
   }, [center.lat, center.lng, zoom]);
 
-  // cafes가 바뀔 때마다 마커만 갱신
+  // 마커가 확대/축소, 필터 적용, 카드 닫기 등에서 사라지지 않도록 의존성 확장
   useEffect(() => {
     if (mapInstance.current) {
-      console.log('[Map] cafes 변경, 마커 갱신');
+      console.log('[Map] 마커 갱신 (cafes/center/zoom/selectedCafe)');
       updateMarkers();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cafes]);
+  }, [cafes, center, zoom, selectedCafe]);
 
   // updateMarkers에서 isInitialLoad 의존성 제거
   const updateMarkers = useCallback(async () => {
