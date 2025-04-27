@@ -396,6 +396,9 @@ export default function HomePage() {
     router.push('/auth/manager/signup');
   };
 
+  // Map 렌더링 로그를 JSX 바깥에서 실행
+  console.log('Map 렌더링', { cafes, searchKeyword });
+
   return (
     <main className="min-h-screen bg-[#F5F2E8] dark:bg-gray-900 transition-colors duration-300">
       {/* 스크롤 프로그레스 바 */}
@@ -659,7 +662,7 @@ export default function HomePage() {
         {/* 지도 섹션 */}
         <section className="relative h-[calc(100vh-4rem)] bg-white dark:bg-gray-800">
           {/* 필터 토글 버튼 */}
-                    <button
+          <button
             onClick={() => setIsFilterOpen(true)}
             className="absolute left-4 top-4 z-10 p-3 bg-white dark:bg-gray-900 rounded-full shadow-lg hover:shadow-xl transition-shadow"
           >
@@ -677,27 +680,15 @@ export default function HomePage() {
                 d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
               />
             </svg>
-                    </button>
+          </button>
 
-          {isLoading ? (
-            <div className="absolute inset-0 flex items-center justify-center">
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                className="w-8 h-8 border-2 border-blue-600 border-t-transparent rounded-full"
-              />
-            </div>
-          ) : (
-            <>
-              {console.log('Map 렌더링', { cafes, searchKeyword })}
-              <Map
-                cafes={cafes}
-                searchKeyword={searchKeyword}
-                onSearch={handleSearch}
-              />
-            </>
-          )}
-          </section>
+          {/* Map 컴포넌트 항상 렌더 */}
+          <Map
+            cafes={cafes}
+            searchKeyword={searchKeyword}
+            onSearch={handleSearch}
+          />
+        </section>
       </div>
 
       {/* 푸터 */}
