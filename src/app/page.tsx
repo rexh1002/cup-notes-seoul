@@ -681,7 +681,25 @@ export default function HomePage() {
               />
             </svg>
           </button>
-
+          {/* FilterPanel을 지도 위에 absolute로 렌더 */}
+          <div className="absolute top-0 left-0 z-50">
+            <FilterPanel
+              isOpen={isFilterOpen}
+              onClose={() => setIsFilterOpen(false)}
+              selectedNotes={selectedNotes}
+              toggleNote={toggleNote}
+              selectedBrewMethods={selectedBrewMethods}
+              toggleBrewMethod={toggleBrewMethod}
+              selectedOrigins={selectedOrigins}
+              toggleOrigin={toggleOrigin}
+              selectedProcesses={selectedProcesses}
+              toggleProcess={toggleProcess}
+              selectedRoast={selectedRoast}
+              toggleRoast={toggleRoast}
+              onReset={handleReset}
+              onApply={handleApply}
+            />
+          </div>
           {/* Map 컴포넌트 항상 렌더 */}
           <Map
             cafes={cafes}

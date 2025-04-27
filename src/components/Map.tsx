@@ -298,6 +298,13 @@ export default function Map({
     }
   }, [selectedCafe, cafeCoordinates]);
 
+  // zoom, center 변경 시에도 마커 갱신
+  useEffect(() => {
+    if (mapInstance.current) {
+      updateMarkers();
+    }
+  }, [zoom, center]);
+
   return (
     <>
       <Script
@@ -309,7 +316,7 @@ export default function Map({
         {/* 실제 지도 */}
         <div
           ref={mapRef}
-          style={{ minHeight: '400px', minWidth: '400px', width: '100%', height: '100%', background: 'rgb(248, 249, 250)', zIndex: 1000, position: 'relative', overflow: 'hidden' }}
+          style={{ minHeight: '400px', minWidth: '400px', width: '100%', height: '100%', background: 'rgb(248, 249, 250)', zIndex: 0, position: 'relative', overflow: 'hidden' }}
         />
 
         {/* 필터 버튼 */}
