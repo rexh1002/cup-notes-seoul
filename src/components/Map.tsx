@@ -68,9 +68,10 @@ export default function Map({
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstance = useRef<any>(null);
   const markersRef = useRef<any[]>([]);
+  const eventListenersRef = useRef<any[]>([]);  // 이벤트 리스너 참조 추가
   const [selectedCafe, setSelectedCafe] = useState<CafeData | null>(null);
-  const [center, setCenter] = useState(initialCenter);
-  const [zoom, setZoom] = useState(initialZoom);
+  const [center, setCenter] = useState<Coordinates>(initialCenter);
+  const [zoom, setZoom] = useState<number>(initialZoom);
   const [cafeCoordinates, setCafeCoordinates] = useState<Record<string, Coordinates>>({});
   const [isInitialLoad, setIsInitialLoad] = useState(true);
 
@@ -106,145 +107,84 @@ export default function Map({
     });
   }, []);
 
-  // 검색된 카페들의 중심점 계산 및 지도 이동
-  const updateMapCenter = useCallback((coordinates: Record<string, Coordinates>) => {
-    if (!mapInstance.current || Object.keys(coordinates).length === 0) return;
+  // 이벤트 리스너 등록 함수
+  const registerMapEvents = useCallback(() => {
+    if (!mapInstance.current || !window.naver || !window.naver.maps) return;
 
-    const coords = Object.values(coordinates);
-    const centerLat = coords.reduce((sum, coord) => sum + coord.lat, 0) / coords.length;
-    const centerLng = coords.reduce((sum, coord) => sum + coord.lng, 0) / coords.length;
-    
-    const newCenter = new window.naver.maps.LatLng(centerLat, centerLng);
-    mapInstance.current.setCenter(newCenter);
-    setCenter({ lat: centerLat, lng: centerLng });
+    // 기존 이벤트 리스너 제거
+    eventListenersRef.current.forEach(listener => {
+      window.naver.maps.Event.removeListener(listener);
+    });
+    eventListenersRef.current = [];
 
-    // 모든 마커가 보이도록 zoom level 조정
-    if (coords.length > 1) {
-      const bounds = new window.naver.maps.LatLngBounds();
-      coords.forEach(coord => {
-        bounds.extend(new window.naver.maps.LatLng(coord.lat, coord.lng));
-      });
-      mapInstance.current.fitBounds(bounds);
-    }
+    const addListener = (eventName: string, handler: (...args: any[]) => void) => {
+      const listener = window.naver.maps.Event.addListener(mapInstance.current, eventName, handler);
+      eventListenersRef.current.push(listener);
+    };
+
+    // 지도 이동 이벤트
+    addListener('dragend', () => {
+      if (!mapInstance.current) return;
+      const mapCenter = mapInstance.current.getCenter();
+      setCenter({ lat: mapCenter.lat(), lng: mapCenter.lng() });
+    });
+
+    // 줌 변경 이벤트
+    addListener('zoom_changed', () => {
+      if (!mapInstance.current) return;
+      setZoom(mapInstance.current.getZoom());
+    });
+
+    // 지도 클릭 이벤트 - 선택된 카페 초기화
+    addListener('click', () => {
+      setSelectedCafe(null);
+    });
+
+    console.log('[Map] 이벤트 리스너 등록 완료');
   }, []);
-
-  // 지도 인스턴스는 한 번만 생성
-  useEffect(() => {
-    console.log('[Map] 컴포넌트 마운트');
-    
-    const adjustMapHeight = () => {
-      if (mapRef.current) {
-        const vh = window.innerHeight * 0.01;
-        document.documentElement.style.setProperty('--vh', `${vh}px`);
-        mapRef.current.style.height = '100%';
-        console.log('[Map] 지도 높이 조정됨');
-      }
-    };
-
-    adjustMapHeight();
-    // passive 옵션 추가
-    window.addEventListener('resize', adjustMapHeight, { passive: true });
-    window.addEventListener('touchstart', adjustMapHeight, { passive: true });
-    window.addEventListener('scroll', adjustMapHeight, { passive: true });
-
-    if (onSearch) {
-      console.log('[Map] 초기 검색 실행: all');
-      onSearch('all');
-    }
-
-    return () => {
-      console.log('[Map] 컴포넌트 언마운트');
-      window.removeEventListener('resize', adjustMapHeight);
-      window.removeEventListener('touchstart', adjustMapHeight);
-      window.removeEventListener('scroll', adjustMapHeight);
-    };
-  }, [onSearch]);
 
   // 지도 인스턴스 생성
   useEffect(() => {
-    let mapLoadInterval: NodeJS.Timeout | null = null;
+    if (!mapRef.current || !window.naver || !window.naver.maps) return;
 
     const initializeMap = () => {
-      if (!window.naver || !window.naver.maps || !mapRef.current) {
-        console.log('[Map] 네이버 지도 객체 또는 맵 참조가 없음');
-        return false;
-      }
-
       try {
+        console.log('[Map] 지도 초기화 시작');
+
         const mapOptions = {
           center: new window.naver.maps.LatLng(initialCenter.lat, initialCenter.lng),
           zoom: initialZoom,
+          minZoom: 10,
+          maxZoom: 21,
           scaleControl: false,
           mapDataControl: false,
           zoomControl: true,
           zoomControlOptions: {
             position: window.naver.maps.Position.TOP_RIGHT,
           },
-          // 스크롤 이벤트 기본 동작 방지
-          scrollWheel: false,
           draggable: true,
           pinchZoom: true,
+          scrollWheel: true,
           keyboardShortcuts: false,
-          disableDoubleClickZoom: true,
-          disableDoubleTapZoom: true,
-          disableTwoFingerTapZoom: true
+          disableDoubleTapZoom: false,
+          disableDoubleClickZoom: false,
+          disableTwoFingerTapZoom: false
         };
 
+        // 기존 인스턴스 제거
         if (mapInstance.current) {
           console.log('[Map] 기존 지도 인스턴스 제거');
           mapInstance.current.destroy();
         }
 
-        console.log('[Map] 새 지도 인스턴스 생성 시작');
+        // 새 인스턴스 생성
         mapInstance.current = new window.naver.maps.Map(mapRef.current, mapOptions);
-        
-        // 이벤트 리스너 등록을 별도 함수로 분리
-        const addEventListeners = () => {
-          if (!mapInstance.current) return;
-
-          // 줌 변경 이벤트
-          const zoomListener = window.naver.maps.Event.addListener(mapInstance.current, 'zoom_changed', () => {
-            if (mapInstance.current) {
-              setZoom(mapInstance.current.getZoom());
-            }
-          });
-
-          // 중심점 변경 이벤트
-          const centerListener = window.naver.maps.Event.addListener(mapInstance.current, 'center_changed', () => {
-            if (mapInstance.current) {
-              const center = mapInstance.current.getCenter();
-              setCenter({ lat: center.lat(), lng: center.lng() });
-            }
-          });
-
-          // 드래그 종료 이벤트
-          const dragEndListener = window.naver.maps.Event.addListener(mapInstance.current, 'dragend', () => {
-            if (mapInstance.current) {
-              const center = mapInstance.current.getCenter();
-              setCenter({ lat: center.lat(), lng: center.lng() });
-            }
-          });
-
-          // 클린업을 위해 리스너 배열 반환
-          return [zoomListener, centerListener, dragEndListener];
-        };
+        console.log('[Map] 새 지도 인스턴스 생성 완료');
 
         // 이벤트 리스너 등록
-        const listeners = addEventListeners();
-        console.log('[Map] 지도 이벤트 리스너 등록 완료');
+        registerMapEvents();
 
-        // 클린업 함수 반환
-        return () => {
-          if (listeners) {
-            listeners.forEach(listener => {
-              window.naver.maps.Event.removeListener(listener);
-            });
-          }
-          if (mapInstance.current) {
-            mapInstance.current.destroy();
-            mapInstance.current = null;
-          }
-        };
+        return true;
       } catch (error) {
         console.error('[Map] 지도 초기화 중 오류 발생:', error);
         return false;
@@ -252,182 +192,98 @@ export default function Map({
     };
 
     // 초기화 시도
-    const cleanup = initializeMap();
-    if (!cleanup) {
-      console.log('[Map] 초기화 재시도를 위한 인터벌 설정');
-      mapLoadInterval = setInterval(() => {
-        const result = initializeMap();
-        if (result) {
-          console.log('[Map] 지도 초기화 성공');
-          if (mapLoadInterval) {
-            clearInterval(mapLoadInterval);
-            mapLoadInterval = null;
-          }
-        }
-      }, 100);
-    }
+    const initialize = () => {
+      const initialized = initializeMap();
+      if (!initialized) {
+        console.log('[Map] 초기화 재시도 예약');
+        setTimeout(initialize, 100);
+      }
+    };
 
-    // 컴포넌트 언마운트 시 정리
+    initialize();
+
+    // cleanup
     return () => {
-      if (mapLoadInterval) {
-        clearInterval(mapLoadInterval);
-      }
-      if (typeof cleanup === 'function') {
-        cleanup();
-      }
+      console.log('[Map] 컴포넌트 정리 시작');
+      // 이벤트 리스너 제거
+      eventListenersRef.current.forEach(listener => {
+        window.naver.maps.Event.removeListener(listener);
+      });
+      eventListenersRef.current = [];
+
+      // 마커 제거
+      markersRef.current.forEach(marker => {
+        marker.setMap(null);
+      });
+      markersRef.current = [];
+
+      // 지도 인스턴스 제거
       if (mapInstance.current) {
         mapInstance.current.destroy();
         mapInstance.current = null;
       }
+      console.log('[Map] 컴포넌트 정리 완료');
     };
-  }, [initialCenter.lat, initialCenter.lng, initialZoom]);
+  }, [initialCenter.lat, initialCenter.lng, initialZoom, registerMapEvents]);
 
-  // updateMarkers 함수를 useCallback으로 감싸고 필요한 의존성 추가
+  // 마커 업데이트 함수
   const updateMarkers = useCallback(async () => {
-    console.log('[Map] updateMarkers 시작', {
-      cafesLength: cafes.length,
-      hasMapInstance: !!mapInstance.current,
-      currentMarkers: markersRef.current.length
-    });
-
     if (!mapInstance.current) {
-      console.warn('[Map] updateMarkers 실패: mapInstance가 없음');
+      console.warn('[Map] 마커 업데이트 실패: 지도 인스턴스 없음');
       return;
     }
 
+    console.log('[Map] 마커 업데이트 시작');
+
     // 기존 마커 제거
-    const prevMarkerCount = markersRef.current.length;
     markersRef.current.forEach(marker => marker.setMap(null));
     markersRef.current = [];
-    console.log('[Map] 기존 마커 제거됨', { prevMarkerCount });
 
-    // 카페 좌표 가져오기
-    const coordinates: Record<string, Coordinates> = {};
-    console.log('[Map] 좌표 변환 시작', { cafeCount: cafes.length });
-    
+    // 새 마커 생성
     for (const cafe of cafes) {
-      const coord = await getCoordinates(cafe.address);
-      if (coord) {
-        coordinates[cafe.id] = coord;
-        console.log(`[Map] 좌표 변환 성공: ${cafe.name}`, coord);
-      } else {
-        console.warn(`[Map] 좌표 변환 실패: ${cafe.name}`, { address: cafe.address });
-      }
-    }
-    
-    console.log('[Map] 모든 좌표 변환 완료', { 
-      successCount: Object.keys(coordinates).length,
-      totalCafes: cafes.length 
-    });
-
-    setCafeCoordinates(coordinates);
-    updateMapCenter(coordinates);
-
-    // 새로운 마커 생성
-    console.log('[Map] 마커 생성 시작');
-    cafes.forEach(cafe => {
-      const coord = coordinates[cafe.id];
-      if (!coord) {
-        console.warn(`[Map] 마커 생성 건너뜀 - 좌표 없음: ${cafe.name}`);
-        return;
-      }
-
       try {
+        const coord = await getCoordinates(cafe.address);
+        if (!coord) {
+          console.warn(`[Map] 좌표 변환 실패: ${cafe.name}`);
+          continue;
+        }
+
         const marker = new window.naver.maps.Marker({
           position: new window.naver.maps.LatLng(coord.lat, coord.lng),
           map: mapInstance.current,
-          title: cafe.name,
+          title: cafe.name
         });
 
-        window.naver.maps.Event.addListener(marker, 'click', () => {
-          console.log(`[Map] 마커 클릭: ${cafe.name}`, { coord });
+        const clickListener = window.naver.maps.Event.addListener(marker, 'click', () => {
+          if (!mapInstance.current) return;
+
           const newCenter = new window.naver.maps.LatLng(coord.lat, coord.lng);
-          mapInstance.current?.setCenter(newCenter);
-          mapInstance.current?.setZoom(15);
+          mapInstance.current.setCenter(newCenter);
+          mapInstance.current.setZoom(15);
           setCenter(coord);
           setSelectedCafe(cafe);
           if (onCafeSelect) onCafeSelect(cafe);
-          
+
+          // 선택된 마커 강조
           markersRef.current.forEach(m => {
             m.setZIndex(m === marker ? 1000 : 1);
           });
         });
 
+        eventListenersRef.current.push(clickListener);
         markersRef.current.push(marker);
-        console.log(`[Map] 마커 생성 성공: ${cafe.name}`);
       } catch (error) {
         console.error(`[Map] 마커 생성 실패: ${cafe.name}`, error);
       }
-    });
-
-    console.log('[Map] 마커 생성 완료', { 
-      createdMarkers: markersRef.current.length,
-      totalCafes: cafes.length 
-    });
-  }, [cafes, getCoordinates, onCafeSelect, updateMapCenter, setCenter, setSelectedCafe, setCafeCoordinates]);
-
-  // 터치 이벤트 핸들러
-  useEffect(() => {
-    const mapRefCurrent = mapRef.current;
-
-    const handleTouchStart = (e: TouchEvent) => {
-      if (e.touches.length === 1) {
-        e.preventDefault();
-      }
-    };
-
-    const handleTouchMove = (e: TouchEvent) => {
-      if (e.touches.length === 1) {
-        e.preventDefault();
-      }
-    };
-
-    if (mapRefCurrent) {
-      mapRefCurrent.addEventListener('touchstart', handleTouchStart, { passive: false });
-      mapRefCurrent.addEventListener('touchmove', handleTouchMove, { passive: false });
     }
 
-    return () => {
-      if (mapRefCurrent) {
-        mapRefCurrent.removeEventListener('touchstart', handleTouchStart);
-        mapRefCurrent.removeEventListener('touchmove', handleTouchMove);
-      }
-    };
-  }, []);
+    console.log('[Map] 마커 업데이트 완료:', markersRef.current.length);
+  }, [cafes, getCoordinates, onCafeSelect]);
 
-  // 마커가 확대/축소, 필터 적용, 카드 닫기 등에서 사라지지 않도록 의존성 확장
+  // 마커 업데이트 트리거
   useEffect(() => {
-    console.log('[Map] useEffect 트리거 - 마커 갱신', {
-      cafesLength: cafes.length,
-      center,
-      zoom,
-      selectedCafe: selectedCafe?.name,
-      hasMapInstance: !!mapInstance.current
-    });
-    
-    if (mapInstance.current) {
-      updateMarkers();
-    }
-  }, [cafes, center, zoom, selectedCafe, updateMarkers]);
-
-  // 선택된 카페가 변경될 때 지도 중심 이동
-  useEffect(() => {
-    console.log('[Map] 선택된 카페 변경', { 
-      cafeName: selectedCafe?.name,
-      hasMapInstance: !!mapInstance.current
-    });
-
-    if (selectedCafe && mapInstance.current) {
-      const coord = cafeCoordinates[selectedCafe.id];
-      if (coord) {
-        console.log(`[Map] 선택된 카페로 지도 중심 이동: ${selectedCafe.name}`, coord);
-        const newCenter = new window.naver.maps.LatLng(coord.lat, coord.lng);
-        mapInstance.current.setCenter(newCenter);
-      } else {
-        console.warn(`[Map] 선택된 카페의 좌표 없음: ${selectedCafe.name}`);
-      }
-    }
-  }, [selectedCafe, cafeCoordinates]);
+    updateMarkers();
+  }, [updateMarkers, center, zoom]);
 
   return (
     <>
