@@ -298,13 +298,6 @@ export default function Map({
     }
   }, [selectedCafe, cafeCoordinates]);
 
-  // zoom, center 변경 시에도 마커 갱신
-  useEffect(() => {
-    if (mapInstance.current) {
-      updateMarkers();
-    }
-  }, [zoom, center]);
-
   return (
     <>
       <Script
@@ -318,44 +311,6 @@ export default function Map({
           ref={mapRef}
           style={{ minHeight: '400px', minWidth: '400px', width: '100%', height: '100%', background: 'rgb(248, 249, 250)', zIndex: 0, position: 'relative', overflow: 'hidden' }}
         />
-
-        {/* 필터 버튼 */}
-        <div className="absolute left-0 bottom-0 bg-white p-6 rounded-tr-3xl flex flex-col gap-4 z-50 shadow-lg">
-          <button
-            onClick={() => onSearch && onSearch('floral')}
-            className="w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center hover:bg-gray-50 transition-colors"
-            title="Floral"
-          >
-            <span className="text-sm font-medium">1</span>
-          </button>
-
-          <button
-            onClick={() => onSearch && onSearch('fruity')}
-            className="w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center hover:bg-gray-50 transition-colors"
-            title="Fruity"
-          >
-            <span className="text-sm font-medium">2</span>
-          </button>
-
-          <button
-            onClick={() => onSearch && onSearch('nutty')}
-            className="w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center hover:bg-gray-50 transition-colors"
-            title="Nutty"
-          >
-            <span className="text-sm font-medium">3</span>
-          </button>
-        </div>
-
-        {/* 전체보기 버튼 */}
-        <div className="absolute right-0 top-0 bg-white p-6 rounded-bl-3xl z-50 shadow-lg">
-          <button
-            onClick={() => onSearch && onSearch('all')}
-            className="w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center hover:bg-gray-50 transition-colors"
-            title="All Cafes"
-          >
-            <span className="text-sm font-medium">4</span>
-          </button>
-        </div>
 
         {selectedCafe && (
           <div className="absolute top-10 left-3 right-5 sm:right-3 z-50 bg-white rounded-lg shadow-lg w-[calc(100%-32px)] sm:w-[328px] max-h-[calc(100vh-12px)] sm:max-h-[calc(100vh-72px)] flex flex-col overflow-hidden">

@@ -581,23 +581,6 @@ export default function HomePage() {
       </AnimatePresence>
 
       {/* 필터 패널 항상 렌더 */}
-      <FilterPanel
-        isOpen={true}
-        onClose={() => setIsFilterOpen(false)}
-        selectedNotes={selectedNotes}
-        toggleNote={toggleNote}
-        selectedBrewMethods={selectedBrewMethods}
-        toggleBrewMethod={toggleBrewMethod}
-        selectedOrigins={selectedOrigins}
-        toggleOrigin={toggleOrigin}
-        selectedProcesses={selectedProcesses}
-        toggleProcess={toggleProcess}
-        selectedRoast={selectedRoast}
-        toggleRoast={toggleRoast}
-        onReset={handleReset}
-        onApply={handleApply}
-      />
-
       {/* 메인 컨텐츠 */}
       <div className="pt-16">
         {/* 히어로 섹션 */}
