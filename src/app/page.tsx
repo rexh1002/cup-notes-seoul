@@ -408,48 +408,53 @@ export default function HomePage() {
       />
 
       {/* 헤더 섹션 */}
-      <header className="fixed top-0 left-0 right-0 bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg z-40">
-        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-          {/* 로고 */}
-          <motion.h1
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
-          >
-            Cup Notes Seoul
-          </motion.h1>
+      <header className="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <div className="flex items-center space-x-2">
+              <Image
+                src="/images/cupnoteicon.png"
+                alt="Cup Notes Seoul Logo"
+                width={32}
+                height={32}
+                className="object-contain"
+              />
+              <Link href="/" className="text-indigo-600 font-semibold text-lg">
+                Cup Notes Seoul
+              </Link>
+            </div>
 
-          {/* 네비게이션 */}
-          <nav className="hidden md:flex items-center space-x-8 relative">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-              onClick={handleThemeToggle}
-            >
-              {theme === 'dark' ? '라이트 모드' : '다크 모드'}
-            </motion.button>
-            {!isLoggedIn && (
-              <>
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                  onClick={handleLogin}
-                >
-                  로그인
-                </motion.button>
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                  onClick={handleSignup}
-                >
-                  회원가입
-                </motion.button>
-                {/* 회원가입 드롭다운 */}
-                {isSignupDropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg z-50 border border-gray-200 dark:border-gray-700">
+            {/* 네비게이션 */}
+            <nav className="hidden md:flex items-center space-x-8 relative">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                onClick={handleThemeToggle}
+              >
+                {theme === 'dark' ? '라이트 모드' : '다크 모드'}
+              </motion.button>
+              {!isLoggedIn && (
+                <>
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                    onClick={handleLogin}
+                  >
+                    로그인
+                  </motion.button>
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                    onClick={handleSignup}
+                  >
+                    회원가입
+                  </motion.button>
+                  {/* 회원가입 드롭다운 */}
+                  {isSignupDropdownOpen && (
+                    <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg z-50 border border-gray-200 dark:border-gray-700">
         <button 
                       className="block w-full text-left px-4 py-3 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-100"
                       onClick={handleUserSignup}
@@ -464,53 +469,54 @@ export default function HomePage() {
         </button>
       </div>
                 )}
-              </>
-            )}
-            {isLoggedIn && (
-              <>
-                {userRole === 'cafeManager' || userRole === 'manager' ? (
+                </>
+              )}
+              {isLoggedIn && (
+                <>
+                  {userRole === 'cafeManager' || userRole === 'manager' ? (
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                      onClick={() => router.push('/manager/dashboard')}
+                    >
+                      내 카페 관리
+                    </motion.button>
+                  ) : null}
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                    onClick={() => router.push('/manager/dashboard')}
+                    onClick={handleLogout}
                   >
-                    내 카페 관리
+                    로그아웃
                   </motion.button>
-                ) : null}
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                  onClick={handleLogout}
-                >
-                  로그아웃
-                </motion.button>
-              </>
-            )}
-          </nav>
+                </>
+              )}
+            </nav>
 
-          {/* 모바일 메뉴 버튼 */}
-          <motion.button
-            whileTap={{ scale: 0.95 }}
-            className="md:hidden p-2"
-            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6 text-gray-700 dark:text-gray-300"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+            {/* 모바일 메뉴 버튼 */}
+            <motion.button
+              whileTap={{ scale: 0.95 }}
+              className="md:hidden p-2"
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            </svg>
-          </motion.button>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6 text-gray-700 dark:text-gray-300"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              </svg>
+            </motion.button>
+          </div>
         </div>
       </header>
 
