@@ -130,67 +130,72 @@ export default function Map({
 
   // 지도 인스턴스는 한 번만 생성
   useEffect(() => {
-    if (typeof window === 'undefined') {
-      console.log('[Map] 브라우저 환경이 아님');
-      return;
-    }
-    let interval: NodeJS.Timeout | null = null;
-    function initializeMap() {
-      console.log('[Map] initializeMap 호출', { naver: !!window.naver, maps: !!window.naver?.maps, mapRef: !!mapRef.current });
-      if (window.naver && window.naver.maps && mapRef.current) {
-        mapInstance.current = new window.naver.maps.Map(mapRef.current, {
-          center: new window.naver.maps.LatLng(center.lat, center.lng),
-          zoom: zoom,
-          minZoom: 10,
-          mapTypeControl: false,
-          scaleControl: false,
-          logoControl: false,
-          mapDataControl: false,
-          zoomControl: true,
-          zoomControlOptions: {
-            position: window.naver.maps.Position.RIGHT_BOTTOM,
-            style: window.naver.maps.ZoomControlStyle.SMALL
-          },
-        });
-        console.log('[Map] 지도 인스턴스 생성됨', mapRef.current);
-        // 지도 이벤트 리스너
-        if (mapInstance.current) {
-          window.naver.maps.Event.addListener(mapInstance.current, 'dragend', () => {
-            const center = mapInstance.current.getCenter();
-            setCenter({ lat: center.y, lng: center.x });
-            console.log('[Map] 지도 dragend', { lat: center.y, lng: center.x });
-          });
-
-          window.naver.maps.Event.addListener(mapInstance.current, 'zoom_changed', () => {
-            setZoom(mapInstance.current.getZoom());
-            console.log('[Map] 지도 zoom_changed', mapInstance.current.getZoom());
-          });
-        }
-        if (interval) clearInterval(interval);
+    console.log('[Map] 컴포넌트 마운트');
+    
+    const adjustMapHeight = () => {
+      if (mapRef.current) {
+        const vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
+        mapRef.current.style.height = '100%';
+        console.log('[Map] 지도 높이 조정됨');
       }
-    }
+    };
 
-    if (window.naver && window.naver.maps && mapRef.current) {
-      console.log('[Map] 네이버 지도 객체 즉시 사용 가능');
-      initializeMap();
-    } else {
-      console.log('[Map] 네이버 지도 객체 대기 중...');
-      interval = setInterval(() => {
-        if (window.naver && window.naver.maps && mapRef.current) {
-          console.log('[Map] 네이버 지도 객체 준비됨, 초기화 시도');
-          initializeMap();
-        }
-      }, 100);
+    adjustMapHeight();
+    // passive 옵션 추가
+    window.addEventListener('resize', adjustMapHeight, { passive: true });
+    window.addEventListener('touchstart', adjustMapHeight, { passive: true });
+    window.addEventListener('scroll', adjustMapHeight, { passive: true });
+
+    if (onSearch) {
+      console.log('[Map] 초기 검색 실행: all');
+      onSearch('all');
     }
 
     return () => {
-      if (interval) clearInterval(interval);
+      console.log('[Map] 컴포넌트 언마운트');
+      window.removeEventListener('resize', adjustMapHeight);
+      window.removeEventListener('touchstart', adjustMapHeight);
+      window.removeEventListener('scroll', adjustMapHeight);
+    };
+  }, [onSearch]);
+
+  // 지도 인스턴스 생성
+  useEffect(() => {
+    if (!mapRef.current) return;
+
+    const mapOptions = {
+      center: new window.naver.maps.LatLng(initialCenter.lat, initialCenter.lng),
+      zoom: initialZoom,
+      scaleControl: false,
+      mapDataControl: false,
+      zoomControl: true,
+      zoomControlOptions: {
+        position: window.naver.maps.Position.TOP_RIGHT,
+      },
+    };
+
+    mapInstance.current = new window.naver.maps.Map(mapRef.current, mapOptions);
+
+    // passive 옵션 추가
+    if (mapInstance.current) {
+      window.naver.maps.Event.addListener(mapInstance.current, 'zoom_changed', () => {
+        setZoom(mapInstance.current.getZoom());
+      }, { passive: true });
+
+      window.naver.maps.Event.addListener(mapInstance.current, 'center_changed', () => {
+        const center = mapInstance.current.getCenter();
+        setCenter({ lat: center.lat(), lng: center.lng() });
+      }, { passive: true });
+    }
+
+    return () => {
       if (mapInstance.current) {
-        window.naver.maps.Event.clearInstanceListeners(mapInstance.current);
-        console.log('[Map] 지도 인스턴스 리스너 해제');
+        mapInstance.current.destroy();
+        mapInstance.current = null;
       }
     };
-  }, [center.lat, center.lng, zoom]);
+  }, [initialCenter.lat, initialCenter.lng, initialZoom]);
 
   // 마커가 확대/축소, 필터 적용, 카드 닫기 등에서 사라지지 않도록 의존성 확장
   useEffect(() => {
@@ -304,33 +309,6 @@ export default function Map({
       totalCafes: cafes.length 
     });
   }, [cafes, getCoordinates, onCafeSelect, updateMapCenter]);
-
-  // 컴포넌트가 마운트될 때 실행
-  useEffect(() => {
-    console.log('[Map] 컴포넌트 마운트');
-    
-    const adjustMapHeight = () => {
-      if (mapRef.current) {
-        const vh = window.innerHeight * 0.01;
-        document.documentElement.style.setProperty('--vh', `${vh}px`);
-        mapRef.current.style.height = '100%';
-        console.log('[Map] 지도 높이 조정됨');
-      }
-    };
-
-    adjustMapHeight();
-    window.addEventListener('resize', adjustMapHeight);
-
-    if (onSearch) {
-      console.log('[Map] 초기 검색 실행: all');
-      onSearch('all');
-    }
-
-    return () => {
-      console.log('[Map] 컴포넌트 언마운트');
-      window.removeEventListener('resize', adjustMapHeight);
-    };
-  }, [onSearch]);
 
   // 선택된 카페가 변경될 때 지도 중심 이동
   useEffect(() => {
