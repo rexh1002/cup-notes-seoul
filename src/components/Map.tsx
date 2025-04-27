@@ -58,7 +58,7 @@ interface Coordinates {
 export default function Map({
   cafes,
   onCafeSelect,
-  initialCenter = { lat: 37.5665, lng: 126.9780 }, // 서울 시청
+  initialCenter = { lat: 37.5665, lng: 126.9780 },
   initialZoom = 13,
   style = { width: '100%', height: '100%' },
   searchKeyword,
@@ -68,7 +68,7 @@ export default function Map({
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstance = useRef<any>(null);
   const markersRef = useRef<any[]>([]);
-  const eventListenersRef = useRef<any[]>([]);  // 이벤트 리스너 참조 추가
+  const eventListenersRef = useRef<any[]>([]);
   const [selectedCafe, setSelectedCafe] = useState<CafeData | null>(null);
   const [center, setCenter] = useState<Coordinates>(initialCenter);
   const [zoom, setZoom] = useState<number>(initialZoom);
@@ -143,11 +143,33 @@ export default function Map({
     console.log('[Map] 이벤트 리스너 등록 완료');
   }, []);
 
+  // 지도 컨테이너 크기 조정
+  useEffect(() => {
+    const adjustMapSize = () => {
+      if (mapRef.current) {
+        const vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
+        mapRef.current.style.height = `calc(100vh - 64px)`; // 헤더 높이 제외
+        console.log('[Map] 지도 컨테이너 크기 조정됨');
+      }
+    };
+
+    adjustMapSize();
+    window.addEventListener('resize', adjustMapSize);
+
+    return () => {
+      window.removeEventListener('resize', adjustMapSize);
+    };
+  }, []);
+
   // 지도 인스턴스 생성
   useEffect(() => {
-    if (!mapRef.current || !window.naver || !window.naver.maps) return;
-
     const initializeMap = () => {
+      if (!window.naver || !window.naver.maps || !mapRef.current) {
+        console.log('[Map] 네이버 지도 객체 또는 맵 참조 없음');
+        return false;
+      }
+
       try {
         console.log('[Map] 지도 초기화 시작');
 
@@ -162,22 +184,24 @@ export default function Map({
           zoomControlOptions: {
             position: window.naver.maps.Position.TOP_RIGHT,
           },
-          draggable: true,
-          pinchZoom: true,
-          scrollWheel: true,
-          keyboardShortcuts: false,
-          disableDoubleTapZoom: false,
-          disableDoubleClickZoom: false,
-          disableTwoFingerTapZoom: false
         };
 
         // 기존 인스턴스 제거
         if (mapInstance.current) {
           console.log('[Map] 기존 지도 인스턴스 제거');
           mapInstance.current.destroy();
+          mapInstance.current = null;
         }
 
         // 새 인스턴스 생성
+        console.log('[Map] 새 지도 인스턴스 생성 시도', {
+          containerSize: {
+            width: mapRef.current.clientWidth,
+            height: mapRef.current.clientHeight
+          },
+          options: mapOptions
+        });
+
         mapInstance.current = new window.naver.maps.Map(mapRef.current, mapOptions);
         console.log('[Map] 새 지도 인스턴스 생성 완료');
 
@@ -196,13 +220,25 @@ export default function Map({
       const initialized = initializeMap();
       if (!initialized) {
         console.log('[Map] 초기화 재시도 예약');
-        setTimeout(initialize, 100);
+        setTimeout(initialize, 500); // 대기 시간 증가
       }
     };
 
-    initialize();
+    // 스크립트 로드 확인 후 초기화
+    if (window.naver && window.naver.maps) {
+      initialize();
+    } else {
+      console.log('[Map] 네이버 지도 스크립트 로드 대기');
+      const checkScript = setInterval(() => {
+        if (window.naver && window.naver.maps) {
+          clearInterval(checkScript);
+          initialize();
+        }
+      }, 100);
 
-    // cleanup
+      return () => clearInterval(checkScript);
+    }
+
     return () => {
       console.log('[Map] 컴포넌트 정리 시작');
       // 이벤트 리스너 제거
@@ -292,13 +328,14 @@ export default function Map({
         strategy="afterInteractive"
         onLoad={() => console.log('[Map] 네이버 지도 스크립트 로드 완료')}
       />
-      <div className="relative w-full h-full">
-        {/* 실제 지도 */}
-        <div
-          ref={mapRef}
-          style={{ minHeight: '400px', minWidth: '400px', width: '100%', height: '100%', background: 'rgb(248, 249, 250)', zIndex: 0, position: 'relative', overflow: 'hidden' }}
-        />
-
+      <div 
+        ref={mapRef} 
+        className="relative w-full h-full min-h-[400px] bg-gray-100"
+        style={{
+          ...style,
+          height: 'calc(100vh - 64px)', // 헤더 높이 제외
+        }}
+      >
         {selectedCafe && (
           <div className="absolute top-10 left-3 right-5 sm:right-3 z-50 bg-white rounded-lg shadow-lg w-[calc(100%-32px)] sm:w-[328px] max-h-[calc(100vh-12px)] sm:max-h-[calc(100vh-72px)] flex flex-col overflow-hidden">
             {/* 카페 이미지 섹션 */}
