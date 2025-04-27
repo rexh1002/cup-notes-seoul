@@ -206,12 +206,18 @@ export default function Map({
       console.log('[Map] updateMarkers: mapInstance 없음');
       return;
     }
+    console.log('[Map] updateMarkers 진입, cafes:', cafes.length);
+
     // 기존 마커 제거
+    console.log('[Map] 기존 마커 제거 시작, 개수:', markersRef.current.length);
     markersRef.current.forEach(marker => marker.setMap(null));
     markersRef.current = [];
+    console.log('[Map] 기존 마커 제거 완료');
+
     // 카페 좌표 가져오기
     const coordinates: Record<string, Coordinates> = {};
     for (const cafe of cafes) {
+      console.log(`[Map] 좌표 변환 시작: ${cafe.name}`);
       const coord = await getCoordinates(cafe.address);
       if (coord) {
         coordinates[cafe.id] = coord;
@@ -221,9 +227,12 @@ export default function Map({
       }
     }
     setCafeCoordinates(coordinates);
+
     // 중심점 업데이트
     updateMapCenter(coordinates);
+
     // 새로운 마커 생성
+    console.log('[Map] 마커 생성 시작, cafes:', cafes.length);
     cafes.forEach(cafe => {
       const coord = coordinates[cafe.id];
       if (!coord) return;
@@ -262,6 +271,8 @@ export default function Map({
       markersRef.current.push(marker);
       console.log(`[Map] 마커 생성: ${cafe.name}`, coord);
     });
+    console.log('[Map] 마커 생성 완료, 총 개수:', markersRef.current.length);
+    console.log('[Map] updateMarkers 종료');
   }, [cafes, getCoordinates, onCafeSelect, updateMapCenter]);
 
   // 컴포넌트가 마운트될 때 실행
