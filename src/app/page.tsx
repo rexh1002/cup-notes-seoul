@@ -416,7 +416,7 @@ export default function HomePage() {
       />
 
       {/* 헤더 섹션 */}
-      <header className="bg-white shadow-sm">
+      <header className="fixed top-0 left-0 right-0 bg-white shadow-sm z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
@@ -528,7 +528,7 @@ export default function HomePage() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="fixed top-16 left-0 right-0 bg-white dark:bg-gray-900 shadow-lg z-30 md:hidden"
+            className="fixed top-16 left-0 right-0 bg-white dark:bg-gray-900 shadow-lg z-40 md:hidden"
           >
             <div className="container mx-auto py-4 px-4 space-y-4">
                         <button
