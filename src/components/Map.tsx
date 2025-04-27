@@ -282,49 +282,7 @@ export default function Map({
     };
   }, [initialCenter.lat, initialCenter.lng, initialZoom]);
 
-  // 터치 이벤트 핸들러
-  useEffect(() => {
-    const handleTouchStart = (e: TouchEvent) => {
-      if (e.touches.length === 1) {
-        e.preventDefault();
-      }
-    };
-
-    const handleTouchMove = (e: TouchEvent) => {
-      if (e.touches.length === 1) {
-        e.preventDefault();
-      }
-    };
-
-    if (mapRef.current) {
-      mapRef.current.addEventListener('touchstart', handleTouchStart, { passive: false });
-      mapRef.current.addEventListener('touchmove', handleTouchMove, { passive: false });
-    }
-
-    return () => {
-      if (mapRef.current) {
-        mapRef.current.removeEventListener('touchstart', handleTouchStart);
-        mapRef.current.removeEventListener('touchmove', handleTouchMove);
-      }
-    };
-  }, []);
-
-  // 마커가 확대/축소, 필터 적용, 카드 닫기 등에서 사라지지 않도록 의존성 확장
-  useEffect(() => {
-    console.log('[Map] useEffect 트리거 - 마커 갱신', {
-      cafesLength: cafes.length,
-      center,
-      zoom,
-      selectedCafe: selectedCafe?.name,
-      hasMapInstance: !!mapInstance.current
-    });
-    
-    if (mapInstance.current) {
-      updateMarkers();
-    }
-  }, [cafes, center, zoom, selectedCafe]);
-
-  // updateMarkers에서 isInitialLoad 의존성 제거
+  // updateMarkers 함수를 useCallback으로 감싸고 필요한 의존성 추가
   const updateMarkers = useCallback(async () => {
     console.log('[Map] updateMarkers 시작', {
       cafesLength: cafes.length,
@@ -379,27 +337,13 @@ export default function Map({
           position: new window.naver.maps.LatLng(coord.lat, coord.lng),
           map: mapInstance.current,
           title: cafe.name,
-          icon: {
-            content: [
-              '<div style="cursor:pointer;width:24px;height:24px;line-height:24px;',
-              'background:#000000;border-radius:50%;position:relative;">',
-              '<div style="position:absolute;width:12px;height:10px;',
-              'background:#FFFFFF;mask:url(\'data:image/svg+xml,<svg xmlns=\\\'http://www.w3.org/2000/svg\\\' viewBox=\\\'0 0 12 10\\\'><path d=\\\'M2 1h8v6a2 2 0 01-2 2H4a2 2 0 01-2-2V1z\\\' fill=\\\'white\\\'/><path d=\\\'M9 3a2 2 0 100 4\\\' fill=\\\'white\\\'/></svg>\');',
-              '-webkit-mask:url(\'data:image/svg+xml,<svg xmlns=\\\'http://www.w3.org/2000/svg\\\' viewBox=\\\'0 0 12 10\\\'><path d=\\\'M2 1h8v6a2 2 0 01-2 2H4a2 2 0 01-2-2V1z\\\' fill=\\\'white\\\'/><path d=\\\'M9 3a2 2 0 100 4\\\' fill=\\\'white\\\'/></svg>\');',
-              'transform:translate(-50%,-50%);left:50%;top:50%">',
-              '</div>',
-              '</div>'
-            ].join(''),
-            size: new window.naver.maps.Size(24, 24),
-            anchor: new window.naver.maps.Point(12, 12),
-          },
         });
 
         window.naver.maps.Event.addListener(marker, 'click', () => {
           console.log(`[Map] 마커 클릭: ${cafe.name}`, { coord });
           const newCenter = new window.naver.maps.LatLng(coord.lat, coord.lng);
-          mapInstance.current.setCenter(newCenter);
-          mapInstance.current.setZoom(15);
+          mapInstance.current?.setCenter(newCenter);
+          mapInstance.current?.setZoom(15);
           setCenter(coord);
           setSelectedCafe(cafe);
           if (onCafeSelect) onCafeSelect(cafe);
@@ -420,7 +364,51 @@ export default function Map({
       createdMarkers: markersRef.current.length,
       totalCafes: cafes.length 
     });
-  }, [cafes, getCoordinates, onCafeSelect, updateMapCenter]);
+  }, [cafes, getCoordinates, onCafeSelect, updateMapCenter, setCenter, setSelectedCafe, setCafeCoordinates]);
+
+  // 터치 이벤트 핸들러
+  useEffect(() => {
+    const mapRefCurrent = mapRef.current;
+
+    const handleTouchStart = (e: TouchEvent) => {
+      if (e.touches.length === 1) {
+        e.preventDefault();
+      }
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (e.touches.length === 1) {
+        e.preventDefault();
+      }
+    };
+
+    if (mapRefCurrent) {
+      mapRefCurrent.addEventListener('touchstart', handleTouchStart, { passive: false });
+      mapRefCurrent.addEventListener('touchmove', handleTouchMove, { passive: false });
+    }
+
+    return () => {
+      if (mapRefCurrent) {
+        mapRefCurrent.removeEventListener('touchstart', handleTouchStart);
+        mapRefCurrent.removeEventListener('touchmove', handleTouchMove);
+      }
+    };
+  }, []);
+
+  // 마커가 확대/축소, 필터 적용, 카드 닫기 등에서 사라지지 않도록 의존성 확장
+  useEffect(() => {
+    console.log('[Map] useEffect 트리거 - 마커 갱신', {
+      cafesLength: cafes.length,
+      center,
+      zoom,
+      selectedCafe: selectedCafe?.name,
+      hasMapInstance: !!mapInstance.current
+    });
+    
+    if (mapInstance.current) {
+      updateMarkers();
+    }
+  }, [cafes, center, zoom, selectedCafe, updateMarkers]);
 
   // 선택된 카페가 변경될 때 지도 중심 이동
   useEffect(() => {
