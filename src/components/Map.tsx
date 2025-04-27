@@ -164,31 +164,69 @@ export default function Map({
   useEffect(() => {
     if (!mapRef.current) return;
 
-    const mapOptions = {
-      center: new window.naver.maps.LatLng(initialCenter.lat, initialCenter.lng),
-      zoom: initialZoom,
-      scaleControl: false,
-      mapDataControl: false,
-      zoomControl: true,
-      zoomControlOptions: {
-        position: window.naver.maps.Position.TOP_RIGHT,
-      },
+    const initializeMap = () => {
+      if (!window.naver || !window.naver.maps) {
+        console.log('[Map] 네이버 지도 객체가 아직 로드되지 않음');
+        return false;
+      }
+
+      try {
+        const mapOptions = {
+          center: new window.naver.maps.LatLng(initialCenter.lat, initialCenter.lng),
+          zoom: initialZoom,
+          scaleControl: false,
+          mapDataControl: false,
+          zoomControl: true,
+          zoomControlOptions: {
+            position: window.naver.maps.Position.TOP_RIGHT,
+          },
+        };
+
+        mapInstance.current = new window.naver.maps.Map(mapRef.current, mapOptions);
+        console.log('[Map] 지도 인스턴스 생성 성공');
+
+        // passive 옵션 추가
+        if (mapInstance.current) {
+          window.naver.maps.Event.addListener(mapInstance.current, 'zoom_changed', () => {
+            setZoom(mapInstance.current.getZoom());
+          }, { passive: true });
+
+          window.naver.maps.Event.addListener(mapInstance.current, 'center_changed', () => {
+            const center = mapInstance.current.getCenter();
+            setCenter({ lat: center.lat(), lng: center.lng() });
+          }, { passive: true });
+        }
+
+        return true;
+      } catch (error) {
+        console.error('[Map] 지도 초기화 중 오류 발생:', error);
+        return false;
+      }
     };
 
-    mapInstance.current = new window.naver.maps.Map(mapRef.current, mapOptions);
+    // 초기화 시도
+    let initialized = initializeMap();
+    if (!initialized) {
+      console.log('[Map] 초기화 재시도를 위한 인터벌 설정');
+      const interval = setInterval(() => {
+        initialized = initializeMap();
+        if (initialized) {
+          console.log('[Map] 지도 초기화 성공');
+          clearInterval(interval);
+        }
+      }, 100);
 
-    // passive 옵션 추가
-    if (mapInstance.current) {
-      window.naver.maps.Event.addListener(mapInstance.current, 'zoom_changed', () => {
-        setZoom(mapInstance.current.getZoom());
-      }, { passive: true });
-
-      window.naver.maps.Event.addListener(mapInstance.current, 'center_changed', () => {
-        const center = mapInstance.current.getCenter();
-        setCenter({ lat: center.lat(), lng: center.lng() });
-      }, { passive: true });
+      // cleanup
+      return () => {
+        clearInterval(interval);
+        if (mapInstance.current) {
+          mapInstance.current.destroy();
+          mapInstance.current = null;
+        }
+      };
     }
 
+    // 바로 초기화된 경우의 cleanup
     return () => {
       if (mapInstance.current) {
         mapInstance.current.destroy();
