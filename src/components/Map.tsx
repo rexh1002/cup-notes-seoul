@@ -290,19 +290,19 @@ export default function Map({
           title: cafe.name,
           icon: {
             content: [
-              '<div class="marker-container" style="cursor:pointer;width:40px;height:40px;position:relative;">',
-              '<div style="position:absolute;width:40px;height:40px;background:#4A60A1;border-radius:50%;box-shadow:0 2px 6px rgba(0,0,0,0.3);',
+              '<div class="marker-container" style="cursor:pointer;width:36px;height:36px;position:relative;">',
+              '<div style="position:absolute;width:36px;height:36px;background:#FF4B4B;border-radius:50%;box-shadow:0 2px 6px rgba(0,0,0,0.2);',
               'display:flex;justify-content:center;align-items:center;transform-origin:center bottom;">',
-              '<div style="width:24px;height:24px;background:#FFFFFF;mask:url(\'data:image/svg+xml,<svg xmlns=\\\'http://www.w3.org/2000/svg\\\' viewBox=\\\'0 0 24 24\\\'><path d=\\\'M2 21h20v-2H2v2zM20 8h-3V4H7v4H4c-1.1 0-2 .9-2 2v3c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-3c0-1.1-.9-2-2-2zm-1 3H5V9h14v2zm-9-4h4V6h-4v1z\\\' fill=\\\'white\\\'/></svg>\');',
-              '-webkit-mask:url(\'data:image/svg+xml,<svg xmlns=\\\'http://www.w3.org/2000/svg\\\' viewBox=\\\'0 0 24 24\\\'><path d=\\\'M2 21h20v-2H2v2zM20 8h-3V4H7v4H4c-1.1 0-2 .9-2 2v3c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-3c0-1.1-.9-2-2-2zm-1 3H5V9h14v2zm-9-4h4V6h-4v1z\\\' fill=\\\'white\\\'/></svg>\');',
+              '<div style="width:20px;height:20px;background:#FFFFFF;mask:url(\'data:image/svg+xml,<svg xmlns=\\\'http://www.w3.org/2000/svg\\\' viewBox=\\\'0 0 24 24\\\'><path d=\\\'M2 21v-2h18v2H2zM20 8V5h-3V3H7v2H4v3H2v3h18V8h-2zM7 5v1h10V5H7z\\\' fill=\\\'white\\\'/></svg>\');',
+              '-webkit-mask:url(\'data:image/svg+xml,<svg xmlns=\\\'http://www.w3.org/2000/svg\\\' viewBox=\\\'0 0 24 24\\\'><path d=\\\'M2 21v-2h18v2H2zM20 8V5h-3V3H7v2H4v3H2v3h18V8h-2zM7 5v1h10V5H7z\\\' fill=\\\'white\\\'/></svg>\');',
               'mask-size:cover;-webkit-mask-size:cover;"></div>',
               '</div>',
               '<div style="position:absolute;bottom:-2px;left:50%;transform:translateX(-50%);width:0;height:0;',
-              'border-left:8px solid transparent;border-right:8px solid transparent;border-top:10px solid #4A60A1;"></div>',
+              'border-left:6px solid transparent;border-right:6px solid transparent;border-top:8px solid #FF4B4B;"></div>',
               '</div>'
             ].join(''),
-            size: new window.naver.maps.Size(40, 50),
-            anchor: new window.naver.maps.Point(20, 50),
+            size: new window.naver.maps.Size(36, 44),
+            anchor: new window.naver.maps.Point(18, 44),
           }
         });
 
