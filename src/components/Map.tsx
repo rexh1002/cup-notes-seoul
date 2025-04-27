@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, useCallback } from 'react';
 import Image from 'next/image';
-import { Cafe } from '../types/types';
+import { Cafe } from '@/types/types';
 import Script from 'next/script';
 
 declare global {
@@ -41,13 +41,13 @@ interface CafeData {
 }
 
 interface MapProps {
-  cafes: CafeData[];
-  onCafeSelect?: (cafe: CafeData) => void;
+  cafes: Cafe[];
+  onCafeSelect: (cafe: Cafe) => void;
   initialCenter?: { lat: number; lng: number };
   initialZoom?: number;
   style?: React.CSSProperties;
   searchKeyword?: string;
-  onSearch?: (category: string) => void;
+  onSearch?: (keyword: string) => void;
 }
 
 interface Coordinates {

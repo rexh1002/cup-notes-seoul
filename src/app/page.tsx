@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import dynamic from 'next/dynamic';
 import CoffeeSearch from '../components/coffee/coffee-search';
 import SearchResults from '../components/coffee/search-results';
@@ -13,6 +13,7 @@ import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from 'next-themes';
 import FilterPanel from '../components/FilterPanel';
+import { AdjustmentsHorizontalIcon } from '@heroicons/react/24/outline';
 
 const Map = dynamic(() => import('../components/Map'), {
  ssr: false
@@ -61,6 +62,8 @@ export default function HomePage() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isSignupDropdownOpen, setIsSignupDropdownOpen] = useState(false);
+  const [isFiltersOpen, setIsFiltersOpen] = useState(false);
+  const [selectedCafe, setSelectedCafe] = useState<Cafe | null>(null);
 
   const hasSelections = selectedNotes.length > 0 || 
     selectedBrewMethods.length > 0 || 
@@ -399,6 +402,11 @@ export default function HomePage() {
   // Map 렌더링 로그를 JSX 바깥에서 실행
   console.log('Map 렌더링', { cafes, searchKeyword });
 
+  // 카페 선택 핸들러
+  const handleCafeSelect = (cafe: Cafe) => {
+    setSelectedCafe(cafe);
+  };
+
   return (
     <main className="min-h-screen bg-[#F5F2E8] dark:bg-gray-900 transition-colors duration-300 overflow-y-auto">
       {/* 스크롤 프로그레스 바 */}
@@ -649,53 +657,26 @@ export default function HomePage() {
         </section>
 
         {/* 지도 섹션 */}
-        <section className="relative h-[calc(100vh-4rem)] bg-white dark:bg-gray-800 overflow-y-auto">
-          {/* 필터 토글 버튼 */}
-                    <button
+        <section className="relative w-full h-[calc(100vh-4rem)]">
+          {/* 필터 버튼 */}
+          <button
             onClick={() => setIsFilterOpen(true)}
-            className="absolute left-4 top-4 z-10 p-3 bg-white dark:bg-gray-900 rounded-full shadow-lg hover:shadow-xl transition-shadow"
+            className="absolute top-4 left-4 z-10 flex items-center gap-2 bg-white rounded-full px-4 py-2 shadow-lg hover:shadow-xl transition-shadow"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
-              />
-            </svg>
-                    </button>
-          {/* FilterPanel을 지도 위에 absolute로 렌더 */}
-          <div className="absolute top-0 left-0 z-50">
-            <FilterPanel
-              isOpen={isFilterOpen}
-              onClose={() => setIsFilterOpen(false)}
-              selectedNotes={selectedNotes}
-              toggleNote={toggleNote}
-              selectedBrewMethods={selectedBrewMethods}
-              toggleBrewMethod={toggleBrewMethod}
-              selectedOrigins={selectedOrigins}
-              toggleOrigin={toggleOrigin}
-              selectedProcesses={selectedProcesses}
-              toggleProcess={toggleProcess}
-              selectedRoast={selectedRoast}
-              toggleRoast={toggleRoast}
-              onReset={handleReset}
-              onApply={handleApply}
-            />
-                </div>
-          {/* Map 컴포넌트 항상 렌더 */}
+            <div className="flex items-center justify-center w-8 h-8 bg-indigo-600 rounded-full">
+              <AdjustmentsHorizontalIcon className="w-5 h-5 text-white" />
+            </div>
+            <span className="text-sm font-medium text-gray-700">필터 설정</span>
+          </button>
+
+          {/* 지도 컴포넌트 */}
           <Map
             cafes={cafes}
+            onCafeSelect={handleCafeSelect}
             searchKeyword={searchKeyword}
             onSearch={handleSearch}
           />
-          </section>
+        </section>
       </div>
 
       {/* 푸터 */}
