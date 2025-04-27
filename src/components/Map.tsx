@@ -287,8 +287,43 @@ export default function Map({
         const marker = new window.naver.maps.Marker({
           position: new window.naver.maps.LatLng(coord.lat, coord.lng),
           map: mapInstance.current,
-          title: cafe.name
+          title: cafe.name,
+          icon: {
+            content: [
+              '<div class="marker-container" style="cursor:pointer;width:40px;height:40px;position:relative;">',
+              '<div style="position:absolute;width:40px;height:40px;background:#4A60A1;border-radius:50%;box-shadow:0 2px 6px rgba(0,0,0,0.3);',
+              'display:flex;justify-content:center;align-items:center;transform-origin:center bottom;">',
+              '<div style="width:24px;height:24px;background:#FFFFFF;mask:url(\'data:image/svg+xml,<svg xmlns=\\\'http://www.w3.org/2000/svg\\\' viewBox=\\\'0 0 24 24\\\'><path d=\\\'M2 21h20v-2H2v2zM20 8h-3V4H7v4H4c-1.1 0-2 .9-2 2v3c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-3c0-1.1-.9-2-2-2zm-1 3H5V9h14v2zm-9-4h4V6h-4v1z\\\' fill=\\\'white\\\'/></svg>\');',
+              '-webkit-mask:url(\'data:image/svg+xml,<svg xmlns=\\\'http://www.w3.org/2000/svg\\\' viewBox=\\\'0 0 24 24\\\'><path d=\\\'M2 21h20v-2H2v2zM20 8h-3V4H7v4H4c-1.1 0-2 .9-2 2v3c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-3c0-1.1-.9-2-2-2zm-1 3H5V9h14v2zm-9-4h4V6h-4v1z\\\' fill=\\\'white\\\'/></svg>\');',
+              'mask-size:cover;-webkit-mask-size:cover;"></div>',
+              '</div>',
+              '<div style="position:absolute;bottom:-2px;left:50%;transform:translateX(-50%);width:0;height:0;',
+              'border-left:8px solid transparent;border-right:8px solid transparent;border-top:10px solid #4A60A1;"></div>',
+              '</div>'
+            ].join(''),
+            size: new window.naver.maps.Size(40, 50),
+            anchor: new window.naver.maps.Point(20, 50),
+          }
         });
+
+        // 마커 호버 효과 추가
+        const markerDom = marker.getElement();
+        if (markerDom) {
+          markerDom.addEventListener('mouseover', () => {
+            const container = markerDom.querySelector('.marker-container');
+            if (container) {
+              container.style.transform = 'scale(1.1)';
+              container.style.transition = 'transform 0.2s ease';
+            }
+          });
+
+          markerDom.addEventListener('mouseout', () => {
+            const container = markerDom.querySelector('.marker-container');
+            if (container) {
+              container.style.transform = 'scale(1)';
+            }
+          });
+        }
 
         const clickListener = window.naver.maps.Event.addListener(marker, 'click', () => {
           if (!mapInstance.current) return;
