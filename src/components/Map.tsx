@@ -162,11 +162,11 @@ export default function Map({
 
   // 지도 인스턴스 생성
   useEffect(() => {
-    if (!mapRef.current) return;
+    let mapLoadInterval: NodeJS.Timeout | null = null;
 
     const initializeMap = () => {
-      if (!window.naver || !window.naver.maps) {
-        console.log('[Map] 네이버 지도 객체가 아직 로드되지 않음');
+      if (!window.naver || !window.naver.maps || !mapRef.current) {
+        console.log('[Map] 네이버 지도 객체 또는 맵 참조가 없음');
         return false;
       }
 
@@ -180,24 +180,71 @@ export default function Map({
           zoomControlOptions: {
             position: window.naver.maps.Position.TOP_RIGHT,
           },
+          // 스크롤 이벤트 기본 동작 방지
+          scrollWheel: false,
+          draggable: true,
+          pinchZoom: true,
+          keyboardShortcuts: false,
+          disableDoubleClickZoom: true,
+          disableDoubleTapZoom: true,
+          disableTwoFingerTapZoom: true
         };
 
-        mapInstance.current = new window.naver.maps.Map(mapRef.current, mapOptions);
-        console.log('[Map] 지도 인스턴스 생성 성공');
-
-        // passive 옵션 추가
         if (mapInstance.current) {
-          window.naver.maps.Event.addListener(mapInstance.current, 'zoom_changed', () => {
-            setZoom(mapInstance.current.getZoom());
-          }, { passive: true });
-
-          window.naver.maps.Event.addListener(mapInstance.current, 'center_changed', () => {
-            const center = mapInstance.current.getCenter();
-            setCenter({ lat: center.lat(), lng: center.lng() });
-          }, { passive: true });
+          console.log('[Map] 기존 지도 인스턴스 제거');
+          mapInstance.current.destroy();
         }
 
-        return true;
+        console.log('[Map] 새 지도 인스턴스 생성 시작');
+        mapInstance.current = new window.naver.maps.Map(mapRef.current, mapOptions);
+        
+        // 이벤트 리스너 등록을 별도 함수로 분리
+        const addEventListeners = () => {
+          if (!mapInstance.current) return;
+
+          // 줌 변경 이벤트
+          const zoomListener = window.naver.maps.Event.addListener(mapInstance.current, 'zoom_changed', () => {
+            if (mapInstance.current) {
+              setZoom(mapInstance.current.getZoom());
+            }
+          });
+
+          // 중심점 변경 이벤트
+          const centerListener = window.naver.maps.Event.addListener(mapInstance.current, 'center_changed', () => {
+            if (mapInstance.current) {
+              const center = mapInstance.current.getCenter();
+              setCenter({ lat: center.lat(), lng: center.lng() });
+            }
+          });
+
+          // 드래그 종료 이벤트
+          const dragEndListener = window.naver.maps.Event.addListener(mapInstance.current, 'dragend', () => {
+            if (mapInstance.current) {
+              const center = mapInstance.current.getCenter();
+              setCenter({ lat: center.lat(), lng: center.lng() });
+            }
+          });
+
+          // 클린업을 위해 리스너 배열 반환
+          return [zoomListener, centerListener, dragEndListener];
+        };
+
+        // 이벤트 리스너 등록
+        const listeners = addEventListeners();
+        console.log('[Map] 지도 이벤트 리스너 등록 완료');
+
+        // 클린업 함수 반환
+        return () => {
+          if (listeners) {
+            listeners.forEach(listener => {
+              window.naver.maps.Event.removeListener(listener);
+            });
+          }
+          if (mapInstance.current) {
+            mapInstance.current.destroy();
+            mapInstance.current = null;
+          }
+        };
       } catch (error) {
         console.error('[Map] 지도 초기화 중 오류 발생:', error);
         return false;
@@ -205,35 +252,62 @@ export default function Map({
     };
 
     // 초기화 시도
-    let initialized = initializeMap();
-    if (!initialized) {
+    const cleanup = initializeMap();
+    if (!cleanup) {
       console.log('[Map] 초기화 재시도를 위한 인터벌 설정');
-      const interval = setInterval(() => {
-        initialized = initializeMap();
-        if (initialized) {
+      mapLoadInterval = setInterval(() => {
+        const result = initializeMap();
+        if (result) {
           console.log('[Map] 지도 초기화 성공');
-          clearInterval(interval);
+          if (mapLoadInterval) {
+            clearInterval(mapLoadInterval);
+            mapLoadInterval = null;
+          }
         }
       }, 100);
-
-      // cleanup
-      return () => {
-        clearInterval(interval);
-        if (mapInstance.current) {
-          mapInstance.current.destroy();
-          mapInstance.current = null;
-        }
-      };
     }
 
-    // 바로 초기화된 경우의 cleanup
+    // 컴포넌트 언마운트 시 정리
     return () => {
+      if (mapLoadInterval) {
+        clearInterval(mapLoadInterval);
+      }
+      if (typeof cleanup === 'function') {
+        cleanup();
+      }
       if (mapInstance.current) {
         mapInstance.current.destroy();
         mapInstance.current = null;
       }
     };
   }, [initialCenter.lat, initialCenter.lng, initialZoom]);
+
+  // 터치 이벤트 핸들러
+  useEffect(() => {
+    const handleTouchStart = (e: TouchEvent) => {
+      if (e.touches.length === 1) {
+        e.preventDefault();
+      }
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (e.touches.length === 1) {
+        e.preventDefault();
+      }
+    };
+
+    if (mapRef.current) {
+      mapRef.current.addEventListener('touchstart', handleTouchStart, { passive: false });
+      mapRef.current.addEventListener('touchmove', handleTouchMove, { passive: false });
+    }
+
+    return () => {
+      if (mapRef.current) {
+        mapRef.current.removeEventListener('touchstart', handleTouchStart);
+        mapRef.current.removeEventListener('touchmove', handleTouchMove);
+      }
+    };
+  }, []);
 
   // 마커가 확대/축소, 필터 적용, 카드 닫기 등에서 사라지지 않도록 의존성 확장
   useEffect(() => {
