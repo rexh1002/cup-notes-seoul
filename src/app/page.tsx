@@ -416,18 +416,11 @@ export default function HomePage() {
       />
 
       {/* 헤더 섹션 */}
-      <header className="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+      <header className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-3">
-              <Image
-                src="/images/cupnoteicon.png"
-                alt="Cup Notes Seoul Logo"
-                width={40}
-                height={40}
-                className="object-contain"
-              />
-              <Link href="/" className="text-indigo-600 font-semibold text-2xl">
+            <div className="flex items-center">
+              <Link href="/" className="text-indigo-600 font-semibold text-3xl">
                 Cup Notes Seoul
               </Link>
             </div>
