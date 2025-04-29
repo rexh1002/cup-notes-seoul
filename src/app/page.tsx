@@ -666,24 +666,27 @@ export default function HomePage() {
           <div className="absolute top-40 left-4 z-50 flex gap-3">
             <button
               onClick={() => handleCategorySearch('floral')}
-              className="flex items-center gap-2 px-5 py-2 rounded-full border border-gray-200 bg-white/80 text-indigo-600 font-medium shadow-sm hover:bg-indigo-50 hover:border-indigo-300 transition-all backdrop-blur"
+              className="flex items-center gap-2 px-6 py-2 rounded-full bg-white/60 border border-gray-200 shadow-sm backdrop-blur-md transition-all hover:bg-white/80 hover:border-pink-300 hover:scale-105 hover:shadow-lg active:scale-100"
+              style={{ boxShadow: '0 2px 12px 0 rgba(80,80,120,0.06)' }}
             >
               <Flower2 className="w-5 h-5 text-pink-400" />
-              Floral
+              <span className="text-gray-800 font-medium tracking-tight">Floral</span>
             </button>
             <button
               onClick={() => handleCategorySearch('fruity')}
-              className="flex items-center gap-2 px-5 py-2 rounded-full border border-gray-200 bg-white/80 text-amber-600 font-medium shadow-sm hover:bg-amber-50 hover:border-amber-300 transition-all backdrop-blur"
+              className="flex items-center gap-2 px-6 py-2 rounded-full bg-white/60 border border-gray-200 shadow-sm backdrop-blur-md transition-all hover:bg-white/80 hover:border-amber-300 hover:scale-105 hover:shadow-lg active:scale-100"
+              style={{ boxShadow: '0 2px 12px 0 rgba(80,80,120,0.06)' }}
             >
               <Grape className="w-5 h-5 text-amber-400" />
-              Fruity
+              <span className="text-gray-800 font-medium tracking-tight">Fruity</span>
             </button>
             <button
               onClick={() => handleCategorySearch('nutty')}
-              className="flex items-center gap-2 px-5 py-2 rounded-full border border-gray-200 bg-white/80 text-amber-700 font-medium shadow-sm hover:bg-amber-100 hover:border-amber-400 transition-all backdrop-blur"
+              className="flex items-center gap-2 px-6 py-2 rounded-full bg-white/60 border border-gray-200 shadow-sm backdrop-blur-md transition-all hover:bg-white/80 hover:border-amber-400 hover:scale-105 hover:shadow-lg active:scale-100"
+              style={{ boxShadow: '0 2px 12px 0 rgba(80,80,120,0.06)' }}
             >
               <Nut className="w-5 h-5 text-amber-700" />
-              Nutty
+              <span className="text-gray-800 font-medium tracking-tight">Nutty</span>
             </button>
           </div>
 
