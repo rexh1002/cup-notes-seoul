@@ -419,9 +419,8 @@ export default function HomePage() {
       <header className="fixed top-0 left-0 right-0 bg-white shadow-sm z-50">
         <div className="w-full px-0">
           <div className="flex justify-between items-center h-16">
-            <div className="flex items-center pl-0">
+            <div className="flex items-center space-x-4 mr-20">
               <Link href="/" className="flex items-center gap-2 font-extrabold text-2xl text-indigo-700">
-                <span className="text-3xl">✔</span>
                 Cup Notes Seoul
               </Link>
             </div>
@@ -625,7 +624,7 @@ export default function HomePage() {
           <motion.div
             animate={{ y: [0, 10, 0] }}
             transition={{ duration: 1.5, repeat: Infinity, repeatType: "reverse" }}
-            className="absolute bottom-8 left-1/2 transform -translate-x-1/2 cursor-pointer"
+            className="absolute bottom-20 left-1/2 transform -translate-x-1/2 cursor-pointer"
             onClick={() => {
               const mapSection = document.getElementById('map-section');
               if (mapSection) {
