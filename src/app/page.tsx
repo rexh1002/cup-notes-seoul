@@ -662,6 +662,28 @@ export default function HomePage() {
             <span className="text-sm font-medium text-gray-700">필터 설정</span>
           </button>
 
+          {/* 바로가기 버튼들 */}
+          <div className="absolute top-40 left-4 z-50 flex gap-3">
+            <button
+              onClick={() => handleCategorySearch('floral')}
+              className="flex items-center gap-2 bg-pink-100 hover:bg-pink-200 text-pink-700 font-semibold rounded-full px-4 py-2 shadow transition"
+            >
+              🌸 Floral
+            </button>
+            <button
+              onClick={() => handleCategorySearch('fruity')}
+              className="flex items-center gap-2 bg-yellow-100 hover:bg-yellow-200 text-yellow-700 font-semibold rounded-full px-4 py-2 shadow transition"
+            >
+              🍋 Fruity
+            </button>
+            <button
+              onClick={() => handleCategorySearch('nutty')}
+              className="flex items-center gap-2 bg-amber-100 hover:bg-amber-200 text-amber-700 font-semibold rounded-full px-4 py-2 shadow transition"
+            >
+              🥜 Nutty
+            </button>
+          </div>
+
           {/* FilterPanel 컴포넌트 */}
           <FilterPanel
             isOpen={isFiltersOpen}
