@@ -664,30 +664,36 @@ export default function HomePage() {
           </button>
 
           {/* 바로가기 버튼들 */}
-          <div className="absolute top-40 left-4 z-50 flex gap-3">
+          <div className="absolute top-40 left-4 z-50 flex flex-col gap-3">
             <button
               onClick={() => handleCategorySearch('floral')}
-              className="flex items-center gap-2 px-6 py-2 rounded-full bg-white/60 border border-gray-200 shadow-sm backdrop-blur-md transition-all hover:bg-white/80 hover:border-pink-300 hover:scale-105 hover:shadow-lg active:scale-100"
-              style={{ boxShadow: '0 2px 12px 0 rgba(80,80,120,0.06)' }}
+              className="flex items-center gap-3 bg-white rounded-full px-4 py-2 shadow-lg hover:shadow-xl transition-all"
+              style={{ minWidth: 120 }}
             >
-              <Flower2 className="w-5 h-5 text-pink-400" />
-              <span className="text-gray-800 font-medium tracking-tight">Floral</span>
+              <span className="flex items-center justify-center w-10 h-10 bg-indigo-600 rounded-full text-2xl">
+                <span className="text-white">🌸</span>
+              </span>
+              <span className="text-gray-800 font-medium text-base">Floral</span>
             </button>
             <button
               onClick={() => handleCategorySearch('fruity')}
-              className="flex items-center gap-2 px-6 py-2 rounded-full bg-white/60 border border-gray-200 shadow-sm backdrop-blur-md transition-all hover:bg-white/80 hover:border-amber-300 hover:scale-105 hover:shadow-lg active:scale-100"
-              style={{ boxShadow: '0 2px 12px 0 rgba(80,80,120,0.06)' }}
+              className="flex items-center gap-3 bg-white rounded-full px-4 py-2 shadow-lg hover:shadow-xl transition-all"
+              style={{ minWidth: 120 }}
             >
-              <Grape className="w-5 h-5 text-amber-400" />
-              <span className="text-gray-800 font-medium tracking-tight">Fruity</span>
+              <span className="flex items-center justify-center w-10 h-10 bg-indigo-600 rounded-full text-2xl">
+                <span className="text-white">🍇</span>
+              </span>
+              <span className="text-gray-800 font-medium text-base">Fruity</span>
             </button>
             <button
               onClick={() => handleCategorySearch('nutty')}
-              className="flex items-center gap-2 px-6 py-2 rounded-full bg-white/60 border border-gray-200 shadow-sm backdrop-blur-md transition-all hover:bg-white/80 hover:border-amber-400 hover:scale-105 hover:shadow-lg active:scale-100"
-              style={{ boxShadow: '0 2px 12px 0 rgba(80,80,120,0.06)' }}
+              className="flex items-center gap-3 bg-white rounded-full px-4 py-2 shadow-lg hover:shadow-xl transition-all"
+              style={{ minWidth: 120 }}
             >
-              <Nut className="w-5 h-5 text-amber-700" />
-              <span className="text-gray-800 font-medium tracking-tight">Nutty</span>
+              <span className="flex items-center justify-center w-10 h-10 bg-indigo-600 rounded-full text-2xl">
+                <span className="text-white">🥜</span>
+              </span>
+              <span className="text-gray-800 font-medium text-base">Nutty</span>
             </button>
           </div>
 
