@@ -417,10 +417,11 @@ export default function HomePage() {
 
       {/* 헤더 섹션 */}
       <header className="fixed top-0 left-0 right-0 bg-white shadow-sm z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full px-0">
           <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
-              <Link href="/" className="text-indigo-600 font-semibold text-3xl">
+            <div className="flex items-center pl-0">
+              <Link href="/" className="flex items-center gap-2 font-extrabold text-2xl text-indigo-700">
+                <span className="text-3xl">✔</span>
                 Cup Notes Seoul
               </Link>
             </div>
@@ -591,7 +592,7 @@ export default function HomePage() {
       {/* 메인 컨텐츠 */}
       <div className="pt-16">
         {/* 히어로 섹션 */}
-        <section className="relative h-[80vh] overflow-hidden">
+        <section className="relative h-screen overflow-hidden">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -622,15 +623,15 @@ export default function HomePage() {
 
           {/* 스크롤 다운 인디케이터 */}
           <motion.div
-            animate={{
-              y: [0, 10, 0],
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity, repeatType: "reverse" }}
+            className="absolute bottom-8 left-1/2 transform -translate-x-1/2 cursor-pointer"
+            onClick={() => {
+              const mapSection = document.getElementById('map-section');
+              if (mapSection) {
+                mapSection.scrollIntoView({ behavior: 'smooth' });
+              }
             }}
-            transition={{
-              duration: 1.5,
-              repeat: Infinity,
-              repeatType: "reverse",
-            }}
-            className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -650,7 +651,7 @@ export default function HomePage() {
         </section>
 
         {/* 지도 섹션 */}
-        <section className="relative w-full h-[calc(100vh-4rem)]">
+        <section id="map-section" className="relative w-full h-[calc(100vh-4rem)]">
           {/* 필터 버튼 */}
           <button
             onClick={() => setIsFiltersOpen(true)}
