@@ -180,10 +180,7 @@ export default function Map({
           maxZoom: 21,
           scaleControl: false,
           mapDataControl: false,
-          zoomControl: true,
-          zoomControlOptions: {
-            position: window.naver.maps.Position.TOP_RIGHT,
-          },
+          zoomControl: false,
         };
 
         // 기존 인스턴스 제거
