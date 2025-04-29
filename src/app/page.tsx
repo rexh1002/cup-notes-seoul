@@ -654,7 +654,7 @@ export default function HomePage() {
           {/* 필터 버튼 */}
           <button
             onClick={() => setIsFiltersOpen(true)}
-            className="absolute top-4 left-4 z-50 flex items-center gap-2 bg-white rounded-full px-4 py-2 shadow-lg hover:shadow-xl transition-shadow"
+            className="absolute top-20 left-4 z-50 flex items-center gap-2 bg-white rounded-full px-4 py-2 shadow-lg hover:shadow-xl transition-shadow"
           >
             <div className="flex items-center justify-center w-8 h-8 bg-indigo-600 rounded-full">
               <AdjustmentsHorizontalIcon className="w-5 h-5 text-white" />
