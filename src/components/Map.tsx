@@ -354,64 +354,51 @@ export default function Map({
         }}
       >
         {selectedCafe && (
-          <div className="absolute top-10 left-1/2 transform -translate-x-1/2 z-50 bg-white/70 backdrop-blur-md rounded-2xl shadow-2xl border border-gray-100 w-[95vw] max-w-md max-h-[calc(100vh-24px)] flex flex-col overflow-hidden">
+          <div className="absolute top-10 left-1/2 transform -translate-x-1/2 z-50 bg-white/40 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/30 w-[95vw] max-w-xl max-h-[calc(100vh-24px)] flex flex-col overflow-hidden animate-fade-in">
             {/* 카페 이미지 섹션 */}
             {selectedCafe.imageUrl && (
-              <div className="w-full h-[180px] relative rounded-t-2xl overflow-hidden">
+              <div className="w-full h-56 relative rounded-t-3xl overflow-hidden group">
                 <Image
                   src={selectedCafe.imageUrl}
                   alt={selectedCafe.name}
                   fill
-                  sizes="(max-width: 768px) 100vw, 328px"
+                  sizes="(max-width: 768px) 100vw, 480px"
                   priority
-                  className="object-cover"
+                  className="object-cover w-full h-56 transition-transform duration-500 group-hover:scale-105"
                   unoptimized
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
               </div>
             )}
 
             {/* 고정된 상단 정보 */}
-            <div className="flex-none p-6 pb-3">
-              <div className="flex justify-between items-start">
-                <h3 className="font-bold text-xl leading-tight text-gray-900 tracking-tight">{selectedCafe.name}</h3>
+            <div className="flex-none px-8 py-6 pb-4">
+              <div className="flex justify-between items-center mb-2">
+                <h3 className="font-extrabold text-2xl leading-tight text-gray-900 tracking-tight drop-shadow">{selectedCafe.name}</h3>
                 <button
                   onClick={() => setSelectedCafe(null)}
-                  className="text-gray-400 hover:text-gray-700 transition"
+                  className="text-gray-400 hover:text-gray-700 transition text-2xl"
                 >
                   ✕
                 </button>
               </div>
 
-              <div className="space-y-1 text-sm text-gray-600 mt-2">
-                <p className="leading-none flex items-center gap-2">
-                  <span className="inline-block text-gray-400">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                  </span>
-                  {selectedCafe.address}
-                </p>
+              <div className="space-y-2 text-base text-gray-700 mt-2">
+                <div className="flex items-center gap-3">
+                  <span className="inline-block text-indigo-400 text-xl">📍</span>
+                  <span>{selectedCafe.address}</span>
+                </div>
                 {selectedCafe.phone && (
-                  <p className="leading-none flex items-center gap-2">
-                    <span className="inline-block text-gray-400">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                      </svg>
-                    </span>
-                    {selectedCafe.phone}
-                  </p>
+                  <div className="flex items-center gap-3">
+                    <span className="inline-block text-indigo-400 text-xl">📞</span>
+                    <span>{selectedCafe.phone}</span>
+                  </div>
                 )}
                 {selectedCafe.description && (
-                  <p className="leading-none flex items-center gap-2">
-                    <span className="inline-block text-gray-400">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                      </svg>
-                    </span>
-                    {selectedCafe.description}
-                  </p>
+                  <div className="flex items-center gap-3">
+                    <span className="inline-block text-indigo-400 text-xl">💬</span>
+                    <span>{selectedCafe.description}</span>
+                  </div>
                 )}
               </div>
 
@@ -423,11 +410,7 @@ export default function Map({
                   <div className="space-y-0.5 text-xs text-gray-500">
                     {selectedCafe.businessHours.map((hour: any, index: number) => (
                       <div key={index} className="flex items-center gap-2">
-                        <span className="inline-block text-gray-400">
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                          </svg>
-                        </span>
+                        <span className="inline-block text-indigo-400 text-lg">⏰</span>
                         <span>{hour.day}:</span>
                         <span>{hour.openTime} - {hour.closeTime}</span>
                       </div>
@@ -435,11 +418,7 @@ export default function Map({
                   </div>
                   {selectedCafe.businessHourNote && (
                     <p className="text-xs text-gray-400 mt-0.5 leading-none flex items-center gap-2">
-                      <span className="inline-block text-gray-400">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                      </span>
+                      <span className="inline-block text-indigo-400 text-lg">📝</span>
                       {selectedCafe.businessHourNote}
                     </p>
                   )}
@@ -457,7 +436,7 @@ export default function Map({
                       href={link.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-xs text-blue-600 hover:text-blue-800 underline leading-none"
+                      className="text-xs text-indigo-500 hover:text-indigo-700 underline leading-none"
                     >
                       {link.type}
                     </a>
@@ -468,9 +447,9 @@ export default function Map({
 
             {/* 원두 라인업 섹션 */}
             {selectedCafe.coffees && selectedCafe.coffees.length > 0 && (
-              <div className="flex-1 overflow-y-auto px-4 pb-4">
-                <div className="flex items-center justify-between mb-2 mt-2">
-                  <h3 className="font-bold text-lg text-gray-900 tracking-tight">원두 라인업</h3>
+              <div className="flex-1 overflow-y-auto px-8 pb-8">
+                <div className="flex items-center justify-between mb-4 mt-4">
+                  <h3 className="font-extrabold text-xl text-gray-900 tracking-tight">원두 라인업</h3>
                   <span className="text-xs text-gray-500">
                     {selectedCafe.updatedAt ? `최근수정일 : ${new Date(selectedCafe.updatedAt).toLocaleDateString('ko-KR', {
                       year: 'numeric',
@@ -479,35 +458,35 @@ export default function Map({
                     })}` : ''}
                   </span>
                 </div>
-                <div className="space-y-3">
+                <div className="space-y-6">
                   {selectedCafe.coffees.map((coffee) => (
                     <div
                       key={coffee.id}
-                      className="relative rounded-2xl p-4 shadow bg-white/60 backdrop-blur border border-gray-100 flex flex-col gap-1"
+                      className="relative rounded-2xl p-6 shadow-lg bg-white/70 backdrop-blur border border-white/40 flex flex-col gap-2 transition-transform hover:-translate-y-1 hover:shadow-2xl"
                       style={{
-                        backgroundColor: coffee.noteColors?.[0] || '#F3F4F6',
-                        boxShadow: '0 2px 12px 0 rgba(80,80,120,0.06), inset 0 2px 4px rgba(0,0,0,0.10)'
+                        backgroundColor: coffee.noteColors?.[0] || 'rgba(255,255,255,0.7)',
+                        boxShadow: '0 4px 24px 0 rgba(80,80,120,0.10), inset 0 2px 4px rgba(0,0,0,0.08)'
                       }}
                     >
                       {/* 원두 이름과 가격 */}
                       <div className="flex justify-between items-center mb-1">
-                        <h5 className="text-base font-semibold leading-normal text-gray-900">{coffee.name}</h5>
-                        <span className="text-sm font-medium leading-normal text-gray-700">
+                        <h5 className="text-lg font-bold leading-normal text-gray-900">{coffee.name}</h5>
+                        <span className="text-base font-semibold leading-normal text-gray-700">
                           {coffee.price?.toLocaleString()}원
                         </span>
                       </div>
                       {/* 원두 설명 */}
                       {coffee.description && (
-                        <p className="text-sm text-gray-700 mb-1.5 leading-relaxed">
+                        <p className="text-base text-gray-700 mb-2 leading-relaxed">
                           {coffee.description}
                         </p>
                       )}
                       {/* 원두 특성 태그들 */}
-                      <div className="flex flex-wrap gap-1 mb-1">
+                      <div className="flex flex-wrap gap-2 mb-1">
                         {coffee.roastLevel?.map((level, idx) => (
                           <span
                             key={`roast-${idx}`}
-                            className="text-[11px] px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200"
+                            className="text-xs px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200"
                           >
                             {level}
                           </span>
@@ -515,7 +494,7 @@ export default function Map({
                         {coffee.origins?.map((origin, idx) => (
                           <span
                             key={`origin-${idx}`}
-                            className="text-[11px] px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200"
+                            className="text-xs px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200"
                           >
                             {origin}
                           </span>
@@ -523,7 +502,7 @@ export default function Map({
                         {coffee.processes?.map((process, idx) => (
                           <span
                             key={`process-${idx}`}
-                            className="text-[11px] px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200"
+                            className="text-xs px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200"
                           >
                             {process}
                           </span>
@@ -531,22 +510,19 @@ export default function Map({
                         {coffee.brewMethods?.map((method, idx) => (
                           <span
                             key={`brew-${idx}`}
-                            className="text-[11px] px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200"
+                            className="text-xs px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200"
                           >
                             {method}
                           </span>
                         ))}
                       </div>
-                      {/* 커피 노트 */}
-                      {coffee.notes && coffee.notes.length > 0 && (
-                        <div className="flex flex-wrap gap-1 mt-1">
+                      {/* 커피 노트: 컬러풀한 원(circle)로 표현 */}
+                      {coffee.notes && coffee.notes.length > 0 && Array.isArray(coffee.noteColors) && (
+                        <div className="flex flex-wrap gap-2 mt-2 items-center">
                           {coffee.notes.map((note, idx) => (
-                            <span
-                              key={`note-${idx}`}
-                              className="text-[11px] px-2 py-0.5 rounded-full"
-                              style={{ background: 'rgba(255,255,255,0.85)', color: '#444', border: '1px solid #eee' }}
-                            >
-                              {note}
+                            <span key={`note-${idx}`} className="flex items-center gap-1">
+                              <span className="inline-block w-5 h-5 rounded-full border border-white shadow" style={{ background: coffee.noteColors?.[idx] || '#eee' }} />
+                              <span className="text-xs text-gray-800 font-medium">{note}</span>
                             </span>
                           ))}
                         </div>
