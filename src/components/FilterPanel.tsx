@@ -52,8 +52,8 @@ export default function FilterPanel({
           initial={{ x: -384 }}
           animate={{ x: 0 }}
           exit={{ x: -384 }}
-          className="fixed left-0 top-0 bottom-0 w-96 bg-gradient-to-b from-white via-gray-50 to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 shadow-2xl z-50 overflow-y-auto
-            sm:w-full sm:max-w-xs sm:mx-auto"
+          className="fixed top-0 left-0 right-0 w-96 bg-gradient-to-b from-white via-gray-50 to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 shadow-2xl z-50 overflow-y-auto
+            sm:w-full sm:max-w-xs sm:mx-auto sm:z-[9999] sm:bg-white sm:p-1"
         >
           <div className="sticky top-0 bg-white/80 dark:bg-gray-900/80 z-10 p-4 border-b border-gray-200 dark:border-gray-800 backdrop-blur-md sm:p-2">
             <div className="flex justify-between items-center">

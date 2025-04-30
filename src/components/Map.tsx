@@ -371,7 +371,7 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
       >
         {selectedCafe && (
           <div className="absolute top-10 right-8 z-50 bg-white/40 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/30 w-full max-w-sm max-h-[calc(100vh-32px)] flex flex-col overflow-hidden animate-fade-in
-            sm:top-2 sm:left-0 sm:right-0 sm:mx-auto sm:w-[98vw] sm:max-w-xs sm:rounded-lg sm:p-2">
+            sm:fixed sm:top-0 sm:left-0 sm:right-0 sm:mx-auto sm:w-full sm:max-w-xs sm:rounded-none sm:p-1 sm:z-[999]">
             {/* 카페 이미지 섹션 */}
             {selectedCafe.imageUrl && (
               <div className="w-full h-40 relative rounded-t-2xl overflow-hidden group sm:h-28 sm:rounded-t-lg">

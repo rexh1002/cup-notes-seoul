@@ -664,52 +664,36 @@ export default function HomePage() {
           </button>
 
           {/* 바로가기 버튼들 */}
-          <div className="absolute bottom-4 left-0 right-0 z-50 flex gap-3 flex-nowrap overflow-x-auto w-full px-1 sm:gap-2 sm:bottom-2 sm:px-1">
+          <div className="fixed bottom-2 left-0 right-0 z-50 flex gap-1 px-1 w-full overflow-x-auto whitespace-nowrap sm:gap-1">
             <button
               onClick={() => handleCategorySearch('floral')}
-              className="flex items-center gap-3 bg-white rounded-full px-4 py-2 shadow-lg hover:shadow-xl transition-all"
-              style={{ minWidth: 120 }}
+              className="min-w-[44px] h-10 flex items-center justify-center rounded-full bg-white shadow text-xl sm:text-base"
             >
-              <span className="flex items-center justify-center w-10 h-10 bg-indigo-600 rounded-full text-2xl">
-                <span className="text-white">🌸</span>
-              </span>
-              <span className="text-gray-800 font-medium text-base">Floral</span>
+              <span className="text-gray-800 font-medium text-base hidden sm:inline">🌸</span>
             </button>
             <button
               onClick={() => handleCategorySearch('fruity')}
-              className="flex items-center gap-3 bg-white rounded-full px-4 py-2 shadow-lg hover:shadow-xl transition-all"
-              style={{ minWidth: 120 }}
+              className="min-w-[44px] h-10 flex items-center justify-center rounded-full bg-white shadow text-xl sm:text-base"
             >
-              <span className="flex items-center justify-center w-10 h-10 bg-indigo-600 rounded-full text-2xl">
-                <span className="text-white">🍇</span>
-              </span>
-              <span className="text-gray-800 font-medium text-base">Fruity</span>
+              <span className="text-gray-800 font-medium text-base hidden sm:inline">🍇</span>
             </button>
             <button
               onClick={() => handleCategorySearch('nutty')}
-              className="flex items-center gap-3 bg-white rounded-full px-4 py-2 shadow-lg hover:shadow-xl transition-all"
-              style={{ minWidth: 120 }}
+              className="min-w-[44px] h-10 flex items-center justify-center rounded-full bg-white shadow text-xl sm:text-base"
             >
-              <span className="flex items-center justify-center w-10 h-10 bg-indigo-600 rounded-full text-2xl">
-                <span className="text-white">🥜</span>
-              </span>
-              <span className="text-gray-800 font-medium text-base">Nutty</span>
+              <span className="text-gray-800 font-medium text-base hidden sm:inline">🥜</span>
             </button>
             <button
               onClick={() => handleCategorySearch('handdrip')}
-              className="flex items-center gap-3 bg-white rounded-full px-4 py-2 shadow-lg hover:shadow-xl transition-all"
-              style={{ minWidth: 140 }}
+              className="min-w-[44px] h-10 flex items-center justify-center rounded-full bg-white shadow text-xl sm:text-base"
             >
-              <span className="flex items-center justify-center w-10 h-10 bg-indigo-600 rounded-full text-2xl">
-                <span className="text-white">☕️</span>
-              </span>
-              <span className="text-gray-800 font-medium text-base">핸드드립 카페</span>
+              <span className="text-gray-800 font-medium text-base hidden sm:inline">☕️</span>
             </button>
           </div>
 
           {/* 현재위치 버튼 */}
           <button
-            className="absolute bottom-8 right-8 z-50 flex items-center gap-2 bg-white rounded-full px-4 py-2 shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700"
+            className="min-w-[44px] h-10 flex items-center justify-center rounded-full bg-white shadow text-xl sm:text-base"
             onClick={() => {
               if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
@@ -730,10 +714,7 @@ export default function HomePage() {
               }
             }}
           >
-            <span className="flex items-center justify-center w-8 h-8 bg-indigo-600 rounded-full text-2xl">
-              <span className="text-white">📍</span>
-            </span>
-            <span className="text-gray-800 font-medium text-base hidden sm:inline">현재위치</span>
+            <span className="hidden sm:inline">현재위치</span>
           </button>
 
           {/* FilterPanel 컴포넌트 */}
