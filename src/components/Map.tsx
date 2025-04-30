@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState, useCallback, forwardRef, useImperativeHandle } from 'react';
 import Image from 'next/image';
 import { Cafe } from '@/types/types';
 import Script from 'next/script';
@@ -55,7 +55,11 @@ interface Coordinates {
   lng: number;
 }
 
-export default function Map({
+export interface MapHandle {
+  moveToCurrentLocation: (lat: number, lng: number) => void;
+}
+
+const Map = forwardRef<MapHandle, MapProps>(function Map({
   cafes,
   onCafeSelect,
   initialCenter = { lat: 37.5665, lng: 126.9780 },
@@ -63,7 +67,7 @@ export default function Map({
   style = { width: '100%', height: '100%' },
   searchKeyword,
   onSearch,
-}: MapProps) {
+}, ref) {
   console.log('[Map] 컴포넌트 렌더링', { cafes: cafes.length, center: initialCenter, zoom: initialZoom });
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstance = useRef<any>(null);
@@ -338,6 +342,18 @@ export default function Map({
     updateMarkers();
   }, [updateMarkers, center, zoom]);
 
+  // 외부에서 현재위치로 이동할 수 있도록 메서드 노출
+  useImperativeHandle(ref, () => ({
+    moveToCurrentLocation: (lat: number, lng: number) => {
+      if (mapInstance.current && window.naver && window.naver.maps) {
+        const newCenter = new window.naver.maps.LatLng(lat, lng);
+        mapInstance.current.setCenter(newCenter);
+        setCenter({ lat, lng });
+        setZoom(15);
+      }
+    }
+  }));
+
   return (
     <>
       <Script
@@ -548,4 +564,6 @@ export default function Map({
       </div>
     </>
   );
-}
+});
+
+export default Map;

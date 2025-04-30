@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import dynamic from 'next/dynamic';
 import CoffeeSearch from '../components/coffee/coffee-search';
 import SearchResults from '../components/coffee/search-results';
@@ -64,6 +64,7 @@ export default function HomePage() {
   const [isSignupDropdownOpen, setIsSignupDropdownOpen] = useState(false);
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
   const [selectedCafe, setSelectedCafe] = useState<Cafe | null>(null);
+  const mapRef = useRef<any>(null);
 
   const hasSelections = selectedNotes.length > 0 || 
     selectedBrewMethods.length > 0 || 
@@ -706,6 +707,35 @@ export default function HomePage() {
             </button>
           </div>
 
+          {/* 현재위치 버튼 */}
+          <button
+            className="absolute bottom-8 right-8 z-50 flex items-center gap-2 bg-white rounded-full px-4 py-2 shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700"
+            onClick={() => {
+              if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                  (position) => {
+                    const { latitude, longitude } = position.coords;
+                    if (mapRef.current && typeof mapRef.current.moveToCurrentLocation === 'function') {
+                      mapRef.current.moveToCurrentLocation(latitude, longitude);
+                    } else {
+                      window.alert('지도를 찾을 수 없습니다.');
+                    }
+                  },
+                  (error) => {
+                    window.alert('현재 위치를 가져올 수 없습니다. 위치 권한을 허용해 주세요.');
+                  }
+                );
+              } else {
+                window.alert('이 브라우저에서는 위치 정보가 지원되지 않습니다.');
+              }
+            }}
+          >
+            <span className="flex items-center justify-center w-8 h-8 bg-indigo-600 rounded-full text-2xl">
+              <span className="text-white">📍</span>
+            </span>
+            <span className="text-gray-800 font-medium text-base">현재위치</span>
+          </button>
+
           {/* FilterPanel 컴포넌트 */}
           <FilterPanel
             isOpen={isFiltersOpen}
@@ -726,6 +756,7 @@ export default function HomePage() {
 
           {/* 지도 컴포넌트 */}
           <Map
+            ref={mapRef}
             cafes={cafes}
             onCafeSelect={handleCafeSelect}
             searchKeyword={searchKeyword}
