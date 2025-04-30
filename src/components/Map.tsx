@@ -354,17 +354,17 @@ export default function Map({
         }}
       >
         {selectedCafe && (
-          <div className="absolute top-10 left-1/2 transform -translate-x-1/2 z-50 bg-white/40 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/30 w-[95vw] max-w-xl max-h-[calc(100vh-24px)] flex flex-col overflow-hidden animate-fade-in">
+          <div className="absolute top-10 right-8 z-50 bg-white/40 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/30 w-full max-w-sm max-h-[calc(100vh-32px)] flex flex-col overflow-hidden animate-fade-in">
             {/* 카페 이미지 섹션 */}
             {selectedCafe.imageUrl && (
-              <div className="w-full h-56 relative rounded-t-3xl overflow-hidden group">
+              <div className="w-full h-40 relative rounded-t-2xl overflow-hidden group">
                 <Image
                   src={selectedCafe.imageUrl}
                   alt={selectedCafe.name}
                   fill
                   sizes="(max-width: 768px) 100vw, 480px"
                   priority
-                  className="object-cover w-full h-56 transition-transform duration-500 group-hover:scale-105"
+                  className="object-cover w-full h-40 transition-transform duration-500 group-hover:scale-105"
                   unoptimized
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
@@ -372,9 +372,9 @@ export default function Map({
             )}
 
             {/* 고정된 상단 정보 */}
-            <div className="flex-none px-8 py-6 pb-4">
+            <div className="flex-none px-4 py-4 pb-2">
               <div className="flex justify-between items-center mb-2">
-                <h3 className="font-extrabold text-2xl leading-tight text-gray-900 tracking-tight drop-shadow">{selectedCafe.name}</h3>
+                <h3 className="font-extrabold text-lg leading-tight text-gray-900 tracking-tight drop-shadow">{selectedCafe.name}</h3>
                 <button
                   onClick={() => setSelectedCafe(null)}
                   className="text-gray-400 hover:text-gray-700 transition text-2xl"
@@ -383,34 +383,34 @@ export default function Map({
                 </button>
               </div>
 
-              <div className="space-y-2 text-base text-gray-700 mt-2">
+              <div className="space-y-1 text-sm text-gray-700 mt-1">
                 <div className="flex items-center gap-3">
-                  <span className="inline-block text-indigo-400 text-xl">📍</span>
+                  <span className="inline-block text-indigo-400 text-base">📍</span>
                   <span>{selectedCafe.address}</span>
                 </div>
                 {selectedCafe.phone && (
                   <div className="flex items-center gap-3">
-                    <span className="inline-block text-indigo-400 text-xl">📞</span>
+                    <span className="inline-block text-indigo-400 text-base">📞</span>
                     <span>{selectedCafe.phone}</span>
                   </div>
                 )}
                 {selectedCafe.description && (
                   <div className="flex items-center gap-3">
-                    <span className="inline-block text-indigo-400 text-xl">💬</span>
+                    <span className="inline-block text-indigo-400 text-base">💬</span>
                     <span>{selectedCafe.description}</span>
                   </div>
                 )}
               </div>
 
-              <div className="border-b border-gray-200 my-3" />
+              <div className="border-b border-gray-200 my-2" />
 
               {/* 영업시간 정보 */}
               {selectedCafe.businessHours && selectedCafe.businessHours.length > 0 && (
                 <div className="mt-1 pt-1">
-                  <div className="space-y-0.5 text-xs text-gray-500">
+                  <div className="space-y-0.5 text-xs text-gray-500 leading-tight">
                     {selectedCafe.businessHours.map((hour: any, index: number) => (
                       <div key={index} className="flex items-center gap-2">
-                        <span className="inline-block text-indigo-400 text-lg">⏰</span>
+                        <span className="inline-block text-indigo-400 text-base">⏰</span>
                         <span>{hour.day}:</span>
                         <span>{hour.openTime} - {hour.closeTime}</span>
                       </div>
@@ -418,18 +418,18 @@ export default function Map({
                   </div>
                   {selectedCafe.businessHourNote && (
                     <p className="text-xs text-gray-400 mt-0.5 leading-none flex items-center gap-2">
-                      <span className="inline-block text-indigo-400 text-lg">📝</span>
+                      <span className="inline-block text-indigo-400 text-base">📝</span>
                       {selectedCafe.businessHourNote}
                     </p>
                   )}
                 </div>
               )}
 
-              <div className="border-b border-gray-200 my-3" />
+              <div className="border-b border-gray-200 my-2" />
 
               {/* SNS 링크 */}
               {selectedCafe.snsLinks && selectedCafe.snsLinks.length > 0 && (
-                <div className="mt-1 pt-1 flex flex-wrap gap-2">
+                <div className="mt-1 pt-1 flex flex-wrap gap-1">
                   {selectedCafe.snsLinks.map((link: any, index: number) => (
                     <a
                       key={index}
@@ -447,9 +447,9 @@ export default function Map({
 
             {/* 원두 라인업 섹션 */}
             {selectedCafe.coffees && selectedCafe.coffees.length > 0 && (
-              <div className="flex-1 overflow-y-auto px-8 pb-8">
-                <div className="flex items-center justify-between mb-4 mt-4">
-                  <h3 className="font-extrabold text-xl text-gray-900 tracking-tight">원두 라인업</h3>
+              <div className="flex-1 overflow-y-auto px-4 pb-4">
+                <div className="flex items-center justify-between mb-2 mt-2">
+                  <h3 className="font-extrabold text-base text-gray-900 tracking-tight">원두 라인업</h3>
                   <span className="text-xs text-gray-500">
                     {selectedCafe.updatedAt ? `최근수정일 : ${new Date(selectedCafe.updatedAt).toLocaleDateString('ko-KR', {
                       year: 'numeric',
@@ -458,35 +458,35 @@ export default function Map({
                     })}` : ''}
                   </span>
                 </div>
-                <div className="space-y-6">
+                <div className="space-y-3">
                   {selectedCafe.coffees.map((coffee) => (
                     <div
                       key={coffee.id}
-                      className="relative rounded-2xl p-6 shadow-lg bg-white/70 backdrop-blur border border-white/40 flex flex-col gap-2 transition-transform hover:-translate-y-1 hover:shadow-2xl"
+                      className="relative rounded-xl p-4 shadow bg-white/70 backdrop-blur border border-white/40 flex flex-col gap-1 transition-transform hover:-translate-y-1 hover:shadow-xl"
                       style={{
                         backgroundColor: coffee.noteColors?.[0] || 'rgba(255,255,255,0.7)',
-                        boxShadow: '0 4px 24px 0 rgba(80,80,120,0.10), inset 0 2px 4px rgba(0,0,0,0.08)'
+                        boxShadow: '0 2px 8px 0 rgba(80,80,120,0.10), inset 0 1px 2px rgba(0,0,0,0.08)'
                       }}
                     >
                       {/* 원두 이름과 가격 */}
                       <div className="flex justify-between items-center mb-1">
-                        <h5 className="text-lg font-bold leading-normal text-gray-900">{coffee.name}</h5>
-                        <span className="text-base font-semibold leading-normal text-gray-700">
+                        <h5 className="text-base font-bold leading-tight text-gray-900">{coffee.name}</h5>
+                        <span className="text-sm font-semibold leading-tight text-gray-700">
                           {coffee.price?.toLocaleString()}원
                         </span>
                       </div>
                       {/* 원두 설명 */}
                       {coffee.description && (
-                        <p className="text-base text-gray-700 mb-2 leading-relaxed">
+                        <p className="text-sm text-gray-700 mb-1 leading-tight">
                           {coffee.description}
                         </p>
                       )}
                       {/* 원두 특성 태그들 */}
-                      <div className="flex flex-wrap gap-2 mb-1">
+                      <div className="flex flex-wrap gap-1 mb-1">
                         {coffee.roastLevel?.map((level, idx) => (
                           <span
                             key={`roast-${idx}`}
-                            className="text-xs px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200"
+                            className="text-[11px] px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200"
                           >
                             {level}
                           </span>
@@ -494,7 +494,7 @@ export default function Map({
                         {coffee.origins?.map((origin, idx) => (
                           <span
                             key={`origin-${idx}`}
-                            className="text-xs px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200"
+                            className="text-[11px] px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200"
                           >
                             {origin}
                           </span>
@@ -502,7 +502,7 @@ export default function Map({
                         {coffee.processes?.map((process, idx) => (
                           <span
                             key={`process-${idx}`}
-                            className="text-xs px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200"
+                            className="text-[11px] px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200"
                           >
                             {process}
                           </span>
@@ -510,7 +510,7 @@ export default function Map({
                         {coffee.brewMethods?.map((method, idx) => (
                           <span
                             key={`brew-${idx}`}
-                            className="text-xs px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200"
+                            className="text-[11px] px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200"
                           >
                             {method}
                           </span>
@@ -518,11 +518,11 @@ export default function Map({
                       </div>
                       {/* 커피 노트: 컬러풀한 원(circle)로 표현 */}
                       {coffee.notes && coffee.notes.length > 0 && Array.isArray(coffee.noteColors) && (
-                        <div className="flex flex-wrap gap-2 mt-2 items-center">
+                        <div className="flex flex-wrap gap-1 mt-1 items-center">
                           {coffee.notes.map((note, idx) => (
                             <span key={`note-${idx}`} className="flex items-center gap-1">
-                              <span className="inline-block w-5 h-5 rounded-full border border-white shadow" style={{ background: coffee.noteColors?.[idx] || '#eee' }} />
-                              <span className="text-xs text-gray-800 font-medium">{note}</span>
+                              <span className="inline-block w-4 h-4 rounded-full border border-white shadow" style={{ background: coffee.noteColors?.[idx] || '#eee' }} />
+                              <span className="text-[11px] text-gray-800 font-medium">{note}</span>
                             </span>
                           ))}
                         </div>
