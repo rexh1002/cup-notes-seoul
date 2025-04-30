@@ -663,7 +663,7 @@ export default function HomePage() {
           </button>
 
           {/* 바로가기 버튼들 */}
-          <div className="absolute top-40 left-4 z-50 flex flex-col gap-3">
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-50 flex gap-3">
             <button
               onClick={() => handleCategorySearch('floral')}
               className="flex items-center gap-3 bg-white rounded-full px-4 py-2 shadow-lg hover:shadow-xl transition-all"
@@ -693,6 +693,16 @@ export default function HomePage() {
                 <span className="text-white">🥜</span>
               </span>
               <span className="text-gray-800 font-medium text-base">Nutty</span>
+            </button>
+            <button
+              onClick={() => handleCategorySearch('handdrip')}
+              className="flex items-center gap-3 bg-white rounded-full px-4 py-2 shadow-lg hover:shadow-xl transition-all"
+              style={{ minWidth: 140 }}
+            >
+              <span className="flex items-center justify-center w-10 h-10 bg-indigo-600 rounded-full text-2xl">
+                <span className="text-white">☕️</span>
+              </span>
+              <span className="text-gray-800 font-medium text-base">핸드드립 카페</span>
             </button>
           </div>
 
