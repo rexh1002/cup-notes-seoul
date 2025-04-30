@@ -370,10 +370,11 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
         }}
       >
         {selectedCafe && (
-          <div className="absolute top-10 right-8 z-50 bg-white/40 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/30 w-full max-w-sm max-h-[calc(100vh-32px)] flex flex-col overflow-hidden animate-fade-in">
+          <div className="absolute top-10 right-8 z-50 bg-white/40 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/30 w-full max-w-sm max-h-[calc(100vh-32px)] flex flex-col overflow-hidden animate-fade-in
+            sm:top-2 sm:left-1/2 sm:-translate-x-1/2 sm:right-auto sm:w-[98vw] sm:max-w-xs sm:rounded-lg sm:p-2">
             {/* 카페 이미지 섹션 */}
             {selectedCafe.imageUrl && (
-              <div className="w-full h-40 relative rounded-t-2xl overflow-hidden group">
+              <div className="w-full h-40 relative rounded-t-2xl overflow-hidden group sm:h-28 sm:rounded-t-lg">
                 <Image
                   src={selectedCafe.imageUrl}
                   alt={selectedCafe.name}
@@ -388,9 +389,9 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
             )}
 
             {/* 고정된 상단 정보 */}
-            <div className="flex-none px-4 py-4 pb-2">
+            <div className="flex-none px-4 py-4 pb-2 sm:px-2 sm:py-2 sm:pb-1">
               <div className="flex justify-between items-center mb-2">
-                <h3 className="font-extrabold text-lg leading-tight text-gray-900 tracking-tight drop-shadow">{selectedCafe.name}</h3>
+                <h3 className="font-extrabold text-lg leading-tight text-gray-900 tracking-tight drop-shadow sm:text-base">{selectedCafe.name}</h3>
                 <button
                   onClick={() => setSelectedCafe(null)}
                   className="text-gray-400 hover:text-gray-700 transition text-2xl"
@@ -399,53 +400,53 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                 </button>
               </div>
 
-              <div className="space-y-1 text-sm text-gray-700 mt-1">
+              <div className="space-y-1 text-sm text-gray-700 mt-1 sm:text-xs sm:space-y-0.5 sm:mt-0.5">
                 <div className="flex items-center gap-3">
-                  <span className="inline-block text-indigo-400 text-base">📍</span>
+                  <span className="inline-block text-indigo-400 text-base sm:text-sm">📍</span>
                   <span>{selectedCafe.address}</span>
                 </div>
                 {selectedCafe.phone && (
                   <div className="flex items-center gap-3">
-                    <span className="inline-block text-indigo-400 text-base">📞</span>
+                    <span className="inline-block text-indigo-400 text-base sm:text-sm">📞</span>
                     <span>{selectedCafe.phone}</span>
                   </div>
                 )}
                 {selectedCafe.description && (
                   <div className="flex items-center gap-3">
-                    <span className="inline-block text-indigo-400 text-base">💬</span>
+                    <span className="inline-block text-indigo-400 text-base sm:text-sm">💬</span>
                     <span>{selectedCafe.description}</span>
                   </div>
                 )}
               </div>
 
-              <div className="border-b border-gray-200 my-2" />
+              <div className="border-b border-gray-200 my-2 sm:my-1" />
 
               {/* 영업시간 정보 */}
               {selectedCafe.businessHours && selectedCafe.businessHours.length > 0 && (
                 <div className="mt-1 pt-1">
-                  <div className="space-y-0.5 text-xs text-gray-500 leading-tight">
+                  <div className="space-y-0.5 text-xs text-gray-500 leading-tight sm:text-[11px]">
                     {selectedCafe.businessHours.map((hour: any, index: number) => (
                       <div key={index} className="flex items-center gap-2">
-                        <span className="inline-block text-indigo-400 text-base">⏰</span>
+                        <span className="inline-block text-indigo-400 text-base sm:text-sm">⏰</span>
                         <span>{hour.day}:</span>
                         <span>{hour.openTime} - {hour.closeTime}</span>
                       </div>
                     ))}
                   </div>
                   {selectedCafe.businessHourNote && (
-                    <p className="text-xs text-gray-400 mt-0.5 leading-none flex items-center gap-2">
-                      <span className="inline-block text-indigo-400 text-base">📝</span>
+                    <p className="text-xs text-gray-400 mt-0.5 leading-none flex items-center gap-2 sm:text-[11px]">
+                      <span className="inline-block text-indigo-400 text-base sm:text-sm">📝</span>
                       {selectedCafe.businessHourNote}
                     </p>
                   )}
                 </div>
               )}
 
-              <div className="border-b border-gray-200 my-2" />
+              <div className="border-b border-gray-200 my-2 sm:my-1" />
 
               {/* SNS 링크 */}
               {selectedCafe.snsLinks && selectedCafe.snsLinks.length > 0 && (
-                <div className="mt-1 pt-1 flex flex-wrap gap-1">
+                <div className="mt-1 pt-1 flex flex-wrap gap-1 sm:gap-0.5">
                   {selectedCafe.snsLinks.map((link: any, index: number) => (
                     <a
                       key={index}
@@ -463,9 +464,9 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
 
             {/* 원두 라인업 섹션 */}
             {selectedCafe.coffees && selectedCafe.coffees.length > 0 && (
-              <div className="flex-1 overflow-y-auto px-4 pb-24">
-                <div className="flex items-center justify-between mb-2 mt-2">
-                  <h3 className="font-extrabold text-base text-gray-900 tracking-tight">원두 라인업</h3>
+              <div className="flex-1 overflow-y-auto px-4 pb-24 sm:px-1 sm:pb-16">
+                <div className="flex items-center justify-between mb-2 mt-2 sm:mb-1 sm:mt-1">
+                  <h3 className="font-extrabold text-base text-gray-900 tracking-tight sm:text-sm">원두 라인업</h3>
                   <span className="text-xs text-gray-500">
                     {selectedCafe.updatedAt ? `최근수정일 : ${new Date(selectedCafe.updatedAt).toLocaleDateString('ko-KR', {
                       year: 'numeric',
@@ -474,11 +475,12 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                     })}` : ''}
                   </span>
                 </div>
-                <div className="space-y-3">
+                <div className="space-y-3 sm:space-y-1.5">
                   {selectedCafe.coffees.map((coffee) => (
                     <div
                       key={coffee.id}
-                      className="relative rounded-xl pt-4 pb-2 px-4 shadow bg-white/70 backdrop-blur border border-white/40 flex flex-col gap-0.5 transition-transform hover:-translate-y-1 hover:shadow-xl"
+                      className="relative rounded-xl pt-4 pb-2 px-4 shadow bg-white/70 backdrop-blur border border-white/40 flex flex-col gap-0.5 transition-transform hover:-translate-y-1 hover:shadow-xl
+                        sm:rounded-lg sm:pt-2 sm:pb-1 sm:px-2 sm:gap-0.5"
                       style={{
                         backgroundColor: coffee.noteColors?.[0] || 'rgba(255,255,255,0.7)',
                         boxShadow: '0 2px 8px 0 rgba(80,80,120,0.10), inset 0 1px 2px rgba(0,0,0,0.08)'
@@ -486,23 +488,23 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                     >
                       {/* 원두 이름과 가격 */}
                       <div className="flex justify-between items-center mb-0.5">
-                        <h5 className="text-base font-bold leading-tight text-gray-900">{coffee.name}</h5>
-                        <span className="text-sm font-semibold leading-tight text-gray-700">
+                        <h5 className="text-base font-bold leading-tight text-gray-900 sm:text-sm">{coffee.name}</h5>
+                        <span className="text-sm font-semibold leading-tight text-gray-700 sm:text-xs">
                           {coffee.price?.toLocaleString()}원
                         </span>
                       </div>
                       {/* 원두 설명 */}
                       {coffee.description && (
-                        <p className="text-sm text-gray-700 mb-0.5 leading-tight">
+                        <p className="text-sm text-gray-700 mb-0.5 leading-tight sm:text-xs">
                           {coffee.description}
                         </p>
                       )}
                       {/* 원두 특성 태그들 */}
-                      <div className="flex flex-wrap gap-1 mb-0.5">
+                      <div className="flex flex-wrap gap-1 mb-0.5 sm:gap-0.5">
                         {coffee.roastLevel?.map((level, idx) => (
                           <span
                             key={`roast-${idx}`}
-                            className="text-[11px] px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200"
+                            className="text-[11px] px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200 sm:px-1 sm:py-0.5"
                           >
                             {level}
                           </span>
@@ -510,7 +512,7 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                         {coffee.origins?.map((origin, idx) => (
                           <span
                             key={`origin-${idx}`}
-                            className="text-[11px] px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200"
+                            className="text-[11px] px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200 sm:px-1 sm:py-0.5"
                           >
                             {origin}
                           </span>
@@ -518,7 +520,7 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                         {coffee.processes?.map((process, idx) => (
                           <span
                             key={`process-${idx}`}
-                            className="text-[11px] px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200"
+                            className="text-[11px] px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200 sm:px-1 sm:py-0.5"
                           >
                             {process}
                           </span>
@@ -526,7 +528,7 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                         {coffee.brewMethods?.map((method, idx) => (
                           <span
                             key={`brew-${idx}`}
-                            className="text-[11px] px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200"
+                            className="text-[11px] px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200 sm:px-1 sm:py-0.5"
                           >
                             {method}
                           </span>
@@ -534,11 +536,11 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                       </div>
                       {/* 커피 노트: 컬러풀한 원(circle)로 표현 */}
                       {coffee.notes && coffee.notes.length > 0 && Array.isArray(coffee.noteColors) && (
-                        <div className="flex flex-wrap gap-1 mt-0.5 items-center">
+                        <div className="flex flex-wrap gap-1 mt-0.5 items-center sm:gap-0.5">
                           {coffee.notes.map((note, idx) => (
                             <span key={`note-${idx}`} className="flex items-center gap-1">
-                              <span className="inline-block w-4 h-4 rounded-full border border-white shadow" style={{ background: coffee.noteColors?.[idx] || '#eee' }} />
-                              <span className="text-[11px] text-gray-800 font-medium">{note}</span>
+                              <span className="inline-block w-4 h-4 rounded-full border border-white shadow sm:w-3 sm:h-3" style={{ background: coffee.noteColors?.[idx] || '#eee' }} />
+                              <span className="text-[11px] text-gray-800 font-medium sm:text-[10px]">{note}</span>
                             </span>
                           ))}
                         </div>
