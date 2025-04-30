@@ -52,11 +52,12 @@ export default function FilterPanel({
           initial={{ x: -384 }}
           animate={{ x: 0 }}
           exit={{ x: -384 }}
-          className="fixed left-0 top-0 bottom-0 w-96 bg-gradient-to-b from-white via-gray-50 to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 shadow-2xl z-50 overflow-y-auto"
+          className="fixed left-0 top-0 bottom-0 w-96 bg-gradient-to-b from-white via-gray-50 to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 shadow-2xl z-50 overflow-y-auto
+            sm:w-full sm:max-w-xs sm:mx-auto"
         >
-          <div className="sticky top-0 bg-white/80 dark:bg-gray-900/80 z-10 p-4 border-b border-gray-200 dark:border-gray-800 backdrop-blur-md">
+          <div className="sticky top-0 bg-white/80 dark:bg-gray-900/80 z-10 p-4 border-b border-gray-200 dark:border-gray-800 backdrop-blur-md sm:p-2">
             <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-extrabold tracking-tight">Coffee Filters</h2>
+              <h2 className="text-2xl font-extrabold tracking-tight sm:text-lg">Coffee Filters</h2>
               <button
                 onClick={onClose}
                 className="p-2 hover:bg-gray-200 dark:hover:bg-gray-800 rounded-full transition-colors"
@@ -68,11 +69,11 @@ export default function FilterPanel({
             </div>
           </div>
 
-          <div className="p-6 space-y-4">
+          <div className="p-6 space-y-4 sm:p-2 sm:space-y-2">
             {/* Brew Method */}
             <section>
               <button
-                className={`w-full flex justify-between items-center py-4 px-2 bg-transparent border-none rounded-none shadow-none transition-all text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none group ${openSection === 'brew' ? 'text-blue-600 dark:text-blue-400' : ''}`}
+                className={`w-full flex justify-between items-center py-4 px-2 bg-transparent border-none rounded-none shadow-none transition-all text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none group sm:py-2 sm:px-1 sm:text-base ${openSection === 'brew' ? 'text-blue-600 dark:text-blue-400' : ''}`}
                 onClick={() => toggleSection('brew')}
                 style={{ borderBottom: '1.5px solid #e5e7eb', marginBottom: '0.5rem' }}
               >
@@ -91,12 +92,12 @@ export default function FilterPanel({
                     transition={{ duration: 0.25 }}
                     className="overflow-hidden"
                   >
-                    <div className="flex flex-wrap gap-2 px-2 pb-4">
+                    <div className="flex flex-wrap gap-2 px-2 pb-4 sm:gap-1 sm:px-1 sm:pb-2">
                       {['핸드드립', '에스프레소', '콜드브루'].map((method) => (
                         <button
                           key={method}
                           onClick={() => toggleBrewMethod(method)}
-                          className={`text-sm px-4 py-2 rounded-full shadow transition-all font-medium ${
+                          className={`text-sm px-4 py-2 rounded-full shadow transition-all font-medium sm:text-xs sm:px-2 sm:py-1 ${
                             selectedBrewMethods.includes(method)
                               ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg scale-105'
                               : 'bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-gray-800'
@@ -114,7 +115,7 @@ export default function FilterPanel({
             {/* Origin */}
             <section>
               <button
-                className={`w-full flex justify-between items-center py-4 px-2 bg-transparent border-none rounded-none shadow-none transition-all text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none group ${openSection === 'origin' ? 'text-blue-600 dark:text-blue-400' : ''}`}
+                className={`w-full flex justify-between items-center py-4 px-2 bg-transparent border-none rounded-none shadow-none transition-all text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none group sm:py-2 sm:px-1 sm:text-base ${openSection === 'origin' ? 'text-blue-600 dark:text-blue-400' : ''}`}
                 onClick={() => toggleSection('origin')}
                 style={{ borderBottom: '1.5px solid #e5e7eb', marginBottom: '0.5rem' }}
               >
@@ -133,12 +134,12 @@ export default function FilterPanel({
                     transition={{ duration: 0.25 }}
                     className="overflow-hidden"
                   >
-                    <div className="flex flex-wrap gap-2 px-2 pb-4">
+                    <div className="flex flex-wrap gap-2 px-2 pb-4 sm:gap-1 sm:px-1 sm:pb-2">
                       {['에티오피아', '콜롬비아', '브라질', '과테말라', '케냐', '코스타리카', '파나마', '인도네시아', '르완다', '엘살바도르'].map((origin) => (
                         <button
                           key={origin}
                           onClick={() => toggleOrigin(origin)}
-                          className={`text-sm px-4 py-2 rounded-full shadow transition-all font-medium ${
+                          className={`text-sm px-4 py-2 rounded-full shadow transition-all font-medium sm:text-xs sm:px-2 sm:py-1 ${
                             selectedOrigins.includes(origin)
                               ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg scale-105'
                               : 'bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-gray-800'
@@ -156,7 +157,7 @@ export default function FilterPanel({
             {/* Process */}
             <section>
               <button
-                className={`w-full flex justify-between items-center py-4 px-2 bg-transparent border-none rounded-none shadow-none transition-all text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none group ${openSection === 'process' ? 'text-blue-600 dark:text-blue-400' : ''}`}
+                className={`w-full flex justify-between items-center py-4 px-2 bg-transparent border-none rounded-none shadow-none transition-all text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none group sm:py-2 sm:px-1 sm:text-base ${openSection === 'process' ? 'text-blue-600 dark:text-blue-400' : ''}`}
                 onClick={() => toggleSection('process')}
                 style={{ borderBottom: '1.5px solid #e5e7eb', marginBottom: '0.5rem' }}
               >
@@ -175,12 +176,12 @@ export default function FilterPanel({
                     transition={{ duration: 0.25 }}
                     className="overflow-hidden"
                   >
-                    <div className="flex flex-wrap gap-2 px-2 pb-4">
+                    <div className="flex flex-wrap gap-2 px-2 pb-4 sm:gap-1 sm:px-1 sm:pb-2">
                       {['워시드', '내추럴', '허니', '무산소 발효', '디카페인'].map((process) => (
                         <button
                           key={process}
                           onClick={() => toggleProcess(process)}
-                          className={`text-sm px-4 py-2 rounded-full shadow transition-all font-medium ${
+                          className={`text-sm px-4 py-2 rounded-full shadow transition-all font-medium sm:text-xs sm:px-2 sm:py-1 ${
                             selectedProcesses.includes(process)
                               ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg scale-105'
                               : 'bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-gray-800'
@@ -198,7 +199,7 @@ export default function FilterPanel({
             {/* Roast Level */}
             <section>
               <button
-                className={`w-full flex justify-between items-center py-4 px-2 bg-transparent border-none rounded-none shadow-none transition-all text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none group ${openSection === 'roast' ? 'text-blue-600 dark:text-blue-400' : ''}`}
+                className={`w-full flex justify-between items-center py-4 px-2 bg-transparent border-none rounded-none shadow-none transition-all text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none group sm:py-2 sm:px-1 sm:text-base ${openSection === 'roast' ? 'text-blue-600 dark:text-blue-400' : ''}`}
                 onClick={() => toggleSection('roast')}
                 style={{ borderBottom: '1.5px solid #e5e7eb', marginBottom: '0.5rem' }}
               >
@@ -217,12 +218,12 @@ export default function FilterPanel({
                     transition={{ duration: 0.25 }}
                     className="overflow-hidden"
                   >
-                    <div className="flex flex-wrap gap-2 px-2 pb-4">
+                    <div className="flex flex-wrap gap-2 px-2 pb-4 sm:gap-1 sm:px-1 sm:pb-2">
                       {['라이트', '미디엄라이트', '미디엄', '미디엄다크', '다크'].map((roast) => (
                         <button
                           key={roast}
                           onClick={() => toggleRoast(roast)}
-                          className={`text-sm px-4 py-2 rounded-full shadow transition-all font-medium ${
+                          className={`text-sm px-4 py-2 rounded-full shadow transition-all font-medium sm:text-xs sm:px-2 sm:py-1 ${
                             selectedRoast.includes(roast)
                               ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg scale-105'
                               : 'bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-gray-800'
@@ -240,7 +241,7 @@ export default function FilterPanel({
             {/* My Cup Notes */}
             <section>
               <button
-                className={`w-full flex justify-between items-center py-4 px-2 bg-transparent border-none rounded-none shadow-none transition-all text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none group ${openSection === 'notes' ? 'text-blue-600 dark:text-blue-400' : ''}`}
+                className={`w-full flex justify-between items-center py-4 px-2 bg-transparent border-none rounded-none shadow-none transition-all text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none group sm:py-2 sm:px-1 sm:text-base ${openSection === 'notes' ? 'text-blue-600 dark:text-blue-400' : ''}`}
                 onClick={() => toggleSection('notes')}
                 style={{ borderBottom: '1.5px solid #e5e7eb', marginBottom: '0.5rem' }}
               >
@@ -263,7 +264,7 @@ export default function FilterPanel({
                       {/* Floral */}
                       <div className="rounded-xl shadow bg-white/80 dark:bg-gray-800">
                         <button
-                          className="relative w-full h-16 flex items-center rounded-xl overflow-hidden group focus:outline-none"
+                          className="relative w-full h-16 flex items-center rounded-xl overflow-hidden group focus:outline-none sm:py-2 sm:px-1 sm:text-base"
                           onClick={() => setOpenFloral((v) => !v)}
                         >
                           <Image
@@ -293,14 +294,14 @@ export default function FilterPanel({
                               transition={{ duration: 0.25 }}
                               className="overflow-hidden"
                             >
-                              <div className="flex flex-wrap gap-2 content-start px-4 pb-4 pt-2">
+                              <div className="flex flex-wrap gap-2 content-start px-4 pb-4 pt-2 sm:gap-1 sm:px-1 sm:pb-2">
                                 {[
                                   '라벤더', '아카시아', '장미', '자스민', '국화', '히비스커스', '제비꽃', '홍차', '얼그레이', '카모마일', '오렌지 블로섬', '은방울꽃', '블랙티', '베르가못', '라일락', '로즈마리'
                                 ].map((note) => (
                                   <button
                                     key={note}
                                     onClick={() => toggleNote(note)}
-                                    className={`text-sm px-4 py-2 rounded-full shadow transition-colors font-medium ${
+                                    className={`text-sm px-4 py-2 rounded-full shadow transition-colors font-medium sm:text-xs sm:px-2 sm:py-1 ${
                                       selectedNotes.includes(note)
                                         ? 'bg-gradient-to-r from-pink-400 to-yellow-300 text-gray-900 shadow-lg scale-105'
                                         : 'bg-white/80 text-gray-900 hover:bg-pink-50 hover:scale-105'
@@ -317,7 +318,7 @@ export default function FilterPanel({
                       {/* Fruity */}
                       <div className="rounded-xl shadow bg-white/80 dark:bg-gray-800">
                         <button
-                          className="relative w-full h-16 flex items-center rounded-xl overflow-hidden group focus:outline-none"
+                          className="relative w-full h-16 flex items-center rounded-xl overflow-hidden group focus:outline-none sm:py-2 sm:px-1 sm:text-base"
                           onClick={() => setOpenFruity((v) => !v)}
                         >
                           <Image
@@ -347,14 +348,14 @@ export default function FilterPanel({
                               transition={{ duration: 0.25 }}
                               className="overflow-hidden"
                             >
-                              <div className="flex flex-wrap gap-2 content-start px-4 pb-4 pt-2">
+                              <div className="flex flex-wrap gap-2 content-start px-4 pb-4 pt-2 sm:gap-1 sm:px-1 sm:pb-2">
                                 {[
                                   '파인애플', '복숭아', '리치', '사과', '감귤', '배', '패션후르츠', '메론', '파파야', '블루베리', '라즈베리', '자두', '딸기', '포도', '자몽', '오렌지', '레몬', '크랜베리', '망고', '체리', '살구'
                                 ].map((note) => (
                                   <button
                                     key={note}
                                     onClick={() => toggleNote(note)}
-                                    className={`text-sm px-4 py-2 rounded-full shadow transition-colors font-medium ${
+                                    className={`text-sm px-4 py-2 rounded-full shadow transition-colors font-medium sm:text-xs sm:px-2 sm:py-1 ${
                                       selectedNotes.includes(note)
                                         ? 'bg-gradient-to-r from-yellow-300 to-pink-400 text-gray-900 shadow-lg scale-105'
                                         : 'bg-white/80 text-gray-900 hover:bg-yellow-50 hover:scale-105'
@@ -371,7 +372,7 @@ export default function FilterPanel({
                       {/* Nutty */}
                       <div className="rounded-xl shadow bg-white/80 dark:bg-gray-800">
                         <button
-                          className="relative w-full h-16 flex items-center rounded-xl overflow-hidden group focus:outline-none"
+                          className="relative w-full h-16 flex items-center rounded-xl overflow-hidden group focus:outline-none sm:py-2 sm:px-1 sm:text-base"
                           onClick={() => setOpenNutty((v) => !v)}
                         >
                           <Image
@@ -401,14 +402,14 @@ export default function FilterPanel({
                               transition={{ duration: 0.25 }}
                               className="overflow-hidden"
                             >
-                              <div className="flex flex-wrap gap-2 content-start px-4 pb-4 pt-2">
+                              <div className="flex flex-wrap gap-2 content-start px-4 pb-4 pt-2 sm:gap-1 sm:px-1 sm:pb-2">
                                 {[
                                   '초콜렛', '캐러멜', '고구마', '꿀', '헤이즐넛', '브라운슈거', '엿기름', '아몬드', '피칸', '호두', '로스트피넛', '마카다미아', '땅콩', '바닐라', '캐슈넛', '메이플 시럽', '토피', '피스타치오', '카카오닙스'
                                 ].map((note) => (
                                   <button
                                     key={note}
                                     onClick={() => toggleNote(note)}
-                                    className={`text-sm px-4 py-2 rounded-full shadow transition-colors font-medium ${
+                                    className={`text-sm px-4 py-2 rounded-full shadow transition-colors font-medium sm:text-xs sm:px-2 sm:py-1 ${
                                       selectedNotes.includes(note)
                                         ? 'bg-gradient-to-r from-yellow-400 to-amber-700 text-gray-900 shadow-lg scale-105'
                                         : 'bg-white/80 text-gray-900 hover:bg-yellow-50 hover:scale-105'

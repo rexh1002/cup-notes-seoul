@@ -664,7 +664,7 @@ export default function HomePage() {
           </button>
 
           {/* 바로가기 버튼들 */}
-          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-50 flex gap-3">
+          <div className="absolute bottom-4 left-0 right-0 z-50 flex gap-3 flex-nowrap overflow-x-auto w-full px-1 sm:gap-2 sm:bottom-2 sm:px-1">
             <button
               onClick={() => handleCategorySearch('floral')}
               className="flex items-center gap-3 bg-white rounded-full px-4 py-2 shadow-lg hover:shadow-xl transition-all"
@@ -733,7 +733,7 @@ export default function HomePage() {
             <span className="flex items-center justify-center w-8 h-8 bg-indigo-600 rounded-full text-2xl">
               <span className="text-white">📍</span>
             </span>
-            <span className="text-gray-800 font-medium text-base">현재위치</span>
+            <span className="text-gray-800 font-medium text-base hidden sm:inline">현재위치</span>
           </button>
 
           {/* FilterPanel 컴포넌트 */}
