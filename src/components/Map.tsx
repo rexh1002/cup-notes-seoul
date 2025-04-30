@@ -447,7 +447,7 @@ export default function Map({
 
             {/* 원두 라인업 섹션 */}
             {selectedCafe.coffees && selectedCafe.coffees.length > 0 && (
-              <div className="flex-1 overflow-y-auto px-4 pb-4">
+              <div className="flex-1 overflow-y-auto px-4 pb-24">
                 <div className="flex items-center justify-between mb-2 mt-2">
                   <h3 className="font-extrabold text-base text-gray-900 tracking-tight">원두 라인업</h3>
                   <span className="text-xs text-gray-500">
