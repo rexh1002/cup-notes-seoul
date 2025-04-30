@@ -462,14 +462,14 @@ export default function Map({
                   {selectedCafe.coffees.map((coffee) => (
                     <div
                       key={coffee.id}
-                      className="relative rounded-xl p-4 shadow bg-white/70 backdrop-blur border border-white/40 flex flex-col gap-1 transition-transform hover:-translate-y-1 hover:shadow-xl"
+                      className="relative rounded-xl pt-4 pb-2 px-4 shadow bg-white/70 backdrop-blur border border-white/40 flex flex-col gap-0.5 transition-transform hover:-translate-y-1 hover:shadow-xl"
                       style={{
                         backgroundColor: coffee.noteColors?.[0] || 'rgba(255,255,255,0.7)',
                         boxShadow: '0 2px 8px 0 rgba(80,80,120,0.10), inset 0 1px 2px rgba(0,0,0,0.08)'
                       }}
                     >
                       {/* 원두 이름과 가격 */}
-                      <div className="flex justify-between items-center mb-1">
+                      <div className="flex justify-between items-center mb-0.5">
                         <h5 className="text-base font-bold leading-tight text-gray-900">{coffee.name}</h5>
                         <span className="text-sm font-semibold leading-tight text-gray-700">
                           {coffee.price?.toLocaleString()}원
@@ -477,12 +477,12 @@ export default function Map({
                       </div>
                       {/* 원두 설명 */}
                       {coffee.description && (
-                        <p className="text-sm text-gray-700 mb-1 leading-tight">
+                        <p className="text-sm text-gray-700 mb-0.5 leading-tight">
                           {coffee.description}
                         </p>
                       )}
                       {/* 원두 특성 태그들 */}
-                      <div className="flex flex-wrap gap-1 mb-1">
+                      <div className="flex flex-wrap gap-1 mb-0.5">
                         {coffee.roastLevel?.map((level, idx) => (
                           <span
                             key={`roast-${idx}`}
@@ -518,7 +518,7 @@ export default function Map({
                       </div>
                       {/* 커피 노트: 컬러풀한 원(circle)로 표현 */}
                       {coffee.notes && coffee.notes.length > 0 && Array.isArray(coffee.noteColors) && (
-                        <div className="flex flex-wrap gap-1 mt-1 items-center">
+                        <div className="flex flex-wrap gap-1 mt-0.5 items-center">
                           {coffee.notes.map((note, idx) => (
                             <span key={`note-${idx}`} className="flex items-center gap-1">
                               <span className="inline-block w-4 h-4 rounded-full border border-white shadow" style={{ background: coffee.noteColors?.[idx] || '#eee' }} />
