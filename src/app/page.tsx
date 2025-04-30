@@ -426,7 +426,7 @@ export default function HomePage() {
             </div>
 
             {/* 네비게이션 */}
-            <nav className="hidden md:flex items-center space-x-8 relative">
+            <nav className="hidden md:flex items-center space-x-6 relative pr-12">
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
