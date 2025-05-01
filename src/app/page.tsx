@@ -422,7 +422,7 @@ export default function HomePage() {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-4 mr-20">
               <Link href="/" className="flex items-center gap-2 font-extrabold text-2xl text-indigo-700">
-                Cup Notes Seoul
+                CUP NOTES SEOUL
               </Link>
             </div>
 

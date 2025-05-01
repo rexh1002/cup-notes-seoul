@@ -23,7 +23,7 @@ const notoSansKr = Noto_Sans_KR({
 });
 
 export const metadata = {
-  title: "Cup Notes Seoul",
+  title: "CUP NOTES SEOUL",
   description: "Find your perfect coffee taste in Seoul",
 };
 
