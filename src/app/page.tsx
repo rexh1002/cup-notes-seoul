@@ -637,75 +637,8 @@ export default function HomePage() {
       <div className="pt-16">
         {/* 지도 섹션 */}
         <section id="map-section" className="relative w-full h-[calc(100vh-4rem)]">
-          {/* 필터 버튼 */}
-          <button
-            onClick={() => setIsFiltersOpen(true)}
-            className="absolute top-20 left-4 z-50 flex items-center gap-2 bg-white rounded-full px-4 py-2 shadow-lg hover:shadow-xl transition-shadow"
-          >
-            <div className="flex items-center justify-center w-8 h-8 bg-indigo-600 rounded-full">
-              <AdjustmentsHorizontalIcon className="w-5 h-5 text-white" />
-            </div>
-            <span className="text-sm font-medium text-gray-700">필터 설정</span>
-          </button>
-
-          {/* 바로가기 버튼들 */}
-          <div className="fixed bottom-2 left-0 right-0 z-50 flex gap-1 px-1 w-full overflow-x-auto whitespace-nowrap sm:gap-1">
-            <button
-              onClick={() => handleCategorySearch('floral')}
-              className="min-w-[44px] h-10 flex items-center justify-center rounded-full bg-white shadow text-xl sm:text-base"
-            >
-              <span className="text-gray-800 font-medium text-base hidden sm:inline">🌸</span>
-            </button>
-            <button
-              onClick={() => handleCategorySearch('fruity')}
-              className="min-w-[44px] h-10 flex items-center justify-center rounded-full bg-white shadow text-xl sm:text-base"
-            >
-              <span className="text-gray-800 font-medium text-base hidden sm:inline">🍇</span>
-            </button>
-            <button
-              onClick={() => handleCategorySearch('nutty')}
-              className="min-w-[44px] h-10 flex items-center justify-center rounded-full bg-white shadow text-xl sm:text-base"
-            >
-              <span className="text-gray-800 font-medium text-base hidden sm:inline">🥜</span>
-            </button>
-            <button
-              onClick={() => handleCategorySearch('handdrip')}
-              className="min-w-[44px] h-10 flex items-center justify-center rounded-full bg-white shadow text-xl sm:text-base"
-            >
-              <span className="text-gray-800 font-medium text-base hidden sm:inline">☕️</span>
-            </button>
-          </div>
-
-          {/* 현재위치 버튼 */}
-          <button
-            className="min-w-[44px] h-10 flex items-center justify-center rounded-full bg-white shadow text-xl sm:text-base"
-            onClick={() => {
-              if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                  (position) => {
-                    const { latitude, longitude } = position.coords;
-                    if (mapRef.current && typeof mapRef.current.moveToCurrentLocation === 'function') {
-                      mapRef.current.moveToCurrentLocation(latitude, longitude);
-                    } else {
-                      window.alert('지도를 찾을 수 없습니다.');
-                    }
-                  },
-                  (error) => {
-                    window.alert('현재 위치를 가져올 수 없습니다. 위치 권한을 허용해 주세요.');
-                  }
-                );
-              } else {
-                window.alert('이 브라우저에서는 위치 정보가 지원되지 않습니다.');
-              }
-            }}
-          >
-            <span className="hidden sm:inline">현재위치</span>
-          </button>
-
-          {/* FilterPanel 컴포넌트 */}
+          {/* FilterPanel 항상 좌측에 고정 */}
           <FilterPanel
-            isOpen={isFiltersOpen}
-            onClose={() => setIsFiltersOpen(false)}
             selectedNotes={selectedNotes}
             toggleNote={toggleNote}
             selectedBrewMethods={selectedBrewMethods}
@@ -719,15 +652,46 @@ export default function HomePage() {
             onReset={handleReset}
             onApply={handleApply}
           />
-
-          {/* 지도 컴포넌트 */}
-          <Map
-            ref={mapRef}
-            cafes={cafes}
-            onCafeSelect={handleCafeSelect}
-            searchKeyword={searchKeyword}
-            onSearch={handleSearch}
-          />
+          {/* Map 영역: FilterPanel 너비만큼 오른쪽으로 밀기 */}
+          <div className="ml-96 h-full">
+            {/* 현재위치 버튼: 아이콘, 우측 중하단 고정 */}
+            <button
+              className="fixed right-6 bottom-24 z-50 w-14 h-14 flex items-center justify-center rounded-full bg-white shadow-lg hover:bg-blue-100 transition-colors border border-gray-200"
+              onClick={() => {
+                if (navigator.geolocation) {
+                  navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                      const { latitude, longitude } = position.coords;
+                      if (mapRef.current && typeof mapRef.current.moveToCurrentLocation === 'function') {
+                        mapRef.current.moveToCurrentLocation(latitude, longitude);
+                      } else {
+                        window.alert('지도를 찾을 수 없습니다.');
+                      }
+                    },
+                    (error) => {
+                      window.alert('현재 위치를 가져올 수 없습니다. 위치 권한을 허용해 주세요.');
+                    }
+                  );
+                } else {
+                  window.alert('이 브라우저에서는 위치 정보가 지원되지 않습니다.');
+                }
+              }}
+              aria-label="현재위치"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" fill="white" />
+                <circle cx="12" cy="12" r="4" fill="#3b82f6" />
+              </svg>
+            </button>
+            {/* 지도 컴포넌트 */}
+            <Map
+              ref={mapRef}
+              cafes={cafes}
+              onCafeSelect={handleCafeSelect}
+              searchKeyword={searchKeyword}
+              onSearch={handleSearch}
+            />
+          </div>
         </section>
       </div>
 
