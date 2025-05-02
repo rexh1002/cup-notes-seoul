@@ -556,6 +556,6 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
       </div>
     </>
   );
-}
+});
 
 export default Map;
