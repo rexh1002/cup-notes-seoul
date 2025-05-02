@@ -431,8 +431,22 @@ export default function HomePage() {
           </div>
         </header>
         <section className="flex flex-col items-center justify-center min-h-screen pt-16">
-          <h1 className="text-5xl font-extrabold text-gray-900 mb-6 text-center">당신의 완벽한 커피를 찾아보세요</h1>
-          <p className="text-lg text-gray-700 mb-8 text-center">서울의 숨은 커피 명소들을 발견하고 공유하세요</p>
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="text-5xl font-extrabold text-gray-900 mb-6 text-center"
+          >
+            당신의 완벽한 커피를 찾아보세요
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+            className="text-lg text-gray-700 mb-8 text-center"
+          >
+            서울의 숨은 커피 명소들을 발견하고 공유하세요
+          </motion.p>
         </section>
       </main>
     );
@@ -621,65 +635,6 @@ export default function HomePage() {
       {/* 필터 패널 항상 렌더 */}
       {/* 메인 컨텐츠 */}
       <div className="pt-16">
-        {/* 히어로 섹션 */}
-        <section className="relative h-screen overflow-hidden">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1 }}
-            className="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-600/20 to-pink-600/20"
-          />
-          
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="text-center space-y-6 px-4">
-              <motion.h2
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-                className="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white"
-              >
-                당신의 완벽한 커피를 찾아보세요
-              </motion.h2>
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
-                className="text-lg md:text-xl text-gray-700 dark:text-gray-300"
-              >
-                서울의 숨은 커피 명소들을 발견하고 공유하세요
-              </motion.p>
-                </div>
-              </div>
-
-          {/* 스크롤 다운 인디케이터 */}
-          <motion.div
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity, repeatType: "reverse" }}
-            className="absolute bottom-20 left-1/2 transform -translate-x-1/2 cursor-pointer"
-            onClick={() => {
-              const mapSection = document.getElementById('map-section');
-              if (mapSection) {
-                mapSection.scrollIntoView({ behavior: 'smooth' });
-              }
-            }}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6 text-gray-700 dark:text-gray-300"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M19 14l-7 7m0 0l-7-7m7 7V3"
-              />
-            </svg>
-          </motion.div>
-        </section>
-
         {/* 지도 섹션 */}
         <section id="map-section" className="relative w-full h-[calc(100vh-4rem)]">
           {/* 필터 버튼 */}
