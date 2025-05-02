@@ -14,6 +14,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from 'next-themes';
 import FilterPanel from '../components/FilterPanel';
 import { AdjustmentsHorizontalIcon } from '@heroicons/react/24/outline';
+import MobileNavBar from '../components/MobileNavBar';
 
 const Map = dynamic(() => import('../components/Map'), {
  ssr: false
@@ -59,38 +60,39 @@ export default function HomePage() {
  const [userName, setUserName] = useState<string | null>(null);
  const [userId, setUserId] = useState<string | null>(null);
  const [showMapOnMobile, setShowMapOnMobile] = useState(false);
-  const [isSearching, setIsSearching] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
-  const [filters, setFilters] = useState({
-    parking: false,
-    wifi: false,
-    outdoor: false,
-    pet: false,
-    smoking: false,
-    wheelchair: false,
-    floral: false,
-    fruity: false,
-    nutty: false
-  });
-  const { theme, setTheme } = useTheme();
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [isSignupDropdownOpen, setIsSignupDropdownOpen] = useState(false);
-  const [isFiltersOpen, setIsFiltersOpen] = useState(false);
-  const [selectedCafe, setSelectedCafe] = useState<Cafe | null>(null);
-  const mapRef = useRef<any>(null);
-  const [showMain, setShowMain] = useState(true);
+ const [isSearching, setIsSearching] = useState(false);
+ const [isMounted, setIsMounted] = useState(false);
+ const [filters, setFilters] = useState({
+   parking: false,
+   wifi: false,
+   outdoor: false,
+   pet: false,
+   smoking: false,
+   wheelchair: false,
+   floral: false,
+   fruity: false,
+   nutty: false
+ });
+ const { theme, setTheme } = useTheme();
+ const [scrollProgress, setScrollProgress] = useState(0);
+ const [isFilterOpen, setIsFilterOpen] = useState(false);
+ const [isSignupDropdownOpen, setIsSignupDropdownOpen] = useState(false);
+ const [isFiltersOpen, setIsFiltersOpen] = useState(false);
+ const [selectedCafe, setSelectedCafe] = useState<Cafe | null>(null);
+ const mapRef = useRef<any>(null);
+ const [showMain, setShowMain] = useState(true);
+ const [isMobile, setIsMobile] = useState(false);
 
-  const hasSelections = selectedNotes.length > 0 || 
-    selectedBrewMethods.length > 0 || 
-    selectedOrigins.length > 0 || 
-    selectedProcesses.length > 0 || 
-    selectedRoast.length > 0;
+ const hasSelections = selectedNotes.length > 0 || 
+   selectedBrewMethods.length > 0 || 
+   selectedOrigins.length > 0 || 
+   selectedProcesses.length > 0 || 
+   selectedRoast.length > 0;
 
-  useEffect(() => {
-    setIsMounted(true);
-    console.log('isMounted true');
-  }, []);
+ useEffect(() => {
+  setIsMounted(true);
+  console.log('isMounted true');
+ }, []);
 
  useEffect(() => {
   // URL에서 토큰 파라미터 확인
@@ -428,6 +430,22 @@ export default function HomePage() {
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile(); // 초기 렌더링 시 체크
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // 모바일 환경이면 리다이렉트
+  useEffect(() => {
+    if (isMobile) {
+      router.replace('/map');
+    }
+  }, [isMobile, router]);
+
   if (showMain) {
     return (
       <main className="min-h-screen transition-colors duration-300 overflow-y-auto">
@@ -597,7 +615,7 @@ export default function HomePage() {
           {/* Quick Box: FilterPanel 오른쪽 경계에서 왼쪽 16px, 위쪽 8px */}
           <div
             className="absolute z-[120] bg-white/70 backdrop-blur-md border border-gray-200 shadow-xl rounded-xl flex gap-1 px-2 py-1 items-center"
-            style={{ left: 'calc(384px - 16px)', top: '8px', minWidth: 240, maxWidth: 320 }}
+            style={{ left: isMobile ? '16px' : 'calc(384px + 16px)', top: '8px', minWidth: 240, maxWidth: 320 }}
           >
             <QuickButton
               icon={<Flower2 className="w-6 h-6 text-black" strokeWidth={2.2} />}
@@ -621,23 +639,25 @@ export default function HomePage() {
             />
           </div>
           {/* FilterPanel 항상 좌측에 고정 */}
-          <FilterPanel
-            selectedNotes={selectedNotes}
-            toggleNote={toggleNote}
-            selectedBrewMethods={selectedBrewMethods}
-            toggleBrewMethod={toggleBrewMethod}
-            selectedOrigins={selectedOrigins}
-            toggleOrigin={toggleOrigin}
-            selectedProcesses={selectedProcesses}
-            toggleProcess={toggleProcess}
-            selectedRoast={selectedRoast}
-            toggleRoast={toggleRoast}
-            onReset={handleReset}
-            onApply={handleApply}
-            className="fixed top-16 left-0 w-96 h-[calc(100vh-4rem)] z-50"
-          />
+          {!isMobile && (
+            <FilterPanel
+              selectedNotes={selectedNotes}
+              toggleNote={toggleNote}
+              selectedBrewMethods={selectedBrewMethods}
+              toggleBrewMethod={toggleBrewMethod}
+              selectedOrigins={selectedOrigins}
+              toggleOrigin={toggleOrigin}
+              selectedProcesses={selectedProcesses}
+              toggleProcess={toggleProcess}
+              selectedRoast={selectedRoast}
+              toggleRoast={toggleRoast}
+              onReset={handleReset}
+              onApply={handleApply}
+              className="fixed top-16 left-0 w-96 h-[calc(100vh-4rem)] z-50"
+            />
+          )}
           {/* Map 영역: FilterPanel 너비만큼 오른쪽으로 밀기 */}
-          <div className="ml-96 h-full">
+          <div className={`ml-${isMobile ? '0' : '96'} h-full`}>
             {/* 현재위치 버튼: 아이콘, 우측 중하단 고정 */}
             <button
               className="fixed right-6 bottom-24 z-50 w-14 h-14 flex items-center justify-center rounded-full bg-white shadow-lg hover:bg-blue-100 transition-colors border border-gray-200"
@@ -692,6 +712,9 @@ export default function HomePage() {
           </div>
         </div>
       </footer>
+
+      {/* Mobile Navigation Bar */}
+      {isMobile && <MobileNavBar current="map" />}
     </main>
   );
 }
