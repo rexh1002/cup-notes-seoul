@@ -65,6 +65,7 @@ export default function HomePage() {
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
   const [selectedCafe, setSelectedCafe] = useState<Cafe | null>(null);
   const mapRef = useRef<any>(null);
+  const [showMain, setShowMain] = useState(true);
 
   const hasSelections = selectedNotes.length > 0 || 
     selectedBrewMethods.length > 0 || 
@@ -407,6 +408,35 @@ export default function HomePage() {
   const handleCafeSelect = (cafe: Cafe) => {
     setSelectedCafe(cafe);
   };
+
+  useEffect(() => {
+    const timer = setTimeout(() => setShowMain(false), 1500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (showMain) {
+    return (
+      <main className="min-h-screen bg-[#F5F2E8] dark:bg-gray-900 transition-colors duration-300 overflow-y-auto">
+        {/* 헤더 섹션 */}
+        <header className="fixed top-0 left-0 right-0 bg-white shadow-sm z-50">
+          <div className="w-full px-0">
+            <div className="flex justify-between items-center h-16">
+              <div className="flex items-center space-x-4 mr-20">
+                <Link href="/" className="flex items-center gap-2 font-extrabold text-2xl text-indigo-700">
+                  CUP NOTES SEOUL
+                </Link>
+              </div>
+              {/* ...기존 네비게이션 코드... */}
+            </div>
+          </div>
+        </header>
+        <section className="flex flex-col items-center justify-center min-h-screen pt-16">
+          <h1 className="text-5xl font-extrabold text-gray-900 mb-6 text-center">당신의 완벽한 커피를 찾아보세요</h1>
+          <p className="text-lg text-gray-700 mb-8 text-center">서울의 숨은 커피 명소들을 발견하고 공유하세요</p>
+        </section>
+      </main>
+    );
+  }
 
   return (
     <main className="min-h-screen bg-[#F5F2E8] dark:bg-gray-900 transition-colors duration-300 overflow-y-auto">
