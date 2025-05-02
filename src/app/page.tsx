@@ -26,6 +26,20 @@ declare global {
   }
 }
 
+// QuickButton 컴포넌트 인라인 정의
+function QuickButton({ icon, label, onClick }: { icon: React.ReactNode; label: string; onClick: () => void }) {
+  return (
+    <button
+      className="flex flex-col items-center px-2 py-1 rounded-lg hover:bg-gray-100 active:bg-gray-200 transition text-gray-800 font-semibold text-xs focus:outline-none min-w-[56px]"
+      onClick={onClick}
+      type="button"
+    >
+      {icon}
+      <span className="mt-0.5" style={{letterSpacing: '0.01em'}}>{label}</span>
+    </button>
+  );
+}
+
 export default function HomePage() {
  const router = useRouter();
  const [cafes, setCafes] = useState<Cafe[]>([]);
@@ -580,6 +594,32 @@ export default function HomePage() {
       <div className="pt-16">
         {/* 지도 섹션 */}
         <section id="map-section" className="relative w-full h-[calc(100vh-4rem)]">
+          {/* Quick Button Box - 좌측 상단, 미니멀/현대적/감각적 */}
+          <div
+            className="fixed top-8 left-8 z-[120] bg-white/70 backdrop-blur-md border border-gray-200 shadow-xl rounded-xl flex gap-1 px-2 py-1 items-center"
+            style={{ minWidth: 240, maxWidth: 320 }}
+          >
+            <QuickButton
+              icon={<svg className="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><circle cx="12" cy="12" r="6" /><path d="M12 6v2" /><path d="M12 16v2" /><path d="M6 12h2" /><path d="M16 12h2" /></svg>}
+              label="Floral"
+              onClick={() => handleCategorySearch('floral')}
+            />
+            <QuickButton
+              icon={<svg className="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="6" ry="8" /><path d="M12 4v16" /></svg>}
+              label="Fruity"
+              onClick={() => handleCategorySearch('fruity')}
+            />
+            <QuickButton
+              icon={<svg className="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><rect x="7" y="7" width="10" height="10" rx="3" /><path d="M10 10h4v4h-4z" /></svg>}
+              label="Nutty"
+              onClick={() => handleCategorySearch('nutty')}
+            />
+            <QuickButton
+              icon={<svg className="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path d="M6 8h12l-1.5 8a4 4 0 01-9 0L6 8z" /><path d="M9 16h6" /></svg>}
+              label="핸드드립"
+              onClick={() => handleCategorySearch('핸드드립')}
+            />
+          </div>
           {/* FilterPanel 항상 좌측에 고정 */}
           <FilterPanel
             selectedNotes={selectedNotes}

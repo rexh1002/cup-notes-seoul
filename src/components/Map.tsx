@@ -59,6 +59,21 @@ export interface MapHandle {
   moveToCurrentLocation: (lat: number, lng: number) => void;
 }
 
+// QuickButton 컴포넌트 인라인 정의
+function QuickButton({ icon, label, onClick }: { icon: React.ReactNode; label: string; onClick: () => void }) {
+  return (
+    <button
+      className="flex flex-col items-center px-2 py-1 rounded-lg hover:bg-gray-100 active:bg-gray-200 transition text-gray-800 font-semibold text-xs focus:outline-none shadow-sm"
+      onClick={onClick}
+      type="button"
+      style={{ minWidth: 56 }}
+    >
+      {icon}
+      <span className="mt-0.5" style={{letterSpacing: '0.01em'}}>{label}</span>
+    </button>
+  );
+}
+
 const Map = forwardRef<MapHandle, MapProps>(function Map({
   cafes,
   onCafeSelect,
@@ -361,6 +376,13 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
         strategy="afterInteractive"
         onLoad={() => console.log('[Map] 네이버 지도 스크립트 로드 완료')}
       />
+      {/* Quick Search Box: 좌측 상단 고정 */}
+      <div className="absolute top-6 left-6 z-[120] bg-white/80 backdrop-blur-md border border-gray-200 shadow-xl rounded-xl flex gap-1 px-2 py-1 items-center" style={{minWidth:220}}>
+        <QuickButton icon={<span className="text-lg">✿</span>} label="Floral" onClick={() => onSearch && onSearch('floral')} />
+        <QuickButton icon={<span className="text-lg">🍍</span>} label="Fruity" onClick={() => onSearch && onSearch('fruity')} />
+        <QuickButton icon={<span className="text-lg">🍫</span>} label="Nutty" onClick={() => onSearch && onSearch('nutty')} />
+        <QuickButton icon={<span className="text-lg">⬒</span>} label="핸드드립" onClick={() => onSearch && onSearch('핸드드립')} />
+      </div>
       <div 
         ref={mapRef} 
         className="relative w-full h-full min-h-[400px] bg-gray-100"
