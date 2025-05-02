@@ -38,7 +38,7 @@ export default function FilterPanel({
     <div className={`fixed w-96 h-full bg-gradient-to-b from-white via-gray-50 to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 shadow-2xl overflow-y-auto z-50 ${className || ''}`}>
       <div className="sticky top-0 bg-white/80 dark:bg-gray-900/80 z-10 p-4 border-b border-gray-200 dark:border-gray-800 backdrop-blur-md">
         <div className="flex justify-between items-center">
-          <h2 className="text-2xl font-extrabold tracking-tight">Coffee Filters</h2>
+          <h2 className="text-2xl font-extrabold tracking-tight">COFFEE FILTERS</h2>
         </div>
       </div>
       <div className="p-6 space-y-4">
