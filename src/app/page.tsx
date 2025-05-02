@@ -416,7 +416,7 @@ export default function HomePage() {
 
   if (showMain) {
     return (
-      <main className="min-h-screen bg-[#F5F2E8] dark:bg-gray-900 transition-colors duration-300 overflow-y-auto">
+      <main className="min-h-screen transition-colors duration-300 overflow-y-auto">
         {/* 헤더 섹션 */}
         <header className="fixed top-0 left-0 right-0 bg-white shadow-sm z-50">
           <div className="w-full px-0">
@@ -430,7 +430,7 @@ export default function HomePage() {
             </div>
           </div>
         </header>
-        <section className="flex flex-col items-center justify-center min-h-screen pt-16">
+        <section className="flex flex-col items-center justify-center min-h-screen pt-16 bg-gradient-to-br from-blue-600/20 via-purple-600/20 to-pink-600/20">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
