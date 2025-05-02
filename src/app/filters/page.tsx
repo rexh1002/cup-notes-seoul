@@ -1,0 +1,47 @@
+'use client';
+import FilterPanel from '../../components/FilterPanel';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import MobileNavBar from '../../components/MobileNavBar';
+
+export default function FiltersPage() {
+  // 상태 및 핸들러는 기존 page.tsx에서 복사/최소화
+  const [selectedNotes, setSelectedNotes] = useState<string[]>([]);
+  const [selectedBrewMethods, setSelectedBrewMethods] = useState<string[]>([]);
+  const [selectedOrigins, setSelectedOrigins] = useState<string[]>([]);
+  const [selectedProcesses, setSelectedProcesses] = useState<string[]>([]);
+  const [selectedRoast, setSelectedRoast] = useState<string[]>([]);
+  const router = useRouter();
+
+  // 모바일 환경이 아니면 리다이렉트(간단히 window.innerWidth 체크)
+  if (typeof window !== 'undefined' && window.innerWidth >= 768) {
+    router.replace('/');
+    return null;
+  }
+
+  return (
+    <div className="pt-4 pb-16">
+      <FilterPanel
+        selectedNotes={selectedNotes}
+        toggleNote={note => setSelectedNotes(prev => prev.includes(note) ? prev.filter(n => n !== note) : [...prev, note])}
+        selectedBrewMethods={selectedBrewMethods}
+        toggleBrewMethod={method => setSelectedBrewMethods(prev => prev.includes(method) ? prev.filter(m => m !== method) : [...prev, method])}
+        selectedOrigins={selectedOrigins}
+        toggleOrigin={origin => setSelectedOrigins(prev => prev.includes(origin) ? prev.filter(o => o !== origin) : [...prev, origin])}
+        selectedProcesses={selectedProcesses}
+        toggleProcess={process => setSelectedProcesses(prev => prev.includes(process) ? prev.filter(p => p !== process) : [...prev, process])}
+        selectedRoast={selectedRoast}
+        toggleRoast={roast => setSelectedRoast(prev => prev.includes(roast) ? prev.filter(r => r !== roast) : [...prev, roast])}
+        onReset={() => {
+          setSelectedNotes([]);
+          setSelectedBrewMethods([]);
+          setSelectedOrigins([]);
+          setSelectedProcesses([]);
+          setSelectedRoast([]);
+        }}
+        onApply={() => {}}
+      />
+      <MobileNavBar current="filters" />
+    </div>
+  );
+} 
