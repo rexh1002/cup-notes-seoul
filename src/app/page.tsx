@@ -6,7 +6,7 @@ import CoffeeSearch from '../components/coffee/coffee-search';
 import SearchResults from '../components/coffee/search-results';
 import { SearchParams } from '../components/coffee/coffee-search';
 import { Cafe } from '../types/types';
-import { Search, Flower2, Grape, Nut } from 'lucide-react';
+import { Search, Flower2, Apple, Candy, Coffee } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -600,22 +600,22 @@ export default function HomePage() {
             style={{ left: 'calc(384px - 16px)', top: '8px', minWidth: 240, maxWidth: 320 }}
           >
             <QuickButton
-              icon={<svg className="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 4.5-7 13-7 13S5 13.5 5 9a7 7 0 0 1 7-7z" /><circle cx="12" cy="9" r="2.5" /></svg>}
+              icon={<Flower2 className="w-6 h-6 text-black" strokeWidth={2.2} />}
               label="Floral"
               onClick={() => handleCategorySearch('floral')}
             />
             <QuickButton
-              icon={<svg className="w-5 h-5 text-black" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2c-2.5 0-4.5 2-4.5 4.5S12 22 12 22s4.5-15.5 4.5-15.5S14.5 2 12 2zm0 6a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/></svg>}
+              icon={<Apple className="w-6 h-6 text-black" strokeWidth={2.2} />}
               label="Fruity"
               onClick={() => handleCategorySearch('fruity')}
             />
             <QuickButton
-              icon={<svg className="w-5 h-5 text-black" fill="currentColor" viewBox="0 0 24 24"><rect x="6" y="8" width="12" height="8" rx="2" /><rect x="9" y="11" width="6" height="2" rx="1" /></svg>}
+              icon={<Candy className="w-6 h-6 text-black" strokeWidth={2.2} />}
               label="Nutty"
               onClick={() => handleCategorySearch('nutty')}
             />
             <QuickButton
-              icon={<svg className="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path d="M6 8h12l-1.5 8a4 4 0 01-9 0L6 8z" /><path d="M9 16h6" /></svg>}
+              icon={<Coffee className="w-6 h-6 text-black" strokeWidth={2.2} />}
               label="핸드드립"
               onClick={() => handleCategorySearch('핸드드립')}
             />
