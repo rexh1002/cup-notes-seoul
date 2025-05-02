@@ -16,6 +16,7 @@ interface FilterPanelProps {
   toggleRoast: (roast: string) => void;
   onReset: () => void;
   onApply: () => void;
+  className?: string;
 }
 
 export default function FilterPanel({
@@ -30,10 +31,11 @@ export default function FilterPanel({
   selectedRoast,
   toggleRoast,
   onReset,
-  onApply
+  onApply,
+  className
 }: FilterPanelProps) {
   return (
-    <div className="fixed top-0 left-0 w-96 h-full bg-gradient-to-b from-white via-gray-50 to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 shadow-2xl z-50 overflow-y-auto">
+    <div className={`fixed w-96 h-full bg-gradient-to-b from-white via-gray-50 to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 shadow-2xl overflow-y-auto z-50 ${className || ''}`}>
       <div className="sticky top-0 bg-white/80 dark:bg-gray-900/80 z-10 p-4 border-b border-gray-200 dark:border-gray-800 backdrop-blur-md">
         <div className="flex justify-between items-center">
           <h2 className="text-2xl font-extrabold tracking-tight">Coffee Filters</h2>

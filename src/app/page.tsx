@@ -461,7 +461,7 @@ export default function HomePage() {
       />
 
       {/* 헤더 섹션 */}
-      <header className="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur border-b border-indigo-200 shadow-sm z-50">
+      <header className="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur border-b border-indigo-200 shadow-sm z-[100]">
         <div className="w-full px-0">
           <div className="flex justify-between items-center h-16">
             {/* 감각적인 로고/텍스트 */}
@@ -594,6 +594,7 @@ export default function HomePage() {
             toggleRoast={toggleRoast}
             onReset={handleReset}
             onApply={handleApply}
+            className="fixed top-16 left-0 w-96 h-[calc(100vh-4rem)] z-50"
           />
           {/* Map 영역: FilterPanel 너비만큼 오른쪽으로 밀기 */}
           <div className="ml-96 h-full">

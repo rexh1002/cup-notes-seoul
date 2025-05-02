@@ -370,7 +370,7 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
         }}
       >
         {selectedCafe && (
-          <div className="absolute top-10 right-0 z-50 bg-white/40 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/30 w-full max-w-sm max-h-[calc(100vh-32px)] flex flex-col overflow-hidden animate-fade-in
+          <div className="absolute top-10 right-0 z-[200] bg-white/40 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/30 w-full max-w-sm max-h-[calc(100vh-32px)] flex flex-col overflow-hidden animate-fade-in
             sm:fixed sm:bottom-0 sm:left-0 sm:right-0 sm:top-auto sm:w-full sm:max-w-none sm:rounded-t-3xl sm:rounded-b-none sm:p-4 sm:z-[999] sm:bg-white sm:border-t sm:border-gray-200 sm:shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]
             md:absolute md:top-10 md:right-0 md:bottom-auto md:left-auto md:w-[380px] md:max-w-sm md:rounded-2xl md:shadow-2xl md:border md:border-white/30 md:bg-white/40">
             {/* 카페 이미지 섹션 */}
@@ -553,20 +553,9 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
             )}
           </div>
         )}
-
-        <style jsx>{`
-          .marker-content {
-            padding: 5px 10px;
-            background: white;
-            border: 1px solid #ddd;
-            border-radius: 20px;
-            font-size: 12px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-          }
-        `}</style>
       </div>
     </>
   );
-});
+}
 
 export default Map;
