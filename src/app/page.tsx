@@ -418,15 +418,15 @@ export default function HomePage() {
     return (
       <main className="min-h-screen transition-colors duration-300 overflow-y-auto">
         {/* 헤더 섹션 */}
-        <header className="fixed top-0 left-0 right-0 bg-white shadow-sm z-50">
+        <header className="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur border-b border-indigo-200 shadow-sm z-50">
           <div className="w-full px-0">
             <div className="flex justify-between items-center h-16">
-              <div className="flex items-center space-x-4 mr-20">
-                <Link href="/" className="flex items-center gap-2 font-extrabold text-2xl text-indigo-700">
+              <div className="flex items-center space-x-4 ml-8">
+                <span className="text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 drop-shadow-lg select-none">
                   CUP NOTES SEOUL
-                </Link>
+                </span>
+                <span className="w-3 h-3 rounded-full bg-gradient-to-br from-pink-400 via-indigo-400 to-yellow-300 shadow-md ml-2 animate-pulse"></span>
               </div>
-              {/* ...기존 네비게이션 코드... */}
             </div>
           </div>
         </header>
@@ -461,31 +461,24 @@ export default function HomePage() {
       />
 
       {/* 헤더 섹션 */}
-      <header className="fixed top-0 left-0 right-0 bg-white shadow-sm z-50">
+      <header className="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur border-b border-indigo-200 shadow-sm z-50">
         <div className="w-full px-0">
           <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-4 mr-20">
-              <Link href="/" className="flex items-center gap-2 font-extrabold text-2xl text-indigo-700">
+            {/* 감각적인 로고/텍스트 */}
+            <div className="flex items-center space-x-4 ml-8">
+              <span className="text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 drop-shadow-lg select-none">
                 CUP NOTES SEOUL
-              </Link>
+              </span>
+              <span className="w-3 h-3 rounded-full bg-gradient-to-br from-pink-400 via-indigo-400 to-yellow-300 shadow-md ml-2 animate-pulse"></span>
             </div>
-
-            {/* 네비게이션 */}
-            <nav className="hidden md:flex items-center space-x-6 relative pr-12">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                onClick={handleThemeToggle}
-              >
-                {theme === 'dark' ? '라이트 모드' : '다크 모드'}
-              </motion.button>
+            {/* 네비게이션(로그인/회원가입/내카페/로그아웃만) */}
+            <nav className="flex items-center space-x-6 relative pr-12">
               {!isLoggedIn && (
                 <>
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                    className="text-sm font-semibold text-gray-700 hover:text-indigo-600 transition-colors"
                     onClick={handleLogin}
                   >
                     로그인
@@ -493,46 +486,35 @@ export default function HomePage() {
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                    className="text-sm font-semibold text-gray-700 hover:text-indigo-600 transition-colors"
                     onClick={handleSignup}
                   >
                     회원가입
                   </motion.button>
-                  {/* 회원가입 드롭다운 */}
                   {isSignupDropdownOpen && (
-                    <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg z-50 border border-gray-200 dark:border-gray-700">
-        <button 
-                      className="block w-full text-left px-4 py-3 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-100"
-                      onClick={handleUserSignup}
-        >
-                      일반 회원가입
-        </button>
-        <button 
-                      className="block w-full text-left px-4 py-3 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-100"
-                      onClick={handleManagerSignup}
-        >
-                      카페 관리자 회원가입
-        </button>
-      </div>
-                )}
+                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-50 border border-gray-200">
+                      <button className="block w-full text-left px-4 py-3 text-sm hover:bg-gray-100 text-gray-800" onClick={handleUserSignup}>일반 회원가입</button>
+                      <button className="block w-full text-left px-4 py-3 text-sm hover:bg-gray-100 text-gray-800" onClick={handleManagerSignup}>카페 관리자 회원가입</button>
+                    </div>
+                  )}
                 </>
               )}
               {isLoggedIn && (
                 <>
-                  {userRole === 'cafeManager' || userRole === 'manager' ? (
+                  {(userRole === 'cafeManager' || userRole === 'manager') && (
                     <motion.button
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
-                      className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                      className="text-sm font-semibold text-gray-700 hover:text-indigo-600 transition-colors"
                       onClick={() => router.push('/manager/dashboard')}
                     >
                       내 카페 관리
                     </motion.button>
-                  ) : null}
+                  )}
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                    className="text-sm font-semibold text-gray-700 hover:text-indigo-600 transition-colors"
                     onClick={handleLogout}
                   >
                     로그아웃
@@ -540,28 +522,6 @@ export default function HomePage() {
                 </>
               )}
             </nav>
-
-            {/* 모바일 메뉴 버튼 */}
-            <motion.button
-              whileTap={{ scale: 0.95 }}
-              className="md:hidden p-2"
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 text-gray-700 dark:text-gray-300"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              </svg>
-            </motion.button>
           </div>
         </div>
       </header>
@@ -576,12 +536,6 @@ export default function HomePage() {
             className="fixed top-16 left-0 right-0 bg-white dark:bg-gray-900 shadow-lg z-40 md:hidden"
           >
             <div className="container mx-auto py-4 px-4 space-y-4">
-                        <button
-                className="w-full text-left text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                onClick={handleThemeToggle}
-              >
-                {theme === 'dark' ? '라이트 모드' : '다크 모드'}
-              </button>
               {!isLoggedIn && (
                 <>
                   <button className="w-full text-left text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors" onClick={handleLogin}>
@@ -589,22 +543,11 @@ export default function HomePage() {
                   </button>
                   <button className="w-full text-left text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors" onClick={handleSignup}>
                     회원가입
-                        </button>
-                  {/* 모바일 회원가입 드롭다운 */}
+                  </button>
                   {isSignupDropdownOpen && (
                     <div className="mt-2 w-full bg-white dark:bg-gray-800 rounded-lg shadow-lg z-50 border border-gray-200 dark:border-gray-700">
-                        <button
-                        className="block w-full text-left px-4 py-3 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-100"
-                        onClick={handleUserSignup}
-                      >
-                        일반 회원가입
-                        </button>
-                        <button
-                        className="block w-full text-left px-4 py-3 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-100"
-                        onClick={handleManagerSignup}
-                      >
-                        카페 관리자 회원가입
-                        </button>
+                      <button className="block w-full text-left px-4 py-3 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-100" onClick={handleUserSignup}>일반 회원가입</button>
+                      <button className="block w-full text-left px-4 py-3 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-100" onClick={handleManagerSignup}>카페 관리자 회원가입</button>
                     </div>
                   )}
                 </>
@@ -619,15 +562,15 @@ export default function HomePage() {
                       내 카페 관리
                     </button>
                   ) : null}
-                    <button
+                  <button
                     className="w-full text-left text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                     onClick={handleLogout}
                   >
                     로그아웃
-                    </button>
+                  </button>
                 </>
               )}
-                </div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
