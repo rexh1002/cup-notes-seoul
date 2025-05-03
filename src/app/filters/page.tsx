@@ -7,7 +7,6 @@ import MobileHeader from '../../components/MobileHeader';
 import React from 'react';
 
 export default function FiltersPage() {
-  // 상태 및 핸들러는 기존 page.tsx에서 복사/최소화
   const [selectedNotes, setSelectedNotes] = useState<string[]>([]);
   const [selectedBrewMethods, setSelectedBrewMethods] = useState<string[]>([]);
   const [selectedOrigins, setSelectedOrigins] = useState<string[]>([]);
@@ -16,13 +15,22 @@ export default function FiltersPage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userRole, setUserRole] = useState<string | null>(null);
   const [isMounted, setIsMounted] = useState(false);
+  const [isMobile, setIsMobile] = useState(true);
   const router = useRouter();
 
-  // 모바일 환경이 아니면 리다이렉트(간단히 window.innerWidth 체크)
-  if (typeof window !== 'undefined' && window.innerWidth >= 768) {
-    router.replace('/');
-    return null;
-  }
+  // 모바일 환경 체크
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setIsMobile(window.innerWidth < 768);
+    }
+  }, []);
+
+  // 모바일이 아니면 리다이렉트
+  React.useEffect(() => {
+    if (typeof window !== 'undefined' && !isMobile) {
+      router.replace('/');
+    }
+  }, [isMobile, router]);
 
   // 로그인 상태 확인 (최소 구현)
   React.useEffect(() => {
@@ -53,6 +61,8 @@ export default function FiltersPage() {
     setUserRole(null);
     router.push('/');
   };
+
+  if (!isMobile) return null;
 
   return (
     <div className="pt-14 pb-16">
