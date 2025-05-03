@@ -72,7 +72,7 @@ export default function MapMobilePage() {
   };
 
   return (
-    <div className="relative w-full h-[calc(100vh-4rem)]">
+    <div className="relative w-full h-full min-h-screen">
       {/* Mobile Header */}
       <MobileHeader isLoggedIn={isLoggedIn} userRole={userRole} onLogout={handleLogout} />
       {/* Quick Box */}

@@ -274,8 +274,8 @@ export default function FilterPanel({
                 <button
                   key={method}
                   onClick={() => toggleBrewMethod(method)}
-                  className={`text-base font-bold px-0 py-0 shadow-none border-none bg-transparent m-0 ${selectedBrewMethods.includes(method) ? 'text-indigo-700' : 'text-gray-700 dark:text-gray-200'}`}
-                  style={{ writingMode: 'horizontal-tb' }}
+                  className={`px-4 py-2 rounded-full font-bold text-sm transition-colors focus:outline-none whitespace-nowrap shadow-none border-none m-0 ${selectedBrewMethods.includes(method) ? 'bg-indigo-400 text-white' : 'bg-indigo-100 text-indigo-700'}`}
+                  style={{border: 'none', boxShadow: 'none'}}
                 >
                   {method}
                 </button>
@@ -287,8 +287,8 @@ export default function FilterPanel({
                 <button
                   key={origin}
                   onClick={() => toggleOrigin(origin)}
-                  className={`text-base font-bold px-0 py-0 shadow-none border-none bg-transparent m-0 ${selectedOrigins.includes(origin) ? 'text-indigo-700' : 'text-gray-700 dark:text-gray-200'}`}
-                  style={{ writingMode: 'horizontal-tb' }}
+                  className={`px-4 py-2 rounded-full font-bold text-sm transition-colors focus:outline-none whitespace-nowrap shadow-none border-none m-0 ${selectedOrigins.includes(origin) ? 'bg-indigo-400 text-white' : 'bg-indigo-100 text-indigo-700'}`}
+                  style={{border: 'none', boxShadow: 'none'}}
                 >
                   {origin}
                 </button>
@@ -300,8 +300,8 @@ export default function FilterPanel({
                 <button
                   key={process}
                   onClick={() => toggleProcess(process)}
-                  className={`text-base font-bold px-0 py-0 shadow-none border-none bg-transparent m-0 ${selectedProcesses.includes(process) ? 'text-indigo-700' : 'text-gray-700 dark:text-gray-200'}`}
-                  style={{ writingMode: 'horizontal-tb' }}
+                  className={`px-4 py-2 rounded-full font-bold text-sm transition-colors focus:outline-none whitespace-nowrap shadow-none border-none m-0 ${selectedProcesses.includes(process) ? 'bg-indigo-400 text-white' : 'bg-indigo-100 text-indigo-700'}`}
+                  style={{border: 'none', boxShadow: 'none'}}
                 >
                   {process}
                 </button>
@@ -313,8 +313,8 @@ export default function FilterPanel({
                 <button
                   key={roast}
                   onClick={() => toggleRoast(roast)}
-                  className={`text-base font-bold px-0 py-0 shadow-none border-none bg-transparent m-0 ${selectedRoast.includes(roast) ? 'text-indigo-700' : 'text-gray-700 dark:text-gray-200'}`}
-                  style={{ writingMode: 'horizontal-tb' }}
+                  className={`px-4 py-2 rounded-full font-bold text-sm transition-colors focus:outline-none whitespace-nowrap shadow-none border-none m-0 ${selectedRoast.includes(roast) ? 'bg-indigo-400 text-white' : 'bg-indigo-100 text-indigo-700'}`}
+                  style={{border: 'none', boxShadow: 'none'}}
                 >
                   {roast}
                 </button>
@@ -326,7 +326,7 @@ export default function FilterPanel({
           <section>
             {/* Floral */}
             <div className="flex items-center gap-2 mb-2">
-              <img src="/images/Floralicon.png" alt="Floral" className="w-7 h-7 rounded-full shadow" style={{background: 'linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%)'}} />
+              <img src="/images/Floral.jpg" alt="Floral" className="w-12 h-12 rounded-xl object-cover shadow" style={{background: 'linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%)'}} />
               <span className="text-lg font-bold text-indigo-700">Floral</span>
             </div>
             <div className="flex flex-nowrap overflow-x-auto gap-2 pb-4">
@@ -343,7 +343,7 @@ export default function FilterPanel({
             </div>
             {/* Fruity */}
             <div className="flex items-center gap-2 mb-2 mt-4">
-              <img src="/images/Fruityicon.png" alt="Fruity" className="w-7 h-7 rounded-full shadow" style={{background: 'linear-gradient(135deg, #fbc2eb 0%, #fcb69f 100%)'}} />
+              <img src="/images/Fruity.jpg" alt="Fruity" className="w-12 h-12 rounded-xl object-cover shadow" style={{background: 'linear-gradient(135deg, #fbc2eb 0%, #fcb69f 100%)'}} />
               <span className="text-lg font-bold text-indigo-700">Fruity</span>
             </div>
             <div className="flex flex-nowrap overflow-x-auto gap-2 pb-4">
@@ -360,7 +360,7 @@ export default function FilterPanel({
             </div>
             {/* Nutty */}
             <div className="flex items-center gap-2 mb-2 mt-4">
-              <img src="/images/Nuttyicon.png" alt="Nutty" className="w-7 h-7 rounded-full shadow" style={{background: 'linear-gradient(135deg, #fcb69f 0%, #a6c1ee 100%)'}} />
+              <img src="/images/Nutty.jpg" alt="Nutty" className="w-12 h-12 rounded-xl object-cover shadow" style={{background: 'linear-gradient(135deg, #fcb69f 0%, #a6c1ee 100%)'}} />
               <span className="text-lg font-bold text-indigo-700">Nutty</span>
             </div>
             <div className="flex flex-nowrap overflow-x-auto gap-2 pb-4">
