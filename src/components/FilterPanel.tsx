@@ -324,40 +324,52 @@ export default function FilterPanel({
         )}
         {mobileTab === 1 && (
           <section>
-            <div className="mb-2 text-lg font-bold text-indigo-700">Floral</div>
+            {/* Floral */}
+            <div className="flex items-center gap-2 mb-2">
+              <img src="/images/Floralicon.png" alt="Floral" className="w-7 h-7 rounded-full shadow" style={{background: 'linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%)'}} />
+              <span className="text-lg font-bold text-indigo-700">Floral</span>
+            </div>
             <div className="flex flex-nowrap overflow-x-auto gap-2 pb-4">
               {['라벤더', '아카시아', '장미', '자스민', '국화', '히비스커스', '제비꽃', '홍차', '얼그레이', '카모마일', '오렌지 블로섬', '은방울꽃', '블랙티', '베르가못', '라일락', '로즈마리'].map((note) => (
                 <button
                   key={note}
                   onClick={() => toggleNote(note)}
-                  className={`text-base font-bold px-0 py-0 shadow-none border-none bg-transparent m-0 ${selectedNotes.includes(note) ? 'text-indigo-700' : 'text-gray-700 dark:text-gray-200'}`}
-                  style={{ writingMode: 'horizontal-tb' }}
+                  className={`px-4 py-2 rounded-full font-bold text-sm transition-colors focus:outline-none whitespace-nowrap ${selectedNotes.includes(note) ? 'bg-indigo-400 text-white' : 'bg-indigo-100 text-indigo-700'} `}
+                  style={{border: 'none', boxShadow: 'none'}}
                 >
                   {note}
                 </button>
               ))}
             </div>
-            <div className="mb-2 text-lg font-bold text-indigo-700">Fruity</div>
+            {/* Fruity */}
+            <div className="flex items-center gap-2 mb-2 mt-4">
+              <img src="/images/Fruityicon.png" alt="Fruity" className="w-7 h-7 rounded-full shadow" style={{background: 'linear-gradient(135deg, #fbc2eb 0%, #fcb69f 100%)'}} />
+              <span className="text-lg font-bold text-indigo-700">Fruity</span>
+            </div>
             <div className="flex flex-nowrap overflow-x-auto gap-2 pb-4">
               {['파인애플', '복숭아', '리치', '사과', '감귤', '배', '패션후르츠', '메론', '파파야', '블루베리', '라즈베리', '자두', '딸기', '포도', '자몽', '오렌지', '레몬', '크랜베리', '망고', '체리', '살구'].map((note) => (
                 <button
                   key={note}
                   onClick={() => toggleNote(note)}
-                  className={`text-base font-bold px-0 py-0 shadow-none border-none bg-transparent m-0 ${selectedNotes.includes(note) ? 'text-indigo-700' : 'text-gray-700 dark:text-gray-200'}`}
-                  style={{ writingMode: 'horizontal-tb' }}
+                  className={`px-4 py-2 rounded-full font-bold text-sm transition-colors focus:outline-none whitespace-nowrap ${selectedNotes.includes(note) ? 'bg-indigo-400 text-white' : 'bg-indigo-100 text-indigo-700'} `}
+                  style={{border: 'none', boxShadow: 'none'}}
                 >
                   {note}
                 </button>
               ))}
             </div>
-            <div className="mb-2 text-lg font-bold text-indigo-700">Nutty</div>
+            {/* Nutty */}
+            <div className="flex items-center gap-2 mb-2 mt-4">
+              <img src="/images/Nuttyicon.png" alt="Nutty" className="w-7 h-7 rounded-full shadow" style={{background: 'linear-gradient(135deg, #fcb69f 0%, #a6c1ee 100%)'}} />
+              <span className="text-lg font-bold text-indigo-700">Nutty</span>
+            </div>
             <div className="flex flex-nowrap overflow-x-auto gap-2 pb-4">
               {['초콜렛', '캐러멜', '고구마', '꿀', '헤이즐넛', '브라운슈거', '엿기름', '아몬드', '피칸', '호두', '로스트피넛', '마카다미아', '땅콩', '바닐라', '캐슈넛', '메이플 시럽', '토피', '피스타치오', '카카오닙스'].map((note) => (
                 <button
                   key={note}
                   onClick={() => toggleNote(note)}
-                  className={`text-base font-bold px-0 py-0 shadow-none border-none bg-transparent m-0 ${selectedNotes.includes(note) ? 'text-indigo-700' : 'text-gray-700 dark:text-gray-200'}`}
-                  style={{ writingMode: 'horizontal-tb' }}
+                  className={`px-4 py-2 rounded-full font-bold text-sm transition-colors focus:outline-none whitespace-nowrap ${selectedNotes.includes(note) ? 'bg-indigo-400 text-white' : 'bg-indigo-100 text-indigo-700'} `}
+                  style={{border: 'none', boxShadow: 'none'}}
                 >
                   {note}
                 </button>
