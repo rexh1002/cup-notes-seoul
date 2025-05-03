@@ -37,11 +37,11 @@ export default function FilterPanel({
 }: FilterPanelProps) {
   // 모바일 탭 상태
   const [mobileTab, setMobileTab] = useState(0);
-  const tabLabels = ['추출방식', '원산지', '프로세스', '로스팅레벨'];
+  const tabLabels = ['추출방식', '원산지', '프로세스', '로스팅레벨', 'Cup Notes'];
 
   // 모바일 스와이프 핸들러
   const swipeHandlers = useSwipeable({
-    onSwipedLeft: () => setMobileTab((prev) => Math.min(prev + 1, 3)),
+    onSwipedLeft: () => setMobileTab((prev) => Math.min(prev + 1, 4)),
     onSwipedRight: () => setMobileTab((prev) => Math.max(prev - 1, 0)),
     trackMouse: true,
   });
@@ -274,7 +274,8 @@ export default function FilterPanel({
                 <button
                   key={method}
                   onClick={() => toggleBrewMethod(method)}
-                  className={`text-sm px-4 py-2 rounded-full shadow transition-all font-medium ${selectedBrewMethods.includes(method) ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg scale-105' : 'bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-gray-800'}`}
+                  className={`text-base font-bold px-0 py-0 shadow-none border-none bg-transparent m-0 ${selectedBrewMethods.includes(method) ? 'text-indigo-700' : 'text-gray-700 dark:text-gray-200'}`}
+                  style={{ writingMode: 'horizontal-tb' }}
                 >
                   {method}
                 </button>
@@ -290,7 +291,8 @@ export default function FilterPanel({
                 <button
                   key={origin}
                   onClick={() => toggleOrigin(origin)}
-                  className={`text-sm px-4 py-2 rounded-full shadow transition-all font-medium ${selectedOrigins.includes(origin) ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg scale-105' : 'bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-gray-800'}`}
+                  className={`text-base font-bold px-0 py-0 shadow-none border-none bg-transparent m-0 ${selectedOrigins.includes(origin) ? 'text-indigo-700' : 'text-gray-700 dark:text-gray-200'}`}
+                  style={{ writingMode: 'horizontal-tb' }}
                 >
                   {origin}
                 </button>
@@ -306,7 +308,8 @@ export default function FilterPanel({
                 <button
                   key={process}
                   onClick={() => toggleProcess(process)}
-                  className={`text-sm px-4 py-2 rounded-full shadow transition-all font-medium ${selectedProcesses.includes(process) ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg scale-105' : 'bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-gray-800'}`}
+                  className={`text-base font-bold px-0 py-0 shadow-none border-none bg-transparent m-0 ${selectedProcesses.includes(process) ? 'text-indigo-700' : 'text-gray-700 dark:text-gray-200'}`}
+                  style={{ writingMode: 'horizontal-tb' }}
                 >
                   {process}
                 </button>
@@ -322,9 +325,31 @@ export default function FilterPanel({
                 <button
                   key={roast}
                   onClick={() => toggleRoast(roast)}
-                  className={`text-sm px-4 py-2 rounded-full shadow transition-all font-medium ${selectedRoast.includes(roast) ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg scale-105' : 'bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-gray-800'}`}
+                  className={`text-base font-bold px-0 py-0 shadow-none border-none bg-transparent m-0 ${selectedRoast.includes(roast) ? 'text-indigo-700' : 'text-gray-700 dark:text-gray-200'}`}
+                  style={{ writingMode: 'horizontal-tb' }}
                 >
                   {roast}
+                </button>
+              ))}
+            </div>
+          </section>
+        )}
+        {mobileTab === 4 && (
+          <section>
+            <div className="mb-2 text-lg font-bold text-indigo-700">Cup Notes</div>
+            <div className="flex flex-nowrap overflow-x-auto gap-2 pb-4">
+              {[
+                '라벤더', '아카시아', '장미', '자스민', '국화', '히비스커스', '제비꽃', '홍차', '얼그레이', '카모마일', '오렌지 블로섬', '은방울꽃', '블랙티', '베르가못', '라일락', '로즈마리',
+                '파인애플', '복숭아', '리치', '사과', '감귤', '배', '패션후르츠', '메론', '파파야', '블루베리', '라즈베리', '자두', '딸기', '포도', '자몽', '오렌지', '레몬', '크랜베리', '망고', '체리', '살구',
+                '초콜렛', '캐러멜', '고구마', '꿀', '헤이즐넛', '브라운슈거', '엿기름', '아몬드', '피칸', '호두', '로스트피넛', '마카다미아', '땅콩', '바닐라', '캐슈넛', '메이플 시럽', '토피', '피스타치오', '카카오닙스'
+              ].map((note) => (
+                <button
+                  key={note}
+                  onClick={() => toggleNote(note)}
+                  className={`text-base font-bold px-0 py-0 shadow-none border-none bg-transparent m-0 ${selectedNotes.includes(note) ? 'text-indigo-700' : 'text-gray-700 dark:text-gray-200'}`}
+                  style={{ writingMode: 'horizontal-tb' }}
+                >
+                  {note}
                 </button>
               ))}
             </div>
