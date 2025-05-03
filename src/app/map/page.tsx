@@ -72,19 +72,9 @@ export default function MapMobilePage() {
   };
 
   return (
-    <div className="relative w-full h-full min-h-screen">
+    <div className="relative w-full h-full">
       {/* Mobile Header */}
       <MobileHeader isLoggedIn={isLoggedIn} userRole={userRole} onLogout={handleLogout} />
-      {/* Quick Box */}
-      <div
-        className="absolute z-[120] bg-white/80 backdrop-blur-lg border border-gray-200 shadow-2xl rounded-2xl flex gap-3 px-4 py-2 items-center"
-        style={{ left: '12px', top: '16px', minWidth: 320, maxWidth: 400 }}
-      >
-        <QuickButton icon={<Flower2 className="w-8 h-8 text-black" strokeWidth={2.4} />} label="Floral" onClick={() => handleCategorySearch('floral')} />
-        <QuickButton icon={<Apple className="w-8 h-8 text-black" strokeWidth={2.4} />} label="Fruity" onClick={() => handleCategorySearch('fruity')} />
-        <QuickButton icon={<Candy className="w-8 h-8 text-black" strokeWidth={2.4} />} label="Nutty" onClick={() => handleCategorySearch('nutty')} />
-        <QuickButton icon={<Coffee className="w-8 h-8 text-black" strokeWidth={2.4} />} label="핸드드립" onClick={() => handleCategorySearch('핸드드립')} />
-      </div>
 
       {/* Map */}
       <div className="absolute inset-0" style={{ zIndex: 100 }}>
