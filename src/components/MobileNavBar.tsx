@@ -1,12 +1,39 @@
 import Link from 'next/link';
-import { Filter, Map as MapIcon, User } from 'lucide-react';
+import { usePathname } from 'next/navigation';
+import { Filter, Map } from 'lucide-react';
 
-export default function MobileNavBar({ current }: { current: string }) {
+export default function MobileNavBar() {
+  const pathname = usePathname();
+
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-[200] bg-white border-t border-gray-200 flex justify-around items-center h-14 md:hidden shadow-xl">
-      <Link href="/filters" className={`flex flex-col items-center gap-0.5 text-xs font-semibold ${current === 'filters' ? 'text-blue-600' : 'text-gray-500'}`}> <Filter className="w-6 h-6 mb-0.5" /> Filters </Link>
-      <Link href="/map" className={`flex flex-col items-center gap-0.5 text-xs font-semibold ${current === 'map' ? 'text-blue-600' : 'text-gray-500'}`}> <MapIcon className="w-6 h-6 mb-0.5" /> Map </Link>
-      <Link href="/auth" className={`flex flex-col items-center gap-0.5 text-xs font-semibold ${current === 'auth' ? 'text-blue-600' : 'text-gray-500'}`}> <User className="w-6 h-6 mb-0.5" /> Auth </Link>
+    <nav className="fixed bottom-0 left-0 right-0 h-16 bg-white/80 backdrop-blur-lg border-t border-gray-200 z-[160] md:hidden">
+      <div className="max-w-screen-xl mx-auto px-4 h-full">
+        <div className="flex justify-around items-center h-full">
+          <Link
+            href="/filters"
+            className={`flex flex-col items-center justify-center w-20 h-full transition-all duration-200 ${
+              pathname === '/filters'
+                ? 'text-blue-600 scale-110'
+                : 'text-gray-600 hover:text-blue-500'
+            }`}
+          >
+            <Filter className={`w-6 h-6 transition-transform duration-200 ${pathname === '/filters' ? 'scale-110' : ''}`} />
+            <span className="text-[10px] font-medium mt-0.5">Filters</span>
+          </Link>
+
+          <Link
+            href="/map"
+            className={`flex flex-col items-center justify-center w-20 h-full transition-all duration-200 ${
+              pathname === '/map'
+                ? 'text-blue-600 scale-110'
+                : 'text-gray-600 hover:text-blue-500'
+            }`}
+          >
+            <Map className={`w-6 h-6 transition-transform duration-200 ${pathname === '/map' ? 'scale-110' : ''}`} />
+            <span className="text-[10px] font-medium mt-0.5">Map</span>
+          </Link>
+        </div>
+      </div>
     </nav>
   );
 } 
