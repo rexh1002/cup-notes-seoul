@@ -37,11 +37,11 @@ export default function FilterPanel({
 }: FilterPanelProps) {
   // 모바일 탭 상태
   const [mobileTab, setMobileTab] = useState(0);
-  const tabLabels = ['추출방식', '원산지', '프로세스', '로스팅레벨', 'Cup Notes'];
+  const tabLabels = ['Coffee Filters', 'Cup Notes'];
 
   // 모바일 스와이프 핸들러
   const swipeHandlers = useSwipeable({
-    onSwipedLeft: () => setMobileTab((prev) => Math.min(prev + 1, 4)),
+    onSwipedLeft: () => setMobileTab((prev) => Math.min(prev + 1, 1)),
     onSwipedRight: () => setMobileTab((prev) => Math.max(prev - 1, 0)),
     trackMouse: true,
   });
@@ -281,10 +281,6 @@ export default function FilterPanel({
                 </button>
               ))}
             </div>
-          </section>
-        )}
-        {mobileTab === 1 && (
-          <section>
             <div className="mb-2 text-lg font-bold text-indigo-700">원산지</div>
             <div className="flex flex-nowrap overflow-x-auto gap-2 pb-4">
               {['에티오피아', '콜롬비아', '브라질', '과테말라', '케냐', '코스타리카', '파나마', '인도네시아', '르완다', '엘살바도르'].map((origin) => (
@@ -298,10 +294,6 @@ export default function FilterPanel({
                 </button>
               ))}
             </div>
-          </section>
-        )}
-        {mobileTab === 2 && (
-          <section>
             <div className="mb-2 text-lg font-bold text-indigo-700">프로세스</div>
             <div className="flex flex-nowrap overflow-x-auto gap-2 pb-4">
               {['워시드', '내추럴', '허니', '무산소 발효', '디카페인'].map((process) => (
@@ -315,10 +307,6 @@ export default function FilterPanel({
                 </button>
               ))}
             </div>
-          </section>
-        )}
-        {mobileTab === 3 && (
-          <section>
             <div className="mb-2 text-lg font-bold text-indigo-700">로스팅레벨</div>
             <div className="flex flex-nowrap overflow-x-auto gap-2 pb-4">
               {['라이트', '미디엄라이트', '미디엄', '미디엄다크', '다크'].map((roast) => (
@@ -334,15 +322,37 @@ export default function FilterPanel({
             </div>
           </section>
         )}
-        {mobileTab === 4 && (
+        {mobileTab === 1 && (
           <section>
-            <div className="mb-2 text-lg font-bold text-indigo-700">Cup Notes</div>
+            <div className="mb-2 text-lg font-bold text-indigo-700">Floral</div>
             <div className="flex flex-nowrap overflow-x-auto gap-2 pb-4">
-              {[
-                '라벤더', '아카시아', '장미', '자스민', '국화', '히비스커스', '제비꽃', '홍차', '얼그레이', '카모마일', '오렌지 블로섬', '은방울꽃', '블랙티', '베르가못', '라일락', '로즈마리',
-                '파인애플', '복숭아', '리치', '사과', '감귤', '배', '패션후르츠', '메론', '파파야', '블루베리', '라즈베리', '자두', '딸기', '포도', '자몽', '오렌지', '레몬', '크랜베리', '망고', '체리', '살구',
-                '초콜렛', '캐러멜', '고구마', '꿀', '헤이즐넛', '브라운슈거', '엿기름', '아몬드', '피칸', '호두', '로스트피넛', '마카다미아', '땅콩', '바닐라', '캐슈넛', '메이플 시럽', '토피', '피스타치오', '카카오닙스'
-              ].map((note) => (
+              {['라벤더', '아카시아', '장미', '자스민', '국화', '히비스커스', '제비꽃', '홍차', '얼그레이', '카모마일', '오렌지 블로섬', '은방울꽃', '블랙티', '베르가못', '라일락', '로즈마리'].map((note) => (
+                <button
+                  key={note}
+                  onClick={() => toggleNote(note)}
+                  className={`text-base font-bold px-0 py-0 shadow-none border-none bg-transparent m-0 ${selectedNotes.includes(note) ? 'text-indigo-700' : 'text-gray-700 dark:text-gray-200'}`}
+                  style={{ writingMode: 'horizontal-tb' }}
+                >
+                  {note}
+                </button>
+              ))}
+            </div>
+            <div className="mb-2 text-lg font-bold text-indigo-700">Fruity</div>
+            <div className="flex flex-nowrap overflow-x-auto gap-2 pb-4">
+              {['파인애플', '복숭아', '리치', '사과', '감귤', '배', '패션후르츠', '메론', '파파야', '블루베리', '라즈베리', '자두', '딸기', '포도', '자몽', '오렌지', '레몬', '크랜베리', '망고', '체리', '살구'].map((note) => (
+                <button
+                  key={note}
+                  onClick={() => toggleNote(note)}
+                  className={`text-base font-bold px-0 py-0 shadow-none border-none bg-transparent m-0 ${selectedNotes.includes(note) ? 'text-indigo-700' : 'text-gray-700 dark:text-gray-200'}`}
+                  style={{ writingMode: 'horizontal-tb' }}
+                >
+                  {note}
+                </button>
+              ))}
+            </div>
+            <div className="mb-2 text-lg font-bold text-indigo-700">Nutty</div>
+            <div className="flex flex-nowrap overflow-x-auto gap-2 pb-4">
+              {['초콜렛', '캐러멜', '고구마', '꿀', '헤이즐넛', '브라운슈거', '엿기름', '아몬드', '피칸', '호두', '로스트피넛', '마카다미아', '땅콩', '바닐라', '캐슈넛', '메이플 시럽', '토피', '피스타치오', '카카오닙스'].map((note) => (
                 <button
                   key={note}
                   onClick={() => toggleNote(note)}
