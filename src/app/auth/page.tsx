@@ -15,7 +15,7 @@ export default function AuthMobilePage() {
     <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4 pb-16">
       <button className="w-48 py-3 rounded-lg bg-blue-600 text-white font-bold text-lg shadow hover:bg-blue-700 transition">로그인</button>
       <button className="w-48 py-3 rounded-lg bg-gray-200 text-gray-800 font-bold text-lg shadow hover:bg-gray-300 transition">로그아웃</button>
-      <MobileNavBar current="auth" />
+      <MobileNavBar />
     </div>
   );
 } 

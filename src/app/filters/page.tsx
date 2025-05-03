@@ -41,7 +41,7 @@ export default function FiltersPage() {
         }}
         onApply={() => {}}
       />
-      <MobileNavBar current="filters" />
+      <MobileNavBar />
     </div>
   );
 } 
