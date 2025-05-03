@@ -11,12 +11,12 @@ const Map = dynamic(() => import('../../components/Map'), { ssr: false });
 function QuickButton({ icon, label, onClick }: { icon: React.ReactNode; label: string; onClick: () => void }) {
   return (
     <button
-      className="flex flex-col items-center px-2 py-1 rounded-lg hover:bg-gray-100 active:bg-gray-200 transition text-gray-800 font-semibold text-xs focus:outline-none min-w-[56px]"
+      className="flex flex-col items-center px-4 py-2 rounded-xl hover:bg-gray-100 active:bg-gray-200 transition text-gray-800 font-bold text-base focus:outline-none min-w-[72px] gap-1"
       onClick={onClick}
       type="button"
     >
       {icon}
-      <span className="mt-0.5" style={{letterSpacing: '0.01em'}}>{label}</span>
+      <span className="mt-1" style={{letterSpacing: '0.01em'}}>{label}</span>
     </button>
   );
 }
@@ -77,13 +77,13 @@ export default function MapMobilePage() {
       <MobileHeader isLoggedIn={isLoggedIn} userRole={userRole} onLogout={handleLogout} />
       {/* Quick Box */}
       <div
-        className="absolute z-[120] bg-white/70 backdrop-blur-md border border-gray-200 shadow-xl rounded-xl flex gap-1 px-2 py-1 items-center"
-        style={{ left: '16px', top: '8px', minWidth: 240, maxWidth: 320 }}
+        className="absolute z-[120] bg-white/80 backdrop-blur-lg border border-gray-200 shadow-2xl rounded-2xl flex gap-3 px-4 py-2 items-center"
+        style={{ left: '12px', top: '16px', minWidth: 320, maxWidth: 400 }}
       >
-        <QuickButton icon={<Flower2 className="w-6 h-6 text-black" strokeWidth={2.2} />} label="Floral" onClick={() => handleCategorySearch('floral')} />
-        <QuickButton icon={<Apple className="w-6 h-6 text-black" strokeWidth={2.2} />} label="Fruity" onClick={() => handleCategorySearch('fruity')} />
-        <QuickButton icon={<Candy className="w-6 h-6 text-black" strokeWidth={2.2} />} label="Nutty" onClick={() => handleCategorySearch('nutty')} />
-        <QuickButton icon={<Coffee className="w-6 h-6 text-black" strokeWidth={2.2} />} label="핸드드립" onClick={() => handleCategorySearch('핸드드립')} />
+        <QuickButton icon={<Flower2 className="w-8 h-8 text-black" strokeWidth={2.4} />} label="Floral" onClick={() => handleCategorySearch('floral')} />
+        <QuickButton icon={<Apple className="w-8 h-8 text-black" strokeWidth={2.4} />} label="Fruity" onClick={() => handleCategorySearch('fruity')} />
+        <QuickButton icon={<Candy className="w-8 h-8 text-black" strokeWidth={2.4} />} label="Nutty" onClick={() => handleCategorySearch('nutty')} />
+        <QuickButton icon={<Coffee className="w-8 h-8 text-black" strokeWidth={2.4} />} label="핸드드립" onClick={() => handleCategorySearch('핸드드립')} />
       </div>
 
       {/* Map */}
