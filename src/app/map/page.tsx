@@ -1,9 +1,10 @@
 'use client';
 import dynamic from 'next/dynamic';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Flower2, Apple, Candy, Coffee } from 'lucide-react';
 import MobileNavBar from '../../components/MobileNavBar';
+import MobileHeader from '../../components/MobileHeader';
 
 const Map = dynamic(() => import('../../components/Map'), { ssr: false });
 
@@ -24,6 +25,39 @@ export default function MapMobilePage() {
   const router = useRouter();
   const mapRef = useRef<any>(null);
   const [cafes, setCafes] = useState<any[]>([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userRole, setUserRole] = useState<string | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (isMounted) {
+      const token = localStorage.getItem('authToken');
+      if (token) {
+        try {
+          const decodedToken = JSON.parse(atob(token.split('.')[1]));
+          setIsLoggedIn(true);
+          setUserRole(decodedToken.role);
+        } catch (error) {
+          setIsLoggedIn(false);
+          setUserRole(null);
+        }
+      } else {
+        setIsLoggedIn(false);
+        setUserRole(null);
+      }
+    }
+  }, [isMounted]);
+
+  const handleLogout = () => {
+    localStorage.removeItem('authToken');
+    setIsLoggedIn(false);
+    setUserRole(null);
+    router.push('/');
+  };
 
   // 모바일 환경이 아니면 리다이렉트
   if (typeof window !== 'undefined' && window.innerWidth >= 768) {
@@ -39,6 +73,8 @@ export default function MapMobilePage() {
 
   return (
     <div className="relative w-full h-[calc(100vh-4rem)]">
+      {/* Mobile Header */}
+      <MobileHeader isLoggedIn={isLoggedIn} userRole={userRole} onLogout={handleLogout} />
       {/* Quick Box */}
       <div
         className="absolute z-[120] bg-white/70 backdrop-blur-md border border-gray-200 shadow-xl rounded-xl flex gap-1 px-2 py-1 items-center"
@@ -93,7 +129,7 @@ export default function MapMobilePage() {
 
       {/* Mobile Navigation Bar */}
       <div className="fixed bottom-0 left-0 right-0 z-[160]">
-        <MobileNavBar current="map" />
+        <MobileNavBar />
       </div>
     </div>
   );
