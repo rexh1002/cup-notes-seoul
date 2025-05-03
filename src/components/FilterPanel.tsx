@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
 import { useSwipeable } from 'react-swipeable';
+import { Coffee as CoffeeIcon, CupSoda as EspressoIcon, IceCream2 as IceIcon, Globe as GlobeIcon, Settings as SettingsIcon, Flame as FlameIcon } from 'lucide-react';
 
 interface FilterPanelProps {
   selectedNotes: string[];
@@ -268,55 +269,65 @@ export default function FilterPanel({
       <div {...swipeHandlers} className="px-2 pt-4">
         {mobileTab === 0 && (
           <section>
-            <div className="mb-2 text-lg font-bold text-indigo-700">추출방식</div>
-            <div className="flex flex-nowrap overflow-x-auto gap-2 pb-4">
+            <div className="mb-2 text-lg font-bold text-indigo-700 flex items-center gap-2"><CoffeeIcon className="w-5 h-5" />추출방식</div>
+            <div className="flex gap-2 pb-4 flex-wrap">
               {['핸드드립', '에스프레소', '콜드브루'].map((method) => (
                 <button
                   key={method}
                   onClick={() => toggleBrewMethod(method)}
                   className={`px-4 py-2 rounded-full font-bold text-sm transition-colors focus:outline-none whitespace-nowrap shadow-none border-none m-0 ${selectedBrewMethods.includes(method) ? 'bg-indigo-400 text-white' : 'bg-indigo-100 text-indigo-700'}`}
-                  style={{border: 'none', boxShadow: 'none'}}
-                >
-                  {method}
+                  style={{border: 'none', boxShadow: 'none'}}>
+                  <span className="inline-flex items-center gap-1">
+                    {method === '핸드드립' && <CoffeeIcon className="w-4 h-4" />} 
+                    {method === '에스프레소' && <EspressoIcon className="w-4 h-4" />} 
+                    {method === '콜드브루' && <IceIcon className="w-4 h-4" />} 
+                    {method}
+                  </span>
                 </button>
               ))}
             </div>
-            <div className="mb-2 text-lg font-bold text-indigo-700">원산지</div>
-            <div className="flex flex-nowrap overflow-x-auto gap-2 pb-4">
+            <div className="mb-2 text-lg font-bold text-indigo-700 flex items-center gap-2"><GlobeIcon className="w-5 h-5" />원산지</div>
+            <div className="flex gap-2 pb-4 flex-wrap">
               {['에티오피아', '콜롬비아', '브라질', '과테말라', '케냐', '코스타리카', '파나마', '인도네시아', '르완다', '엘살바도르'].map((origin) => (
                 <button
                   key={origin}
                   onClick={() => toggleOrigin(origin)}
                   className={`px-4 py-2 rounded-full font-bold text-sm transition-colors focus:outline-none whitespace-nowrap shadow-none border-none m-0 ${selectedOrigins.includes(origin) ? 'bg-indigo-400 text-white' : 'bg-indigo-100 text-indigo-700'}`}
-                  style={{border: 'none', boxShadow: 'none'}}
-                >
-                  {origin}
+                  style={{border: 'none', boxShadow: 'none'}}>
+                  <span className="inline-flex items-center gap-1">
+                    <GlobeIcon className="w-4 h-4" />
+                    {origin}
+                  </span>
                 </button>
               ))}
             </div>
-            <div className="mb-2 text-lg font-bold text-indigo-700">프로세스</div>
-            <div className="flex flex-nowrap overflow-x-auto gap-2 pb-4">
+            <div className="mb-2 text-lg font-bold text-indigo-700 flex items-center gap-2"><SettingsIcon className="w-5 h-5" />프로세스</div>
+            <div className="flex gap-2 pb-4 flex-wrap">
               {['워시드', '내추럴', '허니', '무산소 발효', '디카페인'].map((process) => (
                 <button
                   key={process}
                   onClick={() => toggleProcess(process)}
                   className={`px-4 py-2 rounded-full font-bold text-sm transition-colors focus:outline-none whitespace-nowrap shadow-none border-none m-0 ${selectedProcesses.includes(process) ? 'bg-indigo-400 text-white' : 'bg-indigo-100 text-indigo-700'}`}
-                  style={{border: 'none', boxShadow: 'none'}}
-                >
-                  {process}
+                  style={{border: 'none', boxShadow: 'none'}}>
+                  <span className="inline-flex items-center gap-1">
+                    <SettingsIcon className="w-4 h-4" />
+                    {process}
+                  </span>
                 </button>
               ))}
             </div>
-            <div className="mb-2 text-lg font-bold text-indigo-700">로스팅레벨</div>
-            <div className="flex flex-nowrap overflow-x-auto gap-2 pb-4">
+            <div className="mb-2 text-lg font-bold text-indigo-700 flex items-center gap-2"><FlameIcon className="w-5 h-5" />로스팅레벨</div>
+            <div className="flex gap-2 pb-4 flex-wrap">
               {['라이트', '미디엄라이트', '미디엄', '미디엄다크', '다크'].map((roast) => (
                 <button
                   key={roast}
                   onClick={() => toggleRoast(roast)}
                   className={`px-4 py-2 rounded-full font-bold text-sm transition-colors focus:outline-none whitespace-nowrap shadow-none border-none m-0 ${selectedRoast.includes(roast) ? 'bg-indigo-400 text-white' : 'bg-indigo-100 text-indigo-700'}`}
-                  style={{border: 'none', boxShadow: 'none'}}
-                >
-                  {roast}
+                  style={{border: 'none', boxShadow: 'none'}}>
+                  <span className="inline-flex items-center gap-1">
+                    <FlameIcon className="w-4 h-4" />
+                    {roast}
+                  </span>
                 </button>
               ))}
             </div>
@@ -326,7 +337,7 @@ export default function FilterPanel({
           <section className="space-y-6">
             {/* Floral */}
             <div className="rounded-3xl shadow bg-white/80 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 overflow-hidden">
-              <div className="relative w-full h-28 flex items-end rounded-t-3xl overflow-hidden">
+              <div className="relative w-full h-16 flex items-end rounded-t-3xl overflow-hidden">
                 <img src="/images/Floral.jpg" alt="Floral" className="absolute inset-0 w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-r from-pink-400/60 via-white/10 to-yellow-200/60" />
                 <span className="relative z-10 text-2xl font-extrabold text-white drop-shadow-lg p-6 pb-3">Floral</span>
@@ -346,7 +357,7 @@ export default function FilterPanel({
             </div>
             {/* Fruity */}
             <div className="rounded-3xl shadow bg-white/80 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 overflow-hidden">
-              <div className="relative w-full h-28 flex items-end rounded-t-3xl overflow-hidden">
+              <div className="relative w-full h-16 flex items-end rounded-t-3xl overflow-hidden">
                 <img src="/images/Fruity.jpg" alt="Fruity" className="absolute inset-0 w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-r from-yellow-200/60 via-white/10 to-pink-400/60" />
                 <span className="relative z-10 text-2xl font-extrabold text-white drop-shadow-lg p-6 pb-3">Fruity</span>
@@ -366,7 +377,7 @@ export default function FilterPanel({
             </div>
             {/* Nutty */}
             <div className="rounded-3xl shadow bg-white/80 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 overflow-hidden">
-              <div className="relative w-full h-28 flex items-end rounded-t-3xl overflow-hidden">
+              <div className="relative w-full h-16 flex items-end rounded-t-3xl overflow-hidden">
                 <img src="/images/Nutty.jpg" alt="Nutty" className="absolute inset-0 w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-r from-yellow-200/60 via-white/10 to-amber-700/60" />
                 <span className="relative z-10 text-2xl font-extrabold text-white drop-shadow-lg p-6 pb-3">Nutty</span>
