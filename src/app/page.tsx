@@ -714,7 +714,7 @@ export default function HomePage() {
       </footer>
 
       {/* Mobile Navigation Bar */}
-      {isMobile && <MobileNavBar current="map" />}
+      {isMobile && <MobileNavBar />}
     </main>
   );
 }
