@@ -277,12 +277,7 @@ export default function FilterPanel({
                   onClick={() => toggleBrewMethod(method)}
                   className={`px-4 py-2 rounded-full font-bold text-sm transition-colors focus:outline-none whitespace-nowrap shadow-none border-none m-0 ${selectedBrewMethods.includes(method) ? 'bg-indigo-400 text-white' : 'bg-indigo-100 text-indigo-700'}`}
                   style={{border: 'none', boxShadow: 'none'}}>
-                  <span className="inline-flex items-center gap-1">
-                    {method === '핸드드립' && <CoffeeIcon className="w-4 h-4" />} 
-                    {method === '에스프레소' && <EspressoIcon className="w-4 h-4" />} 
-                    {method === '콜드브루' && <IceIcon className="w-4 h-4" />} 
-                    {method}
-                  </span>
+                  {method}
                 </button>
               ))}
             </div>
@@ -294,10 +289,7 @@ export default function FilterPanel({
                   onClick={() => toggleOrigin(origin)}
                   className={`px-4 py-2 rounded-full font-bold text-sm transition-colors focus:outline-none whitespace-nowrap shadow-none border-none m-0 ${selectedOrigins.includes(origin) ? 'bg-indigo-400 text-white' : 'bg-indigo-100 text-indigo-700'}`}
                   style={{border: 'none', boxShadow: 'none'}}>
-                  <span className="inline-flex items-center gap-1">
-                    <GlobeIcon className="w-4 h-4" />
-                    {origin}
-                  </span>
+                  {origin}
                 </button>
               ))}
             </div>
@@ -309,10 +301,7 @@ export default function FilterPanel({
                   onClick={() => toggleProcess(process)}
                   className={`px-4 py-2 rounded-full font-bold text-sm transition-colors focus:outline-none whitespace-nowrap shadow-none border-none m-0 ${selectedProcesses.includes(process) ? 'bg-indigo-400 text-white' : 'bg-indigo-100 text-indigo-700'}`}
                   style={{border: 'none', boxShadow: 'none'}}>
-                  <span className="inline-flex items-center gap-1">
-                    <SettingsIcon className="w-4 h-4" />
-                    {process}
-                  </span>
+                  {process}
                 </button>
               ))}
             </div>
@@ -324,10 +313,7 @@ export default function FilterPanel({
                   onClick={() => toggleRoast(roast)}
                   className={`px-4 py-2 rounded-full font-bold text-sm transition-colors focus:outline-none whitespace-nowrap shadow-none border-none m-0 ${selectedRoast.includes(roast) ? 'bg-indigo-400 text-white' : 'bg-indigo-100 text-indigo-700'}`}
                   style={{border: 'none', boxShadow: 'none'}}>
-                  <span className="inline-flex items-center gap-1">
-                    <FlameIcon className="w-4 h-4" />
-                    {roast}
-                  </span>
+                  {roast}
                 </button>
               ))}
             </div>
