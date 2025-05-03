@@ -439,12 +439,12 @@ export default function HomePage() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // 모바일 환경이면 리다이렉트
+  // 모바일 환경에서 히어로 화면이 끝나면 /map으로 이동
   useEffect(() => {
-    if (isMobile) {
+    if (isMobile && !showMain) {
       router.replace('/map');
     }
-  }, [isMobile, router]);
+  }, [isMobile, showMain, router]);
 
   if (showMain) {
     return (
