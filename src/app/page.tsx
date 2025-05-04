@@ -484,6 +484,11 @@ export default function HomePage() {
     );
   }
 
+  // 모바일 환경에서 히어로 화면이 끝나면 아무것도 렌더하지 않음
+  if (isMobile && !showMain) {
+    return null;
+  }
+
   return (
     <main className="min-h-screen bg-[#F5F2E8] dark:bg-gray-900 transition-colors duration-300 overflow-y-auto">
       {/* 스크롤 프로그레스 바 */}
