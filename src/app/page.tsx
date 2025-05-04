@@ -467,7 +467,7 @@ export default function HomePage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-5xl font-extrabold text-gray-900 mb-6 text-center"
+            className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6 text-center"
           >
             <span className="block md:inline">당신의 완벽한 커피를</span>
             <span className="block md:inline">찾아보세요</span>
