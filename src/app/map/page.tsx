@@ -33,6 +33,43 @@ export default function MapMobilePage() {
     setIsMounted(true);
   }, []);
 
+  // 초기 카페 데이터 로딩
+  useEffect(() => {
+    if (isMounted) {
+      const initialLoad = async () => {
+        try {
+          const response = await fetch('/api/cafes/search', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              keyword: '',
+              notes: [],
+              origins: [],
+              processes: [],
+              roastLevel: [],
+              brewMethod: [],
+            }),
+          });
+
+          if (!response.ok) {
+            throw new Error('초기 데이터를 불러오는데 실패했습니다.');
+          }
+
+          const data = await response.json();
+          if (data && data.cafes) {
+            setCafes(data.cafes);
+          }
+        } catch (error) {
+          console.error('초기 데이터 로딩 오류:', error);
+        }
+      };
+
+      initialLoad();
+    }
+  }, [isMounted]);
+
   useEffect(() => {
     if (isMounted) {
       const token = localStorage.getItem('authToken');
