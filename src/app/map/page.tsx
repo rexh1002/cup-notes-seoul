@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Flower2, Apple, Candy, Coffee } from 'lucide-react';
 import MobileNavBar from '../../components/MobileNavBar';
 import MobileHeader from '../../components/MobileHeader';
+import { AnimatePresence, motion } from 'framer-motion';
 
 const Map = dynamic(() => import('../../components/Map'), { ssr: false });
 
@@ -28,6 +29,7 @@ export default function MapMobilePage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userRole, setUserRole] = useState<string | null>(null);
   const [isMounted, setIsMounted] = useState(false);
+  const [selectedCafe, setSelectedCafe] = useState<any | null>(null);
 
   useEffect(() => {
     setIsMounted(true);
@@ -151,13 +153,31 @@ export default function MapMobilePage() {
         </button>
 
         {/* 지도 컴포넌트 */}
-        <Map ref={mapRef} cafes={cafes} onCafeSelect={() => {}} />
+        <Map ref={mapRef} cafes={cafes} onCafeSelect={(cafe) => setSelectedCafe(cafe)} />
       </div>
 
       {/* Mobile Navigation Bar */}
       <div className="fixed bottom-0 left-0 right-0 z-[160]">
         <MobileNavBar />
       </div>
+
+      {/* 카페 정보 카드 */}
+      <AnimatePresence>
+        {selectedCafe && (
+          <motion.div
+            initial={{ y: '100%' }}
+            animate={{ y: 0 }}
+            exit={{ y: '100%' }}
+            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+            className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl shadow-lg z-[150] md:relative md:rounded-xl md:shadow-none md:z-0 md:bottom-auto md:left-auto md:right-auto md:w-96 md:h-full md:overflow-y-auto md:border-r md:border-gray-200"
+            style={{ maxHeight: '80vh' }}
+          >
+            <div className="relative h-full overflow-y-auto pb-16 md:pb-0">
+              {/* 카페 정보 카드 내용 */}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 } 
