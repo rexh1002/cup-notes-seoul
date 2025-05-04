@@ -70,10 +70,10 @@ export default function FilterPanel({
                 <button
                   key={method}
                   onClick={() => toggleBrewMethod(method)}
-                  className={`text-sm px-4 py-2 rounded-full shadow transition-all font-medium sm:text-xs sm:px-2 sm:py-1 ${
+                  className={`px-3 py-1.5 rounded-full text-xs md:text-sm transition-colors ${
                     selectedBrewMethods.includes(method)
-                      ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg scale-105'
-                      : 'bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-gray-800'
+                      ? 'bg-blue-100 text-blue-800'
+                      : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
                   }`}
                 >
                   {method}
@@ -95,10 +95,10 @@ export default function FilterPanel({
                 <button
                   key={origin}
                   onClick={() => toggleOrigin(origin)}
-                  className={`text-sm px-4 py-2 rounded-full shadow transition-all font-medium sm:text-xs sm:px-2 sm:py-1 ${
+                  className={`px-3 py-1.5 rounded-full text-xs md:text-sm transition-colors ${
                     selectedOrigins.includes(origin)
-                      ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg scale-105'
-                      : 'bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-gray-800'
+                      ? 'bg-blue-100 text-blue-800'
+                      : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
                   }`}
                 >
                   {origin}
@@ -120,10 +120,10 @@ export default function FilterPanel({
                 <button
                   key={process}
                   onClick={() => toggleProcess(process)}
-                  className={`text-sm px-4 py-2 rounded-full shadow transition-all font-medium sm:text-xs sm:px-2 sm:py-1 ${
+                  className={`px-3 py-1.5 rounded-full text-xs md:text-sm transition-colors ${
                     selectedProcesses.includes(process)
-                      ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg scale-105'
-                      : 'bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-gray-800'
+                      ? 'bg-blue-100 text-blue-800'
+                      : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
                   }`}
                 >
                   {process}
@@ -145,10 +145,10 @@ export default function FilterPanel({
                 <button
                   key={roast}
                   onClick={() => toggleRoast(roast)}
-                  className={`text-sm px-4 py-2 rounded-full shadow transition-all font-medium sm:text-xs sm:px-2 sm:py-1 ${
+                  className={`px-3 py-1.5 rounded-full text-xs md:text-sm transition-colors ${
                     selectedRoast.includes(roast)
-                      ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg scale-105'
-                      : 'bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-gray-800'
+                      ? 'bg-blue-100 text-blue-800'
+                      : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
                   }`}
                 >
                   {roast}
@@ -275,8 +275,12 @@ export default function FilterPanel({
                 <button
                   key={method}
                   onClick={() => toggleBrewMethod(method)}
-                  className={`px-4 py-2 rounded-full font-bold text-sm transition-colors focus:outline-none whitespace-nowrap shadow-none border-none m-0 ${selectedBrewMethods.includes(method) ? 'bg-indigo-400 text-white' : 'bg-indigo-100 text-indigo-700'}`}
-                  style={{border: 'none', boxShadow: 'none'}}>
+                  className={`px-3 py-1.5 rounded-full text-xs md:text-sm transition-colors ${
+                    selectedBrewMethods.includes(method)
+                      ? 'bg-blue-100 text-blue-800'
+                      : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
+                  }`}
+                >
                   {method}
                 </button>
               ))}
@@ -287,8 +291,12 @@ export default function FilterPanel({
                 <button
                   key={origin}
                   onClick={() => toggleOrigin(origin)}
-                  className={`px-4 py-2 rounded-full font-bold text-sm transition-colors focus:outline-none whitespace-nowrap shadow-none border-none m-0 ${selectedOrigins.includes(origin) ? 'bg-indigo-400 text-white' : 'bg-indigo-100 text-indigo-700'}`}
-                  style={{border: 'none', boxShadow: 'none'}}>
+                  className={`px-3 py-1.5 rounded-full text-xs md:text-sm transition-colors ${
+                    selectedOrigins.includes(origin)
+                      ? 'bg-blue-100 text-blue-800'
+                      : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
+                  }`}
+                >
                   {origin}
                 </button>
               ))}
@@ -299,8 +307,12 @@ export default function FilterPanel({
                 <button
                   key={process}
                   onClick={() => toggleProcess(process)}
-                  className={`px-4 py-2 rounded-full font-bold text-sm transition-colors focus:outline-none whitespace-nowrap shadow-none border-none m-0 ${selectedProcesses.includes(process) ? 'bg-indigo-400 text-white' : 'bg-indigo-100 text-indigo-700'}`}
-                  style={{border: 'none', boxShadow: 'none'}}>
+                  className={`px-3 py-1.5 rounded-full text-xs md:text-sm transition-colors ${
+                    selectedProcesses.includes(process)
+                      ? 'bg-blue-100 text-blue-800'
+                      : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
+                  }`}
+                >
                   {process}
                 </button>
               ))}
@@ -311,8 +323,12 @@ export default function FilterPanel({
                 <button
                   key={roast}
                   onClick={() => toggleRoast(roast)}
-                  className={`px-4 py-2 rounded-full font-bold text-sm transition-colors focus:outline-none whitespace-nowrap shadow-none border-none m-0 ${selectedRoast.includes(roast) ? 'bg-indigo-400 text-white' : 'bg-indigo-100 text-indigo-700'}`}
-                  style={{border: 'none', boxShadow: 'none'}}>
+                  className={`px-3 py-1.5 rounded-full text-xs md:text-sm transition-colors ${
+                    selectedRoast.includes(roast)
+                      ? 'bg-blue-100 text-blue-800'
+                      : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
+                  }`}
+                >
                   {roast}
                 </button>
               ))}
