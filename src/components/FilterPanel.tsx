@@ -177,10 +177,10 @@ export default function FilterPanel({
                     <button
                       key={note}
                       onClick={() => toggleNote(note)}
-                      className={`text-sm px-4 py-2 rounded-full shadow transition-colors font-medium sm:text-xs sm:px-2 sm:py-1 ${
+                      className={`px-3 py-1.5 rounded-full text-xs md:text-sm transition-colors ${
                         selectedNotes.includes(note)
-                          ? 'bg-gradient-to-r from-pink-400 to-yellow-300 text-gray-900 shadow-lg scale-105'
-                          : 'bg-white/80 text-gray-900 hover:bg-pink-50 hover:scale-105'
+                          ? 'bg-blue-100 text-blue-800'
+                          : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
                       }`}
                     >
                       {note}
@@ -202,10 +202,10 @@ export default function FilterPanel({
                     <button
                       key={note}
                       onClick={() => toggleNote(note)}
-                      className={`text-sm px-4 py-2 rounded-full shadow transition-colors font-medium sm:text-xs sm:px-2 sm:py-1 ${
+                      className={`px-3 py-1.5 rounded-full text-xs md:text-sm transition-colors ${
                         selectedNotes.includes(note)
-                          ? 'bg-gradient-to-r from-yellow-300 to-pink-400 text-gray-900 shadow-lg scale-105'
-                          : 'bg-white/80 text-gray-900 hover:bg-yellow-50 hover:scale-105'
+                          ? 'bg-blue-100 text-blue-800'
+                          : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
                       }`}
                     >
                       {note}
@@ -227,10 +227,10 @@ export default function FilterPanel({
                     <button
                       key={note}
                       onClick={() => toggleNote(note)}
-                      className={`text-sm px-4 py-2 rounded-full shadow transition-colors font-medium sm:text-xs sm:px-2 sm:py-1 ${
+                      className={`px-3 py-1.5 rounded-full text-xs md:text-sm transition-colors ${
                         selectedNotes.includes(note)
-                          ? 'bg-gradient-to-r from-yellow-400 to-amber-700 text-gray-900 shadow-lg scale-105'
-                          : 'bg-white/80 text-gray-900 hover:bg-yellow-50 hover:scale-105'
+                          ? 'bg-blue-100 text-blue-800'
+                          : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
                       }`}
                     >
                       {note}
