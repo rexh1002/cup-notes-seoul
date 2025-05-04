@@ -469,7 +469,8 @@ export default function HomePage() {
             transition={{ delay: 0.2 }}
             className="text-5xl font-extrabold text-gray-900 mb-6 text-center"
           >
-            당신의 완벽한 커피를 찾아보세요
+            <span className="block md:inline">당신의 완벽한 커피를</span>
+            <span className="block md:inline">찾아보세요</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
