@@ -126,18 +126,22 @@ export default function MapMobilePage() {
   return (
     <div className="relative w-full h-full">
       {/* 상단 검색창 */}
-      <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-[200] w-[90vw] max-w-xl flex items-center bg-white rounded-2xl shadow-lg px-4 py-2 border border-gray-200">
+      <div className="fixed top-4 left-1/2 -translate-x-1/2 z-[200] w-[92vw] max-w-lg flex items-center bg-white/70 backdrop-blur-md border border-gray-100 rounded-xl px-3 py-1.5 shadow-sm focus-within:border-blue-300 transition-all">
+        <svg width="18" height="18" fill="none" stroke="#888" strokeWidth="2" viewBox="0 0 24 24" className="mr-2">
+          <circle cx="11" cy="11" r="8" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </svg>
         <input
           type="text"
           value={searchKeyword}
           onChange={e => setSearchKeyword(e.target.value)}
           onKeyDown={e => e.key === 'Enter' && handleSearch()}
           placeholder="매장, 지역으로 검색해 보세요."
-          className="flex-1 bg-transparent outline-none text-base px-2"
+          className="flex-1 bg-transparent outline-none text-[15px] placeholder:text-gray-400 px-1 py-1"
         />
-        <button onClick={handleSearch} className="ml-2 text-gray-500 hover:text-blue-600">
-          <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        </button>
+        {searchKeyword && (
+          <button onClick={() => setSearchKeyword('')} className="ml-1 text-gray-400 hover:text-gray-600 text-lg px-1 focus:outline-none">&times;</button>
+        )}
       </div>
       {/* 퀵서치 버튼 */}
       <div className="fixed top-20 left-1/2 transform -translate-x-1/2 z-[120] flex justify-center gap-2 px-4 bg-white rounded-2xl shadow-lg border border-gray-100 py-2">
