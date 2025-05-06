@@ -9,15 +9,22 @@ import Image from 'next/image';
 
 const Map = dynamic(() => import('../../components/Map'), { ssr: false });
 
+const CATEGORY_LIST = [
+  { key: 'korean', label: '한식', icon: '/images/korean.png' },
+  { key: 'meat', label: '육류', icon: '/images/meat.png' },
+  { key: 'japanese', label: '일식', icon: '/images/japanese.png' },
+  { key: 'izakaya', label: '이자카야', icon: '/images/izakaya.png' },
+];
+
 function QuickButton({ icon, label, onClick }: { icon: string; label: string; onClick: () => void }) {
   return (
     <button
-      className="flex flex-col items-center px-4 py-2 rounded-xl hover:bg-gray-100 active:bg-gray-200 transition text-gray-800 font-bold text-base focus:outline-none min-w-[72px] gap-1"
+      className="flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-gray-100 active:bg-gray-200 transition text-gray-800 font-bold text-base focus:outline-none min-w-[72px] bg-white shadow"
       onClick={onClick}
       type="button"
     >
       <Image src={icon} alt={label} width={24} height={24} />
-      <span className="mt-1" style={{letterSpacing: '0.01em'}}>{label}</span>
+      <span>{label}</span>
     </button>
   );
 }
@@ -30,6 +37,8 @@ export default function MapMobilePage() {
   const [userRole, setUserRole] = useState<string | null>(null);
   const [isMounted, setIsMounted] = useState(false);
   const [selectedCafe, setSelectedCafe] = useState<any | null>(null);
+  const [searchKeyword, setSearchKeyword] = useState('');
+  const [showList, setShowList] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
@@ -104,18 +113,39 @@ export default function MapMobilePage() {
     return null;
   }
 
-  // 카테고리 퀵서치 핸들러 (실제 검색 로직은 생략/추가 필요)
+  // 검색 핸들러
+  const handleSearch = async () => {
+    // 검색 API 호출 및 결과 setCafes
+  };
+
+  // 카테고리 퀵서치 핸들러
   const handleCategorySearch = (category: string) => {
-    // TODO: 실제 검색 로직 연결
-    alert(category + ' 검색!');
+    // 카테고리별 검색 API 호출 및 결과 setCafes
   };
 
   return (
     <div className="relative w-full h-full">
-      {/* Mobile Header */}
-      <MobileHeader isLoggedIn={isLoggedIn} userRole={userRole} onLogout={handleLogout} />
-
-      {/* Map */}
+      {/* 상단 검색창 */}
+      <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-[200] w-[90vw] max-w-xl flex items-center bg-white rounded-2xl shadow-lg px-4 py-2 border border-gray-200">
+        <input
+          type="text"
+          value={searchKeyword}
+          onChange={e => setSearchKeyword(e.target.value)}
+          onKeyDown={e => e.key === 'Enter' && handleSearch()}
+          placeholder="매장, 지역으로 검색해 보세요."
+          className="flex-1 bg-transparent outline-none text-base px-2"
+        />
+        <button onClick={handleSearch} className="ml-2 text-gray-500 hover:text-blue-600">
+          <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </button>
+      </div>
+      {/* 퀵서치 버튼 */}
+      <div className="fixed top-20 left-1/2 transform -translate-x-1/2 z-[120] flex justify-center gap-2 px-4 bg-white rounded-2xl shadow-lg border border-gray-100 py-2">
+        {CATEGORY_LIST.map(cat => (
+          <QuickButton key={cat.key} icon={cat.icon} label={cat.label} onClick={() => handleCategorySearch(cat.key)} />
+        ))}
+      </div>
+      {/* 지도 영역 */}
       <div className="absolute inset-0" style={{ zIndex: 100 }}>
         {/* 현재위치 버튼 */}
         <button
@@ -179,29 +209,40 @@ export default function MapMobilePage() {
         )}
       </AnimatePresence>
 
-      {/* 퀵서치 버튼 */}
-      <div className="fixed top-20 left-0 right-0 z-[120] flex justify-center gap-2 px-4">
-        <QuickButton
-          icon="/images/Floralicon.png"
-          label="Floral"
-          onClick={() => handleCategorySearch('Floral')}
-        />
-        <QuickButton
-          icon="/images/Fruityicon.png"
-          label="Fruity"
-          onClick={() => handleCategorySearch('Fruity')}
-        />
-        <QuickButton
-          icon="/images/Nuttyicon.png"
-          label="Nutty"
-          onClick={() => handleCategorySearch('Nutty')}
-        />
-        <QuickButton
-          icon="/images/handdripicon.png"
-          label="핸드드립"
-          onClick={() => handleCategorySearch('핸드드립')}
-        />
+      {/* 하단 중앙 목록보기 버튼 */}
+      <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-[170]">
+        <button
+          className="flex items-center gap-2 px-6 py-3 rounded-full bg-black text-white text-lg font-bold shadow-lg hover:bg-gray-900 transition"
+          onClick={() => setShowList(true)}
+        >
+          <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+          목록 보기
+        </button>
       </div>
+
+      {/* 목록 패널(모달) */}
+      <AnimatePresence>
+        {showList && (
+          <motion.div
+            initial={{ y: '100%' }}
+            animate={{ y: 0 }}
+            exit={{ y: '100%' }}
+            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+            className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl shadow-2xl z-[200] max-h-[70vh] overflow-y-auto p-6"
+          >
+            <button className="absolute top-4 right-6 text-2xl" onClick={() => setShowList(false)}>&times;</button>
+            <h2 className="text-xl font-bold mb-4">매장 목록</h2>
+            <ul>
+              {cafes.map((cafe, idx) => (
+                <li key={cafe.id || idx} className="py-3 border-b border-gray-100 flex items-center gap-3">
+                  <span className="font-bold text-lg text-gray-800">{cafe.name}</span>
+                  {/* 필요시 추가 정보 표시 */}
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 } 
