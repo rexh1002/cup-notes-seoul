@@ -6,17 +6,18 @@ import { Flower2, Apple, Candy, Coffee } from 'lucide-react';
 import MobileNavBar from '../../components/MobileNavBar';
 import MobileHeader from '../../components/MobileHeader';
 import { AnimatePresence, motion } from 'framer-motion';
+import Image from 'next/image';
 
 const Map = dynamic(() => import('../../components/Map'), { ssr: false });
 
-function QuickButton({ icon, label, onClick }: { icon: React.ReactNode; label: string; onClick: () => void }) {
+function QuickButton({ icon, label, onClick }: { icon: string; label: string; onClick: () => void }) {
   return (
     <button
       className="flex flex-col items-center px-4 py-2 rounded-xl hover:bg-gray-100 active:bg-gray-200 transition text-gray-800 font-bold text-base focus:outline-none min-w-[72px] gap-1"
       onClick={onClick}
       type="button"
     >
-      {icon}
+      <Image src={icon} alt={label} width={24} height={24} />
       <span className="mt-1" style={{letterSpacing: '0.01em'}}>{label}</span>
     </button>
   );
@@ -178,6 +179,30 @@ export default function MapMobilePage() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* 퀵서치 버튼 */}
+      <div className="fixed top-20 left-0 right-0 z-[120] flex justify-center gap-2 px-4">
+        <QuickButton
+          icon="/images/Floralicon.png"
+          label="Floral"
+          onClick={() => handleCategorySearch('Floral')}
+        />
+        <QuickButton
+          icon="/images/Fruityicon.png"
+          label="Fruity"
+          onClick={() => handleCategorySearch('Fruity')}
+        />
+        <QuickButton
+          icon="/images/Nuttyicon.png"
+          label="Nutty"
+          onClick={() => handleCategorySearch('Nutty')}
+        />
+        <QuickButton
+          icon="/images/handdripicon.png"
+          label="핸드드립"
+          onClick={() => handleCategorySearch('핸드드립')}
+        />
+      </div>
     </div>
   );
 } 
