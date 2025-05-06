@@ -10,10 +10,10 @@ import Image from 'next/image';
 const Map = dynamic(() => import('../../components/Map'), { ssr: false });
 
 const CATEGORY_LIST = [
-  { key: 'korean', label: '한식', icon: '/images/korean.png' },
-  { key: 'meat', label: '육류', icon: '/images/meat.png' },
-  { key: 'japanese', label: '일식', icon: '/images/japanese.png' },
-  { key: 'izakaya', label: '이자카야', icon: '/images/izakaya.png' },
+  { key: 'floral', label: 'Floral', icon: '/images/Floralicon.png' },
+  { key: 'fruity', label: 'Fruity', icon: '/images/Fruityicon.png' },
+  { key: 'nutty', label: 'Nutty', icon: '/images/Nuttyicon.png' },
+  { key: 'handdrip', label: '핸드드립', icon: '/images/handdripicon.png' },
 ];
 
 function QuickButton({ icon, label, onClick }: { icon: string; label: string; onClick: () => void }) {
