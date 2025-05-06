@@ -2,7 +2,6 @@
 import dynamic from 'next/dynamic';
 import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Flower2, Apple, Candy, Coffee } from 'lucide-react';
 import MobileNavBar from '../../components/MobileNavBar';
 import MobileHeader from '../../components/MobileHeader';
 import { AnimatePresence, motion } from 'framer-motion';
