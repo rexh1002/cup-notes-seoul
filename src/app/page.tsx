@@ -28,14 +28,14 @@ declare global {
 }
 
 // QuickButton 컴포넌트 인라인 정의
-function QuickButton({ icon, label, onClick }: { icon: React.ReactNode; label: string; onClick: () => void }) {
+function QuickButton({ icon, label, onClick }: { icon: string; label: string; onClick: () => void }) {
   return (
     <button
       className="flex flex-col items-center px-2 py-1 rounded-lg hover:bg-gray-100 active:bg-gray-200 transition text-gray-800 font-semibold text-xs focus:outline-none min-w-[56px]"
       onClick={onClick}
       type="button"
     >
-      {icon}
+      <Image src={icon} alt={label} width={24} height={24} />
       <span className="mt-0.5" style={{letterSpacing: '0.01em'}}>{label}</span>
     </button>
   );
@@ -624,22 +624,22 @@ export default function HomePage() {
             style={{ left: isMobile ? '16px' : 'calc(384px + 16px)', top: '8px', minWidth: 240, maxWidth: 320 }}
           >
             <QuickButton
-              icon={<Flower2 className="w-6 h-6 text-black" strokeWidth={2.2} />}
+              icon="/images/Floralicon.png"
               label="Floral"
               onClick={() => handleCategorySearch('floral')}
             />
             <QuickButton
-              icon={<Apple className="w-6 h-6 text-black" strokeWidth={2.2} />}
+              icon="/images/Fruityicon.png"
               label="Fruity"
               onClick={() => handleCategorySearch('fruity')}
             />
             <QuickButton
-              icon={<Candy className="w-6 h-6 text-black" strokeWidth={2.2} />}
+              icon="/images/Nuttyicon.png"
               label="Nutty"
               onClick={() => handleCategorySearch('nutty')}
             />
             <QuickButton
-              icon={<Coffee className="w-6 h-6 text-black" strokeWidth={2.2} />}
+              icon="/images/handdripicon.png"
               label="핸드드립"
               onClick={() => handleCategorySearch('핸드드립')}
             />
