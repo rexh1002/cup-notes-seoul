@@ -466,16 +466,24 @@ export default function HomePage() {
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6 text-center"
+            transition={{ delay: 0.15 }}
+            className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-2 text-center"
           >
-            <span className="block md:inline">컵 노트를 검색하세요. 카페는 우리가 찾아드릴게요.</span>
+            <span className="block">컵 노트를 검색하세요.</span>
           </motion.h1>
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.35 }}
+            className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4 text-center"
+          >
+            <span className="block">카페는 우리가 찾아드릴게요.</span>
+          </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-            className="text-lg text-gray-700 mb-8 text-center"
+            transition={{ delay: 0.55 }}
+            className="text-lg md:text-xl text-gray-700 mb-8 text-center"
           >
             라즈베리? 초콜릿? 원하는 맛으로 카페를 탐색하세요.
           </motion.p>
