@@ -469,8 +469,7 @@ export default function HomePage() {
             transition={{ delay: 0.2 }}
             className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6 text-center"
           >
-            <span className="block md:inline">당신의 완벽한 커피를</span>
-            <span className="block md:inline">찾아보세요</span>
+            <span className="block md:inline">컵 노트를 검색하세요. 카페는 우리가 찾아드릴게요.</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -478,7 +477,7 @@ export default function HomePage() {
             transition={{ delay: 0.5 }}
             className="text-lg text-gray-700 mb-8 text-center"
           >
-            서울의 숨은 커피 명소들을 발견하고 공유하세요
+            라즈베리? 초콜릿? 원하는 맛으로 카페를 탐색하세요.
           </motion.p>
         </section>
       </main>
