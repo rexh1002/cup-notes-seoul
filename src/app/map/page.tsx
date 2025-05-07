@@ -10,21 +10,25 @@ import Image from 'next/image';
 const Map = dynamic(() => import('../../components/Map'), { ssr: false });
 
 const CATEGORY_LIST = [
-  { key: 'floral', label: 'Floral', icon: '/images/Floralicon.png' },
-  { key: 'fruity', label: 'Fruity', icon: '/images/Fruityicon.png' },
-  { key: 'nutty', label: 'Nutty', icon: '/images/Nuttyicon.png' },
-  { key: 'handdrip', label: '핸드드립', icon: '/images/handdripicon.png' },
+  { key: 'floral', label: 'Floral', image: '/images/Floral.jpg' },
+  { key: 'fruity', label: 'Fruity', image: '/images/Fruity.jpg' },
+  { key: 'nutty', label: 'Nutty', image: '/images/Nutty.jpg' },
+  { key: 'handdrip', label: '핸드드립', image: '/images/handdrip.jpg' },
 ];
 
-function QuickButton({ icon, label, onClick }: { icon: string; label: string; onClick: () => void }) {
+function QuickCard({ image, label, onClick }: { image: string; label: string; onClick: () => void }) {
   return (
     <button
-      className="flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-gray-100 active:bg-gray-200 transition text-gray-800 font-bold text-base focus:outline-none min-w-[72px] bg-white shadow"
+      className="relative w-28 h-28 md:w-36 md:h-36 rounded-2xl overflow-hidden shadow-lg group focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all flex-shrink-0"
       onClick={onClick}
       type="button"
+      aria-label={label}
     >
-      <Image src={icon} alt={label} width={24} height={24} />
-      <span>{label}</span>
+      <Image src={image} alt={label} fill className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300" />
+      <div className="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition" />
+      <span className="absolute bottom-2 left-1/2 -translate-x-1/2 px-3 py-1 rounded-xl bg-white/80 text-gray-900 font-bold text-lg md:text-xl shadow text-center whitespace-nowrap">
+        {label}
+      </span>
     </button>
   );
 }
@@ -143,11 +147,13 @@ export default function MapMobilePage() {
           <button onClick={() => setSearchKeyword('')} className="ml-1 text-gray-400 hover:text-gray-600 text-lg px-1 focus:outline-none">&times;</button>
         )}
       </div>
-      {/* 퀵서치 버튼 */}
-      <div className="fixed top-20 left-1/2 transform -translate-x-1/2 z-[120] flex justify-center gap-2 px-4 bg-white rounded-2xl shadow-lg border border-gray-100 py-2">
-        {CATEGORY_LIST.map(cat => (
-          <QuickButton key={cat.key} icon={cat.icon} label={cat.label} onClick={() => handleCategorySearch(cat.key)} />
-        ))}
+      {/* 퀵서치 카드형 버튼 */}
+      <div className="fixed top-20 left-1/2 -translate-x-1/2 z-[120] w-full max-w-2xl px-4">
+        <div className="flex gap-4 overflow-x-auto md:grid md:grid-cols-4 md:gap-6 md:overflow-visible">
+          {CATEGORY_LIST.map(cat => (
+            <QuickCard key={cat.key} image={cat.image} label={cat.label} onClick={() => handleCategorySearch(cat.key)} />
+          ))}
+        </div>
       </div>
       {/* 지도 영역 */}
       <div className="absolute inset-0" style={{ zIndex: 100 }}>
