@@ -19,14 +19,14 @@ const CATEGORY_LIST = [
 function QuickCard({ image, label, onClick }: { image: string; label: string; onClick: () => void }) {
   return (
     <button
-      className="relative w-28 h-28 md:w-36 md:h-36 rounded-2xl overflow-hidden shadow-lg group focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all flex-shrink-0"
+      className="relative w-14 h-14 md:w-20 md:h-20 rounded-xl overflow-hidden shadow-md group focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all flex-shrink-0"
       onClick={onClick}
       type="button"
       aria-label={label}
     >
       <Image src={image} alt={label} fill className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300" />
       <div className="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition" />
-      <span className="absolute bottom-2 left-1/2 -translate-x-1/2 px-3 py-1 rounded-xl bg-white/80 text-gray-900 font-bold text-lg md:text-xl shadow text-center whitespace-nowrap">
+      <span className="absolute bottom-1 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-lg bg-white/80 text-gray-900 font-bold text-xs md:text-sm shadow text-center whitespace-nowrap">
         {label}
       </span>
     </button>
