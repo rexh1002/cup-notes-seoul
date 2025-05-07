@@ -68,6 +68,18 @@ export default function FiltersPage() {
     <div className="pt-14 pb-16">
       {/* Mobile Header */}
       <MobileHeader isLoggedIn={isLoggedIn} userRole={userRole} onLogout={handleLogout} />
+      {/* 모바일 전용 검색바 */}
+      <div className="sticky top-0 z-30 px-3 pt-2 pb-3 bg-gradient-to-r from-purple-500 to-indigo-500 flex items-center gap-2 rounded-b-2xl shadow-md">
+        <svg width="20" height="20" fill="none" stroke="#fff" strokeWidth="2" viewBox="0 0 24 24" className="mr-2">
+          <circle cx="11" cy="11" r="8" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </svg>
+        <input
+          type="text"
+          placeholder="키워드로 검색하세요"
+          className="flex-1 bg-transparent outline-none text-white placeholder:text-indigo-100 px-1 py-1 text-sm"
+        />
+      </div>
       <FilterPanel
         selectedNotes={selectedNotes}
         toggleNote={note => setSelectedNotes(prev => prev.includes(note) ? prev.filter(n => n !== note) : [...prev, note])}
@@ -87,6 +99,7 @@ export default function FiltersPage() {
           setSelectedRoast([]);
         }}
         onApply={() => {}}
+        mobileCombined={true}
       />
       <MobileNavBar />
     </div>
