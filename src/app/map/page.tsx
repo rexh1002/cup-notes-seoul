@@ -147,13 +147,12 @@ export default function MapMobilePage() {
           <button onClick={() => setSearchKeyword('')} className="ml-1 text-gray-400 hover:text-gray-600 text-lg px-1 focus:outline-none">&times;</button>
         )}
       </div>
-      {/* 퀵서치 카드형 버튼 */}
-      <div className="fixed top-20 left-1/2 -translate-x-1/2 z-[120] w-full max-w-2xl px-4">
-        <div className="flex gap-4 overflow-x-auto md:grid md:grid-cols-4 md:gap-6 md:overflow-visible">
-          {CATEGORY_LIST.map(cat => (
-            <QuickCard key={cat.key} image={cat.image} label={cat.label} onClick={() => handleCategorySearch(cat.key)} />
-          ))}
-        </div>
+      {/* 퀵서치 버튼 좌측 하단 세로 배열 */}
+      <div className="fixed left-4 bottom-32 z-[120] flex flex-col gap-3 items-start">
+        <QuickCard image="/images/Floral.jpg" label="Floral" onClick={() => handleCategorySearch('floral')} />
+        <QuickCard image="/images/Fruity.jpg" label="Fruity" onClick={() => handleCategorySearch('fruity')} />
+        <QuickCard image="/images/Nutty.jpg" label="Nutty" onClick={() => handleCategorySearch('nutty')} />
+        <QuickCard image="/images/handdrip.jpg" label="핸드드립" onClick={() => handleCategorySearch('handdrip')} />
       </div>
       {/* 지도 영역 */}
       <div className="absolute inset-0" style={{ zIndex: 100 }}>
@@ -219,8 +218,8 @@ export default function MapMobilePage() {
         )}
       </AnimatePresence>
 
-      {/* 하단 중앙 목록보기 버튼 */}
-      <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-[170]">
+      {/* 하단 중앙 목록보기 버튼 (네비게이션 바에 가리지 않게 더 위로) */}
+      <div className="fixed bottom-28 left-1/2 transform -translate-x-1/2 z-[170]">
         <button
           className="flex items-center gap-2 px-6 py-3 rounded-full bg-black text-white text-lg font-bold shadow-lg hover:bg-gray-900 transition"
           onClick={() => setShowList(true)}
