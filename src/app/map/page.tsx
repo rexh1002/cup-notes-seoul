@@ -10,10 +10,10 @@ import Image from 'next/image';
 const Map = dynamic(() => import('../../components/Map'), { ssr: false });
 
 const CATEGORY_LIST = [
-  { key: 'floral', label: 'Floral', image: '/images/Floral.jpg' },
-  { key: 'fruity', label: 'Fruity', image: '/images/Fruity.jpg' },
-  { key: 'nutty', label: 'Nutty', image: '/images/Nutty.jpg' },
-  { key: 'handdrip', label: '핸드드립', image: '/images/handdrip.jpg' },
+  { key: 'floral', label: 'Floral', image: '/images/Floralicon.png' },
+  { key: 'fruity', label: 'Fruity', image: '/images/Fruityicon.png' },
+  { key: 'nutty', label: 'Nutty', image: '/images/Nuttyicon.png' },
+  { key: 'handdrip', label: '핸드드립', image: '/images/handdripicon.png' },
 ];
 
 function QuickCard({ image, label, onClick }: { image: string; label: string; onClick: () => void }) {
@@ -150,10 +150,10 @@ export default function MapMobilePage() {
       </div>
       {/* 퀵서치 버튼 좌측 하단 세로 배열 */}
       <div className="fixed left-4 bottom-32 z-[120] flex flex-col gap-3 items-start">
-        <QuickCard image="/images/Floral.jpg" label="Floral" onClick={() => handleCategorySearch('floral')} />
-        <QuickCard image="/images/Fruity.jpg" label="Fruity" onClick={() => handleCategorySearch('fruity')} />
-        <QuickCard image="/images/Nutty.jpg" label="Nutty" onClick={() => handleCategorySearch('nutty')} />
-        <QuickCard image="/images/handdrip.jpg" label="핸드드립" onClick={() => handleCategorySearch('handdrip')} />
+        <QuickCard image="/images/Floralicon.png" label="Floral" onClick={() => handleCategorySearch('floral')} />
+        <QuickCard image="/images/Fruityicon.png" label="Fruity" onClick={() => handleCategorySearch('fruity')} />
+        <QuickCard image="/images/Nuttyicon.png" label="Nutty" onClick={() => handleCategorySearch('nutty')} />
+        <QuickCard image="/images/handdripicon.png" label="핸드드립" onClick={() => handleCategorySearch('handdrip')} />
       </div>
       {/* 지도 영역 */}
       <div className="absolute inset-0" style={{ zIndex: 100 }}>
