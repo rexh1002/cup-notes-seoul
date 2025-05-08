@@ -168,7 +168,7 @@ export default function FilterPanel({
               {/* Floral (항상 펼침) */}
               <div className="rounded-xl shadow bg-white/80 dark:bg-gray-800">
                 <div className="relative w-full h-16 flex items-center rounded-xl overflow-hidden group focus:outline-none">
-                  <Image src="/images/Floral.jpg" alt="Floral" fill className="object-cover group-hover:scale-105 transition-transform duration-300" style={{ zIndex: 1 }} />
+                  <Image src="/images/Floralicon.png" alt="Floral" fill className="object-cover group-hover:scale-105 transition-transform duration-300" style={{ zIndex: 1 }} />
                   <div className="absolute inset-0 bg-gradient-to-r from-pink-400/60 via-white/10 to-yellow-200/60 group-hover:bg-pink-300/70 transition-colors duration-300" style={{ zIndex: 2 }} />
                   <span className="relative z-10 text-xl font-bold text-white drop-shadow-lg pl-6">Floral</span>
                 </div>
@@ -191,7 +191,7 @@ export default function FilterPanel({
               {/* Fruity (항상 펼침) */}
               <div className="rounded-xl shadow bg-white/80 dark:bg-gray-800">
                 <div className="relative w-full h-16 flex items-center rounded-xl overflow-hidden group focus:outline-none">
-                  <Image src="/images/Fruity.jpg" alt="Fruity" fill className="object-cover group-hover:scale-105 transition-transform duration-300" style={{ zIndex: 1 }} />
+                  <Image src="/images/Fruityicon.png" alt="Fruity" fill className="object-cover group-hover:scale-105 transition-transform duration-300" style={{ zIndex: 1 }} />
                   <div className="absolute inset-0 bg-gradient-to-r from-yellow-200/60 via-white/10 to-pink-400/60 group-hover:bg-yellow-300/70 transition-colors duration-300" style={{ zIndex: 2 }} />
                   <span className="relative z-10 text-xl font-bold text-white drop-shadow-lg pl-6">Fruity</span>
                 </div>
@@ -214,7 +214,7 @@ export default function FilterPanel({
               {/* Nutty (항상 펼침) */}
               <div className="rounded-xl shadow bg-white/80 dark:bg-gray-800">
                 <div className="relative w-full h-16 flex items-center rounded-xl overflow-hidden group focus:outline-none">
-                  <Image src="/images/Nutty.jpg" alt="Nutty" fill className="object-cover group-hover:scale-105 transition-transform duration-300" style={{ zIndex: 1 }} />
+                  <Image src="/images/Nuttyicon.png" alt="Nutty" fill className="object-cover group-hover:scale-105 transition-transform duration-300" style={{ zIndex: 1 }} />
                   <div className="absolute inset-0 bg-gradient-to-r from-yellow-200/60 via-white/10 to-amber-700/60 group-hover:bg-yellow-300/70 transition-colors duration-300" style={{ zIndex: 2 }} />
                   <span className="relative z-10 text-xl font-bold text-white drop-shadow-lg pl-6">Nutty</span>
                 </div>
@@ -259,7 +259,7 @@ export default function FilterPanel({
             {/* Floral */}
             <div className="rounded-3xl shadow bg-white/80 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 overflow-hidden">
               <div className="relative w-full h-16 flex items-end rounded-t-3xl overflow-hidden">
-                <img src="/images/Floral.jpg" alt="Floral" className="absolute inset-0 w-full h-full object-cover" />
+                <img src="/images/Floralicon.png" alt="Floral" className="absolute inset-0 w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-r from-pink-400/60 via-white/10 to-yellow-200/60" />
                 <span className="relative z-10 text-2xl font-extrabold text-white drop-shadow-lg p-6 pb-3">Floral</span>
               </div>
@@ -282,7 +282,7 @@ export default function FilterPanel({
             {/* Fruity */}
             <div className="rounded-3xl shadow bg-white/80 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 overflow-hidden">
               <div className="relative w-full h-16 flex items-end rounded-t-3xl overflow-hidden">
-                <img src="/images/Fruity.jpg" alt="Fruity" className="absolute inset-0 w-full h-full object-cover" />
+                <img src="/images/Fruityicon.png" alt="Fruity" className="absolute inset-0 w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-r from-yellow-200/60 via-white/10 to-pink-400/60" />
                 <span className="relative z-10 text-2xl font-extrabold text-white drop-shadow-lg p-6 pb-3">Fruity</span>
               </div>
@@ -305,7 +305,7 @@ export default function FilterPanel({
             {/* Nutty */}
             <div className="rounded-3xl shadow bg-white/80 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 overflow-hidden">
               <div className="relative w-full h-16 flex items-end rounded-t-3xl overflow-hidden">
-                <img src="/images/Nutty.jpg" alt="Nutty" className="absolute inset-0 w-full h-full object-cover" />
+                <img src="/images/Nuttyicon.png" alt="Nutty" className="absolute inset-0 w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-r from-yellow-200/60 via-white/10 to-amber-700/60" />
                 <span className="relative z-10 text-2xl font-extrabold text-white drop-shadow-lg p-6 pb-3">Nutty</span>
               </div>
