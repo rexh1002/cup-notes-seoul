@@ -252,10 +252,10 @@ export default function FilterPanel({
     const BUTTON_BAR_HEIGHT = 64; // 버튼 바 높이 예시
     const SCROLL_AREA_HEIGHT = `calc(100vh - ${HEADER_HEIGHT + BUTTON_BAR_HEIGHT}px)`;
     return (
-      <div className={`w-full min-h-screen bg-gradient-to-b from-white via-gray-50 to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 pb-[${BUTTON_BAR_HEIGHT}px] relative`}>
+      <div className={`w-full min-h-screen bg-gradient-to-b from-white via-gray-50 to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 relative`}>
         <div className="flex flex-row gap-2 px-2 pt-4">
           {/* Cup Notes (좌측) */}
-          <div className="flex-1 min-w-0 space-y-6 overflow-y-auto" style={{ maxHeight: SCROLL_AREA_HEIGHT }}>
+          <div className="flex-1 min-w-0 space-y-6 overflow-y-auto pb-16" style={{ maxHeight: SCROLL_AREA_HEIGHT }}>
             {/* Floral */}
             <div className="rounded-3xl shadow bg-white/80 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 overflow-hidden">
               <div className="relative w-full h-16 flex items-end rounded-t-3xl overflow-hidden">
@@ -327,7 +327,7 @@ export default function FilterPanel({
             </div>
           </div>
           {/* Coffee Filters (우측) */}
-          <div className="flex-1 min-w-0 space-y-6 overflow-y-auto" style={{ maxHeight: SCROLL_AREA_HEIGHT }}>
+          <div className="flex-1 min-w-0 space-y-6 overflow-y-auto pb-16" style={{ maxHeight: SCROLL_AREA_HEIGHT }}>
             {/* Brew Method */}
             <section>
               <div className="mb-2 text-lg font-bold text-indigo-700 flex items-center gap-2">추출방식</div>
@@ -407,7 +407,7 @@ export default function FilterPanel({
           </div>
         </div>
         {/* 하단 고정 Reset/Apply 버튼 - flex-row 컨테이너 바깥에 위치 */}
-        <div className="fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-gray-900/95 border-t border-indigo-200 flex justify-between px-4 py-3 backdrop-blur-md z-30">
+        <div className="fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-gray-900/95 border-t border-indigo-200 flex justify-between px-4 py-3 backdrop-blur-md z-50">
           <button onClick={onReset} className="px-6 py-2 text-sm font-semibold text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 active:scale-95">Reset</button>
           <button onClick={onApply} className="px-6 py-2 text-sm font-semibold bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg shadow hover:from-blue-700 hover:to-purple-700 transition-all active:scale-95">Apply</button>
         </div>
