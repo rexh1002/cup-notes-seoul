@@ -166,7 +166,7 @@ export default function FilterPanel({
             </div>
             <div className="grid grid-cols-1 gap-4 mt-2">
               {/* Floral (항상 펼침) */}
-              <div className="rounded-xl shadow bg-white/80 dark:bg-gray-800">
+              <div className="bg-white rounded-2xl p-4 mb-4 shadow-sm border border-gray-100">
                 <div className="relative w-full h-16 flex items-center rounded-xl overflow-hidden group focus:outline-none">
                   <Image src="/images/Floral.jpg" alt="Floral" fill className="object-cover group-hover:scale-105 transition-transform duration-300" style={{ zIndex: 1 }} />
                   <div className="absolute inset-0 bg-gradient-to-r from-pink-400/60 via-white/10 to-yellow-200/60 group-hover:bg-pink-300/70 transition-colors duration-300" style={{ zIndex: 2 }} />
@@ -189,7 +189,7 @@ export default function FilterPanel({
                 </div>
               </div>
               {/* Fruity (항상 펼침) */}
-              <div className="rounded-xl shadow bg-white/80 dark:bg-gray-800">
+              <div className="bg-white rounded-2xl p-4 mb-4 shadow-sm border border-gray-100">
                 <div className="relative w-full h-16 flex items-center rounded-xl overflow-hidden group focus:outline-none">
                   <Image src="/images/Fruity.jpg" alt="Fruity" fill className="object-cover group-hover:scale-105 transition-transform duration-300" style={{ zIndex: 1 }} />
                   <div className="absolute inset-0 bg-gradient-to-r from-yellow-200/60 via-white/10 to-pink-400/60 group-hover:bg-yellow-300/70 transition-colors duration-300" style={{ zIndex: 2 }} />
@@ -212,7 +212,7 @@ export default function FilterPanel({
                 </div>
               </div>
               {/* Nutty (항상 펼침) */}
-              <div className="rounded-xl shadow bg-white/80 dark:bg-gray-800">
+              <div className="bg-white rounded-2xl p-4 mb-4 shadow-sm border border-gray-100">
                 <div className="relative w-full h-16 flex items-center rounded-xl overflow-hidden group focus:outline-none">
                   <Image src="/images/Nutty.jpg" alt="Nutty" fill className="object-cover group-hover:scale-105 transition-transform duration-300" style={{ zIndex: 1 }} />
                   <div className="absolute inset-0 bg-gradient-to-r from-yellow-200/60 via-white/10 to-amber-700/60 group-hover:bg-yellow-300/70 transition-colors duration-300" style={{ zIndex: 2 }} />
@@ -239,8 +239,8 @@ export default function FilterPanel({
         </div>
         {/* 하단 버튼 */}
         <div className="sticky bottom-0 bg-white/90 dark:bg-gray-900/90 border-t border-gray-200 dark:border-gray-800 p-4 flex justify-between backdrop-blur-md">
-          <button onClick={onReset} className="px-6 py-2 text-sm font-semibold text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">Reset</button>
-          <button onClick={onApply} className="px-6 py-2 text-sm font-semibold bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg shadow hover:from-blue-700 hover:to-purple-700 transition-all">Apply</button>
+          <button onClick={onReset} className="px-4 py-2 bg-secondary text-gray-800 font-semibold rounded-lg border border-gray-200 hover:bg-primary hover:text-white transition">리셋</button>
+          <button onClick={onApply} className="px-4 py-2 bg-primary text-white font-semibold rounded-lg border border-primary hover:bg-primary/90 transition">적용</button>
         </div>
       </div>
     );
@@ -257,7 +257,7 @@ export default function FilterPanel({
           {/* Cup Notes (좌측) */}
           <div className="flex-1 min-w-0 space-y-6 overflow-y-auto pb-16" style={{ maxHeight: SCROLL_AREA_HEIGHT }}>
             {/* Floral */}
-            <div className="rounded-3xl shadow bg-white/80 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 overflow-hidden">
+            <div className="bg-white rounded-2xl p-4 mb-4 shadow-sm border border-gray-100">
               <div className="relative w-full h-16 flex items-end rounded-t-3xl overflow-hidden">
                 <img src="/images/Floral.jpg" alt="Floral" className="absolute inset-0 w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-r from-pink-400/60 via-white/10 to-yellow-200/60" />
@@ -280,7 +280,7 @@ export default function FilterPanel({
               </div>
             </div>
             {/* Fruity */}
-            <div className="rounded-3xl shadow bg-white/80 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 overflow-hidden">
+            <div className="bg-white rounded-2xl p-4 mb-4 shadow-sm border border-gray-100">
               <div className="relative w-full h-16 flex items-end rounded-t-3xl overflow-hidden">
                 <img src="/images/Fruity.jpg" alt="Fruity" className="absolute inset-0 w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-r from-yellow-200/60 via-white/10 to-pink-400/60" />
@@ -303,7 +303,7 @@ export default function FilterPanel({
               </div>
             </div>
             {/* Nutty */}
-            <div className="rounded-3xl shadow bg-white/80 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 overflow-hidden">
+            <div className="bg-white rounded-2xl p-4 mb-4 shadow-sm border border-gray-100">
               <div className="relative w-full h-16 flex items-end rounded-t-3xl overflow-hidden">
                 <img src="/images/Nutty.jpg" alt="Nutty" className="absolute inset-0 w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-r from-yellow-200/60 via-white/10 to-amber-700/60" />
@@ -408,8 +408,8 @@ export default function FilterPanel({
         </div>
         {/* 하단 고정 Reset/Apply 버튼 - flex-row 컨테이너 바깥에 위치 */}
         <div className="fixed bottom-16 left-0 right-0 bg-white/95 dark:bg-gray-900/95 border-t border-indigo-200 flex justify-between px-4 py-3 backdrop-blur-md z-50">
-          <button onClick={onReset} className="px-6 py-2 text-sm font-semibold text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 active:scale-95">Reset</button>
-          <button onClick={onApply} className="px-6 py-2 text-sm font-semibold bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg shadow hover:from-blue-700 hover:to-purple-700 transition-all active:scale-95">Apply</button>
+          <button onClick={onReset} className="px-4 py-2 bg-secondary text-gray-800 font-semibold rounded-lg border border-gray-200 hover:bg-primary hover:text-white transition">리셋</button>
+          <button onClick={onApply} className="px-4 py-2 bg-primary text-white font-semibold rounded-lg border border-primary hover:bg-primary/90 transition">적용</button>
         </div>
       </div>
     );
