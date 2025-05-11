@@ -12,7 +12,8 @@ module.exports = {
   			'noto-sans-kr': [
   				'var(--font-noto-sans-kr)'
   			],
-  			ghibli: ['Gowun Dodum', 'Noto Sans KR', 'sans-serif']
+  			ghibli: ['Gowun Dodum', 'Noto Sans KR', 'sans-serif'],
+  			bluebottle: ['Noto Sans KR', 'Inter', 'Apple SD Gothic Neo', 'sans-serif']
   		},
   		colors: {
   			border: 'hsl(var(--border))',
@@ -70,6 +71,12 @@ module.exports = {
   				text2: '#6b705c',
   				border: '#e6e6e6',
   				shadow: '#dbead5'
+  			},
+  			bluebottle: {
+  				blue: '#0061a8',
+  				bg: '#f7f7f7',
+  				border: '#e5e5e5',
+  				text: '#222'
   			}
   		},
   		borderRadius: {

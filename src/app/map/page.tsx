@@ -19,15 +19,15 @@ const CATEGORY_LIST = [
 function QuickCard({ image, label, onClick }: { image: string; label: string; onClick: () => void }) {
   return (
     <button
-      className="flex flex-col items-center justify-center w-20 h-24 bg-ghibli-card border border-ghibli-border rounded-3xl shadow-sm p-3 font-ghibli focus:outline-none focus:ring-2 focus:ring-ghibli-accent transition-all"
+      className="flex flex-col items-center justify-center w-20 h-24 bg-white border border-bluebottle-border rounded-xl p-3 font-bluebottle focus:outline-none focus:ring-2 focus:ring-bluebottle-blue transition-all"
       onClick={onClick}
       type="button"
       aria-label={label}
     >
-      <div className="flex items-center justify-center w-14 h-14 bg-ghibli-bg rounded-full mb-2 overflow-hidden border border-ghibli-border">
+      <div className="flex items-center justify-center w-14 h-14 bg-bluebottle-bg rounded-full mb-2 overflow-hidden border border-bluebottle-border">
         <Image src={image} alt={label} width={56} height={56} className="object-contain" />
       </div>
-      <span className="mt-1 text-ghibli-text font-bold text-xs md:text-sm text-center whitespace-nowrap">
+      <span className="mt-1 text-bluebottle-blue font-bold text-xs md:text-sm text-center whitespace-nowrap">
         {label}
       </span>
     </button>

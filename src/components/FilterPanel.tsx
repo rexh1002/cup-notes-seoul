@@ -166,7 +166,7 @@ export default function FilterPanel({
             </div>
             <div className="grid grid-cols-1 gap-4 mt-2">
               {/* Floral (항상 펼침) */}
-              <div className="bg-ghibli-card rounded-3xl p-5 mb-4 shadow-sm border border-ghibli-border font-ghibli">
+              <div className="bg-white rounded-xl border border-bluebottle-border p-6 mb-6 font-bluebottle">
                 <div className="relative w-full h-16 flex items-center rounded-xl overflow-hidden group focus:outline-none">
                   <Image src="/images/Floral.jpg" alt="Floral" fill className="object-cover group-hover:scale-105 transition-transform duration-300" style={{ zIndex: 1 }} />
                   <div className="absolute inset-0 bg-gradient-to-r from-pink-400/60 via-white/10 to-yellow-200/60 group-hover:bg-pink-300/70 transition-colors duration-300" style={{ zIndex: 2 }} />
@@ -189,7 +189,7 @@ export default function FilterPanel({
                 </div>
               </div>
               {/* Fruity (항상 펼침) */}
-              <div className="bg-ghibli-card rounded-3xl p-5 mb-4 shadow-sm border border-ghibli-border font-ghibli">
+              <div className="bg-white rounded-xl border border-bluebottle-border p-6 mb-6 font-bluebottle">
                 <div className="relative w-full h-16 flex items-center rounded-xl overflow-hidden group focus:outline-none">
                   <Image src="/images/Fruity.jpg" alt="Fruity" fill className="object-cover group-hover:scale-105 transition-transform duration-300" style={{ zIndex: 1 }} />
                   <div className="absolute inset-0 bg-gradient-to-r from-yellow-200/60 via-white/10 to-pink-400/60 group-hover:bg-yellow-300/70 transition-colors duration-300" style={{ zIndex: 2 }} />
@@ -212,7 +212,7 @@ export default function FilterPanel({
                 </div>
               </div>
               {/* Nutty (항상 펼침) */}
-              <div className="bg-ghibli-card rounded-3xl p-5 mb-4 shadow-sm border border-ghibli-border font-ghibli">
+              <div className="bg-white rounded-xl border border-bluebottle-border p-6 mb-6 font-bluebottle">
                 <div className="relative w-full h-16 flex items-center rounded-xl overflow-hidden group focus:outline-none">
                   <Image src="/images/Nutty.jpg" alt="Nutty" fill className="object-cover group-hover:scale-105 transition-transform duration-300" style={{ zIndex: 1 }} />
                   <div className="absolute inset-0 bg-gradient-to-r from-yellow-200/60 via-white/10 to-amber-700/60 group-hover:bg-yellow-300/70 transition-colors duration-300" style={{ zIndex: 2 }} />
@@ -239,8 +239,8 @@ export default function FilterPanel({
         </div>
         {/* 하단 버튼 */}
         <div className="sticky bottom-0 bg-white/90 dark:bg-gray-900/90 border-t border-gray-200 dark:border-gray-800 p-4 flex justify-between backdrop-blur-md">
-          <button onClick={onReset} className="px-5 py-2 bg-ghibli-accent text-ghibli-text font-bold rounded-3xl border border-ghibli-border shadow hover:bg-ghibli-yellow transition font-ghibli">리셋</button>
-          <button onClick={onApply} className="px-5 py-2 bg-ghibli-accent text-ghibli-text font-bold rounded-3xl border border-ghibli-border shadow hover:bg-ghibli-yellow transition font-ghibli">적용</button>
+          <button onClick={onReset} className="px-5 py-2 bg-bluebottle-blue text-white font-medium rounded-lg border border-bluebottle-blue font-bluebottle hover:bg-[#004b82] transition">리셋</button>
+          <button onClick={onApply} className="px-5 py-2 bg-bluebottle-blue text-white font-medium rounded-lg border border-bluebottle-blue font-bluebottle hover:bg-[#004b82] transition">적용</button>
         </div>
       </div>
     );
@@ -257,7 +257,7 @@ export default function FilterPanel({
           {/* Cup Notes (좌측) */}
           <div className="flex-1 min-w-0 space-y-6 overflow-y-auto pb-16" style={{ maxHeight: SCROLL_AREA_HEIGHT }}>
             {/* Floral */}
-            <div className="bg-ghibli-card rounded-3xl p-5 mb-4 shadow-sm border border-ghibli-border font-ghibli">
+            <div className="bg-white rounded-xl border border-bluebottle-border p-6 mb-6 font-bluebottle">
               <div className="relative w-full h-16 flex items-end rounded-t-3xl overflow-hidden">
                 <img src="/images/Floral.jpg" alt="Floral" className="absolute inset-0 w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-r from-pink-400/60 via-white/10 to-yellow-200/60" />
@@ -280,7 +280,7 @@ export default function FilterPanel({
               </div>
             </div>
             {/* Fruity */}
-            <div className="bg-ghibli-card rounded-3xl p-5 mb-4 shadow-sm border border-ghibli-border font-ghibli">
+            <div className="bg-white rounded-xl border border-bluebottle-border p-6 mb-6 font-bluebottle">
               <div className="relative w-full h-16 flex items-end rounded-t-3xl overflow-hidden">
                 <img src="/images/Fruity.jpg" alt="Fruity" className="absolute inset-0 w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-r from-yellow-200/60 via-white/10 to-pink-400/60" />
@@ -303,7 +303,7 @@ export default function FilterPanel({
               </div>
             </div>
             {/* Nutty */}
-            <div className="bg-ghibli-card rounded-3xl p-5 mb-4 shadow-sm border border-ghibli-border font-ghibli">
+            <div className="bg-white rounded-xl border border-bluebottle-border p-6 mb-6 font-bluebottle">
               <div className="relative w-full h-16 flex items-end rounded-t-3xl overflow-hidden">
                 <img src="/images/Nutty.jpg" alt="Nutty" className="absolute inset-0 w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-r from-yellow-200/60 via-white/10 to-amber-700/60" />
@@ -408,8 +408,8 @@ export default function FilterPanel({
         </div>
         {/* 하단 고정 Reset/Apply 버튼 - flex-row 컨테이너 바깥에 위치 */}
         <div className="fixed bottom-16 left-0 right-0 bg-white/95 dark:bg-gray-900/95 border-t border-indigo-200 flex justify-between px-4 py-3 backdrop-blur-md z-50">
-          <button onClick={onReset} className="px-5 py-2 bg-ghibli-accent text-ghibli-text font-bold rounded-3xl border border-ghibli-border shadow hover:bg-ghibli-yellow transition font-ghibli">리셋</button>
-          <button onClick={onApply} className="px-5 py-2 bg-ghibli-accent text-ghibli-text font-bold rounded-3xl border border-ghibli-border shadow hover:bg-ghibli-yellow transition font-ghibli">적용</button>
+          <button onClick={onReset} className="px-5 py-2 bg-bluebottle-blue text-white font-medium rounded-lg border border-bluebottle-blue font-bluebottle hover:bg-[#004b82] transition">리셋</button>
+          <button onClick={onApply} className="px-5 py-2 bg-bluebottle-blue text-white font-medium rounded-lg border border-bluebottle-blue font-bluebottle hover:bg-[#004b82] transition">적용</button>
         </div>
       </div>
     );

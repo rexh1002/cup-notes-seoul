@@ -455,7 +455,7 @@ export default function HomePage() {
             <div className="flex justify-between items-center h-16">
               <div className="flex items-center space-x-4 ml-8">
                 <button
-                  className="text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 drop-shadow-lg select-none focus:outline-none"
+                  className="text-2xl font-extrabold tracking-tight text-bluebottle-blue font-bluebottle focus:outline-none"
                   onClick={() => window.location.reload()}
                   aria-label="홈 새로고침"
                   type="button"
@@ -517,7 +517,7 @@ export default function HomePage() {
             {/* 감각적인 로고/텍스트 */}
             <div className="flex items-center space-x-4 ml-8">
               <button
-                className="text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 drop-shadow-lg select-none focus:outline-none"
+                className="text-2xl font-extrabold tracking-tight text-bluebottle-blue font-bluebottle focus:outline-none"
                 onClick={() => window.location.reload()}
                 aria-label="홈 새로고침"
                 type="button"
