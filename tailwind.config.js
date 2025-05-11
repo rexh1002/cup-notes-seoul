@@ -11,7 +11,8 @@ module.exports = {
   			],
   			'noto-sans-kr': [
   				'var(--font-noto-sans-kr)'
-  			]
+  			],
+  			ghibli: ['Gowun Dodum', 'Noto Sans KR', 'sans-serif']
   		},
   		colors: {
   			border: 'hsl(var(--border))',
@@ -57,12 +58,26 @@ module.exports = {
   				'3': 'hsl(var(--chart-3))',
   				'4': 'hsl(var(--chart-4))',
   				'5': 'hsl(var(--chart-5))'
+  			},
+  			ghibli: {
+  				bg: '#f5f3e7',
+  				card: '#fffaf3',
+  				accent: '#a3c9a8',
+  				yellow: '#f7d9a0',
+  				purple: '#b7b5e4',
+  				pink: '#e2b6b3',
+  				text: '#4b4637',
+  				text2: '#6b705c',
+  				border: '#e6e6e6',
+  				shadow: '#dbead5'
   			}
   		},
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
-  			sm: 'calc(var(--radius) - 4px)'
+  			sm: 'calc(var(--radius) - 4px)',
+  			xl: '1.5rem',
+  			'3xl': '2rem'
   		},
   		spacing: {
   			'128': '32rem',
