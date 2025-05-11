@@ -454,9 +454,14 @@ export default function HomePage() {
           <div className="w-full px-0">
             <div className="flex justify-between items-center h-16">
               <div className="flex items-center space-x-4 ml-8">
-                <span className="text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 drop-shadow-lg select-none">
+                <button
+                  className="text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 drop-shadow-lg select-none focus:outline-none"
+                  onClick={() => window.location.reload()}
+                  aria-label="홈 새로고침"
+                  type="button"
+                >
                   CUP NOTES SEOUL
-                </span>
+                </button>
                 <span className="w-3 h-3 rounded-full bg-gradient-to-br from-pink-400 via-indigo-400 to-yellow-300 shadow-md ml-2 animate-pulse"></span>
               </div>
             </div>
@@ -511,9 +516,14 @@ export default function HomePage() {
           <div className="flex justify-between items-center h-16">
             {/* 감각적인 로고/텍스트 */}
             <div className="flex items-center space-x-4 ml-8">
-              <span className="text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 drop-shadow-lg select-none">
+              <button
+                className="text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 drop-shadow-lg select-none focus:outline-none"
+                onClick={() => window.location.reload()}
+                aria-label="홈 새로고침"
+                type="button"
+              >
                 CUP NOTES SEOUL
-              </span>
+              </button>
               <span className="w-3 h-3 rounded-full bg-gradient-to-br from-pink-400 via-indigo-400 to-yellow-300 shadow-md ml-2 animate-pulse"></span>
             </div>
             {/* 네비게이션(로그인/회원가입/내카페/로그아웃만) */}
