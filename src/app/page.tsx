@@ -474,7 +474,7 @@ export default function HomePage() {
             transition={{ delay: 0.15 }}
             className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-2 text-center"
           >
-            <span className="block">컵 노트를 검색하세요.</span>
+            <span className="block">평범한 하루도</span>
           </motion.h1>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -482,7 +482,7 @@ export default function HomePage() {
             transition={{ delay: 0.35 }}
             className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4 text-center"
           >
-            <span className="block">카페는 우리가 찾아드릴게요.</span>
+            <span className="block">한 잔의 커피로 특별해질 수 있어요.</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -490,7 +490,7 @@ export default function HomePage() {
             transition={{ delay: 0.55 }}
             className="text-lg md:text-xl text-gray-700 mb-8 text-center"
           >
-            라즈베리? 초콜릿? 원하는 맛으로 카페를 탐색하세요.
+            당신의 컵노트를 검색하세요.
           </motion.p>
         </section>
       </main>
