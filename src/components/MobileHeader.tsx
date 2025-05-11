@@ -8,9 +8,14 @@ export default function MobileHeader({ isLoggedIn, userRole, onLogout }: { isLog
 
   return (
     <header className="fixed top-0 left-0 right-0 z-[200] h-14 bg-white/90 backdrop-blur border-b border-indigo-200 shadow-sm flex items-center justify-between px-4 sm:hidden">
-      <span className="text-xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 drop-shadow-lg select-none">
+      <button
+        className="text-xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 drop-shadow-lg select-none focus:outline-none"
+        onClick={() => window.location.reload()}
+        aria-label="홈 새로고침"
+        type="button"
+      >
         CUP NOTES SEOUL
-      </span>
+      </button>
       <button onClick={() => setOpen(v => !v)} className="p-2 rounded-md hover:bg-gray-100">
         <Menu className="w-7 h-7 text-gray-700" />
       </button>
