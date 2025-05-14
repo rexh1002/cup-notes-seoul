@@ -9,6 +9,14 @@ interface FilterSectionProps {
   className?: string;
 }
 
+const titleMap: Record<string, string> = {
+  'Brew Method': '추출방식',
+  'Origin': '원산지',
+  'Process': '가공방식',
+  'Roast Level': '로스팅레벨',
+  'My Cup Notes': '내 컵노트',
+};
+
 const FilterSection: React.FC<FilterSectionProps> = ({
   title,
   options,
@@ -24,7 +32,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
         onClick={() => setIsOpen(!isOpen)}
         className="w-full flex justify-between items-center text-left"
       >
-        <span className="text-[15px] font-medium text-gray-900">{title}</span>
+        <span className="text-[15px] font-medium text-gray-900">{titleMap[title] || title}</span>
         <ChevronDownIcon
           className={`w-5 h-5 text-gray-500 transition-transform ${
             isOpen ? 'transform rotate-180' : ''

@@ -54,7 +54,15 @@ const CoffeeFilters: React.FC<CoffeeFiltersProps> = ({
 
       <div className="space-y-4">
         <FilterSection
-          title="Brew Method"
+          title="내 컵노트"
+          options={cupNotes}
+          selected={selectedCupNotes}
+          onChange={handleCupNoteChange}
+          className="text-[15px]"
+        />
+
+        <FilterSection
+          title="추출방식"
           options={brewMethods}
           selected={selectedBrewMethods}
           onChange={handleBrewMethodChange}
@@ -62,7 +70,7 @@ const CoffeeFilters: React.FC<CoffeeFiltersProps> = ({
         />
 
         <FilterSection
-          title="Origin"
+          title="원산지"
           options={origins}
           selected={selectedOrigins}
           onChange={handleOriginChange}
@@ -70,7 +78,7 @@ const CoffeeFilters: React.FC<CoffeeFiltersProps> = ({
         />
 
         <FilterSection
-          title="Process"
+          title="가공방식"
           options={processes}
           selected={selectedProcesses}
           onChange={handleProcessChange}
@@ -78,18 +86,10 @@ const CoffeeFilters: React.FC<CoffeeFiltersProps> = ({
         />
 
         <FilterSection
-          title="Roast Level"
+          title="로스팅레벨"
           options={roastLevels}
           selected={selectedRoastLevels}
           onChange={handleRoastLevelChange}
-          className="text-[15px]"
-        />
-
-        <FilterSection
-          title="My Cup Notes"
-          options={cupNotes}
-          selected={selectedCupNotes}
-          onChange={handleCupNoteChange}
           className="text-[15px]"
         />
       </div>
