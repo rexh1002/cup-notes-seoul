@@ -452,18 +452,8 @@ export default function HomePage() {
         {/* 헤더 섹션 */}
         <header className="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur border-b border-indigo-200 shadow-sm z-50">
           <div className="w-full px-0">
-            <div className="flex justify-between items-center h-16">
-              <div className="flex items-center space-x-4 ml-8">
-                <button
-                  className="text-2xl font-extrabold tracking-tight text-bluebottle-blue font-bluebottle focus:outline-none"
-                  onClick={() => window.location.reload()}
-                  aria-label="홈 새로고침"
-                  type="button"
-                >
-                  CUP NOTES SEOUL
-                </button>
-                <span className="w-3 h-3 rounded-full bg-gradient-to-br from-pink-400 via-indigo-400 to-yellow-300 shadow-md ml-2 animate-pulse"></span>
-              </div>
+            <div className="flex justify-center items-center h-16">
+              <Image src="/images/Logo.png" alt="Cup Notes Seoul Logo" width={120} height={40} />
             </div>
           </div>
         </header>
@@ -511,72 +501,10 @@ export default function HomePage() {
       />
 
       {/* 헤더 섹션 */}
-      <header className="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur border-b border-indigo-200 shadow-sm z-[100]">
+      <header className="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur border-b border-indigo-200 shadow-sm z-50">
         <div className="w-full px-0">
-          <div className="flex justify-between items-center h-16">
-            {/* 감각적인 로고/텍스트 */}
-            <div className="flex items-center space-x-4 ml-8">
-              <button
-                className="text-2xl font-extrabold tracking-tight text-bluebottle-blue font-bluebottle focus:outline-none"
-                onClick={() => window.location.reload()}
-                aria-label="홈 새로고침"
-                type="button"
-              >
-                CUP NOTES SEOUL
-              </button>
-              <span className="w-3 h-3 rounded-full bg-gradient-to-br from-pink-400 via-indigo-400 to-yellow-300 shadow-md ml-2 animate-pulse"></span>
-            </div>
-            {/* 네비게이션(로그인/회원가입/내카페/로그아웃만) */}
-            <nav className="flex items-center space-x-6 relative pr-12">
-              {!isLoggedIn && (
-                <>
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="text-sm font-semibold text-gray-700 hover:text-indigo-600 transition-colors"
-                    onClick={handleLogin}
-                  >
-                    로그인
-                  </motion.button>
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="text-sm font-semibold text-gray-700 hover:text-indigo-600 transition-colors"
-                    onClick={handleSignup}
-                  >
-                    회원가입
-                  </motion.button>
-                  {isSignupDropdownOpen && (
-                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-50 border border-gray-200">
-                      <button className="block w-full text-left px-4 py-3 text-sm hover:bg-gray-100 text-gray-800" onClick={handleUserSignup}>일반 회원가입</button>
-                      <button className="block w-full text-left px-4 py-3 text-sm hover:bg-gray-100 text-gray-800" onClick={handleManagerSignup}>카페 관리자 회원가입</button>
-                    </div>
-                  )}
-                </>
-              )}
-              {isLoggedIn && (
-                <>
-                  {(userRole === 'cafeManager' || userRole === 'manager') && (
-                    <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="text-sm font-semibold text-gray-700 hover:text-indigo-600 transition-colors"
-                      onClick={() => router.push('/manager/dashboard')}
-                    >
-                      내 카페 관리
-                    </motion.button>
-                  )}
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="text-sm font-semibold text-gray-700 hover:text-indigo-600 transition-colors"
-                    onClick={handleLogout}
-                  >
-                    로그아웃
-                  </motion.button>
-                </>
-              )}
-            </nav>
+          <div className="flex justify-center items-center h-16">
+            <Image src="/images/Logo.png" alt="Cup Notes Seoul Logo" width={120} height={40} />
           </div>
         </div>
       </header>
