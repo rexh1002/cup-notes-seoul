@@ -74,10 +74,10 @@ export default function FilterPanel({
                       <button
                         key={note}
                         onClick={() => toggleNote(note)}
-                        className={`border px-4 py-2 rounded-lg text-base font-semibold transition-colors duration-150
+                        className={`bg-white text-black rounded-lg shadow px-6 py-2 text-lg font-bold transition
                           ${selectedNotes.includes(note)
-                            ? 'bg-blue-600 text-white border-blue-600'
-                            : 'border-white text-white bg-transparent hover:bg-white/20'}
+                            ? 'bg-blue-600 text-white'
+                            : 'hover:bg-gray-100'}
                         `}
                       >
                         {note}
@@ -100,10 +100,10 @@ export default function FilterPanel({
                       <button
                         key={note}
                         onClick={() => toggleNote(note)}
-                        className={`border px-4 py-2 rounded-lg text-base font-semibold transition-colors duration-150
+                        className={`bg-white text-black rounded-lg shadow px-6 py-2 text-lg font-bold transition
                           ${selectedNotes.includes(note)
-                            ? 'bg-blue-600 text-white border-blue-600'
-                            : 'border-white text-white bg-transparent hover:bg-white/20'}
+                            ? 'bg-blue-600 text-white'
+                            : 'hover:bg-gray-100'}
                         `}
                       >
                         {note}
@@ -126,10 +126,10 @@ export default function FilterPanel({
                       <button
                         key={note}
                         onClick={() => toggleNote(note)}
-                        className={`border px-4 py-2 rounded-lg text-base font-semibold transition-colors duration-150
+                        className={`bg-white text-black rounded-lg shadow px-6 py-2 text-lg font-bold transition
                           ${selectedNotes.includes(note)
-                            ? 'bg-blue-600 text-white border-blue-600'
-                            : 'border-white text-white bg-transparent hover:bg-white/20'}
+                            ? 'bg-blue-600 text-white'
+                            : 'hover:bg-gray-100'}
                         `}
                       >
                         {note}
@@ -268,11 +268,11 @@ export default function FilterPanel({
                   <button
                     key={note}
                     onClick={() => toggleNote(note)}
-                    className={`px-3 py-1.5 rounded-full text-xs md:text-sm transition-colors ${
-                      selectedNotes.includes(note)
-                        ? 'bg-blue-100 text-blue-800'
-                        : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
-                    }`}
+                    className={`bg-white text-black rounded-lg shadow px-6 py-2 text-lg font-bold transition
+                      ${selectedNotes.includes(note)
+                        ? 'bg-blue-600 text-white'
+                        : 'hover:bg-gray-100'}
+                    `}
                   >
                     {note}
                   </button>
@@ -291,11 +291,11 @@ export default function FilterPanel({
                   <button
                     key={note}
                     onClick={() => toggleNote(note)}
-                    className={`px-3 py-1.5 rounded-full text-xs md:text-sm transition-colors ${
-                      selectedNotes.includes(note)
-                        ? 'bg-blue-100 text-blue-800'
-                        : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
-                    }`}
+                    className={`bg-white text-black rounded-lg shadow px-6 py-2 text-lg font-bold transition
+                      ${selectedNotes.includes(note)
+                        ? 'bg-blue-600 text-white'
+                        : 'hover:bg-gray-100'}
+                    `}
                   >
                     {note}
                   </button>
@@ -314,11 +314,11 @@ export default function FilterPanel({
                   <button
                     key={note}
                     onClick={() => toggleNote(note)}
-                    className={`px-3 py-1.5 rounded-full text-xs md:text-sm transition-colors ${
-                      selectedNotes.includes(note)
-                        ? 'bg-blue-100 text-blue-800'
-                        : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
-                    }`}
+                    className={`bg-white text-black rounded-lg shadow px-6 py-2 text-lg font-bold transition
+                      ${selectedNotes.includes(note)
+                        ? 'bg-blue-600 text-white'
+                        : 'hover:bg-gray-100'}
+                    `}
                   >
                     {note}
                   </button>
