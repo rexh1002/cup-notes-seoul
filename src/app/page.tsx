@@ -82,6 +82,7 @@ export default function HomePage() {
  const mapRef = useRef<any>(null);
  const [showMain, setShowMain] = useState(true);
  const [isMobile, setIsMobile] = useState(false);
+ const [showSearchInput, setShowSearchInput] = useState(false);
 
  const hasSelections = selectedNotes.length > 0 || 
    selectedBrewMethods.length > 0 || 
@@ -505,9 +506,31 @@ export default function HomePage() {
         <div className="w-full px-0">
           <div className="relative flex items-center h-[90px] px-6">
             {/* 좌측 여백 */}
-            <div className="flex-1" />
+            <div className="flex-1 flex items-center gap-2">
+              {/* 검색 아이콘 */}
+              <button
+                className="p-2 rounded-full hover:bg-gray-100 transition"
+                onClick={() => setShowSearchInput((v) => !v)}
+                aria-label="검색"
+              >
+                <Search className="w-6 h-6 text-[#0061a8]" />
+              </button>
+              {/* 검색 입력창 드롭다운 */}
+              {showSearchInput && (
+                <input
+                  type="text"
+                  className="ml-2 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                  placeholder="키워드 검색"
+                  value={searchKeyword}
+                  onChange={e => setSearchKeyword(e.target.value)}
+                  onKeyDown={e => { if (e.key === 'Enter') { handleSearch(); setShowSearchInput(false); } }}
+                  autoFocus
+                  style={{ width: 180 }}
+                />
+              )}
+            </div>
             {/* 중앙 로고 */}
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer" onClick={() => window.location.reload()}>
               <Image src="/images/Logo.png" alt="Cup Notes Seoul Logo" width={120} height={40} />
             </div>
             {/* 우측 아이콘 버튼 */}
