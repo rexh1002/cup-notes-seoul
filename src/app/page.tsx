@@ -6,7 +6,7 @@ import CoffeeSearch from '../components/coffee/coffee-search';
 import SearchResults from '../components/coffee/search-results';
 import { SearchParams } from '../components/coffee/coffee-search';
 import { Cafe } from '../types/types';
-import { Search, Flower2, Apple, Candy, Coffee } from 'lucide-react';
+import { Search, Flower2, Apple, Candy, Coffee, LogIn, UserPlus, LogOut } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -503,24 +503,30 @@ export default function HomePage() {
       {/* 헤더 섹션 */}
       <header className="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur border-b border-indigo-200 shadow-sm z-50">
         <div className="w-full px-0">
-          <div className="flex justify-between items-center h-[90px] px-6">
-            <div className="flex items-center">
+          <div className="relative flex items-center h-[90px] px-6">
+            {/* 좌측 여백 */}
+            <div className="flex-1" />
+            {/* 중앙 로고 */}
+            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
               <Image src="/images/Logo.png" alt="Cup Notes Seoul Logo" width={120} height={40} />
             </div>
-            <div className="flex items-center gap-2">
+            {/* 우측 아이콘 버튼 */}
+            <div className="flex-1 flex justify-end items-center gap-2">
               {!isLoggedIn ? (
                 <>
                   <button
-                    className="px-4 py-2 rounded-md text-sm font-medium text-[#0061a8] border border-[#0061a8] bg-white hover:bg-[#f0f8ff] transition"
+                    className="p-2 rounded-full hover:bg-gray-100 transition"
                     onClick={handleLogin}
+                    aria-label="로그인"
                   >
-                    로그인
+                    <LogIn className="w-6 h-6 text-[#0061a8]" />
                   </button>
                   <button
-                    className="px-4 py-2 rounded-md text-sm font-medium text-[#0061a8] border border-[#0061a8] bg-white hover:bg-[#f0f8ff] transition"
+                    className="p-2 rounded-full hover:bg-gray-100 transition"
                     onClick={handleSignup}
+                    aria-label="회원가입"
                   >
-                    회원가입
+                    <UserPlus className="w-6 h-6 text-[#0061a8]" />
                   </button>
                   {isSignupDropdownOpen && (
                     <div className="absolute right-6 top-[90px] mt-2 w-44 bg-white rounded-lg shadow-lg border border-gray-200 z-[210] animate-fade-in">
@@ -533,18 +539,20 @@ export default function HomePage() {
                 <>
                   {userRole === 'cafeManager' || userRole === 'manager' ? (
                     <button
-                      className="px-4 py-2 rounded-md text-sm font-medium text-[#0061a8] border border-[#0061a8] bg-white hover:bg-[#f0f8ff] transition"
+                      className="p-2 rounded-full hover:bg-gray-100 transition"
                       onClick={() => router.push('/manager/dashboard')}
+                      aria-label="내 카페 관리"
                     >
-                      내 카페 관리
+                      <Coffee className="w-6 h-6 text-[#0061a8]" />
                     </button>
                   ) : null}
                   <span className="text-gray-700 text-sm font-medium mr-2">{userName}님</span>
                   <button
-                    className="px-4 py-2 rounded-md text-sm font-medium text-[#0061a8] border border-[#0061a8] bg-white hover:bg-[#f0f8ff] transition"
+                    className="p-2 rounded-full hover:bg-gray-100 transition"
                     onClick={handleLogout}
+                    aria-label="로그아웃"
                   >
-                    로그아웃
+                    <LogOut className="w-6 h-6 text-[#0061a8]" />
                   </button>
                 </>
               )}
@@ -561,7 +569,7 @@ export default function HomePage() {
           {/* Quick Box: FilterPanel 오른쪽 경계에서 왼쪽 16px, 위쪽 8px */}
           <div
             className="absolute z-[120] bg-white/70 backdrop-blur-md border border-gray-200 shadow-xl rounded-xl flex gap-1 px-2 py-1 items-center"
-            style={{ left: isMobile ? '16px' : 'calc(384px + 16px)', top: '8px', minWidth: 240, maxWidth: 320 }}
+            style={{ left: isMobile ? '16px' : 'calc(384px + 16px)', top: '100px', minWidth: 240, maxWidth: 320 }}
           >
             <QuickButton
               icon="/images/Floralicon.png"
