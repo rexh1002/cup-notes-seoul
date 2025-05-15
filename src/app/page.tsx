@@ -607,7 +607,7 @@ export default function HomePage() {
               toggleRoast={toggleRoast}
               onReset={handleReset}
               onApply={handleApply}
-              className="fixed top-16 left-0 w-96 h-[calc(100vh-4rem)] z-50"
+              className="fixed top-[90px] left-0 w-96 h-[calc(100vh-90px)] z-50"
             />
           )}
           {/* Map 영역: FilterPanel 너비만큼 오른쪽으로 밀기 */}
