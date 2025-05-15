@@ -63,7 +63,7 @@ export default function FilterPanel({
               {/* Floral */}
               <div className="relative overflow-hidden h-[600px] flex flex-col justify-between p-8 mb-8">
                 <Image src="/images/Floral.jpg" alt="Floral" fill className="absolute inset-0 w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-black/60" />
+                <div className="absolute inset-0 bg-black/45" />
                 <div className="relative z-10 flex flex-col h-full justify-between">
                   <div>
                     <div className="text-3xl font-extrabold text-white mb-2 font-chronicle">플로럴</div>
@@ -89,7 +89,7 @@ export default function FilterPanel({
               {/* Fruity */}
               <div className="relative overflow-hidden h-[600px] flex flex-col justify-between p-8 mb-8">
                 <Image src="/images/Fruity.jpg" alt="Fruity" fill className="absolute inset-0 w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-black/60" />
+                <div className="absolute inset-0 bg-black/45" />
                 <div className="relative z-10 flex flex-col h-full justify-between">
                   <div>
                     <div className="text-3xl font-extrabold text-white mb-2 font-chronicle">프루티</div>
@@ -115,7 +115,7 @@ export default function FilterPanel({
               {/* Nutty */}
               <div className="relative overflow-hidden h-[600px] flex flex-col justify-between p-8 mb-8">
                 <Image src="/images/Nutty.jpg" alt="Nutty" fill className="absolute inset-0 w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-black/60" />
+                <div className="absolute inset-0 bg-black/45" />
                 <div className="relative z-10 flex flex-col h-full justify-between">
                   <div>
                     <div className="text-3xl font-extrabold text-white mb-2 font-chronicle">너티</div>
@@ -171,7 +171,7 @@ export default function FilterPanel({
               <span>원산지</span>
             </button>
             <div className="flex flex-nowrap overflow-x-auto gap-2 px-2 pb-4 md:flex-wrap md:overflow-visible md:gap-1 md:px-1 md:pb-2">
-              {['에티오피아아', '콜롬비아', '브라질', '과테말라', '케냐', '코스타리카', '파나마', '인도네시아', '르완다', '엘살바도르'].map((origin) => (
+              {['에티오피아', '콜롬비아', '브라질', '과테말라', '케냐', '코스타리카', '파나마', '인도네시아', '르완다', '엘살바도르'].map((origin) => (
                 <button
                   key={origin}
                   onClick={() => toggleOrigin(origin)}
@@ -249,18 +249,20 @@ export default function FilterPanel({
           {/* Cup Notes (좌측) */}
           <div className="flex-1 min-w-0 space-y-6 overflow-y-auto pb-16" style={{ maxHeight: SCROLL_AREA_HEIGHT }}>
             {/* Floral */}
-            <div className="bg-white rounded-xl border border-bluebottle-border p-6 mb-6 font-bluebottle">
-              <div className="relative w-full h-16 flex items-end rounded-t-3xl overflow-hidden">
-                <img src="/images/Floral.jpg" alt="Floral" className="absolute inset-0 w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-r from-pink-400/60 via-white/10 to-yellow-200/60" />
-                <span className="relative z-10 text-2xl font-extrabold text-white drop-shadow-lg p-6 pb-3">플로럴</span>
-              </div>
-              <div className="flex flex-wrap gap-2 px-4 pb-4 pt-4">
-                {[ '라벤더', '아카시아', '장미', '자스민', '국화', '히비스커스', '제비꽃', '홍차', '얼그레이', '카모마일', '오렌지 블로섬', '은방울꽃', '블랙티', '베르가못', '라일락', '로즈마리' ].map((note) => (
+            <div className="relative overflow-hidden h-[340px] flex flex-col justify-between p-4 mb-6">
+              <img src="/images/Floral.jpg" alt="Floral" className="absolute inset-0 w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-black/60" />
+              <div className="relative z-10 flex flex-col h-full justify-between">
+                <div>
+                  <div className="text-2xl font-extrabold text-white mb-2 font-chronicle">플로럴</div>
+                  <div className="text-base text-white mb-4 font-chronicle">마치 꽃밭을 걷는 듯한 한잔</div>
+                </div>
+                <div className="flex flex-wrap gap-1">
+                  {[ '라벤더', '아카시아', '장미', '자스민', '국화', '히비스커스', '제비꽃', '홍차', '얼그레이', '카모마일', '오렌지 블로섬', '은방울꽃', '블랙티', '베르가못', '라일락', '로즈마리' ].map((note) => (
                   <button
                     key={note}
                     onClick={() => toggleNote(note)}
-                    className={`bg-white text-black shadow px-2 py-1 text-sm font-halis transition
+                    className={`bg-white text-black px-1.5 py-0.5 text-xs font-halis transition rounded-none
                       ${selectedNotes.includes(note)
                         ? 'bg-blue-600 text-white'
                         : 'hover:bg-gray-100'}
@@ -269,21 +271,24 @@ export default function FilterPanel({
                     {note}
                   </button>
                 ))}
+                </div>
               </div>
             </div>
             {/* Fruity */}
-            <div className="bg-white rounded-xl border border-bluebottle-border p-6 mb-6 font-bluebottle">
-              <div className="relative w-full h-16 flex items-end rounded-t-3xl overflow-hidden">
-                <img src="/images/Fruity.jpg" alt="Fruity" className="absolute inset-0 w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-r from-yellow-200/60 via-white/10 to-pink-400/60" />
-                <span className="relative z-10 text-2xl font-extrabold text-white drop-shadow-lg p-6 pb-3">프루티</span>
-              </div>
-              <div className="flex flex-wrap gap-2 px-4 pb-4 pt-4">
-                {[ '파인애플', '복숭아', '리치', '사과', '감귤', '배', '패션후르츠', '메론', '파파야', '블루베리', '라즈베리', '자두', '딸기', '포도', '자몽', '오렌지', '레몬', '크랜베리', '망고', '체리', '살구' ].map((note) => (
+            <div className="relative overflow-hidden h-[340px] flex flex-col justify-between p-4 mb-6">
+              <img src="/images/Fruity.jpg" alt="Fruity" className="absolute inset-0 w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-black/60" />
+              <div className="relative z-10 flex flex-col h-full justify-between">
+                <div>
+                  <div className="text-2xl font-extrabold text-white mb-2 font-chronicle">프루티</div>
+                  <div className="text-base text-white mb-4 font-chronicle">과일 한 조각을 머금은 듯한 상큼함</div>
+                </div>
+                <div className="flex flex-wrap gap-1">
+                  {[ '파인애플', '복숭아', '리치', '사과', '감귤', '배', '패션후르츠', '메론', '파파야', '블루베리', '라즈베리', '자두', '딸기', '포도', '자몽', '오렌지', '레몬', '크랜베리', '망고', '체리', '살구' ].map((note) => (
                   <button
                     key={note}
                     onClick={() => toggleNote(note)}
-                    className={`bg-white text-black shadow px-2 py-1 text-sm font-halis transition
+                    className={`bg-white text-black px-1.5 py-0.5 text-xs font-halis transition rounded-none
                       ${selectedNotes.includes(note)
                         ? 'bg-blue-600 text-white'
                         : 'hover:bg-gray-100'}
@@ -292,21 +297,24 @@ export default function FilterPanel({
                     {note}
                   </button>
                 ))}
+                </div>
               </div>
             </div>
             {/* Nutty */}
-            <div className="bg-white rounded-xl border border-bluebottle-border p-6 mb-6 font-bluebottle">
-              <div className="relative w-full h-16 flex items-end rounded-t-3xl overflow-hidden">
-                <img src="/images/Nutty.jpg" alt="Nutty" className="absolute inset-0 w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-r from-yellow-200/60 via-white/10 to-amber-700/60" />
-                <span className="relative z-10 text-2xl font-extrabold text-white drop-shadow-lg p-6 pb-3">너티</span>
-              </div>
-              <div className="flex flex-wrap gap-2 px-4 pb-4 pt-4">
-                {[ '초콜렛', '캐러멜', '고구마', '꿀', '헤이즐넛', '브라운슈거', '엿기름', '아몬드', '피칸', '호두', '로스트피넛', '마카다미아', '땅콩', '바닐라', '캐슈넛', '메이플 시럽', '토피', '피스타치오', '카카오닙스' ].map((note) => (
+            <div className="relative overflow-hidden h-[340px] flex flex-col justify-between p-4 mb-6">
+              <img src="/images/Nutty.jpg" alt="Nutty" className="absolute inset-0 w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-black/60" />
+              <div className="relative z-10 flex flex-col h-full justify-between">
+                <div>
+                  <div className="text-2xl font-extrabold text-white mb-2 font-chronicle">너티</div>
+                  <div className="text-base text-white mb-4 font-chronicle">고소하고 달콤한 너트의 풍미</div>
+                </div>
+                <div className="flex flex-wrap gap-1">
+                  {[ '초콜렛', '캐러멜', '고구마', '꿀', '헤이즐넛', '브라운슈거', '엿기름', '아몬드', '피칸', '호두', '로스트피넛', '마카다미아', '땅콩', '바닐라', '캐슈넛', '메이플 시럽', '토피', '피스타치오', '카카오닙스' ].map((note) => (
                   <button
                     key={note}
                     onClick={() => toggleNote(note)}
-                    className={`bg-white text-black shadow px-2 py-1 text-sm font-halis transition
+                    className={`bg-white text-black px-1.5 py-0.5 text-xs font-halis transition rounded-none
                       ${selectedNotes.includes(note)
                         ? 'bg-blue-600 text-white'
                         : 'hover:bg-gray-100'}
@@ -315,6 +323,7 @@ export default function FilterPanel({
                     {note}
                   </button>
                 ))}
+                </div>
               </div>
             </div>
           </div>
