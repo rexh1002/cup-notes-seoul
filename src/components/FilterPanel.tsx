@@ -67,7 +67,7 @@ export default function FilterPanel({
                 <div className="relative z-10 flex flex-col h-full justify-between">
                   <div>
                     <div className="text-3xl font-extrabold text-white mb-2">플로럴</div>
-                    <div className="text-lg text-white mb-6">"마치 꽃밭을 걷는 듯한 한잔"</div>
+                    <div className="text-lg text-white mb-6">&quot;마치 꽃밭을 걷는 듯한 한잔&quot;</div>
                   </div>
                   <div className="flex flex-wrap gap-3">
                     {[ '라벤더', '아카시아', '장미', '자스민', '국화', '히비스커스', '제비꽃', '홍차', '얼그레이', '카모마일', '오렌지 블로섬', '은방울꽃', '블랙티', '베르가못', '라일락', '로즈마리' ].map((note) => (
@@ -93,7 +93,7 @@ export default function FilterPanel({
                 <div className="relative z-10 flex flex-col h-full justify-between">
                   <div>
                     <div className="text-3xl font-extrabold text-white mb-2">프루티</div>
-                    <div className="text-lg text-white mb-6">"과일 한 조각을 머금은 듯한 상큼함"</div>
+                    <div className="text-lg text-white mb-6">&quot;과일 한 조각을 머금은 듯한 상큼함&quot;</div>
                   </div>
                   <div className="flex flex-wrap gap-3">
                     {[ '파인애플', '복숭아', '리치', '사과', '감귤', '배', '패션후르츠', '메론', '파파야', '블루베리', '라즈베리', '자두', '딸기', '포도', '자몽', '오렌지', '레몬', '크랜베리', '망고', '체리', '살구' ].map((note) => (
@@ -119,7 +119,7 @@ export default function FilterPanel({
                 <div className="relative z-10 flex flex-col h-full justify-between">
                   <div>
                     <div className="text-3xl font-extrabold text-white mb-2">너티</div>
-                    <div className="text-lg text-white mb-6">"고소하고 달콤한 너트의 풍미"</div>
+                    <div className="text-lg text-white mb-6">&quot;고소하고 달콤한 너트의 풍미&quot;</div>
                   </div>
                   <div className="flex flex-wrap gap-3">
                     {[ '초콜렛', '캐러멜', '고구마', '꿀', '헤이즐넛', '브라운슈거', '엿기름', '아몬드', '피칸', '호두', '로스트피넛', '마카다미아', '땅콩', '바닐라', '캐슈넛', '메이플 시럽', '토피', '피스타치오', '카카오닙스' ].map((note) => (
