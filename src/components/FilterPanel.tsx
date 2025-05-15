@@ -60,73 +60,82 @@ export default function FilterPanel({
               <span className="w-full flex justify-between items-center py-4 px-2 text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white group sm:py-2 sm:px-1 sm:text-base">컵노트</span>
             </div>
             <div className="grid grid-cols-1 gap-4 mt-2">
-              {/* Floral (항상 펼침) */}
-              <div className="bg-white rounded-xl border border-bluebottle-border p-6 mb-6 font-bluebottle">
-                <div className="relative w-full h-16 flex items-center rounded-xl overflow-hidden group focus:outline-none">
-                  <Image src="/images/Floral.jpg" alt="Floral" fill className="object-cover group-hover:scale-105 transition-transform duration-300" style={{ zIndex: 1 }} />
-                  <div className="absolute inset-0 bg-gradient-to-r from-pink-400/60 via-white/10 to-yellow-200/60 group-hover:bg-pink-300/70 transition-colors duration-300" style={{ zIndex: 2 }} />
-                  <span className="relative z-10 text-xl font-bold text-white drop-shadow-lg pl-6">플로럴</span>
-                </div>
-                <div className="flex flex-wrap gap-2 px-4 pb-4 pt-4">
-                  {[ '라벤더', '아카시아', '장미', '자스민', '국화', '히비스커스', '제비꽃', '홍차', '얼그레이', '카모마일', '오렌지 블로섬', '은방울꽃', '블랙티', '베르가못', '라일락', '로즈마리' ].map((note) => (
-                  <button
-                    key={note}
-                    onClick={() => toggleNote(note)}
-                    className={`px-3 py-1.5 rounded-full text-xs md:text-sm transition-colors ${
-                      selectedNotes.includes(note)
-                        ? 'bg-blue-100 text-blue-800'
-                        : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
-                    }`}
-                  >
-                    {note}
-                  </button>
-                ))}
-                </div>
-              </div>
-              {/* Fruity (항상 펼침) */}
-              <div className="bg-white rounded-xl border border-bluebottle-border p-6 mb-6 font-bluebottle">
-                <div className="relative w-full h-16 flex items-center rounded-xl overflow-hidden group focus:outline-none">
-                  <Image src="/images/Fruity.jpg" alt="Fruity" fill className="object-cover group-hover:scale-105 transition-transform duration-300" style={{ zIndex: 1 }} />
-                  <div className="absolute inset-0 bg-gradient-to-r from-yellow-200/60 via-white/10 to-pink-400/60 group-hover:bg-yellow-300/70 transition-colors duration-300" style={{ zIndex: 2 }} />
-                  <span className="relative z-10 text-xl font-bold text-white drop-shadow-lg pl-6">프루티</span>
-                </div>
-                <div className="flex flex-wrap gap-2 px-4 pb-4 pt-4">
-                  {[ '파인애플', '복숭아', '리치', '사과', '감귤', '배', '패션후르츠', '메론', '파파야', '블루베리', '라즈베리', '자두', '딸기', '포도', '자몽', '오렌지', '레몬', '크랜베리', '망고', '체리', '살구' ].map((note) => (
-                    <button
-                      key={note}
-                      onClick={() => toggleNote(note)}
-                      className={`px-3 py-1.5 rounded-full text-xs md:text-sm transition-colors ${
-                        selectedNotes.includes(note)
-                          ? 'bg-blue-100 text-blue-800'
-                          : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
-                      }`}
-                    >
-                      {note}
-                    </button>
-                  ))}
+              {/* Floral */}
+              <div className="relative rounded-2xl overflow-hidden h-72 flex flex-col justify-between p-8 mb-8">
+                <Image src="/images/Floral.jpg" alt="Floral" fill className="absolute inset-0 w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-black/60" />
+                <div className="relative z-10 flex flex-col h-full justify-between">
+                  <div>
+                    <div className="text-3xl font-extrabold text-white mb-2">플로럴</div>
+                    <div className="text-lg text-white mb-6">"마치 꽃밭을 걷는 듯한 한잔"</div>
+                  </div>
+                  <div className="flex flex-wrap gap-3">
+                    {[ '라벤더', '아카시아', '장미', '자스민', '국화', '히비스커스', '제비꽃', '홍차', '얼그레이', '카모마일', '오렌지 블로섬', '은방울꽃', '블랙티', '베르가못', '라일락', '로즈마리' ].map((note) => (
+                      <button
+                        key={note}
+                        onClick={() => toggleNote(note)}
+                        className={`border px-4 py-2 rounded-lg text-base font-semibold transition-colors duration-150
+                          ${selectedNotes.includes(note)
+                            ? 'bg-blue-600 text-white border-blue-600'
+                            : 'border-white text-white bg-transparent hover:bg-white/20'}
+                        `}
+                      >
+                        {note}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
-              {/* Nutty (항상 펼침) */}
-              <div className="bg-white rounded-xl border border-bluebottle-border p-6 mb-6 font-bluebottle">
-                <div className="relative w-full h-16 flex items-center rounded-xl overflow-hidden group focus:outline-none">
-                  <Image src="/images/Nutty.jpg" alt="Nutty" fill className="object-cover group-hover:scale-105 transition-transform duration-300" style={{ zIndex: 1 }} />
-                  <div className="absolute inset-0 bg-gradient-to-r from-yellow-200/60 via-white/10 to-amber-700/60 group-hover:bg-yellow-300/70 transition-colors duration-300" style={{ zIndex: 2 }} />
-                  <span className="relative z-10 text-xl font-bold text-white drop-shadow-lg pl-6">너티</span>
+              {/* Fruity */}
+              <div className="relative rounded-2xl overflow-hidden h-72 flex flex-col justify-between p-8 mb-8">
+                <Image src="/images/Fruity.jpg" alt="Fruity" fill className="absolute inset-0 w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-black/60" />
+                <div className="relative z-10 flex flex-col h-full justify-between">
+                  <div>
+                    <div className="text-3xl font-extrabold text-white mb-2">프루티</div>
+                    <div className="text-lg text-white mb-6">"과일 한 조각을 머금은 듯한 상큼함"</div>
+                  </div>
+                  <div className="flex flex-wrap gap-3">
+                    {[ '파인애플', '복숭아', '리치', '사과', '감귤', '배', '패션후르츠', '메론', '파파야', '블루베리', '라즈베리', '자두', '딸기', '포도', '자몽', '오렌지', '레몬', '크랜베리', '망고', '체리', '살구' ].map((note) => (
+                      <button
+                        key={note}
+                        onClick={() => toggleNote(note)}
+                        className={`border px-4 py-2 rounded-lg text-base font-semibold transition-colors duration-150
+                          ${selectedNotes.includes(note)
+                            ? 'bg-blue-600 text-white border-blue-600'
+                            : 'border-white text-white bg-transparent hover:bg-white/20'}
+                        `}
+                      >
+                        {note}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-                <div className="flex flex-wrap gap-2 px-4 pb-4 pt-4">
-                  {[ '초콜렛', '캐러멜', '고구마', '꿀', '헤이즐넛', '브라운슈거', '엿기름', '아몬드', '피칸', '호두', '로스트피넛', '마카다미아', '땅콩', '바닐라', '캐슈넛', '메이플 시럽', '토피', '피스타치오', '카카오닙스' ].map((note) => (
-                    <button
-                      key={note}
-                      onClick={() => toggleNote(note)}
-                      className={`px-3 py-1.5 rounded-full text-xs md:text-sm transition-colors ${
-                        selectedNotes.includes(note)
-                          ? 'bg-blue-100 text-blue-800'
-                          : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
-                      }`}
-                    >
-                      {note}
-                    </button>
-                  ))}
+              </div>
+              {/* Nutty */}
+              <div className="relative rounded-2xl overflow-hidden h-72 flex flex-col justify-between p-8 mb-8">
+                <Image src="/images/Nutty.jpg" alt="Nutty" fill className="absolute inset-0 w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-black/60" />
+                <div className="relative z-10 flex flex-col h-full justify-between">
+                  <div>
+                    <div className="text-3xl font-extrabold text-white mb-2">너티</div>
+                    <div className="text-lg text-white mb-6">"고소하고 달콤한 너트의 풍미"</div>
+                  </div>
+                  <div className="flex flex-wrap gap-3">
+                    {[ '초콜렛', '캐러멜', '고구마', '꿀', '헤이즐넛', '브라운슈거', '엿기름', '아몬드', '피칸', '호두', '로스트피넛', '마카다미아', '땅콩', '바닐라', '캐슈넛', '메이플 시럽', '토피', '피스타치오', '카카오닙스' ].map((note) => (
+                      <button
+                        key={note}
+                        onClick={() => toggleNote(note)}
+                        className={`border px-4 py-2 rounded-lg text-base font-semibold transition-colors duration-150
+                          ${selectedNotes.includes(note)
+                            ? 'bg-blue-600 text-white border-blue-600'
+                            : 'border-white text-white bg-transparent hover:bg-white/20'}
+                        `}
+                      >
+                        {note}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
