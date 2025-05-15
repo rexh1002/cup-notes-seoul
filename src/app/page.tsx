@@ -503,50 +503,45 @@ export default function HomePage() {
       {/* 헤더 섹션 */}
       <header className="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur border-b border-indigo-200 shadow-sm z-50">
         <div className="w-full px-0">
-          <div className="flex justify-center items-center h-16">
-            <Image src="/images/Logo.png" alt="Cup Notes Seoul Logo" width={120} height={40} />
-          </div>
-        </div>
-      </header>
-
-      {/* 모바일 메뉴 */}
-      <AnimatePresence>
-        {isDropdownOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="fixed top-16 left-0 right-0 bg-white dark:bg-gray-900 shadow-lg z-40 md:hidden"
-          >
-            <div className="container mx-auto py-4 px-4 space-y-4">
-              {!isLoggedIn && (
+          <div className="flex justify-between items-center h-[90px] px-6">
+            <div className="flex items-center">
+              <Image src="/images/Logo.png" alt="Cup Notes Seoul Logo" width={120} height={40} />
+            </div>
+            <div className="flex items-center gap-2">
+              {!isLoggedIn ? (
                 <>
-                  <button className="w-full text-left text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors" onClick={handleLogin}>
+                  <button
+                    className="px-4 py-2 rounded-md text-sm font-medium text-[#0061a8] border border-[#0061a8] bg-white hover:bg-[#f0f8ff] transition"
+                    onClick={handleLogin}
+                  >
                     로그인
                   </button>
-                  <button className="w-full text-left text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors" onClick={handleSignup}>
+                  <button
+                    className="px-4 py-2 rounded-md text-sm font-medium text-[#0061a8] border border-[#0061a8] bg-white hover:bg-[#f0f8ff] transition"
+                    onClick={handleSignup}
+                  >
                     회원가입
                   </button>
                   {isSignupDropdownOpen && (
-                    <div className="mt-2 w-full bg-white dark:bg-gray-800 rounded-lg shadow-lg z-50 border border-gray-200 dark:border-gray-700">
-                      <button className="block w-full text-left px-4 py-3 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-100" onClick={handleUserSignup}>일반 회원가입</button>
-                      <button className="block w-full text-left px-4 py-3 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-100" onClick={handleManagerSignup}>카페 관리자 회원가입</button>
+                    <div className="absolute right-6 top-[90px] mt-2 w-44 bg-white rounded-lg shadow-lg border border-gray-200 z-[210] animate-fade-in">
+                      <button className="block w-full text-left px-4 py-3 text-sm hover:bg-gray-100 text-gray-800" onClick={handleUserSignup}>일반 회원가입</button>
+                      <button className="block w-full text-left px-4 py-3 text-sm hover:bg-gray-100 text-gray-800" onClick={handleManagerSignup}>카페 관리자 회원가입</button>
                     </div>
                   )}
                 </>
-              )}
-              {isLoggedIn && (
+              ) : (
                 <>
                   {userRole === 'cafeManager' || userRole === 'manager' ? (
                     <button
-                      className="w-full text-left text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                      className="px-4 py-2 rounded-md text-sm font-medium text-[#0061a8] border border-[#0061a8] bg-white hover:bg-[#f0f8ff] transition"
                       onClick={() => router.push('/manager/dashboard')}
                     >
                       내 카페 관리
                     </button>
                   ) : null}
+                  <span className="text-gray-700 text-sm font-medium mr-2">{userName}님</span>
                   <button
-                    className="w-full text-left text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                    className="px-4 py-2 rounded-md text-sm font-medium text-[#0061a8] border border-[#0061a8] bg-white hover:bg-[#f0f8ff] transition"
                     onClick={handleLogout}
                   >
                     로그아웃
@@ -554,9 +549,9 @@ export default function HomePage() {
                 </>
               )}
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          </div>
+        </div>
+      </header>
 
       {/* 필터 패널 항상 렌더 */}
       {/* 메인 컨텐츠 */}
