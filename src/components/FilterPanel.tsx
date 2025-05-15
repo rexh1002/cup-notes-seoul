@@ -61,20 +61,20 @@ export default function FilterPanel({
             </div>
             <div className="grid grid-cols-1 gap-4 mt-2">
               {/* Floral */}
-              <div className="relative rounded-2xl overflow-hidden h-72 flex flex-col justify-between p-8 mb-8">
+              <div className="relative overflow-hidden h-[600px] flex flex-col justify-between p-8 mb-8">
                 <Image src="/images/Floral.jpg" alt="Floral" fill className="absolute inset-0 w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-black/60" />
                 <div className="relative z-10 flex flex-col h-full justify-between">
                   <div>
                     <div className="text-3xl font-extrabold text-white mb-2 font-chronicle">플로럴</div>
-                    <div className="text-lg text-white mb-6 font-chronicle">&quot;마치 꽃밭을 걷는 듯한 한잔&quot;</div>
+                    <div className="text-lg text-white mb-6 font-chronicle">마치 꽃밭을 걷는 듯한 한잔</div>
                   </div>
-                  <div className="flex flex-wrap gap-3">
+                  <div className="flex flex-wrap gap-2">
                     {[ '라벤더', '아카시아', '장미', '자스민', '국화', '히비스커스', '제비꽃', '홍차', '얼그레이', '카모마일', '오렌지 블로섬', '은방울꽃', '블랙티', '베르가못', '라일락', '로즈마리' ].map((note) => (
                       <button
                         key={note}
                         onClick={() => toggleNote(note)}
-                        className={`bg-white text-black shadow px-6 py-2 text-lg font-bold font-halis transition
+                        className={`bg-white text-black shadow px-2 py-1 text-sm font-halis transition
                           ${selectedNotes.includes(note)
                             ? 'bg-blue-600 text-white'
                             : 'hover:bg-gray-100'}
@@ -87,20 +87,20 @@ export default function FilterPanel({
                 </div>
               </div>
               {/* Fruity */}
-              <div className="relative rounded-2xl overflow-hidden h-72 flex flex-col justify-between p-8 mb-8">
+              <div className="relative overflow-hidden h-[600px] flex flex-col justify-between p-8 mb-8">
                 <Image src="/images/Fruity.jpg" alt="Fruity" fill className="absolute inset-0 w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-black/60" />
                 <div className="relative z-10 flex flex-col h-full justify-between">
                   <div>
                     <div className="text-3xl font-extrabold text-white mb-2 font-chronicle">프루티</div>
-                    <div className="text-lg text-white mb-6 font-chronicle">&quot;과일 한 조각을 머금은 듯한 상큼함&quot;</div>
+                    <div className="text-lg text-white mb-6 font-chronicle">과일 한 조각을 머금은 듯한 상큼함</div>
                   </div>
-                  <div className="flex flex-wrap gap-3">
+                  <div className="flex flex-wrap gap-2">
                     {[ '파인애플', '복숭아', '리치', '사과', '감귤', '배', '패션후르츠', '메론', '파파야', '블루베리', '라즈베리', '자두', '딸기', '포도', '자몽', '오렌지', '레몬', '크랜베리', '망고', '체리', '살구' ].map((note) => (
                       <button
                         key={note}
                         onClick={() => toggleNote(note)}
-                        className={`bg-white text-black shadow px-6 py-2 text-lg font-bold font-halis transition
+                        className={`bg-white text-black shadow px-2 py-1 text-sm font-halis transition
                           ${selectedNotes.includes(note)
                             ? 'bg-blue-600 text-white'
                             : 'hover:bg-gray-100'}
@@ -113,20 +113,20 @@ export default function FilterPanel({
                 </div>
               </div>
               {/* Nutty */}
-              <div className="relative rounded-2xl overflow-hidden h-72 flex flex-col justify-between p-8 mb-8">
+              <div className="relative overflow-hidden h-[600px] flex flex-col justify-between p-8 mb-8">
                 <Image src="/images/Nutty.jpg" alt="Nutty" fill className="absolute inset-0 w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-black/60" />
                 <div className="relative z-10 flex flex-col h-full justify-between">
                   <div>
                     <div className="text-3xl font-extrabold text-white mb-2 font-chronicle">너티</div>
-                    <div className="text-lg text-white mb-6 font-chronicle">&quot;고소하고 달콤한 너트의 풍미&quot;</div>
+                    <div className="text-lg text-white mb-6 font-chronicle">고소하고 달콤한 너트의 풍미</div>
                   </div>
-                  <div className="flex flex-wrap gap-3">
+                  <div className="flex flex-wrap gap-2">
                     {[ '초콜렛', '캐러멜', '고구마', '꿀', '헤이즐넛', '브라운슈거', '엿기름', '아몬드', '피칸', '호두', '로스트피넛', '마카다미아', '땅콩', '바닐라', '캐슈넛', '메이플 시럽', '토피', '피스타치오', '카카오닙스' ].map((note) => (
                       <button
                         key={note}
                         onClick={() => toggleNote(note)}
-                        className={`bg-white text-black shadow px-6 py-2 text-lg font-bold font-halis transition
+                        className={`bg-white text-black shadow px-2 py-1 text-sm font-halis transition
                           ${selectedNotes.includes(note)
                             ? 'bg-blue-600 text-white'
                             : 'hover:bg-gray-100'}
@@ -153,11 +153,9 @@ export default function FilterPanel({
                 <button
                   key={method}
                   onClick={() => toggleBrewMethod(method)}
-                  className={`px-3 py-1.5 rounded-full text-xs md:text-sm transition-colors ${
-                    selectedBrewMethods.includes(method)
-                      ? 'bg-blue-100 text-blue-800'
-                      : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
-                  }`}
+                  className={`px-3 py-1.5 text-xs md:text-sm transition-colors bg-gray-100 text-gray-800 hover:bg-gray-200 shadow font-halis rounded-none
+                    ${selectedBrewMethods.includes(method) ? 'bg-blue-100 text-blue-800' : ''}
+                  `}
                 >
                   {method}
                 </button>
@@ -177,11 +175,9 @@ export default function FilterPanel({
                 <button
                   key={origin}
                   onClick={() => toggleOrigin(origin)}
-                  className={`px-3 py-1.5 rounded-full text-xs md:text-sm transition-colors ${
-                    selectedOrigins.includes(origin)
-                      ? 'bg-blue-100 text-blue-800'
-                      : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
-                  }`}
+                  className={`px-3 py-1.5 text-xs md:text-sm transition-colors bg-gray-100 text-gray-800 hover:bg-gray-200 shadow font-halis rounded-none
+                    ${selectedOrigins.includes(origin) ? 'bg-blue-100 text-blue-800' : ''}
+                  `}
                 >
                   {origin}
                 </button>
@@ -201,11 +197,9 @@ export default function FilterPanel({
                 <button
                   key={process}
                   onClick={() => toggleProcess(process)}
-                  className={`px-3 py-1.5 rounded-full text-xs md:text-sm transition-colors ${
-                    selectedProcesses.includes(process)
-                      ? 'bg-blue-100 text-blue-800'
-                      : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
-                  }`}
+                  className={`px-3 py-1.5 text-xs md:text-sm transition-colors bg-gray-100 text-gray-800 hover:bg-gray-200 shadow font-halis rounded-none
+                    ${selectedProcesses.includes(process) ? 'bg-blue-100 text-blue-800' : ''}
+                  `}
                 >
                   {process}
                 </button>
@@ -225,11 +219,9 @@ export default function FilterPanel({
                 <button
                   key={roast}
                   onClick={() => toggleRoast(roast)}
-                  className={`px-3 py-1.5 rounded-full text-xs md:text-sm transition-colors ${
-                    selectedRoast.includes(roast)
-                      ? 'bg-blue-100 text-blue-800'
-                      : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
-                  }`}
+                  className={`px-3 py-1.5 text-xs md:text-sm transition-colors bg-gray-100 text-gray-800 hover:bg-gray-200 shadow font-halis rounded-none
+                    ${selectedRoast.includes(roast) ? 'bg-blue-100 text-blue-800' : ''}
+                  `}
                 >
                   {roast}
                 </button>
@@ -268,7 +260,7 @@ export default function FilterPanel({
                   <button
                     key={note}
                     onClick={() => toggleNote(note)}
-                    className={`bg-white text-black shadow px-6 py-2 text-lg font-bold font-halis transition
+                    className={`bg-white text-black shadow px-2 py-1 text-sm font-halis transition
                       ${selectedNotes.includes(note)
                         ? 'bg-blue-600 text-white'
                         : 'hover:bg-gray-100'}
@@ -291,7 +283,7 @@ export default function FilterPanel({
                   <button
                     key={note}
                     onClick={() => toggleNote(note)}
-                    className={`bg-white text-black shadow px-6 py-2 text-lg font-bold font-halis transition
+                    className={`bg-white text-black shadow px-2 py-1 text-sm font-halis transition
                       ${selectedNotes.includes(note)
                         ? 'bg-blue-600 text-white'
                         : 'hover:bg-gray-100'}
@@ -314,7 +306,7 @@ export default function FilterPanel({
                   <button
                     key={note}
                     onClick={() => toggleNote(note)}
-                    className={`bg-white text-black shadow px-6 py-2 text-lg font-bold font-halis transition
+                    className={`bg-white text-black shadow px-2 py-1 text-sm font-halis transition
                       ${selectedNotes.includes(note)
                         ? 'bg-blue-600 text-white'
                         : 'hover:bg-gray-100'}
@@ -336,11 +328,9 @@ export default function FilterPanel({
                   <button
                     key={method}
                     onClick={() => toggleBrewMethod(method)}
-                    className={`px-3 py-1.5 rounded-full text-xs md:text-sm transition-colors ${
-                      selectedBrewMethods.includes(method)
-                        ? 'bg-blue-100 text-blue-800'
-                        : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
-                    }`}
+                    className={`px-3 py-1.5 text-xs md:text-sm transition-colors bg-gray-100 text-gray-800 hover:bg-gray-200 shadow font-halis rounded-none
+                      ${selectedBrewMethods.includes(method) ? 'bg-blue-100 text-blue-800' : ''}
+                    `}
                   >
                     {method}
                   </button>
@@ -355,11 +345,9 @@ export default function FilterPanel({
                   <button
                     key={origin}
                     onClick={() => toggleOrigin(origin)}
-                    className={`px-3 py-1.5 rounded-full text-xs md:text-sm transition-colors ${
-                      selectedOrigins.includes(origin)
-                        ? 'bg-blue-100 text-blue-800'
-                        : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
-                    }`}
+                    className={`px-3 py-1.5 text-xs md:text-sm transition-colors bg-gray-100 text-gray-800 hover:bg-gray-200 shadow font-halis rounded-none
+                      ${selectedOrigins.includes(origin) ? 'bg-blue-100 text-blue-800' : ''}
+                    `}
                   >
                     {origin}
                   </button>
@@ -374,11 +362,9 @@ export default function FilterPanel({
                   <button
                     key={process}
                     onClick={() => toggleProcess(process)}
-                    className={`px-3 py-1.5 rounded-full text-xs md:text-sm transition-colors ${
-                      selectedProcesses.includes(process)
-                        ? 'bg-blue-100 text-blue-800'
-                        : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
-                    }`}
+                    className={`px-3 py-1.5 text-xs md:text-sm transition-colors bg-gray-100 text-gray-800 hover:bg-gray-200 shadow font-halis rounded-none
+                      ${selectedProcesses.includes(process) ? 'bg-blue-100 text-blue-800' : ''}
+                    `}
                   >
                     {process}
                   </button>
@@ -393,11 +379,9 @@ export default function FilterPanel({
                   <button
                     key={roast}
                     onClick={() => toggleRoast(roast)}
-                    className={`px-3 py-1.5 rounded-full text-xs md:text-sm transition-colors ${
-                      selectedRoast.includes(roast)
-                        ? 'bg-blue-100 text-blue-800'
-                        : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
-                    }`}
+                    className={`px-3 py-1.5 text-xs md:text-sm transition-colors bg-gray-100 text-gray-800 hover:bg-gray-200 shadow font-halis rounded-none
+                      ${selectedRoast.includes(roast) ? 'bg-blue-100 text-blue-800' : ''}
+                    `}
                   >
                     {roast}
                   </button>
