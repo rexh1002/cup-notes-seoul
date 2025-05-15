@@ -245,9 +245,9 @@ export default function FilterPanel({
     const SCROLL_AREA_HEIGHT = `calc(100vh - ${HEADER_HEIGHT + BUTTON_BAR_HEIGHT}px)`;
     return (
       <div className={`w-full min-h-screen bg-gradient-to-b from-white via-gray-50 to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 relative`}>
-        <div className="flex flex-row gap-2 px-2 pt-4">
-          {/* Cup Notes (좌측) */}
-          <div className="flex-1 min-w-0 space-y-6 overflow-y-auto pb-16" style={{ maxHeight: SCROLL_AREA_HEIGHT }}>
+        <div className="flex flex-col gap-6">
+          {/* 컵노트 섹션 */}
+          <section>
             {/* Floral */}
             <div className="relative overflow-hidden h-[340px] flex flex-col justify-between p-4 mb-6">
               <img src="/images/Floral.jpg" alt="Floral" className="absolute inset-0 w-full h-full object-cover" />
@@ -326,78 +326,70 @@ export default function FilterPanel({
                 </div>
               </div>
             </div>
-          </div>
-          {/* Coffee Filters (우측) */}
-          <div className="flex-1 min-w-0 space-y-6 overflow-y-auto pb-16" style={{ maxHeight: SCROLL_AREA_HEIGHT }}>
+          </section>
+          {/* 추출방식/원산지/가공방식/로스팅레벨 섹션 */}
+          <section>
             {/* Brew Method */}
-            <section>
-              <div className="mb-2 text-lg font-bold text-indigo-700 flex items-center gap-2">추출방식</div>
-              <div className="flex gap-2 pb-4 flex-wrap">
-                {['핸드드립', '에스프레소', '콜드브루'].map((method) => (
-                  <button
-                    key={method}
-                    onClick={() => toggleBrewMethod(method)}
-                    className={`px-3 py-1.5 text-xs md:text-sm transition-colors bg-gray-100 text-gray-800 hover:bg-gray-200 shadow font-halis rounded-none
-                      ${selectedBrewMethods.includes(method) ? 'bg-blue-100 text-blue-800' : ''}
-                    `}
-                  >
-                    {method}
-                  </button>
-                ))}
-              </div>
-            </section>
+            <div className="mb-2 text-lg font-bold text-indigo-700 flex items-center gap-2">추출방식</div>
+            <div className="flex gap-2 pb-4 flex-wrap">
+              {['핸드드립', '에스프레소', '콜드브루'].map((method) => (
+                <button
+                  key={method}
+                  onClick={() => toggleBrewMethod(method)}
+                  className={`px-3 py-1.5 text-xs md:text-sm transition-colors bg-gray-100 text-gray-800 hover:bg-gray-200 shadow font-halis rounded-none
+                    ${selectedBrewMethods.includes(method) ? 'bg-blue-100 text-blue-800' : ''}
+                  `}
+                >
+                  {method}
+                </button>
+              ))}
+            </div>
             {/* Origin */}
-            <section>
-              <div className="mb-2 text-lg font-bold text-indigo-700 flex items-center gap-2">원산지</div>
-              <div className="flex gap-2 pb-4 flex-wrap">
-                {['에티오피아', '콜롬비아', '브라질', '과테말라', '케냐', '코스타리카', '파나마', '인도네시아', '르완다', '엘살바도르'].map((origin) => (
-                  <button
-                    key={origin}
-                    onClick={() => toggleOrigin(origin)}
-                    className={`px-3 py-1.5 text-xs md:text-sm transition-colors bg-gray-100 text-gray-800 hover:bg-gray-200 shadow font-halis rounded-none
-                      ${selectedOrigins.includes(origin) ? 'bg-blue-100 text-blue-800' : ''}
-                    `}
-                  >
-                    {origin}
-                  </button>
-                ))}
-              </div>
-            </section>
+            <div className="mb-2 text-lg font-bold text-indigo-700 flex items-center gap-2">원산지</div>
+            <div className="flex gap-2 pb-4 flex-wrap">
+              {['에티오피아', '콜롬비아', '브라질', '과테말라', '케냐', '코스타리카', '파나마', '인도네시아', '르완다', '엘살바도르'].map((origin) => (
+                <button
+                  key={origin}
+                  onClick={() => toggleOrigin(origin)}
+                  className={`px-3 py-1.5 text-xs md:text-sm transition-colors bg-gray-100 text-gray-800 hover:bg-gray-200 shadow font-halis rounded-none
+                    ${selectedOrigins.includes(origin) ? 'bg-blue-100 text-blue-800' : ''}
+                  `}
+                >
+                  {origin}
+                </button>
+              ))}
+            </div>
             {/* Process */}
-            <section>
-              <div className="mb-2 text-lg font-bold text-indigo-700 flex items-center gap-2">가공방식</div>
-              <div className="flex gap-2 pb-4 flex-wrap">
-                {['워시드', '내추럴', '허니', '무산소 발효', '디카페인'].map((process) => (
-                  <button
-                    key={process}
-                    onClick={() => toggleProcess(process)}
-                    className={`px-3 py-1.5 text-xs md:text-sm transition-colors bg-gray-100 text-gray-800 hover:bg-gray-200 shadow font-halis rounded-none
-                      ${selectedProcesses.includes(process) ? 'bg-blue-100 text-blue-800' : ''}
-                    `}
-                  >
-                    {process}
-                  </button>
-                ))}
-              </div>
-            </section>
+            <div className="mb-2 text-lg font-bold text-indigo-700 flex items-center gap-2">가공방식</div>
+            <div className="flex gap-2 pb-4 flex-wrap">
+              {['워시드', '내추럴', '허니', '무산소 발효', '디카페인'].map((process) => (
+                <button
+                  key={process}
+                  onClick={() => toggleProcess(process)}
+                  className={`px-3 py-1.5 text-xs md:text-sm transition-colors bg-gray-100 text-gray-800 hover:bg-gray-200 shadow font-halis rounded-none
+                    ${selectedProcesses.includes(process) ? 'bg-blue-100 text-blue-800' : ''}
+                  `}
+                >
+                  {process}
+                </button>
+              ))}
+            </div>
             {/* Roast Level */}
-            <section>
-              <div className="mb-2 text-lg font-bold text-indigo-700 flex items-center gap-2">로스팅레벨</div>
-              <div className="flex gap-2 pb-4 flex-wrap">
-                {['라이트', '미디엄라이트', '미디엄', '미디엄다크', '다크'].map((roast) => (
-                  <button
-                    key={roast}
-                    onClick={() => toggleRoast(roast)}
-                    className={`px-3 py-1.5 text-xs md:text-sm transition-colors bg-gray-100 text-gray-800 hover:bg-gray-200 shadow font-halis rounded-none
-                      ${selectedRoast.includes(roast) ? 'bg-blue-100 text-blue-800' : ''}
-                    `}
-                  >
-                    {roast}
-                  </button>
-                ))}
-              </div>
-            </section>
-          </div>
+            <div className="mb-2 text-lg font-bold text-indigo-700 flex items-center gap-2">로스팅레벨</div>
+            <div className="flex gap-2 pb-4 flex-wrap">
+              {['라이트', '미디엄라이트', '미디엄', '미디엄다크', '다크'].map((roast) => (
+                <button
+                  key={roast}
+                  onClick={() => toggleRoast(roast)}
+                  className={`px-3 py-1.5 text-xs md:text-sm transition-colors bg-gray-100 text-gray-800 hover:bg-gray-200 shadow font-halis rounded-none
+                    ${selectedRoast.includes(roast) ? 'bg-blue-100 text-blue-800' : ''}
+                  `}
+                >
+                  {roast}
+                </button>
+              ))}
+            </div>
+          </section>
         </div>
         {/* 하단 고정 Reset/Apply 버튼 - flex-row 컨테이너 바깥에 위치 */}
         <div className="fixed bottom-16 left-0 right-0 bg-white/95 dark:bg-gray-900/95 border-t border-indigo-200 flex justify-between px-4 py-3 backdrop-blur-md z-50">
