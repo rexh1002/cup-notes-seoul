@@ -46,8 +46,7 @@ const CoffeeFilters: React.FC<CoffeeFiltersProps> = ({
   return (
     <div className="bg-white rounded-lg p-4 w-full max-w-md mx-auto">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-lg font-semibold">Coffee Filters</h2>
-        <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
+        <button onClick={onClose} className="text-gray-500 hover:text-gray-700 ml-auto">
           <XMarkIcon className="w-5 h-5" />
         </button>
       </div>
@@ -99,13 +98,13 @@ const CoffeeFilters: React.FC<CoffeeFiltersProps> = ({
           onClick={handleReset}
           className="text-[13px] font-medium text-gray-600 hover:text-gray-800"
         >
-          Reset
+          리셋
         </button>
         <button
           onClick={handleApply}
           className="text-[13px] font-medium text-white bg-indigo-600 px-6 py-2 rounded-full hover:bg-indigo-700"
         >
-          Apply
+          적용
         </button>
       </div>
     </div>
