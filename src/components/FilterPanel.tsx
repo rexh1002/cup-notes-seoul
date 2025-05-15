@@ -53,116 +53,11 @@ export default function FilterPanel({
   if (typeof window !== 'undefined' && window.innerWidth >= 768) {
     return (
       <div className={`fixed w-96 h-full bg-gradient-to-b from-white via-gray-50 to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 shadow-2xl overflow-y-auto z-50 ${className || ''}`}>
-        <div className="sticky top-0 bg-white/80 dark:bg-gray-900/80 z-10 p-4 border-b border-gray-200 dark:border-gray-800 backdrop-blur-md">
-          <div className="flex justify-between items-center">
-            <h2 className="text-2xl font-extrabold tracking-tight">COFFEE FILTERS</h2>
-          </div>
-        </div>
         <div className="p-6 space-y-4">
-          {/* Brew Method */}
-          <section>
-            <button
-              className={`w-full flex justify-between items-center py-4 px-2 bg-transparent border-none rounded-none shadow-none transition-all text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none group sm:py-2 sm:px-1 sm:text-base`}
-              style={{ borderBottom: '1.5px solid #e5e7eb', marginBottom: '0.5rem' }}
-            >
-              <span>Brew Method</span>
-            </button>
-            <div className="flex flex-nowrap overflow-x-auto gap-2 px-2 pb-4 md:flex-wrap md:overflow-visible md:gap-1 md:px-1 md:pb-2">
-              {['핸드드립', '에스프레소', '콜드브루'].map((method) => (
-                <button
-                  key={method}
-                  onClick={() => toggleBrewMethod(method)}
-                  className={`px-3 py-1.5 rounded-full text-xs md:text-sm transition-colors ${
-                    selectedBrewMethods.includes(method)
-                      ? 'bg-blue-100 text-blue-800'
-                      : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
-                  }`}
-                >
-                  {method}
-                </button>
-              ))}
-            </div>
-          </section>
-
-          {/* Origin */}
-          <section>
-            <button
-              className={`w-full flex justify-between items-center py-4 px-2 bg-transparent border-none rounded-none shadow-none transition-all text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none group sm:py-2 sm:px-1 sm:text-base`}
-              style={{ borderBottom: '1.5px solid #e5e7eb', marginBottom: '0.5rem' }}
-            >
-              <span>Origin</span>
-            </button>
-            <div className="flex flex-nowrap overflow-x-auto gap-2 px-2 pb-4 md:flex-wrap md:overflow-visible md:gap-1 md:px-1 md:pb-2">
-              {['에티오피아', '콜롬비아', '브라질', '과테말라', '케냐', '코스타리카', '파나마', '인도네시아', '르완다', '엘살바도르'].map((origin) => (
-                <button
-                  key={origin}
-                  onClick={() => toggleOrigin(origin)}
-                  className={`px-3 py-1.5 rounded-full text-xs md:text-sm transition-colors ${
-                    selectedOrigins.includes(origin)
-                      ? 'bg-blue-100 text-blue-800'
-                      : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
-                  }`}
-                >
-                  {origin}
-                </button>
-              ))}
-            </div>
-          </section>
-
-          {/* Process */}
-          <section>
-            <button
-              className={`w-full flex justify-between items-center py-4 px-2 bg-transparent border-none rounded-none shadow-none transition-all text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none group sm:py-2 sm:px-1 sm:text-base`}
-              style={{ borderBottom: '1.5px solid #e5e7eb', marginBottom: '0.5rem' }}
-            >
-              <span>Process</span>
-            </button>
-            <div className="flex flex-nowrap overflow-x-auto gap-2 px-2 pb-4 md:flex-wrap md:overflow-visible md:gap-1 md:px-1 md:pb-2">
-              {['워시드', '내추럴', '허니', '무산소 발효', '디카페인'].map((process) => (
-                <button
-                  key={process}
-                  onClick={() => toggleProcess(process)}
-                  className={`px-3 py-1.5 rounded-full text-xs md:text-sm transition-colors ${
-                    selectedProcesses.includes(process)
-                      ? 'bg-blue-100 text-blue-800'
-                      : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
-                  }`}
-                >
-                  {process}
-                </button>
-              ))}
-            </div>
-          </section>
-
-          {/* Roast Level */}
-          <section>
-            <button
-              className={`w-full flex justify-between items-center py-4 px-2 bg-transparent border-none rounded-none shadow-none transition-all text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none group sm:py-2 sm:px-1 sm:text-base`}
-              style={{ borderBottom: '1.5px solid #e5e7eb', marginBottom: '0.5rem' }}
-            >
-              <span>Roast Level</span>
-            </button>
-            <div className="flex flex-nowrap overflow-x-auto gap-2 px-2 pb-4 md:flex-wrap md:overflow-visible md:gap-1 md:px-1 md:pb-2">
-              {['라이트', '미디엄라이트', '미디엄', '미디엄다크', '다크'].map((roast) => (
-                <button
-                  key={roast}
-                  onClick={() => toggleRoast(roast)}
-                  className={`px-3 py-1.5 rounded-full text-xs md:text-sm transition-colors ${
-                    selectedRoast.includes(roast)
-                      ? 'bg-blue-100 text-blue-800'
-                      : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
-                  }`}
-                >
-                  {roast}
-                </button>
-              ))}
-            </div>
-          </section>
-
           {/* Cup Notes (항상 펼침) */}
           <section>
             <div style={{ borderBottom: '1.5px solid #e5e7eb', marginBottom: '0.5rem' }}>
-              <span className="w-full flex justify-between items-center py-4 px-2 text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white group sm:py-2 sm:px-1 sm:text-base">Cup Notes</span>
+              <span className="w-full flex justify-between items-center py-4 px-2 text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white group sm:py-2 sm:px-1 sm:text-base">컵노트</span>
             </div>
             <div className="grid grid-cols-1 gap-4 mt-2">
               {/* Floral (항상 펼침) */}
@@ -170,7 +65,7 @@ export default function FilterPanel({
                 <div className="relative w-full h-16 flex items-center rounded-xl overflow-hidden group focus:outline-none">
                   <Image src="/images/Floral.jpg" alt="Floral" fill className="object-cover group-hover:scale-105 transition-transform duration-300" style={{ zIndex: 1 }} />
                   <div className="absolute inset-0 bg-gradient-to-r from-pink-400/60 via-white/10 to-yellow-200/60 group-hover:bg-pink-300/70 transition-colors duration-300" style={{ zIndex: 2 }} />
-                  <span className="relative z-10 text-xl font-bold text-white drop-shadow-lg pl-6">Floral</span>
+                  <span className="relative z-10 text-xl font-bold text-white drop-shadow-lg pl-6">플로럴</span>
                 </div>
                 <div className="flex flex-wrap gap-2 px-4 pb-4 pt-4">
                   {[ '라벤더', '아카시아', '장미', '자스민', '국화', '히비스커스', '제비꽃', '홍차', '얼그레이', '카모마일', '오렌지 블로섬', '은방울꽃', '블랙티', '베르가못', '라일락', '로즈마리' ].map((note) => (
@@ -193,7 +88,7 @@ export default function FilterPanel({
                 <div className="relative w-full h-16 flex items-center rounded-xl overflow-hidden group focus:outline-none">
                   <Image src="/images/Fruity.jpg" alt="Fruity" fill className="object-cover group-hover:scale-105 transition-transform duration-300" style={{ zIndex: 1 }} />
                   <div className="absolute inset-0 bg-gradient-to-r from-yellow-200/60 via-white/10 to-pink-400/60 group-hover:bg-yellow-300/70 transition-colors duration-300" style={{ zIndex: 2 }} />
-                  <span className="relative z-10 text-xl font-bold text-white drop-shadow-lg pl-6">Fruity</span>
+                  <span className="relative z-10 text-xl font-bold text-white drop-shadow-lg pl-6">프루티</span>
                 </div>
                 <div className="flex flex-wrap gap-2 px-4 pb-4 pt-4">
                   {[ '파인애플', '복숭아', '리치', '사과', '감귤', '배', '패션후르츠', '메론', '파파야', '블루베리', '라즈베리', '자두', '딸기', '포도', '자몽', '오렌지', '레몬', '크랜베리', '망고', '체리', '살구' ].map((note) => (
@@ -216,7 +111,7 @@ export default function FilterPanel({
                 <div className="relative w-full h-16 flex items-center rounded-xl overflow-hidden group focus:outline-none">
                   <Image src="/images/Nutty.jpg" alt="Nutty" fill className="object-cover group-hover:scale-105 transition-transform duration-300" style={{ zIndex: 1 }} />
                   <div className="absolute inset-0 bg-gradient-to-r from-yellow-200/60 via-white/10 to-amber-700/60 group-hover:bg-yellow-300/70 transition-colors duration-300" style={{ zIndex: 2 }} />
-                  <span className="relative z-10 text-xl font-bold text-white drop-shadow-lg pl-6">Nutty</span>
+                  <span className="relative z-10 text-xl font-bold text-white drop-shadow-lg pl-6">너티</span>
                 </div>
                 <div className="flex flex-wrap gap-2 px-4 pb-4 pt-4">
                   {[ '초콜렛', '캐러멜', '고구마', '꿀', '헤이즐넛', '브라운슈거', '엿기름', '아몬드', '피칸', '호두', '로스트피넛', '마카다미아', '땅콩', '바닐라', '캐슈넛', '메이플 시럽', '토피', '피스타치오', '카카오닙스' ].map((note) => (
@@ -234,6 +129,102 @@ export default function FilterPanel({
                   ))}
                 </div>
               </div>
+            </div>
+          </section>
+          {/* Brew Method */}
+          <section>
+            <button
+              className={`w-full flex justify-between items-center py-4 px-2 bg-transparent border-none rounded-none shadow-none transition-all text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none group sm:py-2 sm:px-1 sm:text-base`}
+              style={{ borderBottom: '1.5px solid #e5e7eb', marginBottom: '0.5rem' }}
+            >
+              <span>추출방식</span>
+            </button>
+            <div className="flex flex-nowrap overflow-x-auto gap-2 px-2 pb-4 md:flex-wrap md:overflow-visible md:gap-1 md:px-1 md:pb-2">
+              {['핸드드립', '에스프레소', '콜드브루'].map((method) => (
+                <button
+                  key={method}
+                  onClick={() => toggleBrewMethod(method)}
+                  className={`px-3 py-1.5 rounded-full text-xs md:text-sm transition-colors ${
+                    selectedBrewMethods.includes(method)
+                      ? 'bg-blue-100 text-blue-800'
+                      : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
+                  }`}
+                >
+                  {method}
+                </button>
+              ))}
+            </div>
+          </section>
+          {/* Originnnnnnn */}
+          <section>
+            <button
+              className={`w-full flex justify-between items-center py-4 px-2 bg-transparent border-none rounded-none shadow-none transition-all text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none group sm:py-2 sm:px-1 sm:text-base`}
+              style={{ borderBottom: '1.5px solid #e5e7eb', marginBottom: '0.5rem' }}
+            >
+              <span>원산지</span>
+            </button>
+            <div className="flex flex-nowrap overflow-x-auto gap-2 px-2 pb-4 md:flex-wrap md:overflow-visible md:gap-1 md:px-1 md:pb-2">
+              {['에티오피아아', '콜롬비아', '브라질', '과테말라', '케냐', '코스타리카', '파나마', '인도네시아', '르완다', '엘살바도르'].map((origin) => (
+                <button
+                  key={origin}
+                  onClick={() => toggleOrigin(origin)}
+                  className={`px-3 py-1.5 rounded-full text-xs md:text-sm transition-colors ${
+                    selectedOrigins.includes(origin)
+                      ? 'bg-blue-100 text-blue-800'
+                      : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
+                  }`}
+                >
+                  {origin}
+                </button>
+              ))}
+            </div>
+          </section>
+          {/* Process */}
+          <section>
+            <button
+              className={`w-full flex justify-between items-center py-4 px-2 bg-transparent border-none rounded-none shadow-none transition-all text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none group sm:py-2 sm:px-1 sm:text-base`}
+              style={{ borderBottom: '1.5px solid #e5e7eb', marginBottom: '0.5rem' }}
+            >
+              <span>가공방식</span>
+            </button>
+            <div className="flex flex-nowrap overflow-x-auto gap-2 px-2 pb-4 md:flex-wrap md:overflow-visible md:gap-1 md:px-1 md:pb-2">
+              {['워시드', '내추럴', '허니', '무산소 발효', '디카페인'].map((process) => (
+                <button
+                  key={process}
+                  onClick={() => toggleProcess(process)}
+                  className={`px-3 py-1.5 rounded-full text-xs md:text-sm transition-colors ${
+                    selectedProcesses.includes(process)
+                      ? 'bg-blue-100 text-blue-800'
+                      : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
+                  }`}
+                >
+                  {process}
+                </button>
+              ))}
+            </div>
+          </section>
+          {/* Roast Level */}
+          <section>
+            <button
+              className={`w-full flex justify-between items-center py-4 px-2 bg-transparent border-none rounded-none shadow-none transition-all text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none group sm:py-2 sm:px-1 sm:text-base`}
+              style={{ borderBottom: '1.5px solid #e5e7eb', marginBottom: '0.5rem' }}
+            >
+              <span>로스팅레벨</span>
+            </button>
+            <div className="flex flex-nowrap overflow-x-auto gap-2 px-2 pb-4 md:flex-wrap md:overflow-visible md:gap-1 md:px-1 md:pb-2">
+              {['라이트', '미디엄라이트', '미디엄', '미디엄다크', '다크'].map((roast) => (
+                <button
+                  key={roast}
+                  onClick={() => toggleRoast(roast)}
+                  className={`px-3 py-1.5 rounded-full text-xs md:text-sm transition-colors ${
+                    selectedRoast.includes(roast)
+                      ? 'bg-blue-100 text-blue-800'
+                      : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
+                  }`}
+                >
+                  {roast}
+                </button>
+              ))}
             </div>
           </section>
         </div>
@@ -261,7 +252,7 @@ export default function FilterPanel({
               <div className="relative w-full h-16 flex items-end rounded-t-3xl overflow-hidden">
                 <img src="/images/Floral.jpg" alt="Floral" className="absolute inset-0 w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-r from-pink-400/60 via-white/10 to-yellow-200/60" />
-                <span className="relative z-10 text-2xl font-extrabold text-white drop-shadow-lg p-6 pb-3">Floral</span>
+                <span className="relative z-10 text-2xl font-extrabold text-white drop-shadow-lg p-6 pb-3">플로럴</span>
               </div>
               <div className="flex flex-wrap gap-2 px-4 pb-4 pt-4">
                 {[ '라벤더', '아카시아', '장미', '자스민', '국화', '히비스커스', '제비꽃', '홍차', '얼그레이', '카모마일', '오렌지 블로섬', '은방울꽃', '블랙티', '베르가못', '라일락', '로즈마리' ].map((note) => (
@@ -284,7 +275,7 @@ export default function FilterPanel({
               <div className="relative w-full h-16 flex items-end rounded-t-3xl overflow-hidden">
                 <img src="/images/Fruity.jpg" alt="Fruity" className="absolute inset-0 w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-r from-yellow-200/60 via-white/10 to-pink-400/60" />
-                <span className="relative z-10 text-2xl font-extrabold text-white drop-shadow-lg p-6 pb-3">Fruity</span>
+                <span className="relative z-10 text-2xl font-extrabold text-white drop-shadow-lg p-6 pb-3">프루티</span>
               </div>
               <div className="flex flex-wrap gap-2 px-4 pb-4 pt-4">
                 {[ '파인애플', '복숭아', '리치', '사과', '감귤', '배', '패션후르츠', '메론', '파파야', '블루베리', '라즈베리', '자두', '딸기', '포도', '자몽', '오렌지', '레몬', '크랜베리', '망고', '체리', '살구' ].map((note) => (
@@ -307,7 +298,7 @@ export default function FilterPanel({
               <div className="relative w-full h-16 flex items-end rounded-t-3xl overflow-hidden">
                 <img src="/images/Nutty.jpg" alt="Nutty" className="absolute inset-0 w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-r from-yellow-200/60 via-white/10 to-amber-700/60" />
-                <span className="relative z-10 text-2xl font-extrabold text-white drop-shadow-lg p-6 pb-3">Nutty</span>
+                <span className="relative z-10 text-2xl font-extrabold text-white drop-shadow-lg p-6 pb-3">너티</span>
               </div>
               <div className="flex flex-wrap gap-2 px-4 pb-4 pt-4">
                 {[ '초콜렛', '캐러멜', '고구마', '꿀', '헤이즐넛', '브라운슈거', '엿기름', '아몬드', '피칸', '호두', '로스트피넛', '마카다미아', '땅콩', '바닐라', '캐슈넛', '메이플 시럽', '토피', '피스타치오', '카카오닙스' ].map((note) => (
@@ -368,7 +359,7 @@ export default function FilterPanel({
             </section>
             {/* Process */}
             <section>
-              <div className="mb-2 text-lg font-bold text-indigo-700 flex items-center gap-2">프로세스</div>
+              <div className="mb-2 text-lg font-bold text-indigo-700 flex items-center gap-2">가공방식</div>
               <div className="flex gap-2 pb-4 flex-wrap">
                 {['워시드', '내추럴', '허니', '무산소 발효', '디카페인'].map((process) => (
                   <button
