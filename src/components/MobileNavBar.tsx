@@ -18,7 +18,7 @@ export default function MobileNavBar() {
             }`}
           >
             <Filter className={`w-6 h-6 transition-transform duration-200 ${pathname === '/filters' ? 'scale-110' : ''}`} />
-            <span className="text-[10px] font-medium mt-0.5">Filters</span>
+            <span className="text-[10px] font-medium mt-0.5">필터</span>
           </Link>
 
           <Link
@@ -30,7 +30,7 @@ export default function MobileNavBar() {
             }`}
           >
             <Map className={`w-6 h-6 transition-transform duration-200 ${pathname === '/map' ? 'scale-110' : ''}`} />
-            <span className="text-[10px] font-medium mt-0.5">Map</span>
+            <span className="text-[10px] font-medium mt-0.5">지도</span>
           </Link>
         </div>
       </div>

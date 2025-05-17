@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
 import { useSwipeable } from 'react-swipeable';
 import { Coffee as CoffeeIcon, CupSoda as EspressoIcon, IceCream2 as IceIcon, Globe as GlobeIcon, Settings as SettingsIcon, Flame as FlameIcon } from 'lucide-react';
@@ -48,6 +48,15 @@ export default function FilterPanel({
     onSwipedRight: () => setMobileTab((prev) => Math.max(prev - 1, 0)),
     trackMouse: true,
   });
+
+  // 모바일 여부 감지
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // PC(웹) 화면: 기존 FilterPanel 유지
   if (typeof window !== 'undefined' && window.innerWidth >= 768) {
@@ -252,7 +261,7 @@ export default function FilterPanel({
     const BUTTON_BAR_HEIGHT = 64; // 버튼 바 높이 예시
     const SCROLL_AREA_HEIGHT = `calc(100vh - ${HEADER_HEIGHT + BUTTON_BAR_HEIGHT}px)`;
     return (
-      <div className={`w-full min-h-screen bg-gradient-to-b from-white via-gray-50 to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 relative`}>
+      <div className={`w-full min-h-screen bg-gradient-to-b from-white via-gray-50 to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 relative pt-[128px] pb-16`}>
         <div className="flex flex-col gap-6">
           {/* 컵노트 섹션 */}
           <section>
@@ -338,7 +347,7 @@ export default function FilterPanel({
           {/* 추출방식/원산지/가공방식/로스팅레벨 섹션 */}
           <section>
             {/* Brew Method */}
-            <div className="mb-2 text-lg font-bold text-indigo-700 flex items-center gap-2">추출방식</div>
+            <div className="mb-2 text-lg font-bold flex items-center gap-2" style={{color: isMobile ? '#222' : ''}}>추출방식</div>
             <div className="flex gap-2 pb-4 flex-wrap">
               {['핸드드립', '에스프레소', '콜드브루'].map((method) => (
                 <button
@@ -355,7 +364,7 @@ export default function FilterPanel({
               ))}
             </div>
             {/* Origin */}
-            <div className="mb-2 text-lg font-bold text-indigo-700 flex items-center gap-2">원산지</div>
+            <div className="mb-2 text-lg font-bold flex items-center gap-2" style={{color: isMobile ? '#222' : ''}}>원산지</div>
             <div className="flex gap-2 pb-4 flex-wrap">
               {['에티오피아', '콜롬비아', '브라질', '과테말라', '케냐', '코스타리카', '파나마', '인도네시아', '르완다', '엘살바도르'].map((origin) => (
                 <button
@@ -372,7 +381,7 @@ export default function FilterPanel({
               ))}
             </div>
             {/* Process */}
-            <div className="mb-2 text-lg font-bold text-indigo-700 flex items-center gap-2">가공방식</div>
+            <div className="mb-2 text-lg font-bold flex items-center gap-2" style={{color: isMobile ? '#222' : ''}}>가공방식</div>
             <div className="flex gap-2 pb-4 flex-wrap">
               {['워시드', '내추럴', '허니', '무산소 발효', '디카페인'].map((process) => (
                 <button
@@ -389,7 +398,7 @@ export default function FilterPanel({
               ))}
             </div>
             {/* Roast Level */}
-            <div className="mb-2 text-lg font-bold text-indigo-700 flex items-center gap-2">로스팅레벨</div>
+            <div className="mb-2 text-lg font-bold flex items-center gap-2" style={{color: isMobile ? '#222' : ''}}>로스팅레벨</div>
             <div className="flex gap-2 pb-4 flex-wrap">
               {['라이트', '미디엄라이트', '미디엄', '미디엄다크', '다크'].map((roast) => (
                 <button
