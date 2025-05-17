@@ -450,14 +450,7 @@ export default function HomePage() {
   if (showMain) {
     return (
       <main className="min-h-screen transition-colors duration-300 overflow-y-auto">
-        {/* 헤더 섹션 */}
-        <header className="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur border-b border-indigo-200 shadow-sm z-50">
-          <div className="w-full px-0">
-            <div className="flex justify-center items-center h-16">
-              <Image src="/images/Logo.png" alt="Cup Notes Seoul Logo" width={120} height={40} />
-            </div>
-          </div>
-        </header>
+        {/* 헤더 삭제: 히어로 화면에서는 헤더를 렌더링하지 않음 */}
         <section className="flex flex-col items-center justify-center min-h-screen pt-16 bg-gradient-to-br from-blue-600/20 via-purple-600/20 to-pink-600/20">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
