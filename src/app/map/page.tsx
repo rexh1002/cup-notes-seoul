@@ -3,7 +3,6 @@ import dynamic from 'next/dynamic';
 import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import MobileNavBar from '../../components/MobileNavBar';
-import MobileHeader from '../../components/MobileHeader';
 import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
 
@@ -130,8 +129,7 @@ export default function MapMobilePage() {
 
   return (
     <div className="relative w-full min-h-screen pt-14 pb-16">
-      {/* Filters와 동일한 헤더/검색바 */}
-      <MobileHeader isLoggedIn={isLoggedIn} userRole={userRole} onLogout={handleLogout} />
+      {/* 공통 헤더는 page.tsx에서 항상 렌더링됨 */}
       <div className="sticky top-0 z-30 px-3 pt-2 pb-3 bg-gradient-to-r from-purple-500 to-indigo-500 flex items-center gap-2 rounded-b-2xl shadow-md">
         <svg width="20" height="20" fill="none" stroke="#fff" strokeWidth="2" viewBox="0 0 24 24" className="mr-2">
           <circle cx="11" cy="11" r="8" />

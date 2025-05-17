@@ -3,7 +3,6 @@ import FilterPanel from '../../components/FilterPanel';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import MobileNavBar from '../../components/MobileNavBar';
-import MobileHeader from '../../components/MobileHeader';
 import React from 'react';
 
 export default function FiltersPage() {
@@ -66,8 +65,7 @@ export default function FiltersPage() {
 
   return (
     <div className="pt-14 pb-16">
-      {/* Mobile Header */}
-      <MobileHeader isLoggedIn={isLoggedIn} userRole={userRole} onLogout={handleLogout} />
+      {/* 공통 헤더는 page.tsx에서 항상 렌더링됨 */}
       {/* 모바일 전용 검색바 */}
       <div className="sticky top-0 z-30 px-3 pt-2 pb-3 bg-gradient-to-r from-purple-500 to-indigo-500 flex items-center gap-2 rounded-b-2xl shadow-md">
         <svg width="20" height="20" fill="none" stroke="#fff" strokeWidth="2" viewBox="0 0 24 24" className="mr-2">
