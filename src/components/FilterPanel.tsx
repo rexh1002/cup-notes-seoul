@@ -417,9 +417,20 @@ export default function FilterPanel({
           </section>
         </div>
         {/* 하단 고정 Reset/Apply 버튼 - flex-row 컨테이너 바깥에 위치 */}
-        <div className="fixed bottom-16 left-0 right-0 bg-white/95 dark:bg-gray-900/95 border-t border-indigo-200 flex justify-between px-4 py-3 backdrop-blur-md z-50">
-          <button onClick={onReset} className="px-5 py-2 bg-bluebottle-blue text-white font-medium rounded-lg border border-bluebottle-blue font-bluebottle hover:bg-[#004b82] transition">리셋</button>
-          <button onClick={onApply} className="px-5 py-2 bg-bluebottle-blue text-white font-medium rounded-lg border border-bluebottle-blue font-bluebottle hover:bg-[#004b82] transition">적용</button>
+        <div className="fixed bottom-0 left-0 w-full flex flex-row z-50">
+          <button
+            onClick={onReset}
+            className="flex-1 py-3 text-white bg-[#5A5A5A] text-base font-medium border-none rounded-none focus:outline-none"
+            style={{ borderRight: '1px solid #888' }}
+          >
+            리셋
+          </button>
+          <button
+            onClick={onApply}
+            className="flex-1 py-3 text-white bg-[#5A5A5A] text-base font-medium border-none rounded-none focus:outline-none"
+          >
+            적용
+          </button>
         </div>
       </div>
     );
