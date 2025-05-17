@@ -507,15 +507,14 @@ export default function HomePage() {
           <div className="relative flex items-center h-[90px] px-6">
             {/* 좌측 여백 */}
             <div className="flex-1 flex items-center gap-2">
-              {/* 검색 아이콘 */}
+              {/* 검색 아이콘 및 입력창을 오른쪽으로 이동 */}
               <button
                 className="p-2 rounded-full hover:bg-gray-100 transition"
                 onClick={() => setShowSearchInput((v) => !v)}
                 aria-label="검색"
               >
-                <Search className="w-6 h-6 text-[#0061a8]" />
+                <Search className="w-6 h-6 text-[#222]" />
               </button>
-              {/* 검색 입력창 드롭다운 */}
               {showSearchInput && (
                 <input
                   type="text"
@@ -542,14 +541,14 @@ export default function HomePage() {
                     onClick={handleLogin}
                     aria-label="로그인"
                   >
-                    <LogIn className="w-6 h-6 text-[#0061a8]" />
+                    <LogIn className="w-6 h-6 text-[#222]" />
                   </button>
                   <button
                     className="p-2 rounded-full hover:bg-gray-100 transition"
                     onClick={handleSignup}
                     aria-label="회원가입"
                   >
-                    <UserPlus className="w-6 h-6 text-[#0061a8]" />
+                    <UserPlus className="w-6 h-6 text-[#222]" />
                   </button>
                   {isSignupDropdownOpen && (
                     <div className="absolute right-6 top-[90px] mt-2 w-44 bg-white rounded-lg shadow-lg border border-gray-200 z-[210] animate-fade-in">
@@ -566,7 +565,7 @@ export default function HomePage() {
                       onClick={() => router.push('/manager/dashboard')}
                       aria-label="내 카페 관리"
                     >
-                      <Coffee className="w-6 h-6 text-[#0061a8]" />
+                      <Coffee className="w-6 h-6 text-[#222]" />
                     </button>
                   ) : null}
                   <span className="text-gray-700 text-sm font-medium mr-2">{userName}님</span>
@@ -575,7 +574,7 @@ export default function HomePage() {
                     onClick={handleLogout}
                     aria-label="로그아웃"
                   >
-                    <LogOut className="w-6 h-6 text-[#0061a8]" />
+                    <LogOut className="w-6 h-6 text-[#222]" />
                   </button>
                 </>
               )}

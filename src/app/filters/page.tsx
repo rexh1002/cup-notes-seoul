@@ -85,7 +85,7 @@ export default function FiltersPage() {
                 onClick={() => setShowSearchInput((v) => !v)}
                 aria-label="검색"
               >
-                <Search className="w-6 h-6 text-[#0061a8]" />
+                <Search className="w-6 h-6 text-[#222]" />
               </button>
               {showSearchInput && (
                 <input
@@ -113,14 +113,14 @@ export default function FiltersPage() {
                     onClick={() => router.push('/auth/login')}
                     aria-label="로그인"
                   >
-                    <LogIn className="w-6 h-6 text-[#0061a8]" />
+                    <LogIn className="w-6 h-6 text-[#222]" />
                   </button>
                   <button
                     className="p-2 rounded-full hover:bg-gray-100 transition"
                     onClick={() => setIsSignupDropdownOpen((v) => !v)}
                     aria-label="회원가입"
                   >
-                    <UserPlus className="w-6 h-6 text-[#0061a8]" />
+                    <UserPlus className="w-6 h-6 text-[#222]" />
                   </button>
                   {isSignupDropdownOpen && (
                     <div className="absolute right-6 top-[90px] mt-2 w-44 bg-white rounded-lg shadow-lg border border-gray-200 z-[210] animate-fade-in">
@@ -137,7 +137,7 @@ export default function FiltersPage() {
                       onClick={() => router.push('/manager/dashboard')}
                       aria-label="내 카페 관리"
                     >
-                      <Coffee className="w-6 h-6 text-[#0061a8]" />
+                      <Coffee className="w-6 h-6 text-[#222]" />
                     </button>
                   ) : null}
                   <span className="text-gray-700 text-sm font-medium mr-2">{userName}님</span>
@@ -146,7 +146,7 @@ export default function FiltersPage() {
                     onClick={handleLogout}
                     aria-label="로그아웃"
                   >
-                    <LogOut className="w-6 h-6 text-[#0061a8]" />
+                    <LogOut className="w-6 h-6 text-[#222]" />
                   </button>
                 </>
               )}
