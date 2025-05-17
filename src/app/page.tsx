@@ -504,7 +504,7 @@ export default function HomePage() {
       {/* 헤더 섹션 */}
       <header className="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur border-b border-indigo-200 shadow-sm z-50">
         <div className="w-full px-0">
-          <div className="relative flex items-center h-[90px] px-6">
+          <div className="relative flex items-center h-[128px] px-6">
             {/* 좌측 여백 */}
             <div className="flex-1 flex items-center gap-2">
               {/* 검색 아이콘 및 입력창을 오른쪽으로 이동 */}
