@@ -129,31 +129,7 @@ export default function MapMobilePage() {
 
   return (
     <div className="relative w-full min-h-screen pt-14 pb-16">
-      {/* 공통 헤더는 page.tsx에서 항상 렌더링됨 */}
-      <div className="sticky top-0 z-30 px-3 pt-2 pb-3 bg-gradient-to-r from-purple-500 to-indigo-500 flex items-center gap-2 rounded-b-2xl shadow-md">
-        <svg width="20" height="20" fill="none" stroke="#fff" strokeWidth="2" viewBox="0 0 24 24" className="mr-2">
-          <circle cx="11" cy="11" r="8" />
-          <line x1="21" y1="21" x2="16.65" y2="16.65" />
-        </svg>
-        <input
-          type="text"
-          value={searchKeyword}
-          onChange={e => setSearchKeyword(e.target.value)}
-          onKeyDown={e => e.key === 'Enter' && handleSearch()}
-          placeholder="키워드로 검색하세요"
-          className="flex-1 bg-transparent outline-none text-white placeholder:text-indigo-100 px-1 py-1 text-sm"
-        />
-        {searchKeyword && (
-          <button onClick={() => setSearchKeyword('')} className="ml-1 text-indigo-100 hover:text-white text-lg px-1 focus:outline-none">&times;</button>
-        )}
-      </div>
-      {/* 퀵서치 버튼 좌측 하단 세로 배열 */}
-      <div className="fixed left-4 bottom-32 z-[120] flex flex-col gap-3 items-start">
-        <QuickCard image="/images/Floralicon.png" label="Floral" onClick={() => handleCategorySearch('floral')} />
-        <QuickCard image="/images/Fruityicon.png" label="Fruity" onClick={() => handleCategorySearch('fruity')} />
-        <QuickCard image="/images/Nuttyicon.png" label="Nutty" onClick={() => handleCategorySearch('nutty')} />
-        <QuickCard image="/images/handdripicon.png" label="핸드드립" onClick={() => handleCategorySearch('handdrip')} />
-      </div>
+      {/* 상단 검색바 제거: 공통 헤더가 모바일에서도 항상 보임 */}
       {/* 지도 영역 */}
       <div className="absolute inset-0" style={{ zIndex: 100 }}>
         {/* 현재위치 버튼 */}
