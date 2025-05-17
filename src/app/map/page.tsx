@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import MobileNavBar from '../../components/MobileNavBar';
 import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
+import { Search, Coffee, LogIn, UserPlus, LogOut } from 'lucide-react';
 
 const Map = dynamic(() => import('../../components/Map'), { ssr: false });
 
@@ -43,6 +44,9 @@ export default function MapMobilePage() {
   const [selectedCafe, setSelectedCafe] = useState<any | null>(null);
   const [searchKeyword, setSearchKeyword] = useState('');
   const [showList, setShowList] = useState(false);
+  const [showSearchInput, setShowSearchInput] = useState(false);
+  const [userName, setUserName] = useState<string | null>(null);
+  const [isSignupDropdownOpen, setIsSignupDropdownOpen] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
@@ -93,13 +97,16 @@ export default function MapMobilePage() {
           const decodedToken = JSON.parse(atob(token.split('.')[1]));
           setIsLoggedIn(true);
           setUserRole(decodedToken.role);
+          setUserName(decodedToken.name);
         } catch (error) {
           setIsLoggedIn(false);
           setUserRole(null);
+          setUserName(null);
         }
       } else {
         setIsLoggedIn(false);
         setUserRole(null);
+        setUserName(null);
       }
     }
   }, [isMounted]);
@@ -108,6 +115,7 @@ export default function MapMobilePage() {
     localStorage.removeItem('authToken');
     setIsLoggedIn(false);
     setUserRole(null);
+    setUserName(null);
     router.push('/');
   };
 
@@ -129,7 +137,85 @@ export default function MapMobilePage() {
 
   return (
     <div className="relative w-full min-h-screen pt-14 pb-16">
-      {/* 상단 검색바 제거: 공통 헤더가 모바일에서도 항상 보임 */}
+      <header className="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur border-b border-indigo-200 shadow-sm z-50">
+        <div className="w-full px-0">
+          <div className="relative flex items-center h-[90px] px-6">
+            {/* 좌측: 검색(돋보기) 아이콘 */}
+            <div className="flex-1 flex items-center gap-2">
+              <button
+                className="p-2 rounded-full hover:bg-gray-100 transition"
+                onClick={() => setShowSearchInput((v) => !v)}
+                aria-label="검색"
+              >
+                <Search className="w-6 h-6 text-[#0061a8]" />
+              </button>
+              {showSearchInput && (
+                <input
+                  type="text"
+                  className="ml-2 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                  placeholder="키워드 검색"
+                  value={searchKeyword}
+                  onChange={e => setSearchKeyword(e.target.value)}
+                  onKeyDown={e => { if (e.key === 'Enter') { handleSearch(); setShowSearchInput(false); } }}
+                  autoFocus
+                  style={{ width: 180 }}
+                />
+              )}
+            </div>
+            {/* 중앙 로고 */}
+            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer" onClick={() => window.location.reload()}>
+              <Image src="/images/Logo.png" alt="Cup Notes Seoul Logo" width={120} height={40} />
+            </div>
+            {/* 우측 아이콘 버튼 */}
+            <div className="flex-1 flex justify-end items-center gap-2">
+              {!isLoggedIn ? (
+                <>
+                  <button
+                    className="p-2 rounded-full hover:bg-gray-100 transition"
+                    onClick={() => router.push('/auth/login')}
+                    aria-label="로그인"
+                  >
+                    <LogIn className="w-6 h-6 text-[#0061a8]" />
+                  </button>
+                  <button
+                    className="p-2 rounded-full hover:bg-gray-100 transition"
+                    onClick={() => setIsSignupDropdownOpen((v) => !v)}
+                    aria-label="회원가입"
+                  >
+                    <UserPlus className="w-6 h-6 text-[#0061a8]" />
+                  </button>
+                  {isSignupDropdownOpen && (
+                    <div className="absolute right-6 top-[90px] mt-2 w-44 bg-white rounded-lg shadow-lg border border-gray-200 z-[210] animate-fade-in">
+                      <button className="block w-full text-left px-4 py-3 text-sm hover:bg-gray-100 text-gray-800" onClick={() => { setIsSignupDropdownOpen(false); router.push('/auth/signup'); }}>일반 회원가입</button>
+                      <button className="block w-full text-left px-4 py-3 text-sm hover:bg-gray-100 text-gray-800" onClick={() => { setIsSignupDropdownOpen(false); router.push('/auth/manager/signup'); }}>카페 관리자 회원가입</button>
+                    </div>
+                  )}
+                </>
+              ) : (
+                <>
+                  {userRole === 'cafeManager' || userRole === 'manager' ? (
+                    <button
+                      className="p-2 rounded-full hover:bg-gray-100 transition"
+                      onClick={() => router.push('/manager/dashboard')}
+                      aria-label="내 카페 관리"
+                    >
+                      <Coffee className="w-6 h-6 text-[#0061a8]" />
+                    </button>
+                  ) : null}
+                  <span className="text-gray-700 text-sm font-medium mr-2">{userName}님</span>
+                  <button
+                    className="p-2 rounded-full hover:bg-gray-100 transition"
+                    onClick={() => { localStorage.removeItem('authToken'); setIsLoggedIn(false); setUserRole(null); setUserName(null); router.push('/'); }}
+                    aria-label="로그아웃"
+                  >
+                    <LogOut className="w-6 h-6 text-[#0061a8]" />
+                  </button>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      </header>
       {/* 지도 영역 */}
       <div className="absolute inset-0" style={{ zIndex: 100 }}>
         {/* 현재위치 버튼 */}
