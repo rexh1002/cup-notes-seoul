@@ -74,10 +74,10 @@ export default function FilterPanel({
                       <button
                         key={note}
                         onClick={() => toggleNote(note)}
-                        className={`bg-white text-black shadow px-2 py-1 text-sm font-halis transition
+                        className={`px-2 py-1 text-sm font-halis border shadow transition active:scale-95
                           ${selectedNotes.includes(note)
-                            ? 'bg-blue-600 text-white'
-                            : 'hover:bg-gray-100'}
+                            ? 'bg-blue-600 text-white border-blue-700 shadow-lg'
+                            : 'bg-white/80 text-black border-gray-200 hover:bg-blue-50 hover:border-blue-400 hover:shadow-lg'}
                         `}
                       >
                         {note}
@@ -100,10 +100,10 @@ export default function FilterPanel({
                       <button
                         key={note}
                         onClick={() => toggleNote(note)}
-                        className={`bg-white text-black shadow px-2 py-1 text-sm font-halis transition
+                        className={`px-2 py-1 text-sm font-halis border shadow transition active:scale-95
                           ${selectedNotes.includes(note)
-                            ? 'bg-blue-600 text-white'
-                            : 'hover:bg-gray-100'}
+                            ? 'bg-blue-600 text-white border-blue-700 shadow-lg'
+                            : 'bg-white/80 text-black border-gray-200 hover:bg-blue-50 hover:border-blue-400 hover:shadow-lg'}
                         `}
                       >
                         {note}
@@ -119,17 +119,17 @@ export default function FilterPanel({
                 <div className="relative z-10 flex flex-col h-full justify-between">
                   <div>
                     <div className="text-3xl font-extrabold text-white mb-2 font-chronicle">너티</div>
-                    <div className="text-lg text-white mb-6 font-chronicle">고소하고 달콤한 너트의 풍미</div>
+                    <div className="text-lg text-white mb-6 font-chronicle">고요한 오후, 편안한 위로가 되는 향</div>
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {[ '초콜렛', '캐러멜', '고구마', '꿀', '헤이즐넛', '브라운슈거', '엿기름', '아몬드', '피칸', '호두', '로스트피넛', '마카다미아', '땅콩', '바닐라', '캐슈넛', '메이플 시럽', '토피', '피스타치오', '카카오닙스' ].map((note) => (
                       <button
                         key={note}
                         onClick={() => toggleNote(note)}
-                        className={`bg-white text-black shadow px-2 py-1 text-sm font-halis transition
+                        className={`px-2 py-1 text-sm font-halis border shadow transition active:scale-95
                           ${selectedNotes.includes(note)
-                            ? 'bg-blue-600 text-white'
-                            : 'hover:bg-gray-100'}
+                            ? 'bg-blue-600 text-white border-blue-700 shadow-lg'
+                            : 'bg-white/80 text-black border-gray-200 hover:bg-blue-50 hover:border-blue-400 hover:shadow-lg'}
                         `}
                       >
                         {note}
@@ -262,10 +262,10 @@ export default function FilterPanel({
                   <button
                     key={note}
                     onClick={() => toggleNote(note)}
-                    className={`bg-white text-black px-1.5 py-0.5 text-xs font-halis transition rounded-none
+                    className={`px-2 py-1 text-sm font-halis border shadow transition active:scale-95
                       ${selectedNotes.includes(note)
-                        ? 'bg-blue-600 text-white'
-                        : 'hover:bg-gray-100'}
+                        ? 'bg-blue-600 text-white border-blue-700 shadow-lg'
+                        : 'bg-white/80 text-black border-gray-200 hover:bg-blue-50 hover:border-blue-400 hover:shadow-lg'}
                     `}
                   >
                     {note}
@@ -288,10 +288,10 @@ export default function FilterPanel({
                   <button
                     key={note}
                     onClick={() => toggleNote(note)}
-                    className={`bg-white text-black px-1.5 py-0.5 text-xs font-halis transition rounded-none
+                    className={`px-2 py-1 text-sm font-halis border shadow transition active:scale-95
                       ${selectedNotes.includes(note)
-                        ? 'bg-blue-600 text-white'
-                        : 'hover:bg-gray-100'}
+                        ? 'bg-blue-600 text-white border-blue-700 shadow-lg'
+                        : 'bg-white/80 text-black border-gray-200 hover:bg-blue-50 hover:border-blue-400 hover:shadow-lg'}
                     `}
                   >
                     {note}
@@ -314,10 +314,10 @@ export default function FilterPanel({
                   <button
                     key={note}
                     onClick={() => toggleNote(note)}
-                    className={`bg-white text-black px-1.5 py-0.5 text-xs font-halis transition rounded-none
+                    className={`px-2 py-1 text-sm font-halis border shadow transition active:scale-95
                       ${selectedNotes.includes(note)
-                        ? 'bg-blue-600 text-white'
-                        : 'hover:bg-gray-100'}
+                        ? 'bg-blue-600 text-white border-blue-700 shadow-lg'
+                        : 'bg-white/80 text-black border-gray-200 hover:bg-blue-50 hover:border-blue-400 hover:shadow-lg'}
                     `}
                   >
                     {note}
