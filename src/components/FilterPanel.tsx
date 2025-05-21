@@ -265,8 +265,10 @@ export default function FilterPanel({
         <div className="flex flex-col gap-6">
           {/* 컵노트 섹션 */}
           <section>
+            {/* 컵노트 서브제목 (모바일 전용) */}
+            <div className="text-xl font-bold text-gray-900 dark:text-white mb-2 mt-0 pl-2 font-chronicle">컵노트</div>
             {/* Floral */}
-            <div className="relative overflow-hidden h-[340px] flex flex-col justify-between p-4 mb-6">
+            <div className="relative overflow-hidden h-[340px] flex flex-col justify-between p-4 mb-3">
               <img src="/images/Floral.jpg" alt="Floral" className="absolute inset-0 w-full h-full object-cover" />
               <div className="absolute inset-0 bg-black/60" />
               <div className="relative z-10 flex flex-col h-full justify-between">
