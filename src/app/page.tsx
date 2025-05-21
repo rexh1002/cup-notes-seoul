@@ -501,13 +501,13 @@ export default function HomePage() {
             {/* 좌측 여백 */}
             <div className="flex-1 flex items-center gap-2">
               {/* 검색 아이콘 및 입력창을 오른쪽으로 이동 */}
-              <button
+                        <button
                 className="p-2 rounded-full hover:bg-gray-100 transition"
                 onClick={() => setShowSearchInput((v) => !v)}
                 aria-label="검색"
               >
                 <Search className="w-6 h-6 text-[#222]" />
-              </button>
+                        </button>
               {showSearchInput && (
                 <input
                   type="text"
@@ -520,7 +520,7 @@ export default function HomePage() {
                   style={{ width: 180 }}
                 />
               )}
-            </div>
+                    </div>
             {/* 중앙 로고 */}
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer" onClick={() => window.location.reload()}>
               <Image src="/images/Logo.png" alt="Cup Notes Seoul Logo" width={120} height={40} />
@@ -529,25 +529,25 @@ export default function HomePage() {
             <div className="flex-1 flex justify-end items-center gap-2">
               {!isLoggedIn ? (
                 <>
-                  <button
+                    <button
                     className="p-2 rounded-full hover:bg-gray-100 transition"
                     onClick={handleLogin}
                     aria-label="로그인"
                   >
                     <LogIn className="w-6 h-6 text-[#222]" />
-                  </button>
-                  <button
+                    </button>
+                    <button
                     className="p-2 rounded-full hover:bg-gray-100 transition"
                     onClick={handleSignup}
                     aria-label="회원가입"
                   >
                     <UserPlus className="w-6 h-6 text-[#222]" />
-                  </button>
+                    </button>
                   {isSignupDropdownOpen && (
                     <div className="absolute right-6 top-[90px] mt-2 w-44 bg-white rounded-lg shadow-lg border border-gray-200 z-[210] animate-fade-in">
                       <button className="block w-full text-left px-4 py-3 text-sm hover:bg-gray-100 text-gray-800" onClick={handleUserSignup}>일반 회원가입</button>
                       <button className="block w-full text-left px-4 py-3 text-sm hover:bg-gray-100 text-gray-800" onClick={handleManagerSignup}>카페 관리자 회원가입</button>
-                    </div>
+                </div>
                   )}
                 </>
               ) : (
@@ -562,17 +562,17 @@ export default function HomePage() {
                     </button>
                   ) : null}
                   <span className="text-gray-700 text-sm font-medium mr-2">{userName}님</span>
-                  <button
+                    <button
                     className="p-2 rounded-full hover:bg-gray-100 transition"
                     onClick={handleLogout}
                     aria-label="로그아웃"
                   >
                     <LogOut className="w-6 h-6 text-[#222]" />
-                  </button>
+                    </button>
                 </>
               )}
-            </div>
-          </div>
+        </div>
+      </div>
         </div>
       </header>
 
@@ -628,9 +628,9 @@ export default function HomePage() {
           {/* Map 영역: FilterPanel 너비만큼 오른쪽으로 밀기 */}
           <div className={`ml-${isMobile ? '0' : '96'} h-full`}>
             {/* 현재위치 버튼: 아이콘, 우측 중하단 고정 */}
-            <button
+        <button 
               className="fixed right-6 bottom-24 z-50 w-14 h-14 flex items-center justify-center rounded-full bg-white shadow-lg hover:bg-blue-100 transition-colors border border-gray-200"
-              onClick={() => {
+          onClick={() => {
                 if (navigator.geolocation) {
                   navigator.geolocation.getCurrentPosition(
                     (position) => {
@@ -654,8 +654,8 @@ export default function HomePage() {
               <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" fill="white" />
                 <circle cx="12" cy="12" r="4" fill="#3b82f6" />
-              </svg>
-            </button>
+          </svg>
+        </button>
             {/* 지도 컴포넌트 */}
             <Map
               ref={mapRef}
@@ -678,9 +678,9 @@ export default function HomePage() {
               <Link href="/terms" className="text-gray-600 hover:text-blue-600 text-xs">Terms of Service</Link>
               <Link href="/contact" className="text-gray-600 hover:text-blue-600 text-xs">Contact</Link>
             </div>
-          </div>
-        </div>
-      </footer>
+      </div>
+    </div>
+    </footer>
 
       {/* Mobile Navigation Bar */}
       {isMobile && <MobileNavBar />}
