@@ -261,7 +261,7 @@ export default function FilterPanel({
     const BUTTON_BAR_HEIGHT = 64; // 버튼 바 높이 예시
     const SCROLL_AREA_HEIGHT = `calc(100vh - ${HEADER_HEIGHT + BUTTON_BAR_HEIGHT}px)`;
     return (
-      <div className={`w-full min-h-screen bg-gradient-to-b from-white via-gray-50 to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 relative pt-[128px] pb-16`}>
+      <div className={`w-full min-h-screen bg-gradient-to-b from-white via-gray-50 to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 relative pt-[64px] pb-16`}>
         <div className="flex flex-col gap-6">
           {/* 컵노트 섹션 */}
           <section>
