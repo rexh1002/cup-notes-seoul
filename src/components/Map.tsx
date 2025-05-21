@@ -291,10 +291,10 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
           title: cafe.name,
           icon: {
             url: '/images/cupnoteicon.png',
-            size: new window.naver.maps.Size(40, 40),
-            scaledSize: new window.naver.maps.Size(40, 40),
+            size: new window.naver.maps.Size(27, 27),
+            scaledSize: new window.naver.maps.Size(27, 27),
             origin: new window.naver.maps.Point(0, 0),
-            anchor: new window.naver.maps.Point(20, 40)
+            anchor: new window.naver.maps.Point(13.5, 27)
           }
         });
 
@@ -319,7 +319,6 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
           mapInstance.current.setZoom(15);
           setCenter(coord);
           setSelectedCafe(cafe);
-          if (onCafeSelect) onCafeSelect(cafe);
 
           // 선택된 마커 강조
           markersRef.current.forEach(m => {
@@ -335,7 +334,7 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
     }
 
     console.log('[Map] 마커 업데이트 완료:', markersRef.current.length);
-  }, [cafes, getCoordinates, onCafeSelect]);
+  }, [cafes, getCoordinates]);
 
   // 마커 업데이트 트리거
   useEffect(() => {
