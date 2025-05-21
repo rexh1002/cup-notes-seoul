@@ -137,6 +137,35 @@ export default function MapMobilePage() {
 
   return (
     <div className="relative w-full min-h-screen pt-14 pb-16">
+      {/* 모바일: 헤더 아래 검색 입력칸 */}
+      {typeof window !== 'undefined' && window.innerWidth < 768 && (
+        <div className="fixed top-14 left-0 right-0 z-40 bg-white px-4 py-2 border-b border-gray-100 flex items-center gap-2" style={{boxShadow:'0 2px 8px 0 rgba(0,0,0,0.03)'}}>
+          <input
+            type="text"
+            className="flex-1 px-4 py-2 rounded-lg border border-gray-200 bg-[#f7f7f7] text-base font-sans focus:outline-none focus:ring-2 focus:ring-bluebottle-blue transition placeholder:text-gray-400"
+            placeholder="카페, 키워드 검색"
+            value={searchKeyword}
+            onChange={e => setSearchKeyword(e.target.value)}
+            onKeyDown={e => { if (e.key === 'Enter') { handleSearch(); } }}
+            style={{minWidth:0}}
+          />
+          <button
+            className="ml-2 px-3 py-2 bg-bluebottle-blue text-white rounded-lg font-bold text-sm shadow-sm hover:bg-[#004b82] transition"
+            onClick={handleSearch}
+            aria-label="검색"
+          >
+            <Search className="w-5 h-5" />
+          </button>
+        </div>
+      )}
+      {/* 지도 QuickCard 버튼 모바일 세로 배치 */}
+      {typeof window !== 'undefined' && window.innerWidth < 768 && (
+        <div className="fixed left-2 top-1/2 z-40 -translate-y-1/2 flex flex-col gap-3">
+          {CATEGORY_LIST.map(cat => (
+            <QuickCard key={cat.key} image={cat.image} label={cat.label} onClick={() => handleCategorySearch(cat.key)} />
+          ))}
+        </div>
+      )}
       <header className="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur border-b border-indigo-200 shadow-sm z-50">
         <div className="w-full px-0">
           <div className="relative flex items-center h-[90px] px-6">
