@@ -134,7 +134,7 @@ export default function MapMobilePage() {
     <div className="relative w-full min-h-screen pt-14 pb-16">
       {/* 모바일: 헤더 아래 검색 입력칸 */}
       {typeof window !== 'undefined' && window.innerWidth < 768 && (
-        <div className="fixed top-14 left-0 right-0 z-[110] bg-white px-4 py-2 border-b border-gray-100 flex items-center gap-2" style={{boxShadow:'0 2px 8px 0 rgba(0,0,0,0.03)'}}>
+        <div className="fixed top-[2px] left-0 right-0 z-[110] bg-white px-4 py-2 border-b border-gray-100 flex items-center gap-2" style={{boxShadow:'0 2px 8px 0 rgba(0,0,0,0.03)'}}>
           <input
             type="text"
             className="flex-1 px-4 py-2 rounded-lg border border-gray-200 bg-[#f7f7f7] text-base font-sans focus:outline-none focus:ring-2 focus:ring-bluebottle-blue transition placeholder:text-gray-400"
@@ -153,9 +153,9 @@ export default function MapMobilePage() {
           </button>
         </div>
       )}
-      {/* 지도 QuickCard 버튼 모바일 세로 배치 */}
+      {/* 모바일 지도 QuickButton 그룹 중앙 상단 가로 배치, 라운드 박스 스타일 */}
       {typeof window !== 'undefined' && window.innerWidth < 768 && (
-        <div className="fixed left-2 top-1/2 z-[110] -translate-y-1/2 flex flex-col gap-3">
+        <div className="fixed left-1/2 top-14 z-[110] -translate-x-1/2 flex flex-row gap-6 px-6 py-3 bg-white rounded-3xl shadow-lg border border-gray-100 items-center justify-center" style={{minWidth:'320px', maxWidth:'90vw'}}>
           {CATEGORY_LIST.map(cat => (
             <QuickCard key={cat.key} image={cat.image} label={cat.label} onClick={() => handleCategorySearch(cat.key)} />
           ))}
