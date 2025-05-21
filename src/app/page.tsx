@@ -588,17 +588,17 @@ export default function HomePage() {
           >
             <QuickButton
               icon="/images/Floralicon.png"
-              label="Floral"
+              label="플로럴"
               onClick={() => handleCategorySearch('floral')}
             />
             <QuickButton
               icon="/images/Fruityicon.png"
-              label="Fruity"
+              label="프루티"
               onClick={() => handleCategorySearch('fruity')}
             />
             <QuickButton
               icon="/images/Nuttyicon.png"
-              label="Nutty"
+              label="너티"
               onClick={() => handleCategorySearch('nutty')}
             />
             <QuickButton
