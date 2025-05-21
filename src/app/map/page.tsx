@@ -10,21 +10,21 @@ import { Search, Coffee, LogIn, UserPlus, LogOut } from 'lucide-react';
 const Map = dynamic(() => import('../../components/Map'), { ssr: false });
 
 const CATEGORY_LIST = [
-  { key: 'floral', label: 'Floral', image: '/images/Floralicon.png' },
-  { key: 'fruity', label: 'Fruity', image: '/images/Fruityicon.png' },
-  { key: 'nutty', label: 'Nutty', image: '/images/Nuttyicon.png' },
+  { key: 'floral', label: '플로럴', image: '/images/Floralicon.png' },
+  { key: 'fruity', label: '프루티', image: '/images/Fruityicon.png' },
+  { key: 'nutty', label: '너티', image: '/images/Nuttyicon.png' },
   { key: 'handdrip', label: '핸드드립', image: '/images/handdripicon.png' },
 ];
 
 function QuickCard({ image, label, onClick }: { image: string; label: string; onClick: () => void }) {
   return (
     <button
-      className="flex flex-col items-center px-2 py-1 rounded-lg hover:bg-gray-100 active:bg-gray-200 transition text-gray-800 font-semibold text-xs focus:outline-none min-w-[56px]"
+      className="flex flex-col items-center px-3 py-2 rounded-xl bg-white shadow-md border border-gray-200 hover:bg-gray-100 active:bg-gray-200 transition text-gray-800 font-semibold text-xs focus:outline-none min-w-[56px]"
       onClick={onClick}
       type="button"
     >
-      <Image src={image} alt={label} width={24} height={24} />
-      <span className="mt-0.5" style={{letterSpacing: '0.01em'}}>{label}</span>
+      <Image src={image} alt={label} width={31} height={31} />
+      <span className="mt-1" style={{letterSpacing: '0.01em'}}>{label}</span>
     </button>
   );
 }
@@ -155,7 +155,7 @@ export default function MapMobilePage() {
       )}
       {/* 모바일 지도 QuickButton 그룹 중앙 상단 가로 배치, 라운드 박스 스타일 */}
       {typeof window !== 'undefined' && window.innerWidth < 768 && (
-        <div className="fixed left-1/2 top-14 z-[110] -translate-x-1/2 flex flex-row gap-6 px-6 py-3 bg-white rounded-3xl shadow-lg border border-gray-100 items-center justify-center" style={{minWidth:'320px', maxWidth:'90vw'}}>
+        <div className="fixed left-1/2 top-14 z-[110] -translate-x-1/2 flex flex-row gap-3 items-center justify-center" style={{minWidth:'320px', maxWidth:'90vw'}}>
           {CATEGORY_LIST.map(cat => (
             <QuickCard key={cat.key} image={cat.image} label={cat.label} onClick={() => handleCategorySearch(cat.key)} />
           ))}
