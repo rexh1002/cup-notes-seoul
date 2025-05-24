@@ -447,6 +447,13 @@ export default function HomePage() {
     }
   }, [isMobile, showMain, router]);
 
+  useEffect(() => {
+    if (!isMobile && isMounted) {
+      handleSearch();
+    }
+    // eslint-disable-next-line
+  }, [selectedNotes, selectedBrewMethods, selectedOrigins, selectedProcesses, selectedRoast]);
+
   if (showMain) {
     return (
       <main className="min-h-screen transition-colors duration-300 overflow-y-auto">
