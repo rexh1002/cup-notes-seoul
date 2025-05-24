@@ -247,7 +247,7 @@ export default function FilterPanel({
           </section>
         </div>
         {/* 하단 버튼 */}
-        <div className="sticky bottom-[2cm] bg-white/90 dark:bg-gray-900/90 border-t border-gray-200 dark:border-gray-800 p-4 flex justify-between backdrop-blur-md">
+        <div className="sticky bottom-[3.5cm] bg-white/90 dark:bg-gray-900/90 border-t border-gray-200 dark:border-gray-800 p-4 flex justify-between backdrop-blur-md">
           <button onClick={onReset} className="px-5 py-2 bg-bluebottle-blue text-white font-medium rounded-lg border border-bluebottle-blue font-bluebottle hover:bg-[#004b82] transition">리셋</button>
           <button onClick={onApply} className="px-5 py-2 bg-bluebottle-blue text-white font-medium rounded-lg border border-bluebottle-blue font-bluebottle hover:bg-[#004b82] transition">적용</button>
         </div>
