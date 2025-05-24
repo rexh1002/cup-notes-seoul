@@ -78,6 +78,7 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
   const [zoom, setZoom] = useState<number>(initialZoom);
   const [cafeCoordinates, setCafeCoordinates] = useState<Record<string, Coordinates>>({});
   const [isInitialLoad, setIsInitialLoad] = useState(true);
+  const [selectedTab, setSelectedTab] = useState<'beans' | 'info'>('beans');
 
   // 검색 카테고리 정의
   const searchCategories = {
@@ -550,11 +551,32 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                 </div>
               </div>
             )}
+
+            <CafeTabMenu selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
           </div>
         )}
       </div>
     </>
   );
 });
+
+function CafeTabMenu({ selectedTab, setSelectedTab }: { selectedTab: 'beans' | 'info'; setSelectedTab: (tab: 'beans' | 'info') => void }) {
+  return (
+    <div className="flex border-b border-gray-200 bg-white sticky top-0 z-10">
+      <button
+        className={`flex-1 py-3 text-center font-bold ${selectedTab === 'beans' ? 'text-blue-600 border-b-2 border-blue-600 bg-white' : 'text-gray-400'}`}
+        onClick={() => setSelectedTab('beans')}
+      >
+        원두라인업
+      </button>
+      <button
+        className={`flex-1 py-3 text-center font-bold ${selectedTab === 'info' ? 'text-blue-600 border-b-2 border-blue-600 bg-white' : 'text-gray-400'}`}
+        onClick={() => setSelectedTab('info')}
+      >
+        카페정보
+      </button>
+    </div>
+  );
+}
 
 export default Map;
