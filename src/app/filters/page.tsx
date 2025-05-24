@@ -80,25 +80,7 @@ export default function FiltersPage() {
           <div className="relative flex items-center h-[90px] px-6">
             {/* 좌측: 검색(돋보기) 아이콘 */}
             <div className="flex-1 flex items-center gap-2">
-              <button
-                className="p-2 rounded-full hover:bg-gray-100 transition"
-                onClick={() => setShowSearchInput((v) => !v)}
-                aria-label="검색"
-              >
-                <Search className="w-6 h-6 text-[#222]" />
-              </button>
-              {showSearchInput && (
-                <input
-                  type="text"
-                  className="ml-2 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                  placeholder="키워드 검색"
-                  value={searchKeyword}
-                  onChange={e => setSearchKeyword(e.target.value)}
-                  onKeyDown={e => { if (e.key === 'Enter') { /* 검색 핸들러 */ setShowSearchInput(false); } }}
-                  autoFocus
-                  style={{ width: 180 }}
-                />
-              )}
+              {/* 검색(돋보기) 버튼 및 입력창 삭제 */}
             </div>
             {/* 중앙 로고 */}
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer" onClick={() => window.location.reload()}>
