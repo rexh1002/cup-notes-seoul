@@ -518,13 +518,13 @@ function CafeTabMenu({ selectedTab, setSelectedTab }: { selectedTab: 'beans' | '
         className={`flex-1 py-3 text-center font-bold ${selectedTab === 'beans' ? 'text-blue-600 border-b-2 border-blue-600 bg-white' : 'text-gray-400'}`}
         onClick={() => setSelectedTab('beans')}
       >
-        원두라인업
+        원두 라인업
       </button>
       <button
         className={`flex-1 py-3 text-center font-bold ${selectedTab === 'info' ? 'text-blue-600 border-b-2 border-blue-600 bg-white' : 'text-gray-400'}`}
         onClick={() => setSelectedTab('info')}
       >
-        카페정보
+        카페 정보
       </button>
     </div>
   );
