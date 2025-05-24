@@ -660,7 +660,6 @@ export default function HomePage() {
             <Map
               ref={mapRef}
               cafes={cafes}
-              onCafeSelect={handleCafeSelect}
               searchKeyword={searchKeyword}
               onSearch={handleSearch}
             />

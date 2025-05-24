@@ -43,7 +43,6 @@ interface CafeData {
 
 interface MapProps {
   cafes: Cafe[];
-  onCafeSelect: (cafe: Cafe) => void;
   initialCenter?: { lat: number; lng: number };
   initialZoom?: number;
   style?: React.CSSProperties;
@@ -62,7 +61,6 @@ export interface MapHandle {
 
 const Map = forwardRef<MapHandle, MapProps>(function Map({
   cafes,
-  onCafeSelect,
   initialCenter = { lat: 37.5665, lng: 126.9780 },
   initialZoom = 13,
   style = { width: '100%', height: '100%' },
@@ -371,8 +369,8 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
         }}
       >
         {selectedCafe && (
-          <div className="absolute top-10 right-0 z-[200] bg-white/40 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/30 w-full max-w-sm max-h-[calc(100vh-32px)] flex flex-col overflow-hidden animate-fade-in
-            sm:fixed sm:bottom-0 sm:left-0 sm:right-0 sm:top-auto sm:w-full sm:max-w-none sm:rounded-t-3xl sm:rounded-b-none sm:p-4 sm:z-[999] sm:bg-white sm:border-t sm:border-gray-200 sm:shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]
+          <div className="absolute top-10 right-0 z-[200] bg-white/40 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/30 w-full max-w-sm max-h-[calc(100vh-32px)] flex flex-col overflow-hidden animate-fade-in \
+            sm:fixed sm:left-0 sm:right-0 sm:bottom-0 sm:top-[52%] sm:w-full sm:max-w-none sm:rounded-t-3xl sm:rounded-b-none sm:p-4 sm:z-[999] sm:bg-white sm:border-t sm:border-gray-200 sm:shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] \
             md:absolute md:top-10 md:right-0 md:bottom-auto md:left-auto md:w-[380px] md:max-w-sm md:rounded-2xl md:shadow-2xl md:border md:border-white/30 md:bg-white/40">
             {/* 카페 이미지 섹션 */}
             {selectedCafe.imageUrl && (

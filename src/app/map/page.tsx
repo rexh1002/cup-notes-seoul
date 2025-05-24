@@ -278,7 +278,7 @@ export default function MapMobilePage() {
         </button>
 
         {/* 지도 컴포넌트 */}
-        <Map ref={mapRef} cafes={cafes} onCafeSelect={(cafe) => setSelectedCafe(cafe)} />
+        <Map ref={mapRef} cafes={cafes} />
       </div>
 
       {/* Mobile Navigation Bar */}
