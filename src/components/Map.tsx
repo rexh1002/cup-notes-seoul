@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, useCallback, forwardRef, useImperativeHand
 import Image from 'next/image';
 import { Cafe } from '@/types/types';
 import Script from 'next/script';
+import { MapPin, Phone, MessageCircle, Clock, Info, Share2 } from 'lucide-react';
 
 declare global {
   interface Window {
@@ -375,14 +376,14 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
             md:absolute md:top-10 md:right-0 md:bottom-auto md:left-auto md:w-[380px] md:max-w-sm md:rounded-2xl md:shadow-2xl md:border md:border-white/30 md:bg-white/40">
             {/* 카페 이미지 섹션 */}
             {selectedCafe.imageUrl && (
-              <div className="w-full h-40 relative rounded-t-2xl overflow-hidden group sm:h-28 sm:rounded-t-lg">
+              <div className="w-full h-[200px] relative rounded-t-2xl overflow-hidden group sm:h-[120px] sm:rounded-t-lg">
                 <Image
                   src={selectedCafe.imageUrl}
                   alt={selectedCafe.name}
                   fill
                   sizes="(max-width: 768px) 100vw, 480px"
                   priority
-                  className="object-cover w-full h-40 transition-transform duration-500 group-hover:scale-105"
+                  className="object-cover w-full h-[200px] transition-transform duration-500 group-hover:scale-105"
                   unoptimized
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
@@ -395,9 +396,8 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
             {/* 탭별 내용 */}
             {selectedTab === 'beans' ? (
               selectedCafe.coffees && selectedCafe.coffees.length > 0 && (
-                <div className="flex-1 overflow-y-auto px-4 pb-24 sm:px-1 sm:pb-16">
-                  <div className="flex items-center justify-between mb-2 mt-2 sm:mb-1 sm:mt-1">
-                    <h3 className="font-extrabold text-base text-gray-900 tracking-tight sm:text-sm">원두 라인업</h3>
+                <div className="flex-1 overflow-y-auto px-4 pb-24 sm:px-1 sm:pb-16 leading-relaxed">
+                  <div className="flex items-center justify-end mb-2 mt-2 sm:mb-1 sm:mt-1">
                     <span className="text-xs text-gray-500">
                       {selectedCafe.updatedAt ? `최근수정일 : ${new Date(selectedCafe.updatedAt).toLocaleDateString('ko-KR', {
                         year: 'numeric',
@@ -482,15 +482,14 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                 </div>
               )
             ) : (
-              <div className="p-4 space-y-3">
-                <div className="text-base font-bold text-gray-900">카페정보</div>
-                <div className="text-sm text-gray-700"><b>주소:</b> {selectedCafe.address}</div>
-                {selectedCafe.phone && <div className="text-sm text-gray-700"><b>전화번호:</b> {selectedCafe.phone}</div>}
-                {selectedCafe.description && <div className="text-sm text-gray-700"><b>소개:</b> {selectedCafe.description}</div>}
+              <div className="p-4 space-y-3 leading-relaxed">
+                <div className="text-sm text-gray-700 flex items-center gap-2"><MapPin className="w-4 h-4 text-blue-500" /><b>주소:</b> {selectedCafe.address}</div>
+                {selectedCafe.phone && <div className="text-sm text-gray-700 flex items-center gap-2"><Phone className="w-4 h-4 text-blue-500" /><b>전화번호:</b> {selectedCafe.phone}</div>}
+                {selectedCafe.description && <div className="text-sm text-gray-700 flex items-center gap-2"><MessageCircle className="w-4 h-4 text-blue-500" /><b>소개:</b> {selectedCafe.description}</div>}
                 {selectedCafe.businessHours && selectedCafe.businessHours.length > 0 && (
-                  <div className="text-sm text-gray-700">
-                    <b>영업정보:</b>
-                    <ul className="ml-4 list-disc">
+                  <div className="text-sm text-gray-700 flex items-center gap-2">
+                    <Clock className="w-4 h-4 text-blue-500" /><b>영업정보:</b>
+                    <ul className="ml-6 list-disc">
                       {selectedCafe.businessHours.map((hour: any, idx: number) => (
                         <li key={idx}>{hour.day}: {hour.openTime} - {hour.closeTime}</li>
                       ))}
@@ -498,10 +497,10 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                   </div>
                 )}
                 {selectedCafe.businessHourNote && (
-                  <div className="text-sm text-gray-700"><b>영업메모:</b> {selectedCafe.businessHourNote}</div>
+                  <div className="text-sm text-gray-700 flex items-center gap-2"><Info className="w-4 h-4 text-blue-500" /><b>영업메모:</b> {selectedCafe.businessHourNote}</div>
                 )}
                 {selectedCafe.snsLinks && selectedCafe.snsLinks.length > 0 && (
-                  <div className="text-sm text-gray-700"><b>SNS:</b> {selectedCafe.snsLinks.map((link: any, idx: number) => (
+                  <div className="text-sm text-gray-700 flex items-center gap-2"><Share2 className="w-4 h-4 text-blue-500" /><b>SNS:</b> {selectedCafe.snsLinks.map((link: any, idx: number) => (
                     <a key={idx} href={link.url} target="_blank" rel="noopener noreferrer" className="ml-2 underline text-blue-600">{link.type}</a>
                   ))}</div>
                 )}
