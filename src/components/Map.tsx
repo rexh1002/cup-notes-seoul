@@ -428,17 +428,20 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
               transform: dragTranslateY !== 0 ? `translateY(${dragTranslateY}px)` : undefined
             }}
           >
-            {/* 드래그 핸들 (모바일에서만 표시, 카드 상단에만 위치) */}
-            <div className="flex flex-col items-center justify-center pt-2 pb-1 bg-gray-50 sm:flex md:hidden select-none">
-              <div
-                className="w-12 h-1 bg-gray-300 rounded-full pointer-events-auto touch-auto"
-                onTouchStart={handleTouchStart}
-                onTouchMove={handleTouchMove}
-                onTouchEnd={handleTouchEnd}
-              />
+            {/* 드래그 핸들 (상단 40px 전체, 탭과 겹치지 않게) */}
+            <div
+              className="w-full h-12 flex items-center justify-center bg-gray-50 sm:flex md:hidden select-none"
+              style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 20 }}
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+            >
+              <div className="w-12 h-1 bg-gray-300 rounded-full" />
             </div>
-            {/* 탭 상태 및 메뉴 */}
-            <CafeTabMenu selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
+            {/* 탭 상태 및 메뉴 (드래그 핸들 아래에 배치) */}
+            <div style={{ marginTop: '48px' }}>
+              <CafeTabMenu selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
+            </div>
             {/* 안내 텍스트(탭 아래로 이동, 클릭 방해 X) */}
             <div className="text-xs text-gray-500 mt-1 mb-2 text-center pointer-events-none sm:block md:hidden">위로 드래그하여 확장</div>
 
