@@ -359,21 +359,33 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
   // 터치 이벤트 핸들러
   const handleTouchStart = (e: React.TouchEvent) => {
     if (window.innerWidth < 768) { // 모바일에서만 동작 (768px 미만)
-      e.preventDefault(); // 기본 동작 방지
-      setTouchStartY(e.touches[0].clientY);
+      const touch = e.touches[0];
+      setTouchStartY(touch.clientY);
+      setTouchMoveY(touch.clientY); // 초기값 설정
     }
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
     if (window.innerWidth < 768) { // 모바일에서만 동작 (768px 미만)
-      e.preventDefault(); // 기본 동작 방지
-      setTouchMoveY(e.touches[0].clientY);
+      const touch = e.touches[0];
+      const currentY = touch.clientY;
+      setTouchMoveY(currentY);
+
+      // 드래그 중인 상태를 시각적으로 표현
+      const touchDiff = touchStartY - currentY;
+      if (touchDiff > 0) { // 위로 드래그
+        (e.currentTarget as HTMLElement).style.transform = `translateY(${touchDiff}px)`;
+      }
     }
   };
 
-  const handleTouchEnd = () => {
+  const handleTouchEnd = (e: React.TouchEvent) => {
     if (window.innerWidth < 768) { // 모바일에서만 동작 (768px 미만)
       const touchDiff = touchStartY - touchMoveY;
+      
+      // 원래 위치로 복귀
+      (e.currentTarget as HTMLElement).style.transform = '';
+
       if (touchDiff > 50) { // 50px 이상 위로 드래그하면 전체화면
         setIsFullScreen(true);
       } else if (touchDiff < -50) { // 50px 이상 아래로 드래그하면 원래 크기로
@@ -406,9 +418,10 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
+            style={{ touchAction: 'none' }}
           >
             {/* 드래그 핸들 (모바일에서만 표시) */}
-            <div className="flex flex-col items-center justify-center py-2 bg-gray-50 sm:flex md:hidden">
+            <div className="flex flex-col items-center justify-center py-2 bg-gray-50 sm:flex md:hidden touch-none">
               <div className="w-12 h-1 bg-gray-300 rounded-full" />
               <div className="text-xs text-gray-500 mt-1">드래그하여 확장</div>
             </div>
