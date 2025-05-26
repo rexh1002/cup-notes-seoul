@@ -244,7 +244,7 @@ export default function MapMobilePage() {
       <div className="absolute inset-0" style={{ zIndex: 100 }}>
         {/* 현재위치 버튼 */}
         <button
-          className="fixed right-6 bottom-24 z-[130] w-14 h-14 flex items-center justify-center rounded-full bg-white shadow-lg hover:bg-blue-100 transition-colors border border-gray-200"
+          className="fixed right-6 bottom-24 z-[100] w-14 h-14 flex items-center justify-center rounded-full bg-white shadow-lg hover:bg-blue-100 transition-colors border border-gray-200"
           onClick={() => {
             if (navigator.geolocation) {
               navigator.geolocation.getCurrentPosition(
