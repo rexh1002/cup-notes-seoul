@@ -358,14 +358,17 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
 
   // 터치 이벤트 핸들러
   const handleTouchStart = (e: React.TouchEvent) => {
+    if (window.innerWidth >= 768) return; // 웹 화면에서는 동작하지 않음
     setTouchStartY(e.touches[0].clientY);
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
+    if (window.innerWidth >= 768) return; // 웹 화면에서는 동작하지 않음
     setTouchMoveY(e.touches[0].clientY);
   };
 
   const handleTouchEnd = () => {
+    if (window.innerWidth >= 768) return; // 웹 화면에서는 동작하지 않음
     const touchDiff = touchStartY - touchMoveY;
     if (touchDiff > 50) { // 50px 이상 위로 드래그하면 전체화면
       setIsFullScreen(true);
@@ -399,7 +402,7 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
           >
-            {/* 드래그 핸들 */}
+            {/* 드래그 핸들 (모바일에서만 표시) */}
             <div className="hidden sm:block w-12 h-1 bg-gray-300 rounded-full mx-auto my-2" />
 
             {/* 카페 이미지 섹션 */}
