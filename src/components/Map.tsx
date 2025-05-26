@@ -432,9 +432,9 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
             }}
           >
             {/* 드래그 핸들 (모바일에서만 표시) */}
-            <div className="flex flex-col items-center justify-center py-2 bg-gray-50 sm:flex md:hidden touch-none">
-              <div className="w-12 h-1 bg-gray-300 rounded-full" />
-              <div className="text-xs text-gray-500 mt-1">위로 드래그하여 확장</div>
+            <div className="flex flex-col items-center justify-center py-2 bg-gray-50 sm:flex md:hidden select-none pointer-events-none">
+              <div className="w-12 h-1 bg-gray-300 rounded-full pointer-events-auto touch-auto" />
+              <div className="text-xs text-gray-500 mt-1 pointer-events-none">위로 드래그하여 확장</div>
             </div>
 
             {/* 카페 이미지 섹션 */}
