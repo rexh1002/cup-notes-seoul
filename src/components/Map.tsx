@@ -427,15 +427,12 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
               zIndex: 99999,
               transform: dragTranslateY !== 0 ? `translateY(${dragTranslateY}px)` : undefined
             }}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
           >
-            {/* 드래그 핸들 (상단 40px 전체, 탭과 겹치지 않게) */}
-            <div
-              className="w-full h-12 flex items-center justify-center bg-gray-50 sm:flex md:hidden select-none"
-              style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 20 }}
-              onTouchStart={handleTouchStart}
-              onTouchMove={handleTouchMove}
-              onTouchEnd={handleTouchEnd}
-            >
+            {/* 드래그 핸들 (상단 바는 시각적 안내만) */}
+            <div className="w-full h-12 flex items-center justify-center bg-gray-50 sm:flex md:hidden select-none" style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 20 }}>
               <div className="w-12 h-1 bg-gray-300 rounded-full" />
             </div>
             {/* 탭 상태 및 메뉴 (드래그 핸들 아래에 배치) */}
