@@ -78,6 +78,9 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
   const [cafeCoordinates, setCafeCoordinates] = useState<Record<string, Coordinates>>({});
   const [isInitialLoad, setIsInitialLoad] = useState(true);
   const [selectedTab, setSelectedTab] = useState<'beans' | 'info'>('beans');
+  const [isFullScreen, setIsFullScreen] = useState(false);
+  const [touchStartY, setTouchStartY] = useState(0);
+  const [touchMoveY, setTouchMoveY] = useState(0);
 
   // 검색 카테고리 정의
   const searchCategories = {
@@ -353,6 +356,24 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
     }
   }));
 
+  // 터치 이벤트 핸들러
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStartY(e.touches[0].clientY);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchMoveY(e.touches[0].clientY);
+  };
+
+  const handleTouchEnd = () => {
+    const touchDiff = touchStartY - touchMoveY;
+    if (touchDiff > 50) { // 50px 이상 위로 드래그하면 전체화면
+      setIsFullScreen(true);
+    } else if (touchDiff < -50) { // 50px 이상 아래로 드래그하면 원래 크기로
+      setIsFullScreen(false);
+    }
+  };
+
   return (
     <>
       <Script
@@ -369,9 +390,18 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
         }}
       >
         {selectedCafe && (
-          <div className="absolute left-0 right-0 top-[52%] h-[70%] z-[200] bg-white/40 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/30 w-full max-w-sm max-h-[calc(100vh-32px)] flex flex-col overflow-hidden animate-fade-in \
-            sm:fixed sm:left-0 sm:right-0 sm:top-[52%] sm:h-[70%] sm:w-full sm:max-w-none sm:rounded-t-3xl sm:rounded-b-none sm:p-4 sm:z-[999] sm:bg-white sm:border-t sm:border-gray-200 sm:shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] \
-            md:absolute md:top-10 md:right-0 md:bottom-auto md:left-auto md:w-[380px] md:max-w-sm md:rounded-2xl md:shadow-2xl md:border md:border-white/30 md:bg-white/40 md:h-auto">
+          <div 
+            className={`absolute left-0 right-0 top-[52%] h-[70%] z-[200] bg-white/40 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/30 w-full max-w-sm max-h-[calc(100vh-32px)] flex flex-col overflow-hidden animate-fade-in \
+              sm:fixed sm:left-0 sm:right-0 sm:top-[52%] sm:h-[70%] sm:w-full sm:max-w-none sm:rounded-t-3xl sm:rounded-b-none sm:p-4 sm:z-[999] sm:bg-white sm:border-t sm:border-gray-200 sm:shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] \
+              md:absolute md:top-10 md:right-0 md:bottom-auto md:left-auto md:w-[380px] md:max-w-sm md:rounded-2xl md:shadow-2xl md:border md:border-white/30 md:bg-white/40 md:h-auto
+              ${isFullScreen ? 'sm:top-0 sm:h-screen sm:rounded-none' : ''}`}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+          >
+            {/* 드래그 핸들 */}
+            <div className="hidden sm:block w-12 h-1 bg-gray-300 rounded-full mx-auto my-2" />
+
             {/* 카페 이미지 섹션 */}
             {selectedCafe.imageUrl && (
               <div className="w-full h-[60px] relative rounded-t-2xl overflow-hidden group sm:h-[60px] md:h-[200px]">
