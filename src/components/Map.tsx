@@ -436,7 +436,7 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
             </div>
             {/* 탭 상태 및 메뉴 (드래그 핸들 아래에 배치) */}
             <div style={{ marginTop: '48px' }}>
-              <CafeTabMenu selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
+              <CafeTabMenu selectedTab={selectedTab} setSelectedTab={setSelectedTab} onTouchStart={e => e.stopPropagation()} />
             </div>
             {/* 안내 텍스트(탭 아래로 이동, 클릭 방해 X) */}
             {/* 삭제 */}
@@ -581,9 +581,9 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
   );
 });
 
-function CafeTabMenu({ selectedTab, setSelectedTab }: { selectedTab: 'beans' | 'info'; setSelectedTab: (tab: 'beans' | 'info') => void }) {
+function CafeTabMenu({ selectedTab, setSelectedTab, onTouchStart }: { selectedTab: 'beans' | 'info'; setSelectedTab: (tab: 'beans' | 'info') => void; onTouchStart?: (e: React.TouchEvent) => void }) {
   return (
-    <div className="flex border-b border-gray-200 bg-white sticky top-0 z-10">
+    <div className="flex border-b border-gray-200 bg-white sticky top-0 z-10" onTouchStart={onTouchStart}>
       <button
         className={`flex-1 py-3 text-center font-bold ${selectedTab === 'beans' ? 'text-blue-600 border-b-2 border-blue-600 bg-white' : 'text-gray-400'}`}
         onClick={() => setSelectedTab('beans')}
