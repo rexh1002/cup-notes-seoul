@@ -358,22 +358,25 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
 
   // 터치 이벤트 핸들러
   const handleTouchStart = (e: React.TouchEvent) => {
-    if (window.innerWidth > 640) return; // 모바일에서만 동작
-    setTouchStartY(e.touches[0].clientY);
+    if (window.innerWidth <= 640) { // 모바일에서만 동작
+      setTouchStartY(e.touches[0].clientY);
+    }
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
-    if (window.innerWidth > 640) return; // 모바일에서만 동작
-    setTouchMoveY(e.touches[0].clientY);
+    if (window.innerWidth <= 640) { // 모바일에서만 동작
+      setTouchMoveY(e.touches[0].clientY);
+    }
   };
 
   const handleTouchEnd = () => {
-    if (window.innerWidth > 640) return; // 모바일에서만 동작
-    const touchDiff = touchStartY - touchMoveY;
-    if (touchDiff > 50) { // 50px 이상 위로 드래그하면 전체화면
-      setIsFullScreen(true);
-    } else if (touchDiff < -50) { // 50px 이상 아래로 드래그하면 원래 크기로
-      setIsFullScreen(false);
+    if (window.innerWidth <= 640) { // 모바일에서만 동작
+      const touchDiff = touchStartY - touchMoveY;
+      if (touchDiff > 50) { // 50px 이상 위로 드래그하면 전체화면
+        setIsFullScreen(true);
+      } else if (touchDiff < -50) { // 50px 이상 아래로 드래그하면 원래 크기로
+        setIsFullScreen(false);
+      }
     }
   };
 
@@ -403,7 +406,10 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
             onTouchEnd={handleTouchEnd}
           >
             {/* 드래그 핸들 (모바일에서만 표시) */}
-            <div className="hidden xs:block w-12 h-1 bg-gray-300 rounded-full mx-auto my-2" />
+            <div className="hidden xs:flex xs:flex-col xs:items-center xs:justify-center xs:py-2 xs:bg-gray-50">
+              <div className="w-12 h-1 bg-gray-300 rounded-full" />
+              <div className="text-xs text-gray-500 mt-1">드래그하여 확장</div>
+            </div>
 
             {/* 카페 이미지 섹션 */}
             {selectedCafe.imageUrl && (
