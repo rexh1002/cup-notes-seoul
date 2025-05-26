@@ -362,7 +362,6 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
   // 터치 이벤트 핸들러
   const handleTouchEnd = (e: React.TouchEvent) => {
     if (window.innerWidth < 768) {
-      if (!canDrag) return;
       e.preventDefault();
       const touchDiff = touchMoveY - touchStartY;
       setDragTranslateY(0);
@@ -376,7 +375,7 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
 
   const handleTouchStart = (e: React.TouchEvent) => {
     if (window.innerWidth < 768) {
-      setCanDrag(true); // 항상 true로 시작
+      setCanDrag(true);
       e.preventDefault();
       const touch = e.touches[0];
       setTouchStartY(touch.clientY);
@@ -387,28 +386,12 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
 
   const handleTouchMove = (e: React.TouchEvent) => {
     if (window.innerWidth < 768) {
-      const target = e.target as HTMLElement;
-      const scrollArea = target.closest('.cafe-scroll-area') as HTMLElement | null;
+      e.preventDefault();
       const touch = e.touches[0];
       const currentY = touch.clientY;
       const touchDiff = currentY - touchStartY;
-      // cafe-scroll-area에서 아래로 드래그(아래 방향) & scrollTop이 0일 때만 드래그 허용
-      if (scrollArea && scrollArea.scrollTop === 0 && touchDiff > 0) {
-        setCanDrag(true);
-        e.preventDefault();
-        setTouchMoveY(currentY);
-        setDragTranslateY(touchDiff);
-      } else if (scrollArea) {
-        setCanDrag(false);
-        // 스크롤만 허용, 드래그 무시
-        return;
-      } else {
-        // 스크롤 영역이 아니면 기존대로 드래그
-        setCanDrag(true);
-        e.preventDefault();
-        setTouchMoveY(currentY);
-        setDragTranslateY(touchDiff);
-      }
+      setTouchMoveY(currentY);
+      setDragTranslateY(touchDiff);
     }
   };
 
