@@ -455,6 +455,12 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
               </div>
             )}
+            {/* 카페 이름 섹션 추가 */}
+            {selectedCafe.imageUrl && (
+              <div className="w-full py-2 text-center bg-white border-b border-gray-200">
+                <h2 className="text-lg font-bold text-gray-900">{selectedCafe.name}</h2>
+              </div>
+            )}
             {/* 탭 상태 및 메뉴 (드래그 핸들/이미지 아래에 배치) */}
             <div style={{ marginTop: '0px' }} ref={tabMenuRef}>
               <CafeTabMenu selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
