@@ -441,7 +441,7 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
             </div>
             {/* 이미지 섹션 */}
             {selectedCafe.imageUrl && (
-              <div className="w-full h-[60px] relative rounded-t-2xl overflow-hidden group sm:h-[60px] md:h-[200px]">
+              <div className="w-full relative rounded-t-2xl overflow-hidden group sm:h-[2cm] md:h-[200px]" style={{ height: '60px', ...(typeof window !== 'undefined' && window.innerWidth < 640 ? { height: '2cm' } : {}) }}>
                 <Image
                   src={selectedCafe.imageUrl}
                   alt={selectedCafe.name}
