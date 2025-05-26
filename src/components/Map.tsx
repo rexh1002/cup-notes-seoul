@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { Cafe } from '@/types/types';
 import Script from 'next/script';
 import { MapPin, Phone, MessageCircle, Clock, Info, Share2 } from 'lucide-react';
+import { createPortal } from 'react-dom';
 
 declare global {
   interface Window {
@@ -436,7 +437,9 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
           height: 'calc(100vh - 64px)', // 헤더 높이 제외
         }}
       >
-        {selectedCafe && (
+        {/* 지도 영역 내부에는 카드 렌더링 X */}
+        {/* 카페 정보 카드는 포탈로 body에 렌더링 */}
+        {selectedCafe && typeof window !== 'undefined' && createPortal(
           <div 
             className={`fixed left-0 right-0 top-[52%] h-[70%] z-[99999] bg-white/40 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/30 w-full max-w-sm max-h-[calc(100vh-32px)] flex flex-col overflow-hidden animate-fade-in \
               sm:left-0 sm:right-0 sm:top-[52%] sm:h-[70%] sm:w-full sm:max-w-none sm:rounded-t-3xl sm:rounded-b-none sm:p-4 sm:z-[99999] sm:bg-white sm:border-t sm:border-gray-200 sm:shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] \
@@ -591,7 +594,8 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                 )}
               </div>
             )}
-          </div>
+          </div>,
+          document.body
         )}
       </div>
     </>
