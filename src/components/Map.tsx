@@ -378,8 +378,13 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
       const cardElement = e.currentTarget as HTMLElement;
       
       if (touchDiff > 0) { // 위로 드래그
-        const translateY = Math.min(touchDiff, window.innerHeight * 0.5); // 최대 화면 높이의 50%까지만 이동
-        cardElement.style.transform = `translateY(-${translateY}px)`;
+        // 위로 드래그할 때는 양수 값을 사용하여 위로 이동
+        const translateY = Math.min(touchDiff, window.innerHeight); // 전체 화면 높이까지 이동 가능
+        cardElement.style.transform = `translateY(${translateY}px)`;
+      } else if (touchDiff < 0) { // 아래로 드래그
+        // 아래로 드래그할 때는 음수 값을 사용하여 아래로 이동
+        const translateY = Math.max(touchDiff, -window.innerHeight * 0.7); // 원래 위치까지만 이동 가능
+        cardElement.style.transform = `translateY(${translateY}px)`;
       }
     }
   };
