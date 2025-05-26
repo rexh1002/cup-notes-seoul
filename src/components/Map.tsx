@@ -374,16 +374,16 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
       setTouchMoveY(currentY);
 
       // 드래그 중인 상태를 시각적으로 표현
-      const touchDiff = touchStartY - currentY;
+      const touchDiff = currentY - touchStartY; // 방향 수정
       const cardElement = e.currentTarget as HTMLElement;
       
-      if (touchDiff > 0) { // 위로 드래그
-        // 위로 드래그할 때는 양수 값을 사용하여 위로 이동
-        const translateY = Math.min(touchDiff, window.innerHeight); // 전체 화면 높이까지 이동 가능
+      if (touchDiff < 0) { // 위로 드래그
+        // 위로 드래그할 때는 음수 값을 사용하여 위로 이동
+        const translateY = Math.max(touchDiff, -window.innerHeight); // 전체 화면 높이까지 이동 가능
         cardElement.style.transform = `translateY(${translateY}px)`;
-      } else if (touchDiff < 0) { // 아래로 드래그
-        // 아래로 드래그할 때는 음수 값을 사용하여 아래로 이동
-        const translateY = Math.max(touchDiff, -window.innerHeight * 0.7); // 원래 위치까지만 이동 가능
+      } else if (touchDiff > 0) { // 아래로 드래그
+        // 아래로 드래그할 때는 양수 값을 사용하여 아래로 이동
+        const translateY = Math.min(touchDiff, window.innerHeight * 0.7); // 원래 위치까지만 이동 가능
         cardElement.style.transform = `translateY(${translateY}px)`;
       }
     }
@@ -392,14 +392,14 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
   const handleTouchEnd = (e: React.TouchEvent) => {
     if (window.innerWidth < 768) { // 모바일에서만 동작 (768px 미만)
       e.preventDefault();
-      const touchDiff = touchStartY - touchMoveY;
+      const touchDiff = touchMoveY - touchStartY; // 방향 수정
       const cardElement = e.currentTarget as HTMLElement;
       
       // 원래 위치로 복귀하거나 전체화면으로 전환
-      if (touchDiff > 100) { // 100px 이상 위로 드래그하면 전체화면
+      if (touchDiff < -100) { // 100px 이상 위로 드래그하면 전체화면
         setIsFullScreen(true);
         cardElement.style.transform = '';
-      } else if (touchDiff < -100) { // 100px 이상 아래로 드래그하면 원래 크기로
+      } else if (touchDiff > 100) { // 100px 이상 아래로 드래그하면 원래 크기로
         setIsFullScreen(false);
         cardElement.style.transform = '';
       } else {
@@ -427,9 +427,9 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
         {selectedCafe && (
           <div 
             className={`absolute left-0 right-0 top-[52%] h-[70%] z-[200] bg-white/40 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/30 w-full max-w-sm max-h-[calc(100vh-32px)] flex flex-col overflow-hidden animate-fade-in \
-              sm:fixed sm:left-0 sm:right-0 sm:top-[52%] sm:h-[70%] sm:w-full sm:max-w-none sm:rounded-t-3xl sm:rounded-b-none sm:p-4 sm:z-[999] sm:bg-white sm:border-t sm:border-gray-200 sm:shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] \
+              sm:fixed sm:left-0 sm:right-0 sm:top-[52%] sm:h-[70%] sm:w-full sm:max-w-none sm:rounded-t-3xl sm:rounded-b-none sm:p-4 sm:z-[9999] sm:bg-white sm:border-t sm:border-gray-200 sm:shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] \
               md:absolute md:top-10 md:right-0 md:bottom-auto md:left-auto md:w-[380px] md:max-w-sm md:rounded-2xl md:shadow-2xl md:border md:border-white/30 md:bg-white/40 md:h-auto
-              ${isFullScreen ? 'sm:top-0 sm:h-screen sm:rounded-none' : ''}`}
+              ${isFullScreen ? 'sm:top-0 sm:h-screen sm:rounded-none sm:max-h-none' : ''}`}
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
