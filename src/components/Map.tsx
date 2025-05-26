@@ -357,12 +357,44 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
   }));
 
   // 터치 이벤트 핸들러
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (window.innerWidth < 768) { // 모바일에서만 동작 (768px 미만)
+      e.preventDefault();
+      const touchDiff = touchMoveY - touchStartY;
+      const cardElement = e.currentTarget as HTMLElement;
+      
+      // 원래 위치로 복귀하거나 전체화면으로 전환
+      if (touchDiff < -100) { // 100px 이상 위로 드래그하면 전체화면
+        setIsFullScreen(true);
+        cardElement.style.transform = 'translateY(0)';
+        cardElement.style.transition = 'transform 0.3s ease-out';
+      } else if (touchDiff > 100) { // 100px 이상 아래로 드래그하면 원래 크기로
+        setIsFullScreen(false);
+        cardElement.style.transform = 'translateY(0)';
+        cardElement.style.transition = 'transform 0.3s ease-out';
+      } else {
+        // 원래 위치로 복귀
+        cardElement.style.transform = 'translateY(0)';
+        cardElement.style.transition = 'transform 0.3s ease-out';
+      }
+
+      // 트랜지션 종료 후 스타일 초기화
+      setTimeout(() => {
+        cardElement.style.transition = '';
+      }, 300);
+    }
+  };
+
   const handleTouchStart = (e: React.TouchEvent) => {
     if (window.innerWidth < 768) { // 모바일에서만 동작 (768px 미만)
       e.preventDefault();
       const touch = e.touches[0];
       setTouchStartY(touch.clientY);
       setTouchMoveY(touch.clientY);
+      
+      // 드래그 시작 시 트랜지션 제거
+      const cardElement = e.currentTarget as HTMLElement;
+      cardElement.style.transition = '';
     }
   };
 
@@ -385,26 +417,6 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
         // 아래로 드래그할 때는 양수 값을 사용하여 아래로 이동
         const translateY = Math.min(touchDiff, window.innerHeight * 0.7); // 원래 위치까지만 이동 가능
         cardElement.style.transform = `translateY(${translateY}px)`;
-      }
-    }
-  };
-
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    if (window.innerWidth < 768) { // 모바일에서만 동작 (768px 미만)
-      e.preventDefault();
-      const touchDiff = touchMoveY - touchStartY; // 방향 수정
-      const cardElement = e.currentTarget as HTMLElement;
-      
-      // 원래 위치로 복귀하거나 전체화면으로 전환
-      if (touchDiff < -100) { // 100px 이상 위로 드래그하면 전체화면
-        setIsFullScreen(true);
-        cardElement.style.transform = '';
-      } else if (touchDiff > 100) { // 100px 이상 아래로 드래그하면 원래 크기로
-        setIsFullScreen(false);
-        cardElement.style.transform = '';
-      } else {
-        // 원래 위치로 복귀
-        cardElement.style.transform = '';
       }
     }
   };
