@@ -83,6 +83,7 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
   const [touchStartY, setTouchStartY] = useState(0);
   const [touchMoveY, setTouchMoveY] = useState(0);
   const [dragTranslateY, setDragTranslateY] = useState(0);
+  const [canDrag, setCanDrag] = useState(true);
 
   // 검색 카테고리 정의
   const searchCategories = {
@@ -361,9 +362,9 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
   // 터치 이벤트 핸들러
   const handleTouchEnd = (e: React.TouchEvent) => {
     if (window.innerWidth < 768) {
+      if (!canDrag) return;
       e.preventDefault();
       const touchDiff = touchMoveY - touchStartY;
-      // 드래그 종료: transform 제거, 상태에 따라 Tailwind 적용
       setDragTranslateY(0);
       if (touchDiff < -100) {
         setIsFullScreen(true);
@@ -375,22 +376,29 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
 
   const handleTouchStart = (e: React.TouchEvent) => {
     if (window.innerWidth < 768) {
+      const target = e.target as HTMLElement;
+      // cafe-scroll-area 내부에서 스크롤이 최상단이 아니면 드래그 비활성화
+      const scrollArea = target.closest('.cafe-scroll-area') as HTMLElement | null;
+      if (scrollArea && scrollArea.scrollTop > 0) {
+        setCanDrag(false);
+        return;
+      }
+      setCanDrag(true);
       e.preventDefault();
       const touch = e.touches[0];
       setTouchStartY(touch.clientY);
       setTouchMoveY(touch.clientY);
-      // 드래그 시작 시 transform 제거
       setDragTranslateY(0);
     }
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
     if (window.innerWidth < 768) {
+      if (!canDrag) return;
       e.preventDefault();
       const touch = e.touches[0];
       const currentY = touch.clientY;
       setTouchMoveY(currentY);
-      // 드래그 중 이동값 저장
       const touchDiff = currentY - touchStartY;
       setDragTranslateY(touchDiff);
     }
@@ -462,7 +470,7 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
             {/* 탭별 내용 */}
             {selectedTab === 'beans' ? (
               selectedCafe.coffees && selectedCafe.coffees.length > 0 && (
-                <div className="flex-1 overflow-y-auto px-4 pb-24 sm:px-1 sm:pb-16 leading-relaxed">
+                <div className="cafe-scroll-area flex-1 overflow-y-auto px-4 pb-24 sm:px-1 sm:pb-16 leading-relaxed">
                   <div className="flex items-center justify-end mb-2 mt-2 sm:mb-1 sm:mt-1">
                     <span className="text-xs text-gray-500">
                       {selectedCafe.updatedAt ? `최근수정일 : ${new Date(selectedCafe.updatedAt).toLocaleDateString('ko-KR', {
