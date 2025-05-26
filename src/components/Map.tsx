@@ -359,37 +359,47 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
   // 터치 이벤트 핸들러
   const handleTouchStart = (e: React.TouchEvent) => {
     if (window.innerWidth < 768) { // 모바일에서만 동작 (768px 미만)
+      e.preventDefault();
       const touch = e.touches[0];
       setTouchStartY(touch.clientY);
-      setTouchMoveY(touch.clientY); // 초기값 설정
+      setTouchMoveY(touch.clientY);
     }
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
     if (window.innerWidth < 768) { // 모바일에서만 동작 (768px 미만)
+      e.preventDefault();
       const touch = e.touches[0];
       const currentY = touch.clientY;
       setTouchMoveY(currentY);
 
       // 드래그 중인 상태를 시각적으로 표현
       const touchDiff = touchStartY - currentY;
+      const cardElement = e.currentTarget as HTMLElement;
+      
       if (touchDiff > 0) { // 위로 드래그
-        (e.currentTarget as HTMLElement).style.transform = `translateY(${touchDiff}px)`;
+        const translateY = Math.min(touchDiff, window.innerHeight * 0.5); // 최대 화면 높이의 50%까지만 이동
+        cardElement.style.transform = `translateY(-${translateY}px)`;
       }
     }
   };
 
   const handleTouchEnd = (e: React.TouchEvent) => {
     if (window.innerWidth < 768) { // 모바일에서만 동작 (768px 미만)
+      e.preventDefault();
       const touchDiff = touchStartY - touchMoveY;
+      const cardElement = e.currentTarget as HTMLElement;
       
-      // 원래 위치로 복귀
-      (e.currentTarget as HTMLElement).style.transform = '';
-
-      if (touchDiff > 50) { // 50px 이상 위로 드래그하면 전체화면
+      // 원래 위치로 복귀하거나 전체화면으로 전환
+      if (touchDiff > 100) { // 100px 이상 위로 드래그하면 전체화면
         setIsFullScreen(true);
-      } else if (touchDiff < -50) { // 50px 이상 아래로 드래그하면 원래 크기로
+        cardElement.style.transform = '';
+      } else if (touchDiff < -100) { // 100px 이상 아래로 드래그하면 원래 크기로
         setIsFullScreen(false);
+        cardElement.style.transform = '';
+      } else {
+        // 원래 위치로 복귀
+        cardElement.style.transform = '';
       }
     }
   };
@@ -418,12 +428,15 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
-            style={{ touchAction: 'none' }}
+            style={{ 
+              touchAction: 'none',
+              transition: isFullScreen ? 'none' : 'transform 0.3s ease-out'
+            }}
           >
             {/* 드래그 핸들 (모바일에서만 표시) */}
             <div className="flex flex-col items-center justify-center py-2 bg-gray-50 sm:flex md:hidden touch-none">
               <div className="w-12 h-1 bg-gray-300 rounded-full" />
-              <div className="text-xs text-gray-500 mt-1">드래그하여 확장</div>
+              <div className="text-xs text-gray-500 mt-1">위로 드래그하여 확장</div>
             </div>
 
             {/* 카페 이미지 섹션 */}
