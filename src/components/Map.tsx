@@ -457,7 +457,7 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
             )}
             {/* 카페 이름 섹션 추가 */}
             {selectedCafe.imageUrl && (
-              <div className="w-full py-2 text-left bg-white border-b border-gray-200">
+              <div className="w-full py-2 text-left bg-white border-b border-gray-200 pl-4">
                 <h2 className="text-lg font-bold text-gray-900">{selectedCafe.name}</h2>
               </div>
             )}
