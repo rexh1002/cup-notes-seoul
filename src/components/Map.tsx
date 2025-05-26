@@ -443,7 +443,7 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
               <CafeTabMenu selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
             </div>
             {/* 안내 텍스트(탭 아래로 이동, 클릭 방해 X) */}
-            <div className="text-xs text-gray-500 mt-1 mb-2 text-center pointer-events-none sm:block md:hidden">위로 드래그하여 확장</div>
+            {/* 삭제 */}
 
             {/* 카페 이미지 섹션 */}
             {selectedCafe.imageUrl && (
