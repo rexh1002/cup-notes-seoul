@@ -420,26 +420,25 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
               sm:left-0 sm:right-0 sm:w-full sm:max-w-none sm:p-4 sm:z-[99999] sm:bg-white sm:border-t sm:border-gray-200 sm:shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]
               md:absolute md:top-10 md:right-0 md:bottom-auto md:left-auto md:w-[380px] md:max-w-sm md:rounded-2xl md:shadow-2xl md:border md:border-white/30 md:bg-white/40 md:h-auto`}
             style={{
-              touchAction: 'none',
               transition: isFullScreen ? 'none' : 'transform 0.3s ease-out',
               position: 'fixed',
               zIndex: 99999,
               transform: dragTranslateY !== 0 ? `translateY(${dragTranslateY}px)` : undefined
             }}
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
           >
-            {/* 드래그 핸들(상단 바) */}
+            {/* 드래그 핸들(상단 바)에만 드래그 이벤트 부여 */}
             <div
               className="w-full h-12 flex items-center justify-center bg-gray-50 sm:flex md:hidden select-none"
-              style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 20 }}
+              style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 20, touchAction: 'none' }}
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
             >
               <div className="w-12 h-1 bg-gray-300 rounded-full" />
             </div>
             {/* 탭 상태 및 메뉴 (드래그 핸들 아래에 배치, 이벤트 차단 없음) */}
-            <div style={{ marginTop: '48px', touchAction: 'auto' }}>
-              <CafeTabMenu selectedTab={selectedTab} setSelectedTab={setSelectedTab} onTouchStart={e => e.stopPropagation()} />
+            <div style={{ marginTop: '48px' }}>
+              <CafeTabMenu selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
             </div>
             {/* 안내 텍스트(탭 아래로 이동, 클릭 방해 X) */}
             {/* 삭제 */}
@@ -584,9 +583,9 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
   );
 });
 
-function CafeTabMenu({ selectedTab, setSelectedTab, onTouchStart }: { selectedTab: 'beans' | 'info'; setSelectedTab: (tab: 'beans' | 'info') => void; onTouchStart?: (e: React.TouchEvent) => void }) {
+function CafeTabMenu({ selectedTab, setSelectedTab }: { selectedTab: 'beans' | 'info'; setSelectedTab: (tab: 'beans' | 'info') => void }) {
   return (
-    <div className="flex border-b border-gray-200 bg-white sticky top-0 z-10" onTouchStart={onTouchStart}>
+    <div className="flex border-b border-gray-200 bg-white sticky top-0 z-10">
       <button
         className={`flex-1 py-3 text-center font-bold ${selectedTab === 'beans' ? 'text-blue-600 border-b-2 border-blue-600 bg-white' : 'text-gray-400'}`}
         onClick={() => setSelectedTab('beans')}
