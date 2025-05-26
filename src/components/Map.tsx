@@ -84,6 +84,7 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
   const [touchMoveY, setTouchMoveY] = useState(0);
   const [dragTranslateY, setDragTranslateY] = useState(0);
   const [canDrag, setCanDrag] = useState(true);
+  const tabMenuRef = useRef<HTMLDivElement>(null);
 
   // 검색 카테고리 정의
   const searchCategories = {
@@ -361,20 +362,22 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
 
   // 터치 이벤트 핸들러
   const handleTouchEnd = (e: React.TouchEvent) => {
-    if (window.innerWidth < 768) {
+    if (window.innerWidth < 768 && canDrag) {
       e.preventDefault();
       const touchDiff = touchMoveY - touchStartY;
       setDragTranslateY(0);
-      if (touchDiff < -100) {
-        setIsFullScreen(true);
-      } else if (touchDiff > 100) {
-        setIsFullScreen(false);
-      }
+      if (touchDiff < -100) setIsFullScreen(true);
+      else if (touchDiff > 100) setIsFullScreen(false);
     }
   };
 
   const handleTouchStart = (e: React.TouchEvent) => {
     if (window.innerWidth < 768) {
+      // 탭 영역에서 터치가 시작되면 드래그 무시
+      if (tabMenuRef.current && tabMenuRef.current.contains(e.target as Node)) {
+        setCanDrag(false);
+        return;
+      }
       setCanDrag(true);
       e.preventDefault();
       const touch = e.touches[0];
@@ -385,13 +388,12 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
-    if (window.innerWidth < 768) {
+    if (window.innerWidth < 768 && canDrag) {
       e.preventDefault();
       const touch = e.touches[0];
       const currentY = touch.clientY;
-      const touchDiff = currentY - touchStartY;
       setTouchMoveY(currentY);
-      setDragTranslateY(touchDiff);
+      setDragTranslateY(currentY - touchStartY);
     }
   };
 
@@ -420,24 +422,25 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
               sm:left-0 sm:right-0 sm:w-full sm:max-w-none sm:p-4 sm:z-[99999] sm:bg-white sm:border-t sm:border-gray-200 sm:shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]
               md:absolute md:top-10 md:right-0 md:bottom-auto md:left-auto md:w-[380px] md:max-w-sm md:rounded-2xl md:shadow-2xl md:border md:border-white/30 md:bg-white/40 md:h-auto`}
             style={{
+              touchAction: 'none',
               transition: isFullScreen ? 'none' : 'transform 0.3s ease-out',
               position: 'fixed',
               zIndex: 99999,
               transform: dragTranslateY !== 0 ? `translateY(${dragTranslateY}px)` : undefined
             }}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
           >
-            {/* 드래그 핸들(상단 바)에만 드래그 이벤트 부여 */}
+            {/* 드래그 핸들(상단 바) */}
             <div
-              className="w-full h-20 flex items-center justify-center bg-gray-50 sm:flex md:hidden select-none"
-              style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 20, touchAction: 'none' }}
-              onTouchStart={handleTouchStart}
-              onTouchMove={handleTouchMove}
-              onTouchEnd={handleTouchEnd}
+              className="w-full h-12 flex items-center justify-center bg-gray-50 sm:flex md:hidden select-none"
+              style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 20 }}
             >
               <div className="w-12 h-1 bg-gray-300 rounded-full" />
             </div>
             {/* 탭 상태 및 메뉴 (드래그 핸들 아래에 배치, 이벤트 차단 없음) */}
-            <div style={{ marginTop: '80px' }}>
+            <div style={{ marginTop: '48px' }} ref={tabMenuRef}>
               <CafeTabMenu selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
             </div>
             {/* 안내 텍스트(탭 아래로 이동, 클릭 방해 X) */}
