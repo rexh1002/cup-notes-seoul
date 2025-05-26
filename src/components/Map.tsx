@@ -439,14 +439,7 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
             >
               <div className="w-12 h-1 bg-gray-300 rounded-full" />
             </div>
-            {/* 탭 상태 및 메뉴 (드래그 핸들 아래에 배치, 이벤트 차단 없음) */}
-            <div style={{ marginTop: '48px' }} ref={tabMenuRef}>
-              <CafeTabMenu selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
-            </div>
-            {/* 안내 텍스트(탭 아래로 이동, 클릭 방해 X) */}
-            {/* 삭제 */}
-
-            {/* 카페 이미지 섹션 */}
+            {/* 이미지 섹션 */}
             {selectedCafe.imageUrl && (
               <div className="w-full h-[60px] relative rounded-t-2xl overflow-hidden group sm:h-[60px] md:h-[200px]">
                 <Image
@@ -462,13 +455,14 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
               </div>
             )}
-
+            {/* 탭 상태 및 메뉴 (드래그 핸들/이미지 아래에 배치) */}
+            <div style={{ marginTop: '0px' }} ref={tabMenuRef}>
+              <CafeTabMenu selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
+            </div>
             {/* 탭별 내용 */}
             {selectedTab === 'beans' ? (
               selectedCafe.coffees && selectedCafe.coffees.length > 0 && (
-                <div
-                  className="cafe-scroll-area flex-1 overflow-hidden px-4 pb-24 sm:px-1 sm:pb-16 leading-relaxed"
-                >
+                <div className="cafe-scroll-area flex-1 overflow-hidden px-4 pb-24 sm:px-1 sm:pb-16 leading-relaxed">
                   <div className="flex items-center justify-end mb-2 mt-2 sm:mb-1 sm:mt-1">
                     <span className="text-xs text-gray-500">
                       {selectedCafe.updatedAt ? `최근수정일 : ${new Date(selectedCafe.updatedAt).toLocaleDateString('ko-KR', {
