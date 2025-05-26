@@ -73,7 +73,7 @@ export default function FilterPanel({
             <div className="grid grid-cols-1 gap-4 mt-2">
               {/* Floral */}
               <div className="relative overflow-hidden h-[600px] flex flex-col justify-between p-8 mb-8">
-                <Image src="/images/Floral.jpg" alt="Floral" fill className="absolute inset-0 w-full h-full object-cover" />
+                <Image src="/images/Floral.jpg" alt="Floral" fill className="absolute inset-0 w-full h-full object-cover" width={600} height={340} sizes="100vw" priority={false} unoptimized />
                 <div className="absolute inset-0 bg-black/45" />
                 <div className="relative z-10 flex flex-col h-full justify-between">
                   <div>
@@ -99,7 +99,7 @@ export default function FilterPanel({
               </div>
               {/* Fruity */}
               <div className="relative overflow-hidden h-[600px] flex flex-col justify-between p-8 mb-8">
-                <Image src="/images/Fruity.jpg" alt="Fruity" fill className="absolute inset-0 w-full h-full object-cover" />
+                <Image src="/images/Fruity.jpg" alt="Fruity" fill className="absolute inset-0 w-full h-full object-cover" width={600} height={340} sizes="100vw" priority={false} unoptimized />
                 <div className="absolute inset-0 bg-black/45" />
                 <div className="relative z-10 flex flex-col h-full justify-between">
                   <div>
@@ -125,7 +125,7 @@ export default function FilterPanel({
               </div>
               {/* Nutty */}
               <div className="relative overflow-hidden h-[600px] flex flex-col justify-between p-8 mb-8">
-                <Image src="/images/Nutty.jpg" alt="Nutty" fill className="absolute inset-0 w-full h-full object-cover" />
+                <Image src="/images/Nutty.jpg" alt="Nutty" fill className="absolute inset-0 w-full h-full object-cover" width={600} height={340} sizes="100vw" priority={false} unoptimized />
                 <div className="absolute inset-0 bg-black/45" />
                 <div className="relative z-10 flex flex-col h-full justify-between">
                   <div>
@@ -266,7 +266,7 @@ export default function FilterPanel({
             <div className="text-xl font-bold text-gray-900 dark:text-white mb-2 mt-0 pl-2 font-chronicle">컵노트</div>
             {/* Floral */}
             <div className="relative overflow-hidden h-[340px] flex flex-col justify-between p-4 mb-0">
-              <img src="/images/Floral.jpg" alt="Floral" className="absolute inset-0 w-full h-full object-cover" />
+              <Image src="/images/Floral.jpg" alt="Floral" className="absolute inset-0 w-full h-full object-cover" width={600} height={340} sizes="100vw" priority={false} unoptimized />
               <div className="absolute inset-0 bg-black/60" />
               <div className="relative z-10 flex flex-col h-full justify-between">
                 <div>
@@ -292,7 +292,7 @@ export default function FilterPanel({
             </div>
             {/* Fruity */}
             <div className="relative overflow-hidden h-[340px] flex flex-col justify-between p-4 mb-6">
-              <img src="/images/Fruity.jpg" alt="Fruity" className="absolute inset-0 w-full h-full object-cover" />
+              <Image src="/images/Fruity.jpg" alt="Fruity" className="absolute inset-0 w-full h-full object-cover" width={600} height={340} sizes="100vw" priority={false} unoptimized />
               <div className="absolute inset-0 bg-black/60" />
               <div className="relative z-10 flex flex-col h-full justify-between">
                 <div>
@@ -318,7 +318,7 @@ export default function FilterPanel({
             </div>
             {/* Nutty */}
             <div className="relative overflow-hidden h-[340px] flex flex-col justify-between p-4 mb-6">
-              <img src="/images/Nutty.jpg" alt="Nutty" className="absolute inset-0 w-full h-full object-cover" />
+              <Image src="/images/Nutty.jpg" alt="Nutty" className="absolute inset-0 w-full h-full object-cover" width={600} height={340} sizes="100vw" priority={false} unoptimized />
               <div className="absolute inset-0 bg-black/60" />
               <div className="relative z-10 flex flex-col h-full justify-between">
                 <div>

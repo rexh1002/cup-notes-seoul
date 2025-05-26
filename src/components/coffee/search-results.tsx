@@ -3,6 +3,7 @@
 import React from 'react';
 import { Coffee } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 interface Coffee {
   id: string;
@@ -80,10 +81,15 @@ const SearchResults: React.FC<SearchResultsProps> = ({
             className="block hover:opacity-90 transition-opacity"
           >
             {cafe.imageUrl ? (
-              <img
+              <Image
                 src={cafe.imageUrl}
                 alt={cafe.name}
                 className="w-full h-48 object-cover"
+                width={480}
+                height={192}
+                sizes="(max-width: 768px) 100vw, 480px"
+                priority={false}
+                unoptimized
               />
             ) : (
               <div className="w-full h-48 flex items-center justify-center bg-gray-100">
