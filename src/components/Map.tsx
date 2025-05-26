@@ -428,7 +428,7 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
           >
             {/* 드래그 핸들(상단 바)에만 드래그 이벤트 부여 */}
             <div
-              className="w-full h-12 flex items-center justify-center bg-gray-50 sm:flex md:hidden select-none"
+              className="w-full h-20 flex items-center justify-center bg-gray-50 sm:flex md:hidden select-none"
               style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 20, touchAction: 'none' }}
               onTouchStart={handleTouchStart}
               onTouchMove={handleTouchMove}
@@ -437,7 +437,7 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
               <div className="w-12 h-1 bg-gray-300 rounded-full" />
             </div>
             {/* 탭 상태 및 메뉴 (드래그 핸들 아래에 배치, 이벤트 차단 없음) */}
-            <div style={{ marginTop: '48px' }}>
+            <div style={{ marginTop: '80px' }}>
               <CafeTabMenu selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
             </div>
             {/* 안내 텍스트(탭 아래로 이동, 클릭 방해 X) */}
