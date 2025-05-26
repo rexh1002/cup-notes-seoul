@@ -464,9 +464,6 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                 <div
                   className="cafe-scroll-area flex-1 overflow-hidden px-4 pb-24 sm:px-1 sm:pb-16 leading-relaxed"
                   style={{ touchAction: 'none' }}
-                  onTouchStart={e => e.preventDefault()}
-                  onTouchMove={e => e.preventDefault()}
-                  onTouchEnd={e => e.preventDefault()}
                 >
                   <div className="flex items-center justify-end mb-2 mt-2 sm:mb-1 sm:mt-1">
                     <span className="text-xs text-gray-500">
