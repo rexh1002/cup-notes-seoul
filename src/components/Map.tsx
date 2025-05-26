@@ -432,10 +432,13 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
           >
-            {/* 드래그 핸들(상단 바) */}
+            {/* 드래그 핸들 (상단 바) */}
             <div
-              className="w-full h-12 flex items-center justify-center bg-gray-50 sm:flex md:hidden select-none"
-              style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 20 }}
+              className="w-full h-6 bg-white rounded-t-2xl flex items-center justify-center cursor-grab active:cursor-grabbing"
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+              style={{ touchAction: 'none' }}
             >
               <div className="w-12 h-1 bg-gray-300 rounded-full" />
             </div>
