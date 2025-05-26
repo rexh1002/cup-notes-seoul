@@ -82,6 +82,7 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [touchStartY, setTouchStartY] = useState(0);
   const [touchMoveY, setTouchMoveY] = useState(0);
+  const [dragTranslateY, setDragTranslateY] = useState(0);
 
   // 검색 카테고리 정의
   const searchCategories = {
@@ -359,66 +360,39 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
 
   // 터치 이벤트 핸들러
   const handleTouchEnd = (e: React.TouchEvent) => {
-    if (window.innerWidth < 768) { // 모바일에서만 동작 (768px 미만)
+    if (window.innerWidth < 768) {
       e.preventDefault();
       const touchDiff = touchMoveY - touchStartY;
-      const cardElement = e.currentTarget as HTMLElement;
-      
-      // 원래 위치로 복귀하거나 전체화면으로 전환
-      if (touchDiff < -100) { // 100px 이상 위로 드래그하면 전체화면
+      // 드래그 종료: transform 제거, 상태에 따라 Tailwind 적용
+      setDragTranslateY(0);
+      if (touchDiff < -100) {
         setIsFullScreen(true);
-        cardElement.style.transform = 'translateY(0)';
-        cardElement.style.transition = 'transform 0.3s ease-out';
-      } else if (touchDiff > 100) { // 100px 이상 아래로 드래그하면 원래 크기로
+      } else if (touchDiff > 100) {
         setIsFullScreen(false);
-        cardElement.style.transform = 'translateY(0)';
-        cardElement.style.transition = 'transform 0.3s ease-out';
-      } else {
-        // 원래 위치로 복귀
-        cardElement.style.transform = 'translateY(0)';
-        cardElement.style.transition = 'transform 0.3s ease-out';
       }
-
-      // 트랜지션 종료 후 스타일 초기화
-      setTimeout(() => {
-        cardElement.style.transition = '';
-      }, 300);
     }
   };
 
   const handleTouchStart = (e: React.TouchEvent) => {
-    if (window.innerWidth < 768) { // 모바일에서만 동작 (768px 미만)
+    if (window.innerWidth < 768) {
       e.preventDefault();
       const touch = e.touches[0];
       setTouchStartY(touch.clientY);
       setTouchMoveY(touch.clientY);
-      
-      // 드래그 시작 시 트랜지션 제거
-      const cardElement = e.currentTarget as HTMLElement;
-      cardElement.style.transition = '';
+      // 드래그 시작 시 transform 제거
+      setDragTranslateY(0);
     }
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
-    if (window.innerWidth < 768) { // 모바일에서만 동작 (768px 미만)
+    if (window.innerWidth < 768) {
       e.preventDefault();
       const touch = e.touches[0];
       const currentY = touch.clientY;
       setTouchMoveY(currentY);
-
-      // 드래그 중인 상태를 시각적으로 표현
-      const touchDiff = currentY - touchStartY; // 방향 수정
-      const cardElement = e.currentTarget as HTMLElement;
-      
-      if (touchDiff < 0) { // 위로 드래그
-        // 위로 드래그할 때는 음수 값을 사용하여 위로 이동
-        const translateY = Math.max(touchDiff, -window.innerHeight); // 전체 화면 높이까지 이동 가능
-        cardElement.style.transform = `translateY(${translateY}px)`;
-      } else if (touchDiff > 0) { // 아래로 드래그
-        // 아래로 드래그할 때는 양수 값을 사용하여 아래로 이동
-        const translateY = Math.min(touchDiff, window.innerHeight * 0.7); // 원래 위치까지만 이동 가능
-        cardElement.style.transform = `translateY(${translateY}px)`;
-      }
+      // 드래그 중 이동값 저장
+      const touchDiff = currentY - touchStartY;
+      setDragTranslateY(touchDiff);
     }
   };
 
@@ -441,18 +415,20 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
         {/* 카페 정보 카드는 포탈로 body에 렌더링 */}
         {selectedCafe && typeof window !== 'undefined' && createPortal(
           <div 
-            className={`fixed left-0 right-0 top-[52%] h-[70%] z-[99999] bg-white/40 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/30 w-full max-w-sm max-h-[calc(100vh-32px)] flex flex-col overflow-hidden animate-fade-in \
-              sm:left-0 sm:right-0 sm:top-[52%] sm:h-[70%] sm:w-full sm:max-w-none sm:rounded-t-3xl sm:rounded-b-none sm:p-4 sm:z-[99999] sm:bg-white sm:border-t sm:border-gray-200 sm:shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] \
-              md:absolute md:top-10 md:right-0 md:bottom-auto md:left-auto md:w-[380px] md:max-w-sm md:rounded-2xl md:shadow-2xl md:border md:border-white/30 md:bg-white/40 md:h-auto
-              ${isFullScreen ? 'sm:top-0 sm:h-screen sm:rounded-none sm:max-h-none' : ''}`}
+            className={`fixed left-0 right-0
+              ${isFullScreen ? 'top-0 h-screen rounded-none max-h-none' : 'top-[52%] h-[70%] rounded-2xl max-h-[calc(100vh-32px)]'}
+              z-[99999] bg-white/40 backdrop-blur-xl shadow-2xl border border-white/30 w-full max-w-sm flex flex-col overflow-hidden animate-fade-in
+              sm:left-0 sm:right-0 sm:w-full sm:max-w-none sm:p-4 sm:z-[99999] sm:bg-white sm:border-t sm:border-gray-200 sm:shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]
+              md:absolute md:top-10 md:right-0 md:bottom-auto md:left-auto md:w-[380px] md:max-w-sm md:rounded-2xl md:shadow-2xl md:border md:border-white/30 md:bg-white/40 md:h-auto`}
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
-            style={{ 
+            style={{
               touchAction: 'none',
               transition: isFullScreen ? 'none' : 'transform 0.3s ease-out',
               position: 'fixed',
-              zIndex: 99999
+              zIndex: 99999,
+              transform: dragTranslateY !== 0 ? `translateY(${dragTranslateY}px)` : undefined
             }}
           >
             {/* 드래그 핸들 (모바일에서만 표시) */}
