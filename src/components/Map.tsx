@@ -358,19 +358,21 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
 
   // 터치 이벤트 핸들러
   const handleTouchStart = (e: React.TouchEvent) => {
-    if (window.innerWidth <= 640) { // 모바일에서만 동작
+    if (window.innerWidth < 768) { // 모바일에서만 동작 (768px 미만)
+      e.preventDefault(); // 기본 동작 방지
       setTouchStartY(e.touches[0].clientY);
     }
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
-    if (window.innerWidth <= 640) { // 모바일에서만 동작
+    if (window.innerWidth < 768) { // 모바일에서만 동작 (768px 미만)
+      e.preventDefault(); // 기본 동작 방지
       setTouchMoveY(e.touches[0].clientY);
     }
   };
 
   const handleTouchEnd = () => {
-    if (window.innerWidth <= 640) { // 모바일에서만 동작
+    if (window.innerWidth < 768) { // 모바일에서만 동작 (768px 미만)
       const touchDiff = touchStartY - touchMoveY;
       if (touchDiff > 50) { // 50px 이상 위로 드래그하면 전체화면
         setIsFullScreen(true);
@@ -398,22 +400,22 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
         {selectedCafe && (
           <div 
             className={`absolute left-0 right-0 top-[52%] h-[70%] z-[200] bg-white/40 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/30 w-full max-w-sm max-h-[calc(100vh-32px)] flex flex-col overflow-hidden animate-fade-in \
-              xs:fixed xs:left-0 xs:right-0 xs:top-[52%] xs:h-[70%] xs:w-full xs:max-w-none xs:rounded-t-3xl xs:rounded-b-none xs:p-4 xs:z-[999] xs:bg-white xs:border-t xs:border-gray-200 xs:shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] \
+              sm:fixed sm:left-0 sm:right-0 sm:top-[52%] sm:h-[70%] sm:w-full sm:max-w-none sm:rounded-t-3xl sm:rounded-b-none sm:p-4 sm:z-[999] sm:bg-white sm:border-t sm:border-gray-200 sm:shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] \
               md:absolute md:top-10 md:right-0 md:bottom-auto md:left-auto md:w-[380px] md:max-w-sm md:rounded-2xl md:shadow-2xl md:border md:border-white/30 md:bg-white/40 md:h-auto
-              ${isFullScreen ? 'xs:top-0 xs:h-screen xs:rounded-none' : ''}`}
+              ${isFullScreen ? 'sm:top-0 sm:h-screen sm:rounded-none' : ''}`}
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
           >
             {/* 드래그 핸들 (모바일에서만 표시) */}
-            <div className="hidden xs:flex xs:flex-col xs:items-center xs:justify-center xs:py-2 xs:bg-gray-50">
+            <div className="flex flex-col items-center justify-center py-2 bg-gray-50 sm:flex md:hidden">
               <div className="w-12 h-1 bg-gray-300 rounded-full" />
               <div className="text-xs text-gray-500 mt-1">드래그하여 확장</div>
             </div>
 
             {/* 카페 이미지 섹션 */}
             {selectedCafe.imageUrl && (
-              <div className="w-full h-[60px] relative rounded-t-2xl overflow-hidden group xs:h-[60px] md:h-[200px]">
+              <div className="w-full h-[60px] relative rounded-t-2xl overflow-hidden group sm:h-[60px] md:h-[200px]">
                 <Image
                   src={selectedCafe.imageUrl}
                   alt={selectedCafe.name}
@@ -434,8 +436,8 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
             {/* 탭별 내용 */}
             {selectedTab === 'beans' ? (
               selectedCafe.coffees && selectedCafe.coffees.length > 0 && (
-                <div className="flex-1 overflow-y-auto px-4 pb-24 xs:px-1 xs:pb-16 leading-relaxed">
-                  <div className="flex items-center justify-end mb-2 mt-2 xs:mb-1 xs:mt-1">
+                <div className="flex-1 overflow-y-auto px-4 pb-24 sm:px-1 sm:pb-16 leading-relaxed">
+                  <div className="flex items-center justify-end mb-2 mt-2 sm:mb-1 sm:mt-1">
                     <span className="text-xs text-gray-500">
                       {selectedCafe.updatedAt ? `최근수정일 : ${new Date(selectedCafe.updatedAt).toLocaleDateString('ko-KR', {
                         year: 'numeric',
@@ -444,12 +446,12 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                       })}` : ''}
                     </span>
                   </div>
-                  <div className="space-y-3 xs:space-y-1.5">
+                  <div className="space-y-3 sm:space-y-1.5">
                     {selectedCafe.coffees.map((coffee) => (
                       <div
                         key={coffee.id}
                         className="relative rounded-xl pt-4 pb-2 px-4 shadow bg-white/70 backdrop-blur border border-white/40 flex flex-col gap-0.5 transition-transform hover:-translate-y-1 hover:shadow-xl
-                          xs:rounded-lg xs:pt-2 xs:pb-1 xs:px-2 xs:gap-0.5"
+                          sm:rounded-lg sm:pt-2 sm:pb-1 sm:px-2 sm:gap-0.5"
                         style={{
                           backgroundColor: coffee.noteColors?.[0] || 'rgba(255,255,255,0.7)',
                           boxShadow: '0 2px 8px 0 rgba(80,80,120,0.10), inset 0 1px 2px rgba(0,0,0,0.08)'
@@ -457,23 +459,23 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                       >
                         {/* 원두 이름과 가격 */}
                         <div className="flex justify-between items-center mb-0.5">
-                          <h5 className="text-base font-bold leading-tight text-gray-900 xs:text-sm">{coffee.name}</h5>
-                          <span className="text-sm font-semibold leading-tight text-gray-700 xs:text-xs">
+                          <h5 className="text-base font-bold leading-tight text-gray-900 sm:text-sm">{coffee.name}</h5>
+                          <span className="text-sm font-semibold leading-tight text-gray-700 sm:text-xs">
                             {coffee.price?.toLocaleString()}원
                           </span>
                         </div>
                         {/* 원두 설명 */}
                         {coffee.description && (
-                          <p className="text-sm text-gray-700 mb-0.5 leading-tight xs:text-xs">
+                          <p className="text-sm text-gray-700 mb-0.5 leading-tight sm:text-xs">
                             {coffee.description}
                           </p>
                         )}
                         {/* 원두 특성 태그들 */}
-                        <div className="flex flex-wrap gap-1 mb-0.5 xs:gap-0.5">
+                        <div className="flex flex-wrap gap-1 mb-0.5 sm:gap-0.5">
                           {coffee.roastLevel?.map((level, idx) => (
                             <span
                               key={`roast-${idx}`}
-                              className="text-[11px] px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200 xs:px-1 xs:py-0.5"
+                              className="text-[11px] px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200 sm:px-1 sm:py-0.5"
                             >
                               {level}
                             </span>
@@ -481,7 +483,7 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                           {coffee.origins?.map((origin, idx) => (
                             <span
                               key={`origin-${idx}`}
-                              className="text-[11px] px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200 xs:px-1 xs:py-0.5"
+                              className="text-[11px] px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200 sm:px-1 sm:py-0.5"
                             >
                               {origin}
                             </span>
@@ -489,7 +491,7 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                           {coffee.processes?.map((process, idx) => (
                             <span
                               key={`process-${idx}`}
-                              className="text-[11px] px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200 xs:px-1 xs:py-0.5"
+                              className="text-[11px] px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200 sm:px-1 sm:py-0.5"
                             >
                               {process}
                             </span>
@@ -497,7 +499,7 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                           {coffee.brewMethods?.map((method, idx) => (
                             <span
                               key={`brew-${idx}`}
-                              className="text-[11px] px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200 xs:px-1 xs:py-0.5"
+                              className="text-[11px] px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200 sm:px-1 sm:py-0.5"
                             >
                               {method}
                             </span>
@@ -505,11 +507,11 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                         </div>
                         {/* 커피 노트: 컬러풀한 원(circle)로 표현 */}
                         {coffee.notes && coffee.notes.length > 0 && Array.isArray(coffee.noteColors) && (
-                          <div className="flex flex-wrap gap-1 mt-0.5 items-center xs:gap-0.5">
+                          <div className="flex flex-wrap gap-1 mt-0.5 items-center sm:gap-0.5">
                             {coffee.notes.map((note, idx) => (
                               <span key={`note-${idx}`} className="flex items-center gap-1">
-                                <span className="inline-block w-4 h-4 rounded-full border border-white shadow xs:w-3 xs:h-3" style={{ background: coffee.noteColors?.[idx] || '#eee' }} />
-                                <span className="text-[11px] text-gray-800 font-medium xs:text-[10px]">{note}</span>
+                                <span className="inline-block w-4 h-4 rounded-full border border-white shadow sm:w-3 sm:h-3" style={{ background: coffee.noteColors?.[idx] || '#eee' }} />
+                                <span className="text-[11px] text-gray-800 font-medium sm:text-[10px]">{note}</span>
                               </span>
                             ))}
                           </div>
