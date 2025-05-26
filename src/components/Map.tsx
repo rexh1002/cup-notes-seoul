@@ -420,9 +420,6 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
               z-[99999] bg-white/40 backdrop-blur-xl shadow-2xl border border-white/30 w-full max-w-sm flex flex-col overflow-hidden animate-fade-in
               sm:left-0 sm:right-0 sm:w-full sm:max-w-none sm:p-4 sm:z-[99999] sm:bg-white sm:border-t sm:border-gray-200 sm:shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]
               md:absolute md:top-10 md:right-0 md:bottom-auto md:left-auto md:w-[380px] md:max-w-sm md:rounded-2xl md:shadow-2xl md:border md:border-white/30 md:bg-white/40 md:h-auto`}
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
             style={{
               touchAction: 'none',
               transition: isFullScreen ? 'none' : 'transform 0.3s ease-out',
@@ -431,11 +428,19 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
               transform: dragTranslateY !== 0 ? `translateY(${dragTranslateY}px)` : undefined
             }}
           >
-            {/* 드래그 핸들 (모바일에서만 표시) */}
-            <div className="flex flex-col items-center justify-center py-2 bg-gray-50 sm:flex md:hidden select-none pointer-events-none">
-              <div className="w-12 h-1 bg-gray-300 rounded-full pointer-events-auto touch-auto" />
-              <div className="text-xs text-gray-500 mt-1 pointer-events-none">위로 드래그하여 확장</div>
+            {/* 드래그 핸들 (모바일에서만 표시, 카드 상단에만 위치) */}
+            <div className="flex flex-col items-center justify-center pt-2 pb-1 bg-gray-50 sm:flex md:hidden select-none">
+              <div
+                className="w-12 h-1 bg-gray-300 rounded-full pointer-events-auto touch-auto"
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
+              />
             </div>
+            {/* 탭 상태 및 메뉴 */}
+            <CafeTabMenu selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
+            {/* 안내 텍스트(탭 아래로 이동, 클릭 방해 X) */}
+            <div className="text-xs text-gray-500 mt-1 mb-2 text-center pointer-events-none sm:block md:hidden">위로 드래그하여 확장</div>
 
             {/* 카페 이미지 섹션 */}
             {selectedCafe.imageUrl && (
@@ -453,9 +458,6 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
               </div>
             )}
-
-            {/* 탭 상태 및 메뉴 */}
-            <CafeTabMenu selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
 
             {/* 탭별 내용 */}
             {selectedTab === 'beans' ? (
