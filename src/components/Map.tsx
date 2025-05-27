@@ -435,13 +435,13 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
           >
             {/* 드래그 핸들 (상단 바) */}
             <div
-              className="w-full h-6 bg-white rounded-t-2xl flex items-center justify-center cursor-grab active:cursor-grabbing"
+              className="w-full h-2 bg-white rounded-t-2xl flex items-center justify-center cursor-grab active:cursor-grabbing"
               onTouchStart={handleTouchStart}
               onTouchMove={handleTouchMove}
               onTouchEnd={handleTouchEnd}
               style={{ touchAction: 'none' }}
             >
-              <div className="w-12 h-1 bg-gray-300 rounded-full" />
+              <div className="w-8 h-0.5 bg-gray-300 rounded-full" />
             </div>
             {/* 카페 이름 섹션 추가 */}
             {selectedCafe.imageUrl && (
