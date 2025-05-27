@@ -471,7 +471,14 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
             {/* 탭별 내용 */}
             {selectedTab === 'beans' ? (
               selectedCafe.coffees && selectedCafe.coffees.length > 0 && (
-                <div className="cafe-scroll-area flex-1 overflow-hidden px-4 pb-24 sm:px-1 sm:pb-16 leading-relaxed">
+                <div 
+                  className="cafe-scroll-area flex-1 overflow-y-auto px-4 pb-24 sm:px-1 sm:pb-16 leading-relaxed"
+                  style={{ 
+                    touchAction: 'pan-y',
+                    overscrollBehavior: 'contain',
+                    maxHeight: 'calc(100vh - 400px)'
+                  }}
+                >
                   <div className="flex items-center justify-end mb-2 mt-2 sm:mb-1 sm:mt-1">
                     <span className="text-xs text-gray-500">
                       {selectedCafe.updatedAt ? `최근수정일 : ${new Date(selectedCafe.updatedAt).toLocaleDateString('ko-KR', {
