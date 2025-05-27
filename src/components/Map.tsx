@@ -443,6 +443,12 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
             >
               <div className="w-12 h-1 bg-gray-300 rounded-full" />
             </div>
+            {/* 카페 이름 섹션 추가 */}
+            {selectedCafe.imageUrl && (
+              <div className="w-full py-2 text-left bg-white border-b border-gray-200 pl-4">
+                <h2 className="text-lg font-bold text-gray-900">{selectedCafe.name}</h2>
+              </div>
+            )}
             {/* 이미지 섹션 */}
             {selectedCafe.imageUrl && (
               <div className="w-full relative rounded-t-2xl overflow-hidden group sm:h-[175px] md:h-[175px]" style={{ height: '60px', ...(typeof window !== 'undefined' && window.innerWidth < 640 ? { height: '5cm' } : {}) }}>
@@ -457,12 +463,6 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                   unoptimized
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-              </div>
-            )}
-            {/* 카페 이름 섹션 추가 */}
-            {selectedCafe.imageUrl && (
-              <div className="w-full py-2 text-left bg-white border-b border-gray-200 pl-4">
-                <h2 className="text-lg font-bold text-gray-900">{selectedCafe.name}</h2>
               </div>
             )}
             {/* 탭 상태 및 메뉴 (드래그 핸들/이미지 아래에 배치) */}
