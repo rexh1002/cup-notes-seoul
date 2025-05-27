@@ -324,7 +324,6 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
 
           const newCenter = new window.naver.maps.LatLng(coord.lat, coord.lng);
           mapInstance.current.setCenter(newCenter);
-          mapInstance.current.setZoom(15);
           setCenter(coord);
           setSelectedCafe(cafe);
 
