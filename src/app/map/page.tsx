@@ -19,13 +19,13 @@ const CATEGORY_LIST = [
 function QuickCard({ image, label, onClick }: { image: string; label: string; onClick: () => void }) {
   return (
     <button
-      className="flex flex-row items-center justify-center w-auto h-10 px-3 py-0 rounded-lg bg-white shadow-md border border-gray-200 hover:bg-gray-100 active:bg-gray-200 transition text-gray-800 font-semibold text-xs focus:outline-none min-w-0"
+      className="flex flex-row items-center justify-center rounded-full bg-white shadow border border-gray-200 hover:bg-gray-100 active:bg-gray-200 transition text-gray-800 font-medium text-base px-4 py-2 gap-2 whitespace-nowrap min-w-0"
       onClick={onClick}
       type="button"
-      style={{ minWidth: '0' }}
+      style={{ minWidth: '0', height: '44px' }}
     >
-      <Image src={image} alt={label} width={20} height={20} className="mr-2" />
-      <span style={{letterSpacing: '0.01em', whiteSpace: 'nowrap'}}>{label}</span>
+      <Image src={image} alt={label} width={22} height={22} />
+      <span>{label}</span>
     </button>
   );
 }
@@ -159,7 +159,7 @@ export default function MapMobilePage() {
       )}
       {/* 모바일 지도 QuickButton 그룹 중앙 상단 가로 배치 */}
       {typeof window !== 'undefined' && window.innerWidth < 768 && (
-        <div className="fixed left-1/2 top-20 z-[110] -translate-x-1/2 flex flex-row gap-3 items-center justify-center" style={{minWidth:'320px', maxWidth:'90vw'}}>
+        <div className="fixed left-1/2 top-20 z-[110] -translate-x-1/2 flex flex-row gap-4 items-center justify-center" style={{minWidth:'320px', maxWidth:'90vw'}}>
           {CATEGORY_LIST.map(cat => (
             <QuickCard key={cat.key} image={cat.image} label={cat.label} onClick={() => handleCategorySearch(cat.key)} />
           ))}
