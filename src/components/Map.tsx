@@ -322,10 +322,15 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
         const clickListener = window.naver.maps.Event.addListener(marker, 'click', () => {
           if (!mapInstance.current) return;
 
-          const newCenter = new window.naver.maps.LatLng(coord.lat, coord.lng);
-          mapInstance.current.setCenter(newCenter);
-          mapInstance.current.setZoom(15);
-          setCenter(coord);
+          // 기존 center에서 마커 좌표로 1/10만 이동
+          const currentCenter = mapInstance.current.getCenter();
+          const deltaLat = coord.lat - currentCenter.lat();
+          const deltaLng = coord.lng - currentCenter.lng();
+          const movedLat = currentCenter.lat() + deltaLat * 0.1;
+          const movedLng = currentCenter.lng() + deltaLng * 0.1;
+          const movedCenter = new window.naver.maps.LatLng(movedLat, movedLng);
+          mapInstance.current.setCenter(movedCenter);
+          setCenter({ lat: movedLat, lng: movedLng });
           setSelectedCafe(cafe);
 
           // 선택된 마커 강조
@@ -540,109 +545,27 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                                 {process}
                               </span>
                             ))}
-                            {coffee.brewMethods?.map((method, idx) => (
-                              <span
-                                key={`brew-${idx}`}
-                                className="text-[11px] px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200 sm:px-1 sm:py-0.5"
-                              >
-                                {method}
-                              </span>
-                            ))}
                           </div>
-                          {/* 커피 노트: 컬러풀한 원(circle)로 표현 */}
-                          {coffee.notes && coffee.notes.length > 0 && Array.isArray(coffee.noteColors) && (
-                            <div className="flex flex-wrap gap-1 mt-0.5 items-center sm:gap-0.5">
-                              {coffee.notes.map((note, idx) => (
-                                <span key={`note-${idx}`} className="flex items-center gap-1">
-                                  <span className="inline-block w-4 h-4 rounded-full border border-white shadow sm:w-3 sm:h-3" style={{ background: coffee.noteColors?.[idx] || '#eee' }} />
-                                  <span className="text-[11px] text-gray-800 font-medium sm:text-[10px]">{note}</span>
-                                </span>
-                              ))}
-                            </div>
-                          )}
                         </div>
                       ))}
                     </div>
                   </div>
                 )
               ) : (
-                <div className="p-4 space-y-3 leading-relaxed">
-                  <div className="text-sm text-gray-700 flex items-center gap-2"><MapPin className="w-4 h-4 text-blue-500" /><b>주소:</b> {selectedCafe.address}</div>
-                  {selectedCafe.phone && <div className="text-sm text-gray-700 flex items-center gap-2"><Phone className="w-4 h-4 text-blue-500" /><b>전화번호:</b> {selectedCafe.phone}</div>}
-                  {selectedCafe.description && <div className="text-sm text-gray-700 flex items-center gap-2"><MessageCircle className="w-4 h-4 text-blue-500" /><b>소개:</b> {selectedCafe.description}</div>}
-                  {selectedCafe.businessHours && selectedCafe.businessHours.length > 0 && (
-                    <div className="text-sm text-gray-700 flex items-center gap-2">
-                      <Clock className="w-4 h-4 text-blue-500" /><b>영업정보:</b>
-                      <ul className="ml-6 list-disc">
-                        {selectedCafe.businessHours.map((hour: any, idx: number) => (
-                          <li key={idx}>{hour.day}: {hour.openTime} - {hour.closeTime}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                  {selectedCafe.businessHourNote && (
-                    <div className="text-sm text-gray-700 flex items-center gap-2"><Info className="w-4 h-4 text-blue-500" /><b>영업메모:</b> {selectedCafe.businessHourNote}</div>
-                  )}
-                  {selectedCafe.snsLinks && selectedCafe.snsLinks.length > 0 && (
-                    <div className="text-sm text-gray-700 flex items-center gap-2"><Share2 className="w-4 h-4 text-blue-500" /><b>SNS:</b> {selectedCafe.snsLinks.map((link: any, idx: number) => (
-                      <a key={idx} href={link.url} target="_blank" rel="noopener noreferrer" className="ml-2 underline text-blue-600">{link.type}</a>
-                    ))}</div>
-                  )}
+                <div className="flex-1 overflow-y-auto px-4 pb-24 sm:px-1 sm:pb-16 leading-relaxed">
+                  {/* 카페 정보 표시 영역 */}
                 </div>
               )}
             </div>
           </div>,
           document.body
         )}
-        <button
-          onClick={() => setShowList(true)}
-          className="fixed bottom-20 left-1/2 -translate-x-1/2 bg-black text-white px-6 py-3 rounded-full shadow-lg font-medium flex items-center gap-2 z-50 md:hidden"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-            <path fillRule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" />
-          </svg>
-          목록 보기
-        </button>
       </div>
-
-      {/* 모바일 목록 패널 */}
-      {showList && typeof window !== 'undefined' && createPortal(
-        <div className="fixed inset-0 bg-white z-[99999] md:hidden">
-          <div className="h-full flex flex-col">
-            <div className="p-4 border-b border-gray-200 flex items-center justify-between">
-              <h2 className="text-lg font-semibold">카페 목록</h2>
-              <button
-                onClick={() => setShowList(false)}
-                className="p-2 hover:bg-gray-100 rounded-full"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-            <div className="flex-1 overflow-y-auto">
-              {cafes.map((cafe) => (
-                <div
-                  key={cafe.id}
-                  onClick={() => {
-                    setSelectedCafe(cafe);
-                    setShowList(false);
-                  }}
-                  className="p-4 border-b border-gray-200 hover:bg-gray-50 cursor-pointer"
-                >
-                  <h3 className="font-medium">{cafe.name}</h3>
-                  <p className="text-sm text-gray-600">{cafe.address}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>,
-        document.body
-      )}
     </>
   );
 });
 
+// CafeTabMenu 컴포넌트 추가
 function CafeTabMenu({ selectedTab, setSelectedTab }: { selectedTab: 'beans' | 'info'; setSelectedTab: (tab: 'beans' | 'info') => void }) {
   return (
     <div className="flex border-b border-gray-200 bg-white sticky top-0 z-10">
