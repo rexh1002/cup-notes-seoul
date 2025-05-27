@@ -29,7 +29,7 @@ export default function MobileNavBar() {
             }`}
           >
             <Icon className="w-[22px] h-[22px]" />
-            <span className="text-[11px] mt-1">{label}</span>
+            <span className="text-[12px] mt-1">{label}</span>
           </Link>
         ))}
       </div>
