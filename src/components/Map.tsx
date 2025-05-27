@@ -418,14 +418,14 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
           <div 
             className={`fixed left-0 right-0
               ${isFullScreen ? 'top-0 h-screen rounded-none max-h-none' : 'top-[52%] h-[70%] rounded-2xl max-h-[calc(100vh-32px)]'}
-              z-[99999] bg-white/40 backdrop-blur-xl shadow-2xl border border-white/30 w-full max-w-sm flex flex-col overflow-hidden animate-fade-in
-              sm:left-0 sm:right-0 sm:w-full sm:max-w-none sm:p-4 sm:z-[99999] sm:bg-white sm:border-t sm:border-gray-200 sm:shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]
+              z-[88888] bg-white/40 backdrop-blur-xl shadow-2xl border border-white/30 w-full max-w-sm flex flex-col overflow-hidden animate-fade-in
+              sm:left-0 sm:right-0 sm:w-full sm:max-w-none sm:p-4 sm:z-[88888] sm:bg-white sm:border-t sm:border-gray-200 sm:shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]
               md:absolute md:top-10 md:right-0 md:bottom-auto md:left-auto md:w-[380px] md:max-w-sm md:rounded-2xl md:shadow-2xl md:border md:border-white/30 md:bg-white/40 md:h-auto`}
             style={{
               touchAction: 'none',
               transition: isFullScreen ? 'none' : 'transform 0.3s ease-out',
               position: 'fixed',
-              zIndex: 99999,
+              zIndex: 88888,
               transform: dragTranslateY !== 0 ? `translateY(${dragTranslateY}px)` : undefined
             }}
             onTouchStart={handleTouchStart}
