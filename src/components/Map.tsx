@@ -422,7 +422,7 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
         {/* 카페 정보 카드는 포탈로 body에 렌더링 */}
         {selectedCafe && typeof window !== 'undefined' && createPortal(
           <div
-            className={`fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl shadow-lg z-[88888] transition-transform duration-600 ease-in-out md:relative md:rounded-none md:shadow-none ${
+            className={`fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl shadow-lg z-[88888] transition-transform duration-100 ease-in-out md:relative md:rounded-none md:shadow-none ${
               isFullScreen ? 'h-[calc(100vh-64px)]' : 'h-[40vh]'
             }`}
             style={{
