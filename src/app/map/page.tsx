@@ -38,11 +38,9 @@ export default function MapMobilePage() {
   const [isMounted, setIsMounted] = useState(false);
   const [selectedCafe, setSelectedCafe] = useState<any | null>(null);
   const [searchKeyword, setSearchKeyword] = useState('');
-  const [showList, setShowList] = useState(false);
   const [showSearchInput, setShowSearchInput] = useState(false);
   const [userName, setUserName] = useState<string | null>(null);
   const [isSignupDropdownOpen, setIsSignupDropdownOpen] = useState(false);
-  const [isListOpen, setIsListOpen] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
@@ -133,11 +131,6 @@ export default function MapMobilePage() {
 
   const handleCafeClick = (cafe: any) => {
     setSelectedCafe(cafe);
-    setIsListOpen(false);
-  };
-
-  const handleListClick = () => {
-    setIsListOpen(true);
   };
 
   return (
@@ -294,52 +287,6 @@ export default function MapMobilePage() {
       {/* Mobile Navigation Bar */}
       <div className="fixed bottom-0 left-0 right-0 z-[160]">
         <MobileNavBar />
-      </div>
-
-      {/* 카페 목록 패널 */}
-      <div 
-        className={`fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl shadow-lg z-[150] md:relative md:rounded-xl md:shadow-none md:z-0 md:bottom-auto md:left-auto md:right-auto md:w-96 md:h-full md:overflow-y-auto md:border-r md:border-gray-200
-          ${isListOpen ? 'translate-y-0' : 'translate-y-full md:translate-y-0'}`}
-        style={{ transition: 'transform 0.3s ease-in-out' }}
-      >
-        <div className="p-4">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg font-semibold">카페 목록</h2>
-            <button 
-              onClick={() => setIsListOpen(false)}
-              className="md:hidden p-2 hover:bg-gray-100 rounded-full"
-            >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-          </div>
-          <div className="space-y-4">
-            {cafes.map((cafe) => (
-              <div
-                key={cafe.id}
-                className="p-4 bg-white rounded-lg shadow hover:shadow-md transition-shadow cursor-pointer"
-                onClick={() => handleCafeClick(cafe)}
-              >
-                <h3 className="font-semibold">{cafe.name}</h3>
-                <p className="text-sm text-gray-600">{cafe.address}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* 하단 중앙 목록보기 버튼 */}
-      <div className="fixed bottom-28 left-1/2 transform -translate-x-1/2 z-[170]">
-        <button
-          onClick={handleListClick}
-          className="bg-white px-4 py-2 rounded-full shadow-lg flex items-center gap-2 hover:bg-gray-50 transition-colors"
-        >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-          <span>목록 보기</span>
-        </button>
       </div>
     </div>
   );
