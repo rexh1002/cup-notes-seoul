@@ -392,8 +392,10 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
       e.preventDefault();
       const touch = e.touches[0];
       const currentY = touch.clientY;
+      // 드래그 속도 조절 (0.5배로 감소)
+      const deltaY = (currentY - touchStartY) * 0.5;
       setTouchMoveY(currentY);
-      setDragTranslateY(currentY - touchStartY);
+      setDragTranslateY(deltaY);
     }
   };
 
