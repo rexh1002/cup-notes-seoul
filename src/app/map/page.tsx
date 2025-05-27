@@ -19,12 +19,12 @@ const CATEGORY_LIST = [
 function QuickCard({ image, label, onClick }: { image: string; label: string; onClick: () => void }) {
   return (
     <button
-      className="flex flex-row items-center justify-center rounded-full bg-white shadow border border-gray-200 hover:bg-gray-100 active:bg-gray-200 transition text-gray-800 font-medium text-base px-4 py-2 gap-2 whitespace-nowrap min-w-0"
+      className="flex flex-row items-center justify-center rounded-full bg-white shadow border border-gray-200 hover:bg-gray-100 active:bg-gray-200 transition text-gray-800 font-medium text-base px-4 py-2 gap-2 whitespace-nowrap min-w-0 overflow-hidden"
       onClick={onClick}
       type="button"
-      style={{ minWidth: '0', height: '44px' }}
+      style={{ minWidth: '0' }}
     >
-      <Image src={image} alt={label} width={22} height={22} />
+      <Image src={image} alt={label} width={18} height={18} />
       <span>{label}</span>
     </button>
   );
