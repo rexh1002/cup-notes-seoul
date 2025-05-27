@@ -604,6 +604,41 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
           목록보기
         </button>
       </div>
+
+      {/* 모바일 목록 패널 */}
+      {showList && typeof window !== 'undefined' && createPortal(
+        <div className="fixed inset-0 bg-white z-[99999] md:hidden">
+          <div className="h-full flex flex-col">
+            <div className="p-4 border-b border-gray-200 flex items-center justify-between">
+              <h2 className="text-lg font-semibold">카페 목록</h2>
+              <button
+                onClick={() => setShowList(false)}
+                className="p-2 hover:bg-gray-100 rounded-full"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            <div className="flex-1 overflow-y-auto">
+              {cafes.map((cafe) => (
+                <div
+                  key={cafe.id}
+                  onClick={() => {
+                    setSelectedCafe(cafe);
+                    setShowList(false);
+                  }}
+                  className="p-4 border-b border-gray-200 hover:bg-gray-50 cursor-pointer"
+                >
+                  <h3 className="font-medium">{cafe.name}</h3>
+                  <p className="text-sm text-gray-600">{cafe.address}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>,
+        document.body
+      )}
     </>
   );
 });
