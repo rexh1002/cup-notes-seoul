@@ -1,7 +1,7 @@
 import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Map, User } from 'lucide-react';
+import { Filter, Map } from 'lucide-react';
 
 export default function MobileNavBar() {
   const pathname = usePathname();
@@ -9,9 +9,8 @@ export default function MobileNavBar() {
   const isActive = (path: string) => pathname === path;
 
   const navItems = [
-    { href: '/', icon: Home, label: '홈' },
+    { href: '/filters', icon: Filter, label: '필터' },
     { href: '/map', icon: Map, label: '지도' },
-    { href: '/mypage', icon: User, label: '마이페이지' },
   ];
 
   if (typeof window === 'undefined') return null;
