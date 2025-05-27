@@ -158,14 +158,20 @@ export default function MapMobilePage() {
       )}
       {/* 모바일 지도 QuickButton 그룹 중앙 상단 가로 배치 */}
       {typeof window !== 'undefined' && window.innerWidth < 768 && (
-        <div className="fixed top-20 left-0 right-0 z-[110] w-full max-w-full overflow-x-auto" style={{ WebkitOverflowScrolling: 'touch' }}>
-          <style>{`div[role='quick-scroll']::-webkit-scrollbar { display: none; }`}</style>
-          <div role="quick-scroll" className="flex flex-row gap-2 items-center pl-2 pr-2" style={{scrollbarWidth:'none'}}>
-            {CATEGORY_LIST.map(cat => (
-              <QuickCard key={cat.key} image={cat.image} label={cat.label} onClick={() => handleCategorySearch(cat.key)} />
-            ))}
+        <>
+          <style>{`
+            .scrollbar-transparent::-webkit-scrollbar { height: 0 !important; background: transparent; }
+            .scrollbar-transparent { scrollbar-width: none; -ms-overflow-style: none; }
+            .scrollbar-transparent::-webkit-scrollbar-thumb { background: transparent; }
+          `}</style>
+          <div className="fixed top-20 left-0 right-0 z-[110] w-full max-w-full overflow-x-auto scrollbar-transparent" style={{ WebkitOverflowScrolling: 'touch' }}>
+            <div role="quick-scroll" className="flex flex-row gap-2 items-center pl-2 pr-2">
+              {CATEGORY_LIST.map(cat => (
+                <QuickCard key={cat.key} image={cat.image} label={cat.label} onClick={() => handleCategorySearch(cat.key)} />
+              ))}
+            </div>
           </div>
-        </div>
+        </>
       )}
       <header className="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur border-b border-indigo-200 shadow-sm z-50">
         <div className="w-full px-0">
