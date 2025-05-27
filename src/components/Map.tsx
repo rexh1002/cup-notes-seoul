@@ -392,8 +392,11 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
       e.preventDefault();
       const touch = e.touches[0];
       const currentY = touch.clientY;
-      // 드래그 속도 조절 (0.5배로 감소)
       const deltaY = (currentY - touchStartY) * 0.5;
+      
+      // 전체화면 상태에서는 위로 드래그 방지
+      if (isFullScreen && deltaY < 0) return;
+      
       setTouchMoveY(currentY);
       setDragTranslateY(deltaY);
     }
