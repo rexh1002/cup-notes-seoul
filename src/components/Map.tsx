@@ -85,6 +85,7 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
   const [dragTranslateY, setDragTranslateY] = useState(0);
   const [canDrag, setCanDrag] = useState(true);
   const tabMenuRef = useRef<HTMLDivElement>(null);
+  const [showList, setShowList] = useState(false);
 
   // 검색 카테고리 정의
   const searchCategories = {
@@ -593,6 +594,15 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
           </div>,
           document.body
         )}
+        <button
+          onClick={() => setShowList(true)}
+          className="fixed bottom-20 left-1/2 -translate-x-1/2 bg-black text-white px-6 py-3 rounded-full shadow-lg font-medium flex items-center gap-2 z-50 md:hidden"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fillRule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" />
+          </svg>
+          목록보기
+        </button>
       </div>
     </>
   );
