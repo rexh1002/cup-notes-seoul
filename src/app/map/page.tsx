@@ -19,12 +19,12 @@ const CATEGORY_LIST = [
 function QuickCard({ image, label, onClick }: { image: string; label: string; onClick: () => void }) {
   return (
     <button
-      className="flex flex-row items-center justify-center rounded-full bg-white shadow border border-gray-200 hover:bg-gray-100 active:bg-gray-200 transition text-gray-800 font-medium text-sm px-3 py-1.5 gap-2 whitespace-nowrap truncate"
+      className="flex flex-row items-center justify-center flex-shrink-0 min-w-fit rounded-full bg-white shadow border border-gray-200 hover:bg-gray-100 active:bg-gray-200 transition text-gray-800 font-medium text-sm px-3 py-1.5 gap-2 whitespace-nowrap"
       onClick={onClick}
       type="button"
     >
       <Image src={image} alt={label} width={16} height={16} />
-      <span className="truncate">{label}</span>
+      <span>{label}</span>
     </button>
   );
 }
@@ -158,7 +158,7 @@ export default function MapMobilePage() {
       )}
       {/* 모바일 지도 QuickButton 그룹 중앙 상단 가로 배치 */}
       {typeof window !== 'undefined' && window.innerWidth < 768 && (
-        <div className="fixed left-1/2 top-20 z-[110] -translate-x-1/2 flex flex-row gap-2 items-center justify-center" style={{minWidth:'320px', maxWidth:'90vw'}}>
+        <div className="fixed left-1/2 top-20 z-[110] -translate-x-1/2 flex flex-row gap-2 items-center justify-center overflow-x-auto" style={{minWidth:'320px', maxWidth:'90vw'}}>
           {CATEGORY_LIST.map(cat => (
             <QuickCard key={cat.key} image={cat.image} label={cat.label} onClick={() => handleCategorySearch(cat.key)} />
           ))}
