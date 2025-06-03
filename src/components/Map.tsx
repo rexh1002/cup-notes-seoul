@@ -452,7 +452,7 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
               </div>
               {/* 이미지 섹션 및 이미지 위 텍스트 추가 */}
               {selectedCafe.imageUrl && (
-                <div className="w-full relative rounded-t-2xl overflow-hidden group sm:h-[175px] md:h-[175px]" style={{ height: '60px', ...(typeof window !== 'undefined' && window.innerWidth < 640 ? { height: '3cm' } : {}) }}>
+                <div className="w-full relative rounded-t-2xl overflow-hidden group sm:h-[175px] md:h-[175px]" style={{ height: '60px', ...(typeof window !== 'undefined' && window.innerWidth < 640 ? { height: '5cm' } : {}) }}>
                   <Image
                     src={selectedCafe.imageUrl}
                     alt={selectedCafe.name}
@@ -553,20 +553,70 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                     </div>
                   )
                 ) : (
-                  <div className="flex-1 overflow-y-auto px-4 pb-24 sm:px-1 sm:pb-16 leading-relaxed">
+                  <div className="flex-1 overflow-y-auto px-2 pb-8 leading-relaxed">
                     {/* 카페 정보 표시 영역 */}
-                    {selectedCafe.businessHours && (
-                      <div>
-                        <div className="font-semibold text-gray-700 mb-1 flex items-center gap-1"><Clock className="w-4 h-4 inline-block" /> 영업시간</div>
-                        <div className="text-gray-800 text-sm">
-                          {typeof selectedCafe.businessHours === 'string'
-                            ? selectedCafe.businessHours
-                            : selectedCafe.businessHours && typeof selectedCafe.businessHours === 'object'
-                              ? JSON.stringify(selectedCafe.businessHours)
-                              : String(selectedCafe.businessHours)}
+                    <div className="space-y-3">
+                      {/* 주소 */}
+                      {selectedCafe.address && (
+                        <div className="flex items-center gap-2 text-gray-800 text-sm">
+                          <MapPin className="w-4 h-4 text-blue-500" />
+                          <span>{selectedCafe.address}</span>
                         </div>
-                      </div>
-                    )}
+                      )}
+                      {/* 전화번호 */}
+                      {selectedCafe.phone && (
+                        <div className="flex items-center gap-2 text-gray-800 text-sm">
+                          <Phone className="w-4 h-4 text-green-500" />
+                          <span>{selectedCafe.phone}</span>
+                        </div>
+                      )}
+                      {/* 영업시간 */}
+                      {selectedCafe.businessHours && (
+                        <div>
+                          <div className="font-semibold text-gray-700 mb-1 flex items-center gap-1"><Clock className="w-4 h-4 inline-block" /> 영업시간</div>
+                          <div className="text-gray-800 text-sm">
+                            {typeof selectedCafe.businessHours === 'string'
+                              ? selectedCafe.businessHours
+                              : selectedCafe.businessHours && typeof selectedCafe.businessHours === 'object'
+                                ? JSON.stringify(selectedCafe.businessHours)
+                                : String(selectedCafe.businessHours)}
+                          </div>
+                        </div>
+                      )}
+                      {/* 영업시간 비고 */}
+                      {selectedCafe.businessHourNote && (
+                        <div className="flex items-center gap-2 text-gray-800 text-sm">
+                          <Info className="w-4 h-4 text-yellow-500" />
+                          <span>{selectedCafe.businessHourNote}</span>
+                        </div>
+                      )}
+                      {/* 설명 */}
+                      {selectedCafe.description && (
+                        <div className="flex items-start gap-2 text-gray-800 text-sm">
+                          <MessageCircle className="w-4 h-4 text-purple-500 mt-0.5" />
+                          <span>{selectedCafe.description}</span>
+                        </div>
+                      )}
+                      {/* SNS 링크 */}
+                      {selectedCafe.snsLinks && Array.isArray(selectedCafe.snsLinks) && selectedCafe.snsLinks.length > 0 && (
+                        <div className="flex items-center gap-2 text-gray-800 text-sm flex-wrap">
+                          <Share2 className="w-4 h-4 text-pink-500" />
+                          {selectedCafe.snsLinks.map((link: any, idx: number) => (
+                            link.url ? (
+                              <a
+                                key={idx}
+                                href={link.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="underline hover:text-blue-600 mr-2"
+                              >
+                                {link.type || 'SNS'}
+                              </a>
+                            ) : null
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   </div>
                 )}
               </div>
@@ -672,18 +722,68 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                 ) : (
                   <div className="flex-1 overflow-y-auto px-2 pb-8 leading-relaxed">
                     {/* 카페 정보 표시 영역 */}
-                    {selectedCafe.businessHours && (
-                      <div>
-                        <div className="font-semibold text-gray-700 mb-1 flex items-center gap-1"><Clock className="w-4 h-4 inline-block" /> 영업시간</div>
-                        <div className="text-gray-800 text-sm">
-                          {typeof selectedCafe.businessHours === 'string'
-                            ? selectedCafe.businessHours
-                            : selectedCafe.businessHours && typeof selectedCafe.businessHours === 'object'
-                              ? JSON.stringify(selectedCafe.businessHours)
-                              : String(selectedCafe.businessHours)}
+                    <div className="space-y-3">
+                      {/* 주소 */}
+                      {selectedCafe.address && (
+                        <div className="flex items-center gap-2 text-gray-800 text-sm">
+                          <MapPin className="w-4 h-4 text-blue-500" />
+                          <span>{selectedCafe.address}</span>
                         </div>
-                      </div>
-                    )}
+                      )}
+                      {/* 전화번호 */}
+                      {selectedCafe.phone && (
+                        <div className="flex items-center gap-2 text-gray-800 text-sm">
+                          <Phone className="w-4 h-4 text-green-500" />
+                          <span>{selectedCafe.phone}</span>
+                        </div>
+                      )}
+                      {/* 영업시간 */}
+                      {selectedCafe.businessHours && (
+                        <div>
+                          <div className="font-semibold text-gray-700 mb-1 flex items-center gap-1"><Clock className="w-4 h-4 inline-block" /> 영업시간</div>
+                          <div className="text-gray-800 text-sm">
+                            {typeof selectedCafe.businessHours === 'string'
+                              ? selectedCafe.businessHours
+                              : selectedCafe.businessHours && typeof selectedCafe.businessHours === 'object'
+                                ? JSON.stringify(selectedCafe.businessHours)
+                                : String(selectedCafe.businessHours)}
+                          </div>
+                        </div>
+                      )}
+                      {/* 영업시간 비고 */}
+                      {selectedCafe.businessHourNote && (
+                        <div className="flex items-center gap-2 text-gray-800 text-sm">
+                          <Info className="w-4 h-4 text-yellow-500" />
+                          <span>{selectedCafe.businessHourNote}</span>
+                        </div>
+                      )}
+                      {/* 설명 */}
+                      {selectedCafe.description && (
+                        <div className="flex items-start gap-2 text-gray-800 text-sm">
+                          <MessageCircle className="w-4 h-4 text-purple-500 mt-0.5" />
+                          <span>{selectedCafe.description}</span>
+                        </div>
+                      )}
+                      {/* SNS 링크 */}
+                      {selectedCafe.snsLinks && Array.isArray(selectedCafe.snsLinks) && selectedCafe.snsLinks.length > 0 && (
+                        <div className="flex items-center gap-2 text-gray-800 text-sm flex-wrap">
+                          <Share2 className="w-4 h-4 text-pink-500" />
+                          {selectedCafe.snsLinks.map((link: any, idx: number) => (
+                            link.url ? (
+                              <a
+                                key={idx}
+                                href={link.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="underline hover:text-blue-600 mr-2"
+                              >
+                                {link.type || 'SNS'}
+                              </a>
+                            ) : null
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   </div>
                 )}
               </div>
