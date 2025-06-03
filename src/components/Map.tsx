@@ -555,6 +555,18 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                 ) : (
                   <div className="flex-1 overflow-y-auto px-4 pb-24 sm:px-1 sm:pb-16 leading-relaxed">
                     {/* 카페 정보 표시 영역 */}
+                    {selectedCafe.businessHours && (
+                      <div>
+                        <div className="font-semibold text-gray-700 mb-1 flex items-center gap-1"><Clock className="w-4 h-4 inline-block" /> 영업시간</div>
+                        <div className="text-gray-800 text-sm">
+                          {typeof selectedCafe.businessHours === 'string'
+                            ? selectedCafe.businessHours
+                            : selectedCafe.businessHours && typeof selectedCafe.businessHours === 'object'
+                              ? JSON.stringify(selectedCafe.businessHours)
+                              : String(selectedCafe.businessHours)}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
@@ -660,6 +672,18 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                 ) : (
                   <div className="flex-1 overflow-y-auto px-2 pb-8 leading-relaxed">
                     {/* 카페 정보 표시 영역 */}
+                    {selectedCafe.businessHours && (
+                      <div>
+                        <div className="font-semibold text-gray-700 mb-1 flex items-center gap-1"><Clock className="w-4 h-4 inline-block" /> 영업시간</div>
+                        <div className="text-gray-800 text-sm">
+                          {typeof selectedCafe.businessHours === 'string'
+                            ? selectedCafe.businessHours
+                            : selectedCafe.businessHours && typeof selectedCafe.businessHours === 'object'
+                              ? JSON.stringify(selectedCafe.businessHours)
+                              : String(selectedCafe.businessHours)}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
