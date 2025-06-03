@@ -426,81 +426,188 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
         {/* 지도 영역 내부에는 카드 렌더링 X */}
         {/* 카페 정보 카드는 포탈로 body에 렌더링 */}
         {selectedCafe && typeof window !== 'undefined' && createPortal(
-          <div
-            className={`fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl shadow-lg z-[88888] transition-transform duration-1500 ease-in-out md:relative md:rounded-none md:shadow-none ${
-              isFullScreen ? 'h-[calc(100vh-64px)]' : 'h-[40vh]'
-            }`}
-            style={{
-              transform: `translateY(${dragTranslateY}px)`,
-              touchAction: 'none'
-            }}
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
-          >
-            {/* 드래그 핸들 (상단 바) */}
+          window.innerWidth < 768 ? (
+            // 모바일: 기존처럼 하단 고정
             <div
-              className="w-full h-2 bg-white rounded-t-2xl flex items-center justify-center cursor-grab active:cursor-grabbing"
+              className={`fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl shadow-lg z-[88888] transition-transform duration-1500 ease-in-out md:relative md:rounded-none md:shadow-none ${
+                isFullScreen ? 'h-[calc(100vh-64px)]' : 'h-[40vh]'
+              }`}
+              style={{
+                transform: `translateY(${dragTranslateY}px)`,
+                touchAction: 'none'
+              }}
               onTouchStart={handleTouchStart}
               onTouchMove={handleTouchMove}
               onTouchEnd={handleTouchEnd}
-              style={{ touchAction: 'none' }}
             >
-              <div className="w-8 h-0.5 bg-gray-300 rounded-full" />
-            </div>
-            {/* 카페 이름 섹션 삭제 */}
-            {/* 이미지 섹션 및 이미지 위 텍스트 추가 */}
-            {selectedCafe.imageUrl && (
-              <div className="w-full relative rounded-t-2xl overflow-hidden group sm:h-[175px] md:h-[175px]" style={{ height: '60px', ...(typeof window !== 'undefined' && window.innerWidth < 640 ? { height: '3cm' } : {}) }}>
-                <Image
-                  src={selectedCafe.imageUrl}
-                  alt={selectedCafe.name}
-                  width={480}
-                  height={200}
-                  sizes="(max-width: 768px) 100vw, 480px"
-                  priority
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  unoptimized
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-                {/* 이미지 왼쪽 하단에 카페명/주소 표시 */}
-                <div className="absolute left-4 bottom-4 sm:left-6 sm:bottom-6 z-10">
-                  <div className="text-white font-bold text-2xl sm:text-3xl drop-shadow-lg leading-tight">{selectedCafe.name}</div>
-                  <div className="text-gray-200 text-sm sm:text-base font-medium drop-shadow-md mt-1">{selectedCafe.address}</div>
-                </div>
+              {/* 드래그 핸들 (상단 바) */}
+              <div
+                className="w-full h-2 bg-white rounded-t-2xl flex items-center justify-center cursor-grab active:cursor-grabbing"
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
+                style={{ touchAction: 'none' }}
+              >
+                <div className="w-8 h-0.5 bg-gray-300 rounded-full" />
               </div>
-            )}
-            {/* 탭 상태 및 메뉴 (드래그 핸들/이미지 아래에 배치) */}
-            <div style={{ marginTop: '0px' }} ref={tabMenuRef}>
-              <CafeTabMenu selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
-            </div>
-            {/* 탭별 내용 */}
-            <div className="flex-1 overflow-y-auto" style={{ touchAction: 'pan-y' }}>
-              {selectedTab === 'beans' ? (
-                selectedCafe.coffees && selectedCafe.coffees.length > 0 && (
-                  <div 
-                    className="cafe-scroll-area flex-1 overflow-y-auto px-4 pb-24 sm:px-1 sm:pb-16 leading-relaxed"
-                    style={{ 
-                      touchAction: 'pan-y',
-                      overscrollBehavior: 'contain',
-                      maxHeight: 'calc(100vh - 400px)'
-                    }}
-                  >
-                    <div className="flex items-center justify-end mb-2 mt-2 sm:mb-1 sm:mt-1">
-                      <span className="text-xs text-gray-500">
-                        {selectedCafe.updatedAt ? `최근수정일 : ${new Date(selectedCafe.updatedAt).toLocaleDateString('ko-KR', {
-                          year: 'numeric',
-                          month: '2-digit',
-                          day: '2-digit'
-                        })}` : ''}
-                      </span>
+              {/* 이미지 섹션 및 이미지 위 텍스트 추가 */}
+              {selectedCafe.imageUrl && (
+                <div className="w-full relative rounded-t-2xl overflow-hidden group sm:h-[175px] md:h-[175px]" style={{ height: '60px', ...(typeof window !== 'undefined' && window.innerWidth < 640 ? { height: '3cm' } : {}) }}>
+                  <Image
+                    src={selectedCafe.imageUrl}
+                    alt={selectedCafe.name}
+                    width={480}
+                    height={200}
+                    sizes="(max-width: 768px) 100vw, 480px"
+                    priority
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    unoptimized
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+                  {/* 이미지 왼쪽 하단에 카페명/주소 표시 */}
+                  <div className="absolute left-4 bottom-4 sm:left-6 sm:bottom-6 z-10">
+                    <div className="text-white font-bold text-2xl sm:text-3xl drop-shadow-lg leading-tight">{selectedCafe.name}</div>
+                    <div className="text-gray-200 text-sm sm:text-base font-medium drop-shadow-md mt-1">{selectedCafe.address}</div>
+                  </div>
+                </div>
+              )}
+              {/* 탭 상태 및 메뉴 (드래그 핸들/이미지 아래에 배치) */}
+              <div style={{ marginTop: '0px' }} ref={tabMenuRef}>
+                <CafeTabMenu selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
+              </div>
+              {/* 탭별 내용 */}
+              <div className="flex-1 overflow-y-auto" style={{ touchAction: 'pan-y' }}>
+                {selectedTab === 'beans' ? (
+                  selectedCafe.coffees && selectedCafe.coffees.length > 0 && (
+                    <div 
+                      className="cafe-scroll-area flex-1 overflow-y-auto px-4 pb-24 sm:px-1 sm:pb-16 leading-relaxed"
+                      style={{ 
+                        touchAction: 'pan-y',
+                        overscrollBehavior: 'contain',
+                        maxHeight: 'calc(100vh - 400px)'
+                      }}
+                    >
+                      <div className="flex items-center justify-end mb-2 mt-2 sm:mb-1 sm:mt-1">
+                        <span className="text-xs text-gray-500">
+                          {selectedCafe.updatedAt ? `최근수정일 : ${new Date(selectedCafe.updatedAt).toLocaleDateString('ko-KR', {
+                            year: 'numeric',
+                            month: '2-digit',
+                            day: '2-digit'
+                          })}` : ''}
+                        </span>
+                      </div>
+                      <div className="space-y-3 sm:space-y-1.5">
+                        {selectedCafe.coffees.map((coffee) => (
+                          <div
+                            key={coffee.id}
+                            className="relative rounded-xl pt-4 pb-2 px-4 shadow bg-white/70 backdrop-blur border border-white/40 flex flex-col gap-0.5 transition-transform hover:-translate-y-1 hover:shadow-xl
+                              sm:rounded-lg sm:pt-2 sm:pb-1 sm:px-2 sm:gap-0.5"
+                            style={{
+                              backgroundColor: coffee.noteColors?.[0] || 'rgba(255,255,255,0.7)',
+                              boxShadow: '0 2px 8px 0 rgba(80,80,120,0.10), inset 0 1px 2px rgba(0,0,0,0.08)'
+                            }}
+                          >
+                            {/* 원두 이름과 가격 */}
+                            <div className="flex justify-between items-center mb-0.5">
+                              <h5 className="text-base font-bold leading-tight text-gray-900 sm:text-sm">{coffee.name}</h5>
+                              <span className="text-sm font-semibold leading-tight text-gray-700 sm:text-xs">
+                                {coffee.price?.toLocaleString()}원
+                              </span>
+                            </div>
+                            {/* 원두 설명 */}
+                            {coffee.description && (
+                              <p className="text-sm text-gray-700 mb-0.5 leading-tight sm:text-xs">
+                                {coffee.description}
+                              </p>
+                            )}
+                            {/* 원두 특성 태그들 */}
+                            <div className="flex flex-wrap gap-1 mb-0.5 sm:gap-0.5">
+                              {coffee.roastLevel?.map((level, idx) => (
+                                <span
+                                  key={`roast-${idx}`}
+                                  className="text-[11px] px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200 sm:px-1 sm:py-0.5"
+                                >
+                                  {level}
+                                </span>
+                              ))}
+                              {coffee.origins?.map((origin, idx) => (
+                                <span
+                                  key={`origin-${idx}`}
+                                  className="text-[11px] px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200 sm:px-1 sm:py-0.5"
+                                >
+                                  {origin}
+                                </span>
+                              ))}
+                              {coffee.processes?.map((process, idx) => (
+                                <span
+                                  key={`process-${idx}`}
+                                  className="text-[11px] px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200 sm:px-1 sm:py-0.5"
+                                >
+                                  {process}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                    <div className="space-y-3 sm:space-y-1.5">
+                  )
+                ) : (
+                  <div className="flex-1 overflow-y-auto px-4 pb-24 sm:px-1 sm:pb-16 leading-relaxed">
+                    {/* 카페 정보 표시 영역 */}
+                  </div>
+                )}
+              </div>
+            </div>
+          ) : (
+            // 웹: 오른쪽 영역에 고정
+            <div
+              className="fixed top-20 right-8 w-[420px] h-[calc(100vh-128px)] bg-white rounded-2xl shadow-2xl z-[88888] flex flex-col border border-gray-200 animate-fade-in"
+              style={{ maxHeight: 'calc(100vh - 128px)' }}
+            >
+              {/* 이미지 섹션 및 이미지 위 텍스트 추가 */}
+              {selectedCafe.imageUrl && (
+                <div className="w-full relative rounded-t-2xl overflow-hidden group h-[180px]">
+                  <Image
+                    src={selectedCafe.imageUrl}
+                    alt={selectedCafe.name}
+                    width={480}
+                    height={180}
+                    sizes="(max-width: 768px) 100vw, 480px"
+                    priority
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    unoptimized
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+                  {/* 이미지 왼쪽 하단에 카페명/주소 표시 */}
+                  <div className="absolute left-4 bottom-4 z-10">
+                    <div className="text-white font-bold text-2xl drop-shadow-lg leading-tight">{selectedCafe.name}</div>
+                    <div className="text-gray-200 text-sm font-medium drop-shadow-md mt-1">{selectedCafe.address}</div>
+                  </div>
+                </div>
+              )}
+              {/* 탭 상태 및 메뉴 (이미지 아래에 배치) */}
+              <div style={{ marginTop: '0px' }} ref={tabMenuRef}>
+                <CafeTabMenu selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
+              </div>
+              {/* 탭별 내용 */}
+              <div className="flex-1 overflow-y-auto px-4 pb-8 leading-relaxed">
+                {selectedTab === 'beans' ? (
+                  selectedCafe.coffees && selectedCafe.coffees.length > 0 && (
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-end mb-2 mt-2">
+                        <span className="text-xs text-gray-500">
+                          {selectedCafe.updatedAt ? `최근수정일 : ${new Date(selectedCafe.updatedAt).toLocaleDateString('ko-KR', {
+                            year: 'numeric',
+                            month: '2-digit',
+                            day: '2-digit'
+                          })}` : ''}
+                        </span>
+                      </div>
                       {selectedCafe.coffees.map((coffee) => (
                         <div
                           key={coffee.id}
-                          className="relative rounded-xl pt-4 pb-2 px-4 shadow bg-white/70 backdrop-blur border border-white/40 flex flex-col gap-0.5 transition-transform hover:-translate-y-1 hover:shadow-xl
-                            sm:rounded-lg sm:pt-2 sm:pb-1 sm:px-2 sm:gap-0.5"
+                          className="relative rounded-xl pt-4 pb-2 px-4 shadow bg-white/70 backdrop-blur border border-white/40 flex flex-col gap-0.5 transition-transform hover:-translate-y-1 hover:shadow-xl"
                           style={{
                             backgroundColor: coffee.noteColors?.[0] || 'rgba(255,255,255,0.7)',
                             boxShadow: '0 2px 8px 0 rgba(80,80,120,0.10), inset 0 1px 2px rgba(0,0,0,0.08)'
@@ -508,23 +615,23 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                         >
                           {/* 원두 이름과 가격 */}
                           <div className="flex justify-between items-center mb-0.5">
-                            <h5 className="text-base font-bold leading-tight text-gray-900 sm:text-sm">{coffee.name}</h5>
-                            <span className="text-sm font-semibold leading-tight text-gray-700 sm:text-xs">
+                            <h5 className="text-base font-bold leading-tight text-gray-900">{coffee.name}</h5>
+                            <span className="text-sm font-semibold leading-tight text-gray-700">
                               {coffee.price?.toLocaleString()}원
                             </span>
                           </div>
                           {/* 원두 설명 */}
                           {coffee.description && (
-                            <p className="text-sm text-gray-700 mb-0.5 leading-tight sm:text-xs">
+                            <p className="text-sm text-gray-700 mb-0.5 leading-tight">
                               {coffee.description}
                             </p>
                           )}
                           {/* 원두 특성 태그들 */}
-                          <div className="flex flex-wrap gap-1 mb-0.5 sm:gap-0.5">
+                          <div className="flex flex-wrap gap-1 mb-0.5">
                             {coffee.roastLevel?.map((level, idx) => (
                               <span
                                 key={`roast-${idx}`}
-                                className="text-[11px] px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200 sm:px-1 sm:py-0.5"
+                                className="text-[11px] px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200"
                               >
                                 {level}
                               </span>
@@ -532,7 +639,7 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                             {coffee.origins?.map((origin, idx) => (
                               <span
                                 key={`origin-${idx}`}
-                                className="text-[11px] px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200 sm:px-1 sm:py-0.5"
+                                className="text-[11px] px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200"
                               >
                                 {origin}
                               </span>
@@ -540,7 +647,7 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                             {coffee.processes?.map((process, idx) => (
                               <span
                                 key={`process-${idx}`}
-                                className="text-[11px] px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200 sm:px-1 sm:py-0.5"
+                                className="text-[11px] px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200"
                               >
                                 {process}
                               </span>
@@ -549,15 +656,15 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                         </div>
                       ))}
                     </div>
+                  )
+                ) : (
+                  <div className="flex-1 overflow-y-auto px-2 pb-8 leading-relaxed">
+                    {/* 카페 정보 표시 영역 */}
                   </div>
-                )
-              ) : (
-                <div className="flex-1 overflow-y-auto px-4 pb-24 sm:px-1 sm:pb-16 leading-relaxed">
-                  {/* 카페 정보 표시 영역 */}
-                </div>
-              )}
+                )}
+              </div>
             </div>
-          </div>,
+          ),
           document.body
         )}
       </div>
