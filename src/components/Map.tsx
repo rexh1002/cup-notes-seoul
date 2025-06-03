@@ -448,13 +448,8 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
             >
               <div className="w-8 h-0.5 bg-gray-300 rounded-full" />
             </div>
-            {/* 카페 이름 섹션 추가 */}
-            {selectedCafe.imageUrl && (
-              <div className="w-full py-2 text-left bg-white border-b border-gray-200 pl-4">
-                <h2 className="text-lg font-bold text-gray-900">{selectedCafe.name}</h2>
-              </div>
-            )}
-            {/* 이미지 섹션 */}
+            {/* 카페 이름 섹션 삭제 */}
+            {/* 이미지 섹션 및 이미지 위 텍스트 추가 */}
             {selectedCafe.imageUrl && (
               <div className="w-full relative rounded-t-2xl overflow-hidden group sm:h-[175px] md:h-[175px]" style={{ height: '60px', ...(typeof window !== 'undefined' && window.innerWidth < 640 ? { height: '3cm' } : {}) }}>
                 <Image
@@ -468,6 +463,11 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                   unoptimized
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+                {/* 이미지 왼쪽 하단에 카페명/주소 표시 */}
+                <div className="absolute left-4 bottom-4 sm:left-6 sm:bottom-6 z-10">
+                  <div className="text-white font-bold text-2xl sm:text-3xl drop-shadow-lg leading-tight">{selectedCafe.name}</div>
+                  <div className="text-gray-200 text-sm sm:text-base font-medium drop-shadow-md mt-1">{selectedCafe.address}</div>
+                </div>
               </div>
             )}
             {/* 탭 상태 및 메뉴 (드래그 핸들/이미지 아래에 배치) */}
