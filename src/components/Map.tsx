@@ -574,19 +574,21 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                       {selectedCafe.businessHours && (
                         <div className="flex items-center gap-2 text-gray-800 text-sm">
                           <Clock className="w-4 h-4 inline-block" />
-                          <span>
-                            {Array.isArray(selectedCafe.businessHours)
-                              ? selectedCafe.businessHours
-                                  .map(hour =>
-                                    hour && typeof hour === 'object' && 'day' in hour && 'openTime' in hour && 'closeTime' in hour
-                                      ? `${hour.day}: ${hour.openTime} - ${hour.closeTime}`
-                                      : JSON.stringify(hour)
-                                  )
-                                  .join(', ')
-                              : typeof selectedCafe.businessHours === 'string'
+                          <span
+                            dangerouslySetInnerHTML={{
+                              __html: Array.isArray(selectedCafe.businessHours)
                                 ? selectedCafe.businessHours
-                                : String(selectedCafe.businessHours)}
-                          </span>
+                                    .map(hour =>
+                                      hour && typeof hour === 'object' && 'day' in hour && 'openTime' in hour && 'closeTime' in hour
+                                        ? `${hour.day}: ${hour.openTime} - ${hour.closeTime}`
+                                        : JSON.stringify(hour)
+                                    )
+                                    .join('<br/>')
+                                : typeof selectedCafe.businessHours === 'string'
+                                  ? selectedCafe.businessHours
+                                  : String(selectedCafe.businessHours)
+                            }}
+                          />
                         </div>
                       )}
                       {/* 영업시간 비고 */}
@@ -747,19 +749,21 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                       {selectedCafe.businessHours && (
                         <div className="flex items-center gap-2 text-gray-800 text-sm">
                           <Clock className="w-4 h-4 inline-block" />
-                          <span>
-                            {Array.isArray(selectedCafe.businessHours)
-                              ? selectedCafe.businessHours
-                                  .map(hour =>
-                                    hour && typeof hour === 'object' && 'day' in hour && 'openTime' in hour && 'closeTime' in hour
-                                      ? `${hour.day}: ${hour.openTime} - ${hour.closeTime}`
-                                      : JSON.stringify(hour)
-                                  )
-                                  .join(', ')
-                              : typeof selectedCafe.businessHours === 'string'
+                          <span
+                            dangerouslySetInnerHTML={{
+                              __html: Array.isArray(selectedCafe.businessHours)
                                 ? selectedCafe.businessHours
-                                : String(selectedCafe.businessHours)}
-                          </span>
+                                    .map(hour =>
+                                      hour && typeof hour === 'object' && 'day' in hour && 'openTime' in hour && 'closeTime' in hour
+                                        ? `${hour.day}: ${hour.openTime} - ${hour.closeTime}`
+                                        : JSON.stringify(hour)
+                                    )
+                                    .join('<br/>')
+                                : typeof selectedCafe.businessHours === 'string'
+                                  ? selectedCafe.businessHours
+                                  : String(selectedCafe.businessHours)
+                            }}
+                          />
                         </div>
                       )}
                       {/* 영업시간 비고 */}
