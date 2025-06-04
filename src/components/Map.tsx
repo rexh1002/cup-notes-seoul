@@ -579,7 +579,13 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                               ? selectedCafe.businessHours
                               : selectedCafe.businessHours && typeof selectedCafe.businessHours === 'object'
                                 ? Object.entries(selectedCafe.businessHours)
-                                    .map(([day, hours]) => `${day}: ${hours}`)
+                                    .map(([day, hours]) => {
+                                      if (typeof hours === 'object' && hours !== null && 'open' in hours && 'close' in hours) {
+                                        return `${day}: ${hours.open} - ${hours.close}`;
+                                      } else {
+                                        return `${day}: ${hours}`;
+                                      }
+                                    })
                                     .join(', ')
                                 : String(selectedCafe.businessHours)}
                           </span>
@@ -748,7 +754,13 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                               ? selectedCafe.businessHours
                               : selectedCafe.businessHours && typeof selectedCafe.businessHours === 'object'
                                 ? Object.entries(selectedCafe.businessHours)
-                                    .map(([day, hours]) => `${day}: ${hours}`)
+                                    .map(([day, hours]) => {
+                                      if (typeof hours === 'object' && hours !== null && 'open' in hours && 'close' in hours) {
+                                        return `${day}: ${hours.open} - ${hours.close}`;
+                                      } else {
+                                        return `${day}: ${hours}`;
+                                      }
+                                    })
                                     .join(', ')
                                 : String(selectedCafe.businessHours)}
                           </span>
