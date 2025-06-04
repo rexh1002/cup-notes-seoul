@@ -572,15 +572,17 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                       )}
                       {/* 영업시간 */}
                       {selectedCafe.businessHours && (
-                        <div>
-                          <div className="font-semibold text-gray-700 mb-1 flex items-center gap-1"><Clock className="w-4 h-4 inline-block" /> 영업시간</div>
-                          <div className="text-gray-800 text-sm">
+                        <div className="flex items-center gap-2 text-gray-800 text-sm">
+                          <Clock className="w-4 h-4 inline-block" />
+                          <span>
                             {typeof selectedCafe.businessHours === 'string'
                               ? selectedCafe.businessHours
                               : selectedCafe.businessHours && typeof selectedCafe.businessHours === 'object'
-                                ? JSON.stringify(selectedCafe.businessHours)
+                                ? Object.entries(selectedCafe.businessHours)
+                                    .map(([day, hours]) => `${day}: ${hours}`)
+                                    .join(', ')
                                 : String(selectedCafe.businessHours)}
-                          </div>
+                          </span>
                         </div>
                       )}
                       {/* 영업시간 비고 */}
@@ -739,15 +741,17 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                       )}
                       {/* 영업시간 */}
                       {selectedCafe.businessHours && (
-                        <div>
-                          <div className="font-semibold text-gray-700 mb-1 flex items-center gap-1"><Clock className="w-4 h-4 inline-block" /> 영업시간</div>
-                          <div className="text-gray-800 text-sm">
+                        <div className="flex items-center gap-2 text-gray-800 text-sm">
+                          <Clock className="w-4 h-4 inline-block" />
+                          <span>
                             {typeof selectedCafe.businessHours === 'string'
                               ? selectedCafe.businessHours
                               : selectedCafe.businessHours && typeof selectedCafe.businessHours === 'object'
-                                ? JSON.stringify(selectedCafe.businessHours)
+                                ? Object.entries(selectedCafe.businessHours)
+                                    .map(([day, hours]) => `${day}: ${hours}`)
+                                    .join(', ')
                                 : String(selectedCafe.businessHours)}
-                          </div>
+                          </span>
                         </div>
                       )}
                       {/* 영업시간 비고 */}
