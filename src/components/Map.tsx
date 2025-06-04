@@ -575,18 +575,16 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                         <div className="flex items-center gap-2 text-gray-800 text-sm">
                           <Clock className="w-4 h-4 inline-block" />
                           <span>
-                            {typeof selectedCafe.businessHours === 'string'
+                            {Array.isArray(selectedCafe.businessHours)
                               ? selectedCafe.businessHours
-                              : selectedCafe.businessHours && typeof selectedCafe.businessHours === 'object'
-                                ? Object.entries(selectedCafe.businessHours)
-                                    .map(([day, hours]) => {
-                                      if (typeof hours === 'object' && hours !== null && 'open' in hours && 'close' in hours) {
-                                        return `${day}: ${hours.open} - ${hours.close}`;
-                                      } else {
-                                        return `${day}: ${hours}`;
-                                      }
-                                    })
-                                    .join(', ')
+                                  .map(hour =>
+                                    hour && typeof hour === 'object' && 'day' in hour && 'openTime' in hour && 'closeTime' in hour
+                                      ? `${hour.day}: ${hour.openTime} - ${hour.closeTime}`
+                                      : JSON.stringify(hour)
+                                  )
+                                  .join(', ')
+                              : typeof selectedCafe.businessHours === 'string'
+                                ? selectedCafe.businessHours
                                 : String(selectedCafe.businessHours)}
                           </span>
                         </div>
@@ -750,18 +748,16 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                         <div className="flex items-center gap-2 text-gray-800 text-sm">
                           <Clock className="w-4 h-4 inline-block" />
                           <span>
-                            {typeof selectedCafe.businessHours === 'string'
+                            {Array.isArray(selectedCafe.businessHours)
                               ? selectedCafe.businessHours
-                              : selectedCafe.businessHours && typeof selectedCafe.businessHours === 'object'
-                                ? Object.entries(selectedCafe.businessHours)
-                                    .map(([day, hours]) => {
-                                      if (typeof hours === 'object' && hours !== null && 'open' in hours && 'close' in hours) {
-                                        return `${day}: ${hours.open} - ${hours.close}`;
-                                      } else {
-                                        return `${day}: ${hours}`;
-                                      }
-                                    })
-                                    .join(', ')
+                                  .map(hour =>
+                                    hour && typeof hour === 'object' && 'day' in hour && 'openTime' in hour && 'closeTime' in hour
+                                      ? `${hour.day}: ${hour.openTime} - ${hour.closeTime}`
+                                      : JSON.stringify(hour)
+                                  )
+                                  .join(', ')
+                              : typeof selectedCafe.businessHours === 'string'
+                                ? selectedCafe.businessHours
                                 : String(selectedCafe.businessHours)}
                           </span>
                         </div>
