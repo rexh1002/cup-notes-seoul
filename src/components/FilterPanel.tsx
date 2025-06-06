@@ -62,7 +62,7 @@ export default function FilterPanel({
   if (typeof window !== 'undefined' && window.innerWidth >= 768) {
     return (
       <div className={`fixed w-96 bg-gradient-to-b from-white via-gray-50 to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 shadow-2xl overflow-y-auto z-50 ${className || ''}`}
-        style={{ height: 'calc(100vh - 32px)' }}
+        style={{ height: 'calc(100vh - 32px)', paddingBottom: '60px' }}
       >
         <div className="p-6 space-y-4">
           {/* Cup Notes (항상 펼침) */}
