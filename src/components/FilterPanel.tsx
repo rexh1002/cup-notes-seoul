@@ -61,7 +61,7 @@ export default function FilterPanel({
   // PC(웹) 화면: 기존 FilterPanel 유지
   if (typeof window !== 'undefined' && window.innerWidth >= 768) {
     return (
-      <div className={`fixed w-96 h-full bg-gradient-to-b from-white via-gray-50 to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 shadow-2xl overflow-y-auto z-50 ${className || ''}`}
+      <div className={`fixed w-96 bg-gradient-to-b from-white via-gray-50 to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 shadow-2xl overflow-y-auto z-50 ${className || ''}`}
         style={{ height: 'calc(100vh - 32px)' }}
       >
         <div className="p-6 space-y-4">
