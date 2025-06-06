@@ -346,8 +346,8 @@ export default function FilterPanel({
           {/* 추출방식/원산지/가공방식/로스팅레벨 섹션 */}
           <section>
             {/* Brew Method */}
-            <div className="mb-2 text-lg font-bold flex items-center gap-2 p-4" style={{color: isMobile ? '#222' : ''}}>추출방식</div>
-            <div className="flex gap-2 pb-4 flex-wrap p-4">
+            <div className="mb-2 text-lg font-bold flex items-center gap-2 px-4" style={{color: isMobile ? '#222' : ''}}>추출방식</div>
+            <div className="flex gap-2 pb-4 flex-wrap px-4">
               {['핸드드립', '에스프레소', '콜드브루'].map((method) => (
                 <button
                   key={method}
@@ -363,8 +363,8 @@ export default function FilterPanel({
               ))}
             </div>
             {/* Origin */}
-            <div className="mb-2 text-lg font-bold flex items-center gap-2 p-4" style={{color: isMobile ? '#222' : ''}}>원산지</div>
-            <div className="flex gap-2 pb-4 flex-wrap p-4">
+            <div className="mb-2 text-lg font-bold flex items-center gap-2 px-4" style={{color: isMobile ? '#222' : ''}}>원산지</div>
+            <div className="flex gap-2 pb-4 flex-wrap px-4">
               {['에티오피아', '콜롬비아', '브라질', '과테말라', '케냐', '코스타리카', '파나마', '인도네시아', '르완다', '엘살바도르'].map((origin) => (
                 <button
                   key={origin}
@@ -380,8 +380,8 @@ export default function FilterPanel({
               ))}
             </div>
             {/* Process */}
-            <div className="mb-2 text-lg font-bold flex items-center gap-2 p-4" style={{color: isMobile ? '#222' : ''}}>가공방식</div>
-            <div className="flex gap-2 pb-4 flex-wrap p-4">
+            <div className="mb-2 text-lg font-bold flex items-center gap-2 px-4" style={{color: isMobile ? '#222' : ''}}>가공방식</div>
+            <div className="flex gap-2 pb-4 flex-wrap px-4">
               {['워시드', '내추럴', '허니', '무산소 발효', '디카페인'].map((process) => (
                 <button
                   key={process}
@@ -397,8 +397,8 @@ export default function FilterPanel({
               ))}
             </div>
             {/* Roast Level */}
-            <div className="mb-2 text-lg font-bold flex items-center gap-2 p-4" style={{color: isMobile ? '#222' : ''}}>로스팅레벨</div>
-            <div className="flex gap-2 pb-4 flex-wrap p-4">
+            <div className="mb-2 text-lg font-bold flex items-center gap-2 px-4" style={{color: isMobile ? '#222' : ''}}>로스팅레벨</div>
+            <div className="flex gap-2 pb-4 flex-wrap px-4">
               {['라이트', '미디엄라이트', '미디엄', '미디엄다크', '다크'].map((roast) => (
                 <button
                   key={roast}
