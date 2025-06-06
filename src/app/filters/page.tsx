@@ -154,7 +154,18 @@ export default function FiltersPage() {
           setSelectedProcesses([]);
           setSelectedRoast([]);
         }}
-        onApply={() => {}}
+        onApply={() => {
+          // 모바일에서만 동작
+          if (typeof window !== 'undefined' && window.innerWidth < 768) {
+            const params = new URLSearchParams();
+            if (selectedNotes.length) params.append('notes', selectedNotes.join(','));
+            if (selectedBrewMethods.length) params.append('brewMethods', selectedBrewMethods.join(','));
+            if (selectedOrigins.length) params.append('origins', selectedOrigins.join(','));
+            if (selectedProcesses.length) params.append('processes', selectedProcesses.join(','));
+            if (selectedRoast.length) params.append('roast', selectedRoast.join(','));
+            router.push(`/map?${params.toString()}`);
+          }
+        }}
         mobileCombined={true}
       />
       <MobileNavBar />
