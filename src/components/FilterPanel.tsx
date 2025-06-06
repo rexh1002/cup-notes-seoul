@@ -62,13 +62,21 @@ export default function FilterPanel({
   if (typeof window !== 'undefined' && window.innerWidth >= 768) {
     return (
       <div className={`fixed w-96 h-full bg-gradient-to-b from-white via-gray-50 to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 shadow-2xl overflow-y-auto z-50 ${className || ''}`}
-        style={{ bottom: '32px' }}
+        style={{ bottom: '145px' }}
       >
         <div className="p-6 space-y-4">
           {/* Cup Notes (항상 펼침) */}
           <section>
             <div style={{ borderBottom: '1.5px solid #e5e7eb', marginBottom: '0.5rem' }}>
-              <span className="w-full flex justify-between items-center py-4 px-2 text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white group sm:py-2 sm:px-1 sm:text-base">컵노트</span>
+              <span className="w-full flex justify-between items-center py-4 px-2 text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white group sm:py-2 sm:px-1 sm:text-base">
+                컵노트
+                <button
+                  onClick={onReset}
+                  className="text-sm font-halis px-3 py-1 border border-gray-200 rounded hover:bg-blue-50 hover:border-blue-400 transition-colors"
+                >
+                  리셋
+                </button>
+              </span>
             </div>
             <div className="grid grid-cols-1 gap-4 mt-2">
               {/* Floral */}
