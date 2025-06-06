@@ -229,16 +229,34 @@ export default function MapMobilePage() {
                 <Search className="w-6 h-6 text-[#222]" />
               </button>
               {showSearchInput && (
-                <input
-                  type="text"
-                  className="ml-2 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                  placeholder="키워드 검색"
-                  value={searchKeyword}
-                  onChange={e => setSearchKeyword(e.target.value)}
-                  onKeyDown={e => { if (e.key === 'Enter') { handleSearch(); setShowSearchInput(false); } }}
-                  autoFocus
-                  style={{ width: 180 }}
-                />
+                <div className="relative">
+                  <input
+                    type="text"
+                    className="ml-2 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                    placeholder="키워드 검색"
+                    value={searchKeyword}
+                    onChange={e => { setSearchKeyword(e.target.value); fetchAutocomplete(e.target.value); }}
+                    onFocus={() => { if (autocomplete.length) setShowAutocomplete(true); }}
+                    onBlur={() => setTimeout(() => setShowAutocomplete(false), 150)}
+                    onKeyDown={e => { if (e.key === 'Enter') { handleSearch(); setShowSearchInput(false); setShowAutocomplete(false); } }}
+                    autoFocus
+                    style={{ width: 180 }}
+                  />
+                  {/* 웹 헤더 자동완성 드롭다운 */}
+                  {showAutocomplete && autocomplete.length > 0 && (
+                    <div className="absolute left-0 right-0 mt-1 bg-white border border-gray-200 rounded shadow z-[200] max-h-48 overflow-y-auto">
+                      {autocomplete.map((item, idx) => (
+                        <div
+                          key={item + idx}
+                          className="px-4 py-2 hover:bg-blue-50 cursor-pointer text-sm text-gray-800"
+                          onMouseDown={() => { setSearchKeyword(item); setShowAutocomplete(false); setShowSearchInput(false); }}
+                        >
+                          {item}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
               )}
             </div>
             {/* 중앙 로고 */}
