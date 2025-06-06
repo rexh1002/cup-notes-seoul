@@ -22,6 +22,8 @@ export default function FiltersPage() {
   const [userName, setUserName] = useState<string | null>(null);
   const [isSignupDropdownOpen, setIsSignupDropdownOpen] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState('');
+  const [autocomplete, setAutocomplete] = useState<string[]>([]);
+  const [showAutocomplete, setShowAutocomplete] = useState(false);
 
   // 모바일 환경 체크
   React.useEffect(() => {
@@ -69,6 +71,32 @@ export default function FiltersPage() {
     setUserRole(null);
     setUserName(null);
     router.push('/');
+  };
+
+  const fetchAutocomplete = async (keyword: string) => {
+    if (!keyword) { setAutocomplete([]); setShowAutocomplete(false); return; }
+    try {
+      const response = await fetch('/api/cafes/search', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ keyword }),
+      });
+      if (!response.ok) return;
+      const data = await response.json();
+      // 예시: cafeNames, notes, origins, processes, roastLevel 등에서 추천 키워드 추출
+      const keywords = [
+        ...(data.cafeNames || []),
+        ...(data.notes || []),
+        ...(data.origins || []),
+        ...(data.processes || []),
+        ...(data.roastLevel || [])
+      ].filter(Boolean);
+      setAutocomplete(keywords.slice(0, 10));
+      setShowAutocomplete(true);
+    } catch (e) {
+      setAutocomplete([]);
+      setShowAutocomplete(false);
+    }
   };
 
   if (!isMobile) return null;
@@ -134,6 +162,36 @@ export default function FiltersPage() {
               )}
             </div>
           </div>
+          {/* 헤더 검색 입력창에 자동완성 추가 */}
+          {showSearchInput && (
+            <div className="relative">
+              <input
+                type="text"
+                className="ml-2 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                placeholder="키워드 검색"
+                value={searchKeyword}
+                onChange={e => { setSearchKeyword(e.target.value); fetchAutocomplete(e.target.value); }}
+                onFocus={() => { if (autocomplete.length) setShowAutocomplete(true); }}
+                onBlur={() => setTimeout(() => setShowAutocomplete(false), 150)}
+                onKeyDown={e => { if (e.key === 'Enter') { /* 검색 실행 */ setShowAutocomplete(false); } }}
+                autoFocus
+                style={{ width: 180 }}
+              />
+              {showAutocomplete && autocomplete.length > 0 && (
+                <div className="absolute left-0 right-0 mt-1 bg-white border border-gray-200 rounded shadow z-[200] max-h-48 overflow-y-auto">
+                  {autocomplete.map((item, idx) => (
+                    <div
+                      key={item + idx}
+                      className="px-4 py-2 hover:bg-blue-50 cursor-pointer text-sm text-gray-800"
+                      onMouseDown={() => { setSearchKeyword(item); setShowAutocomplete(false); }}
+                    >
+                      {item}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </header>
       <FilterPanel

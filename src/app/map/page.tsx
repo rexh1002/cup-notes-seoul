@@ -41,6 +41,8 @@ export default function MapMobilePage() {
   const [showSearchInput, setShowSearchInput] = useState(false);
   const [userName, setUserName] = useState<string | null>(null);
   const [isSignupDropdownOpen, setIsSignupDropdownOpen] = useState(false);
+  const [autocomplete, setAutocomplete] = useState<string[]>([]);
+  const [showAutocomplete, setShowAutocomplete] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
@@ -133,6 +135,32 @@ export default function MapMobilePage() {
     setSelectedCafe(cafe);
   };
 
+  const fetchAutocomplete = async (keyword: string) => {
+    if (!keyword) { setAutocomplete([]); setShowAutocomplete(false); return; }
+    try {
+      const response = await fetch('/api/cafes/search', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ keyword }),
+      });
+      if (!response.ok) return;
+      const data = await response.json();
+      // 예시: cafeNames, notes, origins, processes, roastLevel 등에서 추천 키워드 추출
+      const keywords = [
+        ...(data.cafeNames || []),
+        ...(data.notes || []),
+        ...(data.origins || []),
+        ...(data.processes || []),
+        ...(data.roastLevel || [])
+      ].filter(Boolean);
+      setAutocomplete(keywords.slice(0, 10));
+      setShowAutocomplete(true);
+    } catch (e) {
+      setAutocomplete([]);
+      setShowAutocomplete(false);
+    }
+  };
+
   return (
     <div className="relative w-full min-h-screen pt-14 pb-16">
       {/* 모바일: 헤더 아래 검색 입력칸 */}
@@ -143,10 +171,25 @@ export default function MapMobilePage() {
             className="flex-1 px-4 py-2 rounded-lg border border-gray-200 bg-[#f7f7f7] text-base font-sans focus:outline-none focus:ring-2 focus:ring-bluebottle-blue transition placeholder:text-gray-400"
             placeholder="카페, 키워드 검색"
             value={searchKeyword}
-            onChange={e => setSearchKeyword(e.target.value)}
-            onKeyDown={e => { if (e.key === 'Enter') { handleSearch(); } }}
+            onChange={e => { setSearchKeyword(e.target.value); fetchAutocomplete(e.target.value); }}
+            onFocus={() => { if (autocomplete.length) setShowAutocomplete(true); }}
+            onBlur={() => setTimeout(() => setShowAutocomplete(false), 150)}
+            onKeyDown={e => { if (e.key === 'Enter') { handleSearch(); setShowAutocomplete(false); } }}
             style={{minWidth:0}}
           />
+          {showAutocomplete && autocomplete.length > 0 && (
+            <div className="absolute left-0 right-0 mt-1 bg-white border border-gray-200 rounded shadow z-[200] max-h-48 overflow-y-auto">
+              {autocomplete.map((item, idx) => (
+                <div
+                  key={item + idx}
+                  className="px-4 py-2 hover:bg-blue-50 cursor-pointer text-sm text-gray-800"
+                  onMouseDown={() => { setSearchKeyword(item); setShowAutocomplete(false); }}
+                >
+                  {item}
+                </div>
+              ))}
+            </div>
+          )}
           <button
             className="ml-2 px-3 py-2 bg-bluebottle-blue text-white rounded-lg font-bold text-sm shadow-sm hover:bg-[#004b82] transition"
             onClick={handleSearch}
