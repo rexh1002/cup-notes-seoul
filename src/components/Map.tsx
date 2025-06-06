@@ -520,20 +520,33 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                                 {coffee.description}
                               </p>
                             )}
-                            {/* 원두 특성 태그들 */}
-                            <div className="flex flex-wrap gap-1 mb-0.5 sm:gap-0.5">
-                              {coffee.roastLevel?.map((level, idx) => (
+                            {/* 1줄: 컵노트 */}
+                            {coffee.notes && coffee.notes.length > 0 && (
+                              <div className="flex flex-wrap gap-1 mb-0.5">
+                                {coffee.notes.map((note, idx) => (
+                                  <span
+                                    key={`note-${idx}`}
+                                    className="text-[11px] px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200"
+                                  >
+                                    {note}
+                                  </span>
+                                ))}
+                              </div>
+                            )}
+                            {/* 2줄: 추출방식, 원산지, 가공방식, 로스팅레벨 */}
+                            <div className="flex flex-wrap gap-1 mb-0.5">
+                              {coffee.brewMethods?.map((method, idx) => (
                                 <span
-                                  key={`roast-${idx}`}
-                                  className="text-[11px] px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200 sm:px-1 sm:py-0.5"
+                                  key={`brew-${idx}`}
+                                  className="text-[11px] px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200"
                                 >
-                                  {level}
+                                  {method}
                                 </span>
                               ))}
                               {coffee.origins?.map((origin, idx) => (
                                 <span
                                   key={`origin-${idx}`}
-                                  className="text-[11px] px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200 sm:px-1 sm:py-0.5"
+                                  className="text-[11px] px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200"
                                 >
                                   {origin}
                                 </span>
@@ -541,9 +554,17 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                               {coffee.processes?.map((process, idx) => (
                                 <span
                                   key={`process-${idx}`}
-                                  className="text-[11px] px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200 sm:px-1 sm:py-0.5"
+                                  className="text-[11px] px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200"
                                 >
                                   {process}
+                                </span>
+                              ))}
+                              {coffee.roastLevel?.map((level, idx) => (
+                                <span
+                                  key={`roast-${idx}`}
+                                  className="text-[11px] px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200"
+                                >
+                                  {level}
                                 </span>
                               ))}
                             </div>
@@ -706,14 +727,27 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                               {coffee.description}
                             </p>
                           )}
-                          {/* 원두 특성 태그들 */}
+                          {/* 1줄: 컵노트 */}
+                          {coffee.notes && coffee.notes.length > 0 && (
+                            <div className="flex flex-wrap gap-1 mb-0.5">
+                              {coffee.notes.map((note, idx) => (
+                                <span
+                                  key={`note-${idx}`}
+                                  className="text-[11px] px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200"
+                                >
+                                  {note}
+                                </span>
+                              ))}
+                            </div>
+                          )}
+                          {/* 2줄: 추출방식, 원산지, 가공방식, 로스팅레벨 */}
                           <div className="flex flex-wrap gap-1 mb-0.5">
-                            {coffee.roastLevel?.map((level, idx) => (
+                            {coffee.brewMethods?.map((method, idx) => (
                               <span
-                                key={`roast-${idx}`}
+                                key={`brew-${idx}`}
                                 className="text-[11px] px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200"
                               >
-                                {level}
+                                {method}
                               </span>
                             ))}
                             {coffee.origins?.map((origin, idx) => (
@@ -730,6 +764,14 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                                 className="text-[11px] px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200"
                               >
                                 {process}
+                              </span>
+                            ))}
+                            {coffee.roastLevel?.map((level, idx) => (
+                              <span
+                                key={`roast-${idx}`}
+                                className="text-[11px] px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200"
+                              >
+                                {level}
                               </span>
                             ))}
                           </div>
