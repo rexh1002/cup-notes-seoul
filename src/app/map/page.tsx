@@ -123,7 +123,18 @@ export default function MapMobilePage() {
 
   // 검색 핸들러
   const handleSearch = async () => {
-    // 검색 API 호출 및 결과 setCafes
+    try {
+      const response = await fetch('/api/cafes/search', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ keyword: searchKeyword }),
+      });
+      if (!response.ok) return;
+      const data = await response.json();
+      setCafes(data.cafes || []);
+    } catch (e) {
+      setCafes([]);
+    }
   };
 
   // 카테고리 퀵서치 핸들러
