@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import MobileNavBar from '../../components/MobileNavBar';
 import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
-import { Search, Coffee, LogIn, UserPlus, LogOut } from 'lucide-react';
+import { Search, Coffee, LogIn, UserPlus, LogOut, Loader2 } from 'lucide-react';
 
 const Map = dynamic(() => import('../../components/Map'), { ssr: false });
 
@@ -43,6 +43,7 @@ export default function MapMobilePage() {
   const [isSignupDropdownOpen, setIsSignupDropdownOpen] = useState(false);
   const [autocomplete, setAutocomplete] = useState<string[]>([]);
   const [showAutocomplete, setShowAutocomplete] = useState(false);
+  const [isWebLoading, setIsWebLoading] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
@@ -123,6 +124,8 @@ export default function MapMobilePage() {
 
   // 검색 핸들러
   const handleSearch = async () => {
+    // 웹에서만 로딩 표시
+    if (typeof window !== 'undefined' && window.innerWidth >= 768) setIsWebLoading(true);
     try {
       const response = await fetch('/api/cafes/search', {
         method: 'POST',
@@ -134,6 +137,8 @@ export default function MapMobilePage() {
       setCafes(data.cafes || []);
     } catch (e) {
       setCafes([]);
+    } finally {
+      if (typeof window !== 'undefined' && window.innerWidth >= 768) setIsWebLoading(false);
     }
   };
 
@@ -243,7 +248,7 @@ export default function MapMobilePage() {
                 <div className="relative">
                   <input
                     type="text"
-                    className="ml-2 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                    className="ml-2 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm pr-10"
                     placeholder="키워드 검색"
                     value={searchKeyword}
                     onChange={e => { setSearchKeyword(e.target.value); fetchAutocomplete(e.target.value); }}
@@ -266,6 +271,12 @@ export default function MapMobilePage() {
                         </div>
                       ))}
                     </div>
+                  )}
+                  {/* 웹화면에서만 로딩 스피너 */}
+                  {typeof window !== 'undefined' && window.innerWidth >= 768 && isWebLoading && (
+                    <span className="absolute right-2 top-1/2 -translate-y-1/2 animate-spin text-blue-500">
+                      <Loader2 className="w-5 h-5" />
+                    </span>
                   )}
                 </div>
               )}
