@@ -6,7 +6,7 @@ import CoffeeSearch from '../components/coffee/coffee-search';
 import SearchResults from '../components/coffee/search-results';
 import { SearchParams } from '../components/coffee/coffee-search';
 import { Cafe } from '../types/types';
-import { Search, Flower2, Apple, Candy, Coffee, LogIn, UserPlus, LogOut } from 'lucide-react';
+import { Search, Flower2, Apple, Candy, Coffee, LogIn, UserPlus, LogOut, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -265,6 +265,7 @@ export default function HomePage() {
     setIsLoading(false);
     setTimeout(() => {
       setIsSearching(false);
+      setShowSearchInput(false);
     }, 1000);
     console.log('[클라이언트] 검색 완료');
   }, [searchKeyword, selectedNotes, selectedOrigins, selectedProcesses, selectedRoast, selectedBrewMethods, isMounted]);
@@ -516,16 +517,24 @@ export default function HomePage() {
                 <Search className="w-6 h-6 text-[#222]" />
                         </button>
               {showSearchInput && (
-                <input
-                  type="text"
-                  className="ml-2 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                  placeholder="키워드 검색"
-                  value={searchKeyword}
-                  onChange={e => setSearchKeyword(e.target.value)}
-                  onKeyDown={e => { if (e.key === 'Enter') { handleSearch(); setShowSearchInput(false); } }}
-                  autoFocus
-                  style={{ width: 180 }}
-                />
+                <div className="relative">
+                  <input
+                    type="text"
+                    className="ml-2 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm pr-10"
+                    placeholder="키워드 검색"
+                    value={searchKeyword}
+                    onChange={e => setSearchKeyword(e.target.value)}
+                    onKeyDown={e => { if (e.key === 'Enter') { handleSearch(); } }}
+                    autoFocus
+                    style={{ width: 180 }}
+                  />
+                  {/* 로딩중 스피너 */}
+                  {isLoading && (
+                    <span className="absolute right-2 top-1/2 -translate-y-1/2 animate-spin text-blue-500">
+                      <Loader2 className="w-5 h-5" />
+                    </span>
+                  )}
+                </div>
               )}
                     </div>
             {/* 중앙 로고 */}
