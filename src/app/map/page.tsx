@@ -188,6 +188,7 @@ export default function MapMobilePage() {
   const handleCategorySearch = async (category: string) => {
     setIsMobileLoading(true);
     let searchTerms: string[] = [];
+    let brewMethodTerms: string[] = [];
     switch (category) {
       case 'floral':
         searchTerms = ['라벤더', '아카시아', '장미', '자스민', '국화', '히비스커스', '제비꽃', '홍차', '얼그레이', '카모마일', '오렌지 블로섬', '은방울꽃', '블랙티', '베르가못', '라일락', '로즈마리'];
@@ -199,7 +200,7 @@ export default function MapMobilePage() {
         searchTerms = ['초콜렛', '캐러멜', '고구마', '꿀', '헤이즐넛', '브라운슈거', '엿기름', '아몬드', '피칸', '호두', '로스트피넛', '마카다미아', '땅콩', '바닐라', '캐슈넛', '메이플 시럽', '토피', '피스타치오', '카카오닙스'];
         break;
       case 'handdrip':
-        searchTerms = ['핸드드립'];
+        brewMethodTerms = ['핸드드립'];
         break;
       default:
         searchTerms = [];
@@ -214,7 +215,7 @@ export default function MapMobilePage() {
           origins: [],
           processes: [],
           roastLevel: [],
-          brewMethod: category === 'handdrip' ? ['핸드드립'] : [],
+          brewMethod: brewMethodTerms,
         }),
       });
       if (!response.ok) throw new Error('검색 중 오류가 발생했습니다.');
