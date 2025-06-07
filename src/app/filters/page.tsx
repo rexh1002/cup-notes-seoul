@@ -51,7 +51,12 @@ export default function FiltersPage() {
           const decodedToken = JSON.parse(atob(token.split('.')[1]));
           setIsLoggedIn(true);
           setUserRole(decodedToken.role);
-          setUserName(decodedToken.name);
+          if (decodedToken.name) {
+            setUserName(decodedToken.name);
+          } else if (decodedToken.email) {
+            const emailName = decodedToken.email.split('@')[0];
+            setUserName(emailName);
+          }
         } catch (error) {
           setIsLoggedIn(false);
           setUserRole(null);
