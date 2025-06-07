@@ -72,6 +72,11 @@ export async function GET(request: Request) {
                 OR: [
                   { name: { contains: searchParameters.keyword, mode: 'insensitive' } },
                   { description: { contains: searchParameters.keyword, mode: 'insensitive' } },
+                  { notes: { has: searchParameters.keyword } },
+                  { brewMethods: { has: searchParameters.keyword } },
+                  { origins: { has: searchParameters.keyword } },
+                  { processes: { has: searchParameters.keyword } },
+                  { roastLevel: { has: searchParameters.keyword } },
                 ],
               },
             },
@@ -251,6 +256,11 @@ export async function POST(request: Request) {
                 OR: [
                   { name: { contains: searchParams.keyword, mode: 'insensitive' } },
                   { description: { contains: searchParams.keyword, mode: 'insensitive' } },
+                  { notes: { has: searchParams.keyword } },
+                  { brewMethods: { has: searchParams.keyword } },
+                  { origins: { has: searchParams.keyword } },
+                  { processes: { has: searchParams.keyword } },
+                  { roastLevel: { has: searchParams.keyword } },
                 ],
               },
             },
