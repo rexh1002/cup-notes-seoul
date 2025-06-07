@@ -468,9 +468,12 @@ export default function MapMobilePage() {
       <div className="absolute inset-0" style={{ zIndex: 100 }}>
         {/* 현재위치 버튼 */}
         <button
-          className={`fixed right-6 bottom-24 z-[200] w-14 h-14 flex items-center justify-center rounded-full border border-gray-200 shadow-lg transition-colors bg-white hover:bg-blue-100 ${!(window.currentMap && window.currentMap.setCenter) ? 'opacity-50 cursor-not-allowed' : ''}`}
-          disabled={!(window.currentMap && window.currentMap.setCenter)}
+          className="fixed right-6 bottom-24 z-[200] w-14 h-14 flex items-center justify-center rounded-full border border-gray-200 shadow-lg transition-colors bg-white hover:bg-blue-100"
           onClick={() => {
+            if (!(window.currentMap && window.currentMap.setCenter)) {
+              window.alert('지도를 찾을 수 없습니다.');
+              return;
+            }
             if (navigator.geolocation) {
               navigator.geolocation.getCurrentPosition(
                 (position) => {
