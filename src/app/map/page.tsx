@@ -14,6 +14,7 @@ const CATEGORY_LIST = [
   { key: 'fruity', label: '프루티', image: '/images/Fruityicon.png' },
   { key: 'nutty', label: '너티', image: '/images/Nuttyicon.png' },
   { key: 'handdrip', label: '핸드드립', image: '/images/handdripicon.png' },
+  { key: 'anaerobic', label: '무산소 발효', image: '/images/Air.png' },
 ];
 
 function QuickCard({ image, label, onClick }: { image: string; label: string; onClick: () => void }) {
@@ -201,6 +202,9 @@ export default function MapMobilePage() {
         break;
       case 'handdrip':
         brewMethodTerms = ['핸드드립'];
+        break;
+      case 'anaerobic':
+        searchTerms = ['무산소 발효'];
         break;
       default:
         searchTerms = [];

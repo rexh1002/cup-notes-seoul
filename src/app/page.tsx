@@ -356,6 +356,10 @@ export default function HomePage() {
         brewMethodTerms = ['핸드드립'];
         setSelectedBrewMethods(brewMethodTerms);
         break;
+      case 'anaerobic':
+        searchTerms = ['무산소 발효'];
+        setSelectedNotes(searchTerms);
+        break;
       case 'all':
         searchTerms = [];
         setSelectedNotes([]);
@@ -622,6 +626,11 @@ export default function HomePage() {
               icon="/images/handdripicon.png"
               label="핸드드립"
               onClick={() => handleCategorySearch('핸드드립')}
+            />
+            <QuickButton
+              icon="/images/Air.png"
+              label="무산소 발효"
+              onClick={() => handleCategorySearch('anaerobic')}
             />
           </div>
           {/* FilterPanel 항상 좌측에 고정 */}
