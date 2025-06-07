@@ -482,7 +482,7 @@ export default function HomePage() {
             transition={{ delay: 0.15 }}
             className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-2 text-center"
           >
-            <span className="block">평범한 하루도</span>
+            <span className="block md:inline">평범한 하루도</span>
           </motion.h1>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -490,7 +490,8 @@ export default function HomePage() {
             transition={{ delay: 0.35 }}
             className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4 text-center"
           >
-            <span className="block">한잔의 커피로 특별해       질 수 있어요.</span>
+            <span className="block md:inline">한잔의 커피로 특별해</span>
+            <span className="block md:inline">질 수 있어요.</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
