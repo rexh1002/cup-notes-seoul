@@ -449,17 +449,16 @@ export default function MapMobilePage() {
       <div className="absolute inset-0" style={{ zIndex: 100 }}>
         {/* 현재위치 버튼 */}
         <button
-          className="fixed right-6 bottom-24 z-[100] w-14 h-14 flex items-center justify-center rounded-full bg-white shadow-lg hover:bg-blue-100 transition-colors border border-gray-200"
+          className={`fixed right-6 bottom-24 z-[100] w-14 h-14 flex items-center justify-center rounded-full border border-gray-200 shadow-lg transition-colors
+            bg-white hover:bg-blue-100 ${!(mapRef.current && typeof mapRef.current.moveToCurrentLocation === 'function') ? 'opacity-50 cursor-not-allowed' : ''}`}
+          disabled={!(mapRef.current && typeof mapRef.current.moveToCurrentLocation === 'function')}
           onClick={() => {
+            if (!(mapRef.current && typeof mapRef.current.moveToCurrentLocation === 'function')) return;
             if (navigator.geolocation) {
               navigator.geolocation.getCurrentPosition(
                 (position) => {
                   const { latitude, longitude } = position.coords;
-                  if (mapRef.current && typeof mapRef.current.moveToCurrentLocation === 'function') {
-                    mapRef.current.moveToCurrentLocation(latitude, longitude);
-                  } else {
-                    window.alert('지도를 찾을 수 없습니다.');
-                  }
+                  mapRef.current.moveToCurrentLocation(latitude, longitude);
                 },
                 (error) => {
                   window.alert('현재 위치를 가져올 수 없습니다. 위치 권한을 허용해 주세요.');
