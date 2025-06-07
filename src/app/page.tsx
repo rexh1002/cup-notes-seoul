@@ -528,10 +528,10 @@ export default function HomePage() {
                     autoFocus
                     style={{ width: 180 }}
                   />
-                  {/* 로딩중 스피너 */}
+                  {/* dot-bounce 스피너 */}
                   {isLoading && (
-                    <span className="absolute right-2 top-1/2 -translate-y-1/2 animate-spin text-blue-500">
-                      <Loader2 className="w-5 h-5" />
+                    <span className="absolute right-2 top-1/2 -translate-y-1/2 dot-bounce">
+                      <span></span><span></span><span></span>
                     </span>
                   )}
                 </div>
@@ -702,3 +702,26 @@ export default function HomePage() {
     </main>
   );
 }
+
+// 로딩중 dot-bounce 스피너 스타일 추가
+<style>{`
+.dot-bounce {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+.dot-bounce span {
+  display: block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #2563eb;
+  animation: dot-bounce 1s infinite ease-in-out both;
+}
+.dot-bounce span:nth-child(2) { animation-delay: 0.2s; }
+.dot-bounce span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes dot-bounce {
+  0%, 80%, 100% { transform: scale(0.7); }
+  40% { transform: scale(1.3); }
+}
+`}</style>
