@@ -493,7 +493,8 @@ export default function MapMobilePage() {
                 () => {
                   setIsLocating(false);
                   window.alert('현재 위치를 가져올 수 없습니다. 위치 권한을 허용해 주세요.');
-                }
+                },
+                { enableHighAccuracy: false, timeout: 10000, maximumAge: 0 }
               );
             } else {
               window.alert('이 브라우저에서는 위치 정보가 지원되지 않습니다.');
