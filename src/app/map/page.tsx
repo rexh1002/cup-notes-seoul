@@ -312,6 +312,7 @@ export default function MapMobilePage() {
           const { latitude, longitude } = position.coords;
           const mapInstance = window.currentMap;
           if (mapInstance && mapInstance.setCenter) {
+            // 즉시 지도 중심 이동 및 줌 적용
             const location = new window.naver.maps.LatLng(latitude, longitude);
             mapInstance.setCenter(location);
             mapInstance.setZoom(15);
@@ -337,7 +338,7 @@ export default function MapMobilePage() {
           }
           window.alert(msg);
         },
-        { enableHighAccuracy: false, timeout: 10000, maximumAge: 0 }
+        { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
       );
     };
     tryMove();
