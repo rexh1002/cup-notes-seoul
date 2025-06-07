@@ -575,16 +575,18 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                   )
                 ) : (
                   <div className="flex-1 overflow-y-auto px-2 pb-8 leading-relaxed">
-                    {/* 최근수정일 정보 추가 */}
-                    <div className="flex items-center justify-end mb-2 mt-2">
-                      <span className="text-xs text-gray-500">
-                        {selectedCafe.updatedAt ? `최근수정일 : ${new Date(selectedCafe.updatedAt).toLocaleDateString('ko-KR', {
-                          year: 'numeric',
-                          month: '2-digit',
-                          day: '2-digit'
-                        })}` : ''}
-                      </span>
-                    </div>
+                    {/* 최근수정일 정보 (웹, info 탭 최상단) */}
+                    {selectedCafe.updatedAt && (
+                      <div className="flex items-center justify-end mb-2 mt-2">
+                        <span className="text-xs text-gray-500">
+                          {`최근수정일 : ${new Date(selectedCafe.updatedAt).toLocaleDateString('ko-KR', {
+                            year: 'numeric',
+                            month: '2-digit',
+                            day: '2-digit'
+                          })}`}
+                        </span>
+                      </div>
+                    )}
                     {/* 카페 정보 표시 영역 */}
                     <div className="space-y-3">
                       {/* 주소 */}
