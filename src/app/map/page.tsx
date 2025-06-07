@@ -468,17 +468,23 @@ export default function MapMobilePage() {
       <div className="absolute inset-0" style={{ zIndex: 100 }}>
         {/* 현재위치 버튼 */}
         <button
-          className={`fixed right-6 bottom-24 z-[200] w-14 h-14 flex items-center justify-center rounded-full border border-gray-200 shadow-lg transition-colors bg-white hover:bg-blue-100 ${!(mapRef.current && typeof mapRef.current.moveToCurrentLocation === 'function') ? 'opacity-50 cursor-not-allowed' : ''}`}
-          disabled={!(mapRef.current && typeof mapRef.current.moveToCurrentLocation === 'function')}
+          className={`fixed right-6 bottom-24 z-[200] w-14 h-14 flex items-center justify-center rounded-full border border-gray-200 shadow-lg transition-colors bg-white hover:bg-blue-100 ${!(window.currentMap && window.currentMap.setCenter) ? 'opacity-50 cursor-not-allowed' : ''}`}
+          disabled={!(window.currentMap && window.currentMap.setCenter)}
           onClick={() => {
-            if (!(mapRef.current && typeof mapRef.current.moveToCurrentLocation === 'function')) return;
             if (navigator.geolocation) {
               navigator.geolocation.getCurrentPosition(
                 (position) => {
                   const { latitude, longitude } = position.coords;
-                  mapRef.current.moveToCurrentLocation(latitude, longitude);
+                  let mapInstance: any = window.currentMap;
+                  if (mapInstance && mapInstance.setCenter) {
+                    const location = new window.naver.maps.LatLng(latitude, longitude);
+                    mapInstance.setCenter(location);
+                    mapInstance.setZoom(15);
+                  } else {
+                    window.alert('지도를 찾을 수 없습니다.');
+                  }
                 },
-                (error) => {
+                () => {
                   window.alert('현재 위치를 가져올 수 없습니다. 위치 권한을 허용해 주세요.');
                 }
               );
@@ -486,7 +492,7 @@ export default function MapMobilePage() {
               window.alert('이 브라우저에서는 위치 정보가 지원되지 않습니다.');
             }
           }}
-          aria-label="현재위치"
+          aria-label="현재위치로 이동"
         >
           <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-8 h-8">
             <rect x="4" y="4" width="24" height="24" rx="6" fill="white"/>
