@@ -666,7 +666,7 @@ export default function HomePage() {
           <div className={`ml-${isMobile ? '0' : '96'} h-full`}>
             {/* 현재위치로 이동 버튼 (네이버 공식 가이드 기반) */}
             <button 
-              className="fixed right-6 bottom-24 z-50 w-14 h-14 flex items-center justify-center rounded-full bg-white shadow-lg hover:bg-blue-100 transition-colors border border-gray-200"
+              className="fixed right-6 bottom-24 z-[200] w-14 h-14 flex items-center justify-center rounded-full bg-white shadow-lg hover:bg-blue-100 transition-colors border border-gray-200"
               onClick={() => {
                 if (navigator.geolocation) {
                   navigator.geolocation.getCurrentPosition(
