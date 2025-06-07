@@ -358,7 +358,7 @@ export default function HomePage() {
         break;
       case 'anaerobic':
         searchTerms = ['무산소 발효'];
-        setSelectedNotes(searchTerms);
+        setSelectedProcesses(searchTerms);
         break;
       case 'all':
         searchTerms = [];
@@ -375,7 +375,7 @@ export default function HomePage() {
           keyword: '',
           notes: searchTerms,
           origins: [],
-          processes: [],
+          processes: category === 'anaerobic' ? searchTerms : [],
           roastLevel: [],
           brewMethod: brewMethodTerms,
         }),

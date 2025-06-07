@@ -47,6 +47,7 @@ export default function MapMobilePage() {
   const [showAutocomplete, setShowAutocomplete] = useState(false);
   const [isWebLoading, setIsWebLoading] = useState(false);
   const [isMobileLoading, setIsMobileLoading] = useState(false);
+  const [selectedProcesses, setSelectedProcesses] = useState<string[]>([]);
 
   useEffect(() => {
     setIsMounted(true);
@@ -205,6 +206,7 @@ export default function MapMobilePage() {
         break;
       case 'anaerobic':
         searchTerms = ['무산소 발효'];
+        setSelectedProcesses(searchTerms);
         break;
       default:
         searchTerms = [];
@@ -217,7 +219,7 @@ export default function MapMobilePage() {
           keyword: '',
           notes: searchTerms,
           origins: [],
-          processes: [],
+          processes: category === 'anaerobic' ? searchTerms : [],
           roastLevel: [],
           brewMethod: brewMethodTerms,
         }),
