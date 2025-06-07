@@ -72,7 +72,7 @@ export default function FilterPanel({
                 컵노트
                 <button
                   onClick={onReset}
-                  className="text-sm font-halis px-3 py-1 border border-gray-200 rounded hover:bg-blue-50 hover:border-blue-400 transition-colors"
+                  className="text-lg font-extrabold px-4 py-2 border-2 border-gray-700 rounded-none hover:bg-blue-50 hover:border-blue-700 transition-colors"
                 >
                   리셋
                 </button>

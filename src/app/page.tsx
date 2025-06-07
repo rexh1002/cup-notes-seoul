@@ -328,6 +328,8 @@ export default function HomePage() {
     setSelectedOrigins([]);
     setSelectedProcesses([]);
     setSelectedRoast([]);
+    setSearchKeyword('');
+    setCafes([]);
   };
 
   const handleApply = () => {
