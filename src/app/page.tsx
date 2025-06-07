@@ -605,7 +605,7 @@ export default function HomePage() {
           {/* Quick Box: FilterPanel 오른쪽 경계에서 왼쪽 16px, 위쪽 8px */}
           <div
             className="absolute z-[120] bg-white/70 backdrop-blur-md border border-gray-200 shadow-xl rounded-xl flex gap-1 px-2 py-1 items-center"
-            style={{ left: isMobile ? '16px' : 'calc(384px + 16px)', top: '100px', minWidth: 240, maxWidth: 320 }}
+            style={{ left: isMobile ? '16px' : 'calc(384px + 16px)', top: '100px', minWidth: isMobile ? 240 : 420, maxWidth: isMobile ? 320 : 520 }}
           >
             <QuickButton
               icon="/images/Floralicon.png"
