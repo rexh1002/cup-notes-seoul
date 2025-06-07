@@ -10,6 +10,7 @@ import { createPortal } from 'react-dom';
 declare global {
   interface Window {
     naver: any;
+    currentMap: any;
   }
 }
 
@@ -213,6 +214,7 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
         });
 
         mapInstance.current = new window.naver.maps.Map(mapRef.current, mapOptions);
+        window.currentMap = mapInstance.current;
         console.log('[Map] 새 지도 인스턴스 생성 완료');
 
         // 이벤트 리스너 등록

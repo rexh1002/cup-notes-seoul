@@ -78,7 +78,6 @@ export default function HomePage() {
  const [isSignupDropdownOpen, setIsSignupDropdownOpen] = useState(false);
  const [isFiltersOpen, setIsFiltersOpen] = useState(false);
  const [selectedCafe, setSelectedCafe] = useState<Cafe | null>(null);
- const mapRef = useRef<any>(null);
  const [showMain, setShowMain] = useState(true);
  const [isMobile, setIsMobile] = useState(false);
  const [showSearchInput, setShowSearchInput] = useState(false);
@@ -672,11 +671,7 @@ export default function HomePage() {
                   navigator.geolocation.getCurrentPosition(
                     (position) => {
                       const { latitude, longitude } = position.coords;
-                      // 지도 인스턴스 타입 any로 명시
-                      let mapInstance: any = null;
-                      if (mapRef.current) {
-                        mapInstance = mapRef.current.__naverMapInstance || mapRef.current._naverMap || mapRef.current.naverMapInstance;
-                      }
+                      let mapInstance: any = window.currentMap;
                       if (mapInstance && mapInstance.setCenter) {
                         const location = new window.naver.maps.LatLng(latitude, longitude);
                         mapInstance.setCenter(location);
@@ -685,23 +680,20 @@ export default function HomePage() {
                         if (!window._cupnotes_infowindow) {
                           window._cupnotes_infowindow = new window.naver.maps.InfoWindow();
                         }
-                        window._cupnotes_infowindow.setContent('<div style="padding:20px;">geolocation.getCurrentPosition() 위치</div>');
+                        window._cupnotes_infowindow.setContent('<div style=\"padding:20px;\">geolocation.getCurrentPosition() 위치</div>');
                         window._cupnotes_infowindow.open(mapInstance, location);
                       } else {
                         window.alert('지도를 찾을 수 없습니다.');
                       }
                     },
                     () => {
-                      let mapInstance: any = null;
-                      if (mapRef.current) {
-                        mapInstance = mapRef.current.__naverMapInstance || mapRef.current._naverMap || mapRef.current.naverMapInstance;
-                      }
+                      let mapInstance: any = window.currentMap;
                       if (mapInstance && mapInstance.getCenter) {
                         const center = mapInstance.getCenter();
                         if (!window._cupnotes_infowindow) {
                           window._cupnotes_infowindow = new window.naver.maps.InfoWindow();
                         }
-                        window._cupnotes_infowindow.setContent('<div style="padding:20px;"><h5 style="margin-bottom:5px;color:#f00;">Geolocation failed!</h5></div>');
+                        window._cupnotes_infowindow.setContent('<div style=\"padding:20px;\"><h5 style=\"margin-bottom:5px;color:#f00;\">Geolocation failed!</h5></div>');
                         window._cupnotes_infowindow.open(mapInstance, center);
                       } else {
                         window.alert('현재 위치를 가져올 수 없습니다. 위치 권한을 허용해 주세요.');
@@ -726,7 +718,6 @@ export default function HomePage() {
             </button>
             {/* 지도 컴포넌트 */}
             <Map
-              ref={mapRef}
               cafes={cafes}
               searchKeyword={searchKeyword}
               onSearch={handleSearch}
