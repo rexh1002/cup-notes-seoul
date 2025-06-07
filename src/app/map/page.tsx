@@ -48,6 +48,7 @@ export default function MapMobilePage() {
   const [isWebLoading, setIsWebLoading] = useState(false);
   const [isMobileLoading, setIsMobileLoading] = useState(false);
   const [selectedProcesses, setSelectedProcesses] = useState<string[]>([]);
+  const [isLocating, setIsLocating] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
@@ -468,15 +469,17 @@ export default function MapMobilePage() {
       <div className="absolute inset-0" style={{ zIndex: 100 }}>
         {/* 현재위치 버튼 */}
         <button
-          className="fixed right-6 bottom-24 z-[200] w-14 h-14 flex items-center justify-center rounded-full border border-gray-200 shadow-lg transition-colors bg-white hover:bg-blue-100"
+          className="fixed right-6 bottom-24 z-[200] w-14 h-14 flex items-center justify-center rounded-full border border-gray-200 shadow-lg transition-colors bg-white"
           onClick={() => {
             if (!(window.currentMap && window.currentMap.setCenter)) {
               window.alert('지도를 찾을 수 없습니다.');
               return;
             }
             if (navigator.geolocation) {
+              setIsLocating(true);
               navigator.geolocation.getCurrentPosition(
                 (position) => {
+                  setIsLocating(false);
                   const { latitude, longitude } = position.coords;
                   let mapInstance: any = window.currentMap;
                   if (mapInstance && mapInstance.setCenter) {
@@ -488,6 +491,7 @@ export default function MapMobilePage() {
                   }
                 },
                 () => {
+                  setIsLocating(false);
                   window.alert('현재 위치를 가져올 수 없습니다. 위치 권한을 허용해 주세요.');
                 }
               );
@@ -497,16 +501,41 @@ export default function MapMobilePage() {
           }}
           aria-label="현재위치로 이동"
         >
-          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-8 h-8">
-            <rect x="4" y="4" width="24" height="24" rx="6" fill="white"/>
-            <circle cx="16" cy="16" r="7" stroke="#222" strokeWidth="2"/>
-            <circle cx="16" cy="16" r="2" fill="#222"/>
-            <line x1="16" y1="9" x2="16" y2="6" stroke="#222" strokeWidth="2" strokeLinecap="round"/>
-            <line x1="16" y1="23" x2="16" y2="26" stroke="#222" strokeWidth="2" strokeLinecap="round"/>
-            <line x1="23" y1="16" x2="26" y2="16" stroke="#222" strokeWidth="2" strokeLinecap="round"/>
-            <line x1="9" y1="16" x2="6" y2="16" stroke="#222" strokeWidth="2" strokeLinecap="round"/>
-          </svg>
+          {isLocating ? (
+            <span className="dot-bounce"><span></span><span></span><span></span></span>
+          ) : (
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-8 h-8">
+              <rect x="4" y="4" width="24" height="24" rx="6" fill="white"/>
+              <circle cx="16" cy="16" r="7" stroke="#222" strokeWidth="2"/>
+              <circle cx="16" cy="16" r="2" fill="#222"/>
+              <line x1="16" y1="9" x2="16" y2="6" stroke="#222" strokeWidth="2" strokeLinecap="round"/>
+              <line x1="16" y1="23" x2="16" y2="26" stroke="#222" strokeWidth="2" strokeLinecap="round"/>
+              <line x1="23" y1="16" x2="26" y2="16" stroke="#222" strokeWidth="2" strokeLinecap="round"/>
+              <line x1="9" y1="16" x2="6" y2="16" stroke="#222" strokeWidth="2" strokeLinecap="round"/>
+            </svg>
+          )}
         </button>
+        <style>{`
+          .dot-bounce {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+          }
+          .dot-bounce span {
+            display: block;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #2563eb;
+            animation: dot-bounce 1s infinite ease-in-out both;
+          }
+          .dot-bounce span:nth-child(2) { animation-delay: 0.2s; }
+          .dot-bounce span:nth-child(3) { animation-delay: 0.4s; }
+          @keyframes dot-bounce {
+            0%, 80%, 100% { transform: scale(0.7); }
+            40% { transform: scale(1.3); }
+          }
+        `}</style>
 
         {/* 지도 컴포넌트 */}
         <Map ref={mapRef} cafes={cafes} />
