@@ -488,15 +488,7 @@ export default function MapMobilePage() {
           }}
           aria-label="현재위치"
         >
-          {/* 네이버지도 스타일 십자형 원형 아이콘 */}
-          <div className="w-6 h-6 relative">
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-4 h-4 border-2 border-blue-500 rounded-full"></div>
-            </div>
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-1 h-1 bg-blue-500 rounded-full"></div>
-            </div>
-          </div>
+          <img src="/images/location-target.svg" alt="현재위치로 이동" className="w-8 h-8" />
         </button>
 
         {/* 지도 컴포넌트 */}

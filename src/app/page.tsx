@@ -706,10 +706,7 @@ export default function HomePage() {
               }}
               aria-label="현재위치로 이동"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" fill="white" />
-                <circle cx="12" cy="12" r="4" fill="#3b82f6" />
-              </svg>
+              <img src="/images/location-target.svg" alt="현재위치로 이동" className="w-8 h-8" />
             </button>
             {/* 지도 컴포넌트 */}
             <Map
