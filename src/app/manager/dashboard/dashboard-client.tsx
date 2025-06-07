@@ -213,7 +213,7 @@ export default function DashboardClient() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold">내 카페 관리</h1>
+        <h1 className="text-3xl font-bold flex flex-row md:block">내 카페 관리</h1>
         <div className="flex items-center gap-3">
           <Link href="/">
             <Button variant="outline" className="flex items-center gap-2">
