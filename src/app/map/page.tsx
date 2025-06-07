@@ -44,6 +44,7 @@ export default function MapMobilePage() {
   const [autocomplete, setAutocomplete] = useState<string[]>([]);
   const [showAutocomplete, setShowAutocomplete] = useState(false);
   const [isWebLoading, setIsWebLoading] = useState(false);
+  const [isMobileLoading, setIsMobileLoading] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
@@ -124,7 +125,7 @@ export default function MapMobilePage() {
 
   // 검색 핸들러
   const handleSearch = async () => {
-    // 웹에서만 로딩 표시
+    if (typeof window !== 'undefined' && window.innerWidth < 768) setIsMobileLoading(true);
     if (typeof window !== 'undefined' && window.innerWidth >= 768) setIsWebLoading(true);
     try {
       const response = await fetch('/api/cafes/search', {
@@ -138,7 +139,11 @@ export default function MapMobilePage() {
     } catch (e) {
       setCafes([]);
     } finally {
-      if (typeof window !== 'undefined' && window.innerWidth >= 768) setIsWebLoading(false);
+      if (typeof window !== 'undefined' && window.innerWidth < 768) setIsMobileLoading(false);
+      if (typeof window !== 'undefined' && window.innerWidth >= 768) {
+        setIsWebLoading(false);
+        setShowSearchInput(false);
+      }
     }
   };
 
@@ -182,30 +187,47 @@ export default function MapMobilePage() {
       {/* 모바일: 헤더 아래 검색 입력칸 */}
       {typeof window !== 'undefined' && window.innerWidth < 768 && (
         <div className="fixed top-[2px] left-0 right-0 z-[110] bg-white px-4 py-2 border-b border-gray-100 flex items-center gap-2" style={{boxShadow:'0 2px 8px 0 rgba(0,0,0,0.03)'}}>
-          <input
-            type="text"
-            className="flex-1 px-4 py-2 rounded-lg border border-gray-200 bg-[#f7f7f7] text-base font-sans focus:outline-none focus:ring-2 focus:ring-bluebottle-blue transition placeholder:text-gray-400"
-            placeholder="카페, 키워드 검색"
-            value={searchKeyword}
-            onChange={e => { setSearchKeyword(e.target.value); fetchAutocomplete(e.target.value); }}
-            onFocus={() => { if (autocomplete.length) setShowAutocomplete(true); }}
-            onBlur={() => setTimeout(() => setShowAutocomplete(false), 150)}
-            onKeyDown={e => { if (e.key === 'Enter') { handleSearch(); setShowAutocomplete(false); } }}
-            style={{minWidth:0}}
-          />
-          {showAutocomplete && autocomplete.length > 0 && (
-            <div className="absolute left-0 right-0 mt-1 bg-white border border-gray-200 rounded shadow z-[200] max-h-48 overflow-y-auto">
-              {autocomplete.map((item, idx) => (
-                <div
-                  key={item + idx}
-                  className="px-4 py-2 hover:bg-blue-50 cursor-pointer text-sm text-gray-800"
-                  onMouseDown={() => { setSearchKeyword(item); setShowAutocomplete(false); }}
-                >
-                  {item}
-                </div>
-              ))}
-            </div>
-          )}
+          <div className="relative w-full flex-1">
+            <input
+              type="text"
+              className="w-full px-4 py-2 rounded-lg border border-gray-200 bg-[#f7f7f7] text-base font-sans focus:outline-none focus:ring-2 focus:ring-bluebottle-blue transition placeholder:text-gray-400 pr-10"
+              placeholder="카페, 키워드 검색"
+              value={searchKeyword}
+              onChange={e => { setSearchKeyword(e.target.value); fetchAutocomplete(e.target.value); }}
+              onFocus={() => { if (autocomplete.length) setShowAutocomplete(true); }}
+              onBlur={() => setTimeout(() => setShowAutocomplete(false), 150)}
+              onKeyDown={e => { if (e.key === 'Enter') { handleSearch(); setShowAutocomplete(false); } }}
+              style={{minWidth:0}}
+            />
+            {/* dot-bounce 스피너 */}
+            {isMobileLoading && (
+              <span className="absolute right-2 top-1/2 -translate-y-1/2 dot-bounce">
+                <span></span><span></span><span></span>
+              </span>
+            )}
+            {/* dot-bounce 스타일 */}
+            <style>{`
+              .dot-bounce {
+                display: flex;
+                align-items: center;
+                gap: 3px;
+              }
+              .dot-bounce span {
+                display: block;
+                width: 7px;
+                height: 7px;
+                border-radius: 50%;
+                background: #2563eb;
+                animation: dot-bounce 1s infinite ease-in-out both;
+              }
+              .dot-bounce span:nth-child(2) { animation-delay: 0.2s; }
+              .dot-bounce span:nth-child(3) { animation-delay: 0.4s; }
+              @keyframes dot-bounce {
+                0%, 80%, 100% { transform: scale(0.7); }
+                40% { transform: scale(1.3); }
+              }
+            `}</style>
+          </div>
           <button
             className="ml-2 px-3 py-2 bg-bluebottle-blue text-white rounded-lg font-bold text-sm shadow-sm hover:bg-[#004b82] transition"
             onClick={handleSearch}
@@ -254,7 +276,7 @@ export default function MapMobilePage() {
                     onChange={e => { setSearchKeyword(e.target.value); fetchAutocomplete(e.target.value); }}
                     onFocus={() => { if (autocomplete.length) setShowAutocomplete(true); }}
                     onBlur={() => setTimeout(() => setShowAutocomplete(false), 150)}
-                    onKeyDown={e => { if (e.key === 'Enter') { handleSearch(); setShowSearchInput(false); setShowAutocomplete(false); } }}
+                    onKeyDown={e => { if (e.key === 'Enter') { handleSearch(); setShowAutocomplete(false); } }}
                     autoFocus
                     style={{ width: 180 }}
                   />
