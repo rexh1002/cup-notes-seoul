@@ -445,7 +445,13 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
             >
               {/* 닫기 버튼 - 모바일 */}
               <button
-                onClick={() => setSelectedCafe(null)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSelectedCafe(null);
+                }}
+                onTouchStart={(e) => e.stopPropagation()}
+                onTouchMove={(e) => e.stopPropagation()}
+                onTouchEnd={(e) => e.stopPropagation()}
                 className="absolute top-2 right-2 text-2xl text-gray-500 hover:text-gray-700 z-20 p-0 m-0 bg-transparent border-none shadow-none focus:outline-none"
                 aria-label="카드 닫기"
                 style={{background: 'none'}}
@@ -682,7 +688,13 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
             >
               {/* 닫기 버튼 - 웹 */}
               <button
-                onClick={() => setSelectedCafe(null)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSelectedCafe(null);
+                }}
+                onTouchStart={(e) => e.stopPropagation()}
+                onTouchMove={(e) => e.stopPropagation()}
+                onTouchEnd={(e) => e.stopPropagation()}
                 className="absolute top-2 right-2 text-2xl text-gray-500 hover:text-gray-700 z-20 p-0 m-0 bg-transparent border-none shadow-none focus:outline-none"
                 aria-label="카드 닫기"
                 style={{background: 'none'}}
