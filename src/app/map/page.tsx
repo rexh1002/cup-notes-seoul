@@ -290,6 +290,59 @@ export default function MapMobilePage() {
     }
   };
 
+  // 현재위치로 이동 최적화 함수
+  const handleMoveToCurrentLocation = () => {
+    const tryMove = (retry = 0) => {
+      if (!(window.currentMap && window.currentMap.setCenter)) {
+        if (retry < 3) {
+          setTimeout(() => tryMove(retry + 1), 500);
+        } else {
+          window.alert('지도를 찾을 수 없습니다. 새로고침 후 다시 시도해 주세요.');
+        }
+        return;
+      }
+      if (!navigator.geolocation) {
+        window.alert('이 브라우저에서는 위치 정보가 지원되지 않습니다.');
+        return;
+      }
+      setIsLocating(true);
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setIsLocating(false);
+          const { latitude, longitude } = position.coords;
+          const mapInstance = window.currentMap;
+          if (mapInstance && mapInstance.setCenter) {
+            const location = new window.naver.maps.LatLng(latitude, longitude);
+            mapInstance.setCenter(location);
+            mapInstance.setZoom(15);
+          } else {
+            window.alert('지도를 찾을 수 없습니다.');
+          }
+        },
+        (error) => {
+          setIsLocating(false);
+          let msg = '';
+          switch (error.code) {
+            case error.PERMISSION_DENIED:
+              msg = '위치 권한이 거부되었습니다. 브라우저/앱 설정에서 위치 권한을 허용해 주세요.';
+              break;
+            case error.POSITION_UNAVAILABLE:
+              msg = '위치 정보를 사용할 수 없습니다. GPS 또는 네트워크 상태를 확인해 주세요.';
+              break;
+            case error.TIMEOUT:
+              msg = '위치 정보를 가져오는데 시간이 초과되었습니다. 신호가 잘 잡히는 곳에서 다시 시도해 주세요.';
+              break;
+            default:
+              msg = '현재 위치를 가져올 수 없습니다. 위치 서비스 및 권한을 확인해 주세요.';
+          }
+          window.alert(msg);
+        },
+        { enableHighAccuracy: false, timeout: 10000, maximumAge: 0 }
+      );
+    };
+    tryMove();
+  };
+
   return (
     <div className="relative w-full min-h-screen pt-14 pb-16">
       {/* 모바일: 헤더 아래 검색 입력칸 */}
@@ -470,36 +523,7 @@ export default function MapMobilePage() {
         {/* 현재위치 버튼 */}
         <button
           className="fixed right-6 bottom-24 z-[200] w-14 h-14 flex items-center justify-center rounded-full border border-gray-200 shadow-lg transition-colors bg-white"
-          onClick={() => {
-            if (!(window.currentMap && window.currentMap.setCenter)) {
-              window.alert('지도를 찾을 수 없습니다.');
-              return;
-            }
-            if (navigator.geolocation) {
-              setIsLocating(true);
-              navigator.geolocation.getCurrentPosition(
-                (position) => {
-                  setIsLocating(false);
-                  const { latitude, longitude } = position.coords;
-                  let mapInstance: any = window.currentMap;
-                  if (mapInstance && mapInstance.setCenter) {
-                    const location = new window.naver.maps.LatLng(latitude, longitude);
-                    mapInstance.setCenter(location);
-                    mapInstance.setZoom(15);
-                  } else {
-                    window.alert('지도를 찾을 수 없습니다.');
-                  }
-                },
-                () => {
-                  setIsLocating(false);
-                  window.alert('현재 위치를 가져올 수 없습니다. 위치 권한을 허용해 주세요.');
-                },
-                { enableHighAccuracy: false, timeout: 10000, maximumAge: 0 }
-              );
-            } else {
-              window.alert('이 브라우저에서는 위치 정보가 지원되지 않습니다.');
-            }
-          }}
+          onClick={handleMoveToCurrentLocation}
           aria-label="현재위치로 이동"
         >
           {isLocating ? (
