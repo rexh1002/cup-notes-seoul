@@ -210,10 +210,29 @@ export default function MapMobilePage() {
         brewMethodTerms = ['핸드드립'];
         break;
       case 'anaerobic':
-        searchTerms = ['무산소 발효'];
-        setSelectedProcesses(searchTerms);
-        await handleSearch();
-        break;
+        setSelectedProcesses(['무산소 발효']);
+        try {
+          const response = await fetch('/api/cafes/search', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              keyword: '',
+              notes: [],
+              origins: [],
+              processes: ['무산소 발효'],
+              roastLevel: [],
+              brewMethod: [],
+            }),
+          });
+          if (!response.ok) throw new Error('검색 중 오류가 발생했습니다.');
+          const data = await response.json();
+          setCafes(data.cafes || []);
+        } catch (error) {
+          setCafes([]);
+        } finally {
+          setIsMobileLoading(false);
+        }
+        return;
       default:
         searchTerms = [];
     }
