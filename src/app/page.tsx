@@ -676,28 +676,12 @@ export default function HomePage() {
                         const location = new window.naver.maps.LatLng(latitude, longitude);
                         mapInstance.setCenter(location);
                         mapInstance.setZoom(15);
-                        // InfoWindow 표시
-                        if (!window._cupnotes_infowindow) {
-                          window._cupnotes_infowindow = new window.naver.maps.InfoWindow();
-                        }
-                        window._cupnotes_infowindow.setContent('<div style=\"padding:20px;\">geolocation.getCurrentPosition() 위치</div>');
-                        window._cupnotes_infowindow.open(mapInstance, location);
                       } else {
                         window.alert('지도를 찾을 수 없습니다.');
                       }
                     },
                     () => {
-                      let mapInstance: any = window.currentMap;
-                      if (mapInstance && mapInstance.getCenter) {
-                        const center = mapInstance.getCenter();
-                        if (!window._cupnotes_infowindow) {
-                          window._cupnotes_infowindow = new window.naver.maps.InfoWindow();
-                        }
-                        window._cupnotes_infowindow.setContent('<div style=\"padding:20px;\"><h5 style=\"margin-bottom:5px;color:#f00;\">Geolocation failed!</h5></div>');
-                        window._cupnotes_infowindow.open(mapInstance, center);
-                      } else {
-                        window.alert('현재 위치를 가져올 수 없습니다. 위치 권한을 허용해 주세요.');
-                      }
+                      window.alert('현재 위치를 가져올 수 없습니다. 위치 권한을 허용해 주세요.');
                     }
                   );
                 } else {
