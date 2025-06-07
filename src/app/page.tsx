@@ -569,6 +569,7 @@ export default function HomePage() {
                 </>
               ) : (
                 <>
+                  <span className="text-gray-700 text-sm font-medium mr-2">{userName}님</span>
                   {userRole === 'cafeManager' || userRole === 'manager' ? (
                     <button
                       className="p-2 rounded-full hover:bg-gray-100 transition"
@@ -578,14 +579,13 @@ export default function HomePage() {
                       <Coffee className="w-6 h-6 text-[#222]" />
                     </button>
                   ) : null}
-                  <span className="text-gray-700 text-sm font-medium mr-2">{userName}님</span>
-                    <button
+                  <button
                     className="p-2 rounded-full hover:bg-gray-100 transition"
                     onClick={handleLogout}
                     aria-label="로그아웃"
                   >
                     <LogOut className="w-6 h-6 text-[#222]" />
-                    </button>
+                  </button>
                 </>
               )}
         </div>
