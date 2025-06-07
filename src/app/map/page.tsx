@@ -1,7 +1,7 @@
 'use client';
 import dynamic from 'next/dynamic';
 import { useState, useRef, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import MobileNavBar from '../../components/MobileNavBar';
 import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
@@ -31,6 +31,7 @@ function QuickCard({ image, label, onClick }: { image: string; label: string; on
 
 export default function MapMobilePage() {
   const router = useRouter();
+  const searchParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
   const mapRef = useRef<any>(null);
   const [cafes, setCafes] = useState<any[]>([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -50,42 +51,78 @@ export default function MapMobilePage() {
     setIsMounted(true);
   }, []);
 
-  // 초기 카페 데이터 로딩
   useEffect(() => {
     if (isMounted) {
-      const initialLoad = async () => {
+      // 쿼리 파라미터에서 필터 값 읽기
+      let notes: string[] = [];
+      let brewMethods: string[] = [];
+      let origins: string[] = [];
+      let processes: string[] = [];
+      let roastLevel: string[] = [];
+      if (searchParams) {
+        if (searchParams.get('notes')) notes = searchParams.get('notes')!.split(',').filter(Boolean);
+        if (searchParams.get('brewMethods')) brewMethods = searchParams.get('brewMethods')!.split(',').filter(Boolean);
+        if (searchParams.get('origins')) origins = searchParams.get('origins')!.split(',').filter(Boolean);
+        if (searchParams.get('processes')) processes = searchParams.get('processes')!.split(',').filter(Boolean);
+        if (searchParams.get('roast')) roastLevel = searchParams.get('roast')!.split(',').filter(Boolean);
+      }
+      const hasFilter = notes.length || brewMethods.length || origins.length || processes.length || roastLevel.length;
+      const fetchCafes = async () => {
         try {
           const response = await fetch('/api/cafes/search', {
             method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               keyword: '',
-              notes: [],
-              origins: [],
-              processes: [],
-              roastLevel: [],
-              brewMethod: [],
+              notes,
+              brewMethod: brewMethods,
+              origins,
+              processes,
+              roastLevel,
             }),
           });
-
-          if (!response.ok) {
-            throw new Error('초기 데이터를 불러오는데 실패했습니다.');
-          }
-
+          if (!response.ok) throw new Error('카페 데이터를 불러오는데 실패했습니다.');
           const data = await response.json();
-          if (data && data.cafes) {
-            setCafes(data.cafes);
-          }
+          setCafes(data.cafes || []);
         } catch (error) {
-          console.error('초기 데이터 로딩 오류:', error);
+          setCafes([]);
         }
       };
-
-      initialLoad();
+      if (hasFilter) {
+        fetchCafes();
+      } else {
+        // 기존 전체 카페 불러오기
+        const initialLoad = async () => {
+          try {
+            const response = await fetch('/api/cafes/search', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                keyword: '',
+                notes: [],
+                origins: [],
+                processes: [],
+                roastLevel: [],
+                brewMethod: [],
+              }),
+            });
+            if (!response.ok) {
+              throw new Error('초기 데이터를 불러오는데 실패했습니다.');
+            }
+            const data = await response.json();
+            if (data && data.cafes) {
+              setCafes(data.cafes);
+            }
+          } catch (error) {
+            setCafes([]);
+          }
+        };
+        initialLoad();
+      }
     }
-  }, [isMounted]);
+  }, [isMounted, typeof window !== 'undefined' ? window.location.search : '']);
 
   useEffect(() => {
     if (isMounted) {
