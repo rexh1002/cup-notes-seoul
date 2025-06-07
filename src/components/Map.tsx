@@ -443,6 +443,15 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
               onTouchMove={handleTouchMove}
               onTouchEnd={handleTouchEnd}
             >
+              {/* 닫기 버튼 - 모바일 */}
+              <button
+                onClick={() => setSelectedCafe(null)}
+                className="absolute top-2 right-2 text-2xl text-gray-500 hover:text-gray-700 z-20 p-0 m-0 bg-transparent border-none shadow-none focus:outline-none"
+                aria-label="카드 닫기"
+                style={{background: 'none'}}
+              >
+                ✕
+              </button>
               {/* 드래그 핸들 (상단 바) */}
               <div
                 className="w-full h-2 bg-white rounded-t-2xl flex items-center justify-center cursor-grab active:cursor-grabbing"
@@ -671,6 +680,15 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
               className="fixed top-20 right-8 w-[420px] h-[calc(100vh-128px)] bg-white rounded-2xl shadow-2xl z-[88888] flex flex-col border border-gray-200 animate-fade-in"
               style={{ maxHeight: 'calc(100vh - 128px)' }}
             >
+              {/* 닫기 버튼 - 웹 */}
+              <button
+                onClick={() => setSelectedCafe(null)}
+                className="absolute top-2 right-2 text-2xl text-gray-500 hover:text-gray-700 z-20 p-0 m-0 bg-transparent border-none shadow-none focus:outline-none"
+                aria-label="카드 닫기"
+                style={{background: 'none'}}
+              >
+                ✕
+              </button>
               {/* 이미지 섹션 및 이미지 위 텍스트 추가 */}
               {selectedCafe.imageUrl && (
                 <div className="w-full relative rounded-t-2xl overflow-hidden group h-[180px]">
