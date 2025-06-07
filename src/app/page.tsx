@@ -672,29 +672,37 @@ export default function HomePage() {
                   navigator.geolocation.getCurrentPosition(
                     (position) => {
                       const { latitude, longitude } = position.coords;
-                      if (mapRef.current && typeof mapRef.current.moveToCurrentLocation === 'function') {
-                        mapRef.current.moveToCurrentLocation(latitude, longitude);
-                        // InfoWindow 표시 (지도 중심에)
-                        if (window.naver && window.naver.maps && mapRef.current) {
-                          const location = new window.naver.maps.LatLng(latitude, longitude);
-                          if (!window._cupnotes_infowindow) {
-                            window._cupnotes_infowindow = new window.naver.maps.InfoWindow();
-                          }
-                          window._cupnotes_infowindow.setContent('<div style="padding:20px;">geolocation.getCurrentPosition() 위치</div>');
-                          window._cupnotes_infowindow.open(mapRef.current.__naverMapInstance || mapRef.current, location);
+                      // 지도 인스턴스 타입 any로 명시
+                      let mapInstance: any = null;
+                      if (mapRef.current) {
+                        mapInstance = mapRef.current.__naverMapInstance || mapRef.current._naverMap || mapRef.current.naverMapInstance;
+                      }
+                      if (mapInstance && mapInstance.setCenter) {
+                        const location = new window.naver.maps.LatLng(latitude, longitude);
+                        mapInstance.setCenter(location);
+                        mapInstance.setZoom(15);
+                        // InfoWindow 표시
+                        if (!window._cupnotes_infowindow) {
+                          window._cupnotes_infowindow = new window.naver.maps.InfoWindow();
                         }
+                        window._cupnotes_infowindow.setContent('<div style="padding:20px;">geolocation.getCurrentPosition() 위치</div>');
+                        window._cupnotes_infowindow.open(mapInstance, location);
                       } else {
                         window.alert('지도를 찾을 수 없습니다.');
                       }
                     },
                     () => {
-                      if (window.naver && window.naver.maps && mapRef.current) {
-                        const center = mapRef.current.getCenter ? mapRef.current.getCenter() : null;
+                      let mapInstance: any = null;
+                      if (mapRef.current) {
+                        mapInstance = mapRef.current.__naverMapInstance || mapRef.current._naverMap || mapRef.current.naverMapInstance;
+                      }
+                      if (mapInstance && mapInstance.getCenter) {
+                        const center = mapInstance.getCenter();
                         if (!window._cupnotes_infowindow) {
                           window._cupnotes_infowindow = new window.naver.maps.InfoWindow();
                         }
                         window._cupnotes_infowindow.setContent('<div style="padding:20px;"><h5 style="margin-bottom:5px;color:#f00;">Geolocation failed!</h5></div>');
-                        if (center) window._cupnotes_infowindow.open(mapRef.current.__naverMapInstance || mapRef.current, center);
+                        window._cupnotes_infowindow.open(mapInstance, center);
                       } else {
                         window.alert('현재 위치를 가져올 수 없습니다. 위치 권한을 허용해 주세요.');
                       }
