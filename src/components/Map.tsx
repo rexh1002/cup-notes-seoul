@@ -193,6 +193,7 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
           scaleControl: false,
           mapDataControl: false,
           zoomControl: false,
+          locationControl: true, // 내장 현재위치 버튼 활성화
         };
 
         // 기존 인스턴스 제거

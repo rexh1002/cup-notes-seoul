@@ -15,7 +15,6 @@ import { useTheme } from 'next-themes';
 import FilterPanel from '../components/FilterPanel';
 import { AdjustmentsHorizontalIcon } from '@heroicons/react/24/outline';
 import MobileNavBar from '../components/MobileNavBar';
-import MapWrapper from '../components/MapWrapper';
 
 declare global {
   interface Window {
@@ -23,6 +22,8 @@ declare global {
     currentMap: any;
   }
 }
+
+const Map = dynamic(() => import('../components/Map'), { ssr: false });
 
 // QuickButton 컴포넌트 인라인 정의
 function QuickButton({ icon, label, onClick }: { icon: string; label: string; onClick: () => void }) {
@@ -692,7 +693,7 @@ export default function HomePage() {
           </svg>
         </button>
             {/* 지도 컴포넌트 */}
-            <MapWrapper
+            <Map
               ref={mapRef}
               cafes={cafes}
               searchKeyword={searchKeyword}
