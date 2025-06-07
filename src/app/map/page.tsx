@@ -212,6 +212,7 @@ export default function MapMobilePage() {
       case 'anaerobic':
         searchTerms = ['무산소 발효'];
         setSelectedProcesses(searchTerms);
+        await handleSearch();
         break;
       default:
         searchTerms = [];
