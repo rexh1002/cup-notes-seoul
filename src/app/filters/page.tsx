@@ -111,9 +111,11 @@ export default function FiltersPage() {
       <header className="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur border-b border-indigo-200 shadow-sm z-50">
         <div className="w-full px-0">
           <div className="relative flex items-center h-[90px] px-6">
-            {/* 좌측: 검색(돋보기) 아이콘 */}
+            {/* 좌측: 회원이름 */}
             <div className="flex-1 flex items-center gap-2">
-              {/* 검색(돋보기) 버튼 및 입력창 삭제 */}
+              {isLoggedIn && (
+                <span className="text-gray-700 text-sm font-medium mr-2">{userName}님</span>
+              )}
             </div>
             {/* 중앙 로고 */}
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer" onClick={() => window.location.reload()}>
@@ -148,14 +150,13 @@ export default function FiltersPage() {
                 <>
                   {userRole === 'cafeManager' || userRole === 'manager' ? (
                     <button
-                      className="p-2 rounded-full hover:bg-gray-100 transition"
+                      className="p-2 border border-gray-300 bg-white text-[#222] font-bold text-xs w-10 h-10 flex items-center justify-center hover:bg-gray-100 transition rounded-none"
                       onClick={() => router.push('/manager/dashboard')}
                       aria-label="내 카페 관리"
                     >
-                      <Coffee className="w-6 h-6 text-[#222]" />
+                      My Cafe
                     </button>
                   ) : null}
-                  <span className="text-gray-700 text-sm font-medium mr-2">{userName}님</span>
                   <button
                     className="p-2 rounded-full hover:bg-gray-100 transition"
                     onClick={handleLogout}
