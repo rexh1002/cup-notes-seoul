@@ -15,10 +15,7 @@ import { useTheme } from 'next-themes';
 import FilterPanel from '../components/FilterPanel';
 import { AdjustmentsHorizontalIcon } from '@heroicons/react/24/outline';
 import MobileNavBar from '../components/MobileNavBar';
-
-const Map = dynamic(() => import('../components/Map'), {
- ssr: false
-});
+import MapWrapper from '../components/MapWrapper';
 
 declare global {
   interface Window {
@@ -695,7 +692,7 @@ export default function HomePage() {
           </svg>
         </button>
             {/* 지도 컴포넌트 */}
-            <Map
+            <MapWrapper
               ref={mapRef}
               cafes={cafes}
               searchKeyword={searchKeyword}

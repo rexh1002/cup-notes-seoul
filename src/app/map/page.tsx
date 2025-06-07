@@ -6,8 +6,7 @@ import MobileNavBar from '../../components/MobileNavBar';
 import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
 import { Search, Coffee, LogIn, UserPlus, LogOut, Loader2 } from 'lucide-react';
-
-const Map = dynamic(() => import('../../components/Map'), { ssr: false });
+import MapWrapper from '../../components/MapWrapper';
 
 const CATEGORY_LIST = [
   { key: 'floral', label: '플로럴', image: '/images/Floralicon.png' },
@@ -501,7 +500,7 @@ export default function MapMobilePage() {
         </button>
 
         {/* 지도 컴포넌트 */}
-        <Map ref={mapRef} cafes={cafes} />
+        <MapWrapper ref={mapRef} cafes={cafes} />
       </div>
 
       {/* Mobile Navigation Bar */}
