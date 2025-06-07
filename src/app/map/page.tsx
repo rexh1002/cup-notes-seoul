@@ -488,7 +488,15 @@ export default function MapMobilePage() {
           }}
           aria-label="현재위치"
         >
-          <img src="/images/location-target.svg" alt="현재위치로 이동" className="w-8 h-8" />
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-8 h-8">
+            <rect x="4" y="4" width="24" height="24" rx="6" fill="white"/>
+            <circle cx="16" cy="16" r="7" stroke="#222" strokeWidth="2"/>
+            <circle cx="16" cy="16" r="2" fill="#222"/>
+            <line x1="16" y1="9" x2="16" y2="6" stroke="#222" strokeWidth="2" strokeLinecap="round"/>
+            <line x1="16" y1="23" x2="16" y2="26" stroke="#222" strokeWidth="2" strokeLinecap="round"/>
+            <line x1="23" y1="16" x2="26" y2="16" stroke="#222" strokeWidth="2" strokeLinecap="round"/>
+            <line x1="9" y1="16" x2="6" y2="16" stroke="#222" strokeWidth="2" strokeLinecap="round"/>
+          </svg>
         </button>
 
         {/* 지도 컴포넌트 */}
