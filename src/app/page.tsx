@@ -136,10 +136,13 @@ export default function HomePage() {
               const emailName = userData.email.split('@')[0];
               setUserName(emailName);
             }
+          } else if (decodedToken.email) {
+            // API 실패 시 토큰에서 이메일 추출
+            const emailName = decodedToken.email.split('@')[0];
+            setUserName(emailName);
           }
         } catch (error) {
           console.error('Failed to fetch user info:', error);
-          
           // API 호출 실패 시 토큰에서 이메일 추출하여 표시
           if (decodedToken.email) {
             const emailName = decodedToken.email.split('@')[0];
@@ -148,6 +151,13 @@ export default function HomePage() {
         }
       };
       
+      // 토큰에 name이 있으면 바로 세팅, 없으면 이메일 앞부분 fallback
+      if (decodedToken.name) {
+        setUserName(decodedToken.name);
+      } else if (decodedToken.email) {
+        const emailName = decodedToken.email.split('@')[0];
+        setUserName(emailName);
+      }
       fetchUserInfo();
     } catch (error) {
       console.error('Token parsing error:', error);
