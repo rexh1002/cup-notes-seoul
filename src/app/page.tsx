@@ -699,29 +699,29 @@ export default function HomePage() {
 
       {/* Mobile Navigation Bar */}
       {isMobile && <MobileNavBar />}
+
+      {/* dot-bounce 스피너 스타일을 JSX 내부에 위치 */}
+      <style>{`
+        .dot-bounce {
+          display: flex;
+          align-items: center;
+          gap: 3px;
+        }
+        .dot-bounce span {
+          display: block;
+          width: 7px;
+          height: 7px;
+          border-radius: 50%;
+          background: #2563eb;
+          animation: dot-bounce 1s infinite ease-in-out both;
+        }
+        .dot-bounce span:nth-child(2) { animation-delay: 0.2s; }
+        .dot-bounce span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes dot-bounce {
+          0%, 80%, 100% { transform: scale(0.7); }
+          40% { transform: scale(1.3); }
+        }
+      `}</style>
     </main>
   );
 }
-
-// 로딩중 dot-bounce 스피너 스타일 추가
-<style>{`
-.dot-bounce {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-}
-.dot-bounce span {
-  display: block;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #2563eb;
-  animation: dot-bounce 1s infinite ease-in-out both;
-}
-.dot-bounce span:nth-child(2) { animation-delay: 0.2s; }
-.dot-bounce span:nth-child(3) { animation-delay: 0.4s; }
-@keyframes dot-bounce {
-  0%, 80%, 100% { transform: scale(0.7); }
-  40% { transform: scale(1.3); }
-}
-`}</style>
