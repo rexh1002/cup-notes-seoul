@@ -67,7 +67,7 @@ export default function FilterPanel({
         <div className="p-6 space-y-4">
           {/* Cup Notes (항상 펼침) */}
           <section>
-            <div style={{ borderBottom: '1.5px solid #e5e7eb', marginBottom: '0.5rem' }}>
+            <div className="border border-gray-300 rounded-lg mb-2">
               <span className="w-full flex justify-between items-center py-4 px-2 text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white group sm:py-2 sm:px-1 sm:text-base">
                 컵노트
                 <button
