@@ -576,11 +576,11 @@ export default function HomePage() {
                   <span className="text-gray-700 text-sm font-medium mr-2">{userName}님</span>
                   {userRole === 'cafeManager' || userRole === 'manager' ? (
                     <button
-                      className="p-2 rounded-full hover:bg-gray-100 transition"
+                      className="p-2 rounded-full border border-gray-300 bg-white text-[#222] font-bold text-xs w-10 h-10 flex items-center justify-center hover:bg-gray-100 transition"
                       onClick={() => router.push('/manager/dashboard')}
                       aria-label="내 카페 관리"
                     >
-                      <Coffee className="w-6 h-6 text-[#222]" />
+                      My Cafe
                     </button>
                   ) : null}
                   <button
