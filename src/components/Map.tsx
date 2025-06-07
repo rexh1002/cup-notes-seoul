@@ -876,6 +876,34 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
           ),
           document.body
         )}
+        {selectedCafe && (
+          <div className="absolute bottom-0 left-0 right-0 bg-white rounded-t-2xl shadow-lg p-4 z-50">
+            <div className="flex justify-between items-start">
+              <h3 className="text-lg font-bold">{selectedCafe.name}</h3>
+              <button
+                onClick={() => setSelectedCafe(null)}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                ✕
+              </button>
+            </div>
+            <p className="text-sm text-gray-600">{selectedCafe.address}</p>
+            <div className="mt-2 flex space-x-2">
+              <button
+                onClick={() => window.open(`https://map.naver.com/v5/search/${encodeURIComponent(selectedCafe.name)}`, '_blank')}
+                className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm"
+              >
+                네이버 지도
+              </button>
+              <button
+                onClick={() => window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(selectedCafe.name)}`, '_blank')}
+                className="bg-green-500 text-white px-3 py-1 rounded-full text-sm"
+              >
+                구글 지도
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </>
   );
