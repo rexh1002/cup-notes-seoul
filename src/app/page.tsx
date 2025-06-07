@@ -81,6 +81,7 @@ export default function HomePage() {
  const [showMain, setShowMain] = useState(true);
  const [isMobile, setIsMobile] = useState(false);
  const [showSearchInput, setShowSearchInput] = useState(false);
+ const [isLocating, setIsLocating] = useState(false);
 
  const hasSelections = selectedNotes.length > 0 || 
    selectedBrewMethods.length > 0 || 
@@ -668,8 +669,10 @@ export default function HomePage() {
               className="fixed right-6 bottom-24 z-[200] w-14 h-14 flex items-center justify-center rounded-full bg-white shadow-lg hover:bg-blue-100 transition-colors border border-gray-200"
               onClick={() => {
                 if (navigator.geolocation) {
+                  setIsLocating(true);
                   navigator.geolocation.getCurrentPosition(
                     (position) => {
+                      setIsLocating(false);
                       const { latitude, longitude } = position.coords;
                       let mapInstance: any = window.currentMap;
                       if (mapInstance && mapInstance.setCenter) {
@@ -681,6 +684,7 @@ export default function HomePage() {
                       }
                     },
                     () => {
+                      setIsLocating(false);
                       window.alert('현재 위치를 가져올 수 없습니다. 위치 권한을 허용해 주세요.');
                     }
                   );
@@ -690,15 +694,19 @@ export default function HomePage() {
               }}
               aria-label="현재위치로 이동"
             >
-              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-8 h-8">
-                <rect x="4" y="4" width="24" height="24" rx="6" fill="white"/>
-                <circle cx="16" cy="16" r="7" stroke="#222" strokeWidth="2"/>
-                <circle cx="16" cy="16" r="2" fill="#222"/>
-                <line x1="16" y1="9" x2="16" y2="6" stroke="#222" strokeWidth="2" strokeLinecap="round"/>
-                <line x1="16" y1="23" x2="16" y2="26" stroke="#222" strokeWidth="2" strokeLinecap="round"/>
-                <line x1="23" y1="16" x2="26" y2="16" stroke="#222" strokeWidth="2" strokeLinecap="round"/>
-                <line x1="9" y1="16" x2="6" y2="16" stroke="#222" strokeWidth="2" strokeLinecap="round"/>
-              </svg>
+              {isLocating ? (
+                <span className="dot-bounce"><span></span><span></span><span></span></span>
+              ) : (
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-8 h-8">
+                  <rect x="4" y="4" width="24" height="24" rx="6" fill="white"/>
+                  <circle cx="16" cy="16" r="7" stroke="#222" strokeWidth="2"/>
+                  <circle cx="16" cy="16" r="2" fill="#222"/>
+                  <line x1="16" y1="9" x2="16" y2="6" stroke="#222" strokeWidth="2" strokeLinecap="round"/>
+                  <line x1="16" y1="23" x2="16" y2="26" stroke="#222" strokeWidth="2" strokeLinecap="round"/>
+                  <line x1="23" y1="16" x2="26" y2="16" stroke="#222" strokeWidth="2" strokeLinecap="round"/>
+                  <line x1="9" y1="16" x2="6" y2="16" stroke="#222" strokeWidth="2" strokeLinecap="round"/>
+                </svg>
+              )}
             </button>
             {/* 지도 컴포넌트 */}
             <Map
