@@ -338,7 +338,6 @@ export default function HomePage() {
   const handleCategorySearch = async (category: string) => {
     setIsLoading(true);
     let searchTerms: string[] = [];
-    
     switch (category) {
       case 'floral':
         searchTerms = ['라벤더', '아카시아', '장미', '자스민', '국화', '히비스커스', '제비꽃', '홍차', '얼그레이', '카모마일', '오렌지 블로섬', '은방울꽃', '블랙티', '베르가못', '라일락', '로즈마리'];
@@ -357,7 +356,6 @@ export default function HomePage() {
         setSelectedNotes([]);
         break;
     }
-
     try {
       const response = await fetch('/api/cafes/search', {
         method: 'POST',
@@ -373,11 +371,9 @@ export default function HomePage() {
           brewMethod: [],
         }),
       });
-
       if (!response.ok) {
         throw new Error('검색 중 오류가 발생했습니다.');
       }
-
       const data = await response.json();
       if (data && data.cafes) {
         setCafes(data.cafes);
