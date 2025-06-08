@@ -216,7 +216,7 @@ export default function FilterPanel({
               <span>가공방식</span>
             </button>
             <div className="flex flex-nowrap overflow-x-auto gap-2 px-2 pb-4 md:flex-wrap md:overflow-visible md:gap-1 md:px-1 md:pb-2">
-              {['워시드', '내추럴', '허니', '무산소 발효', '디카페인'].map((process) => (
+              {['워시드', '내추럴', '허니', '웻훌', '무산소 발효', '이스트 발효', '락토 발효', '다크룸 발효', '카보닉 메서레이션', '디카페인'].map((process) => (
                 <button
                   key={process}
                   onClick={() => toggleProcess(process)}
@@ -390,7 +390,7 @@ export default function FilterPanel({
             {/* Process */}
             <div className="mb-2 text-lg font-bold flex items-center gap-2 px-4" style={{color: isMobile ? '#222' : ''}}>가공방식</div>
             <div className="flex gap-2 pb-4 flex-wrap px-4">
-              {['워시드', '내추럴', '허니', '무산소 발효', '디카페인'].map((process) => (
+              {['워시드', '내추럴', '허니', '웻훌', '무산소 발효', '이스트 발효', '락토 발효', '다크룸 발효', '카보닉 메서레이션', '디카페인'].map((process) => (
                 <button
                   key={process}
                   onClick={() => toggleProcess(process)}

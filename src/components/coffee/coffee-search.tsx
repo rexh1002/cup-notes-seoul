@@ -37,7 +37,7 @@ export const CoffeeSearch: React.FC<CoffeeSearchProps> = ({ onSearch }) => {
   };
 
   const origins = ['에티오피아', '콜롬비아', '브라질'];
-  const processes = ['워시드', '내추럴', '허니'];
+  const processes = ['워시드', '내추럴', '허니', '웻훌', '무산소 발효', '이스트 발효', '락토 발효', '다크룸 발효', '카보닉 메서레이션', '디카페인'];
   const roastLevels = ['약배전', '중배전', '강배전'];
   const brewMethods = ['핸드드립', '에스프레소', '콜드브루'];
 
