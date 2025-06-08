@@ -649,6 +649,11 @@ export default function HomePage() {
               onClick={() => handleCategorySearch('anaerobic')}
             />
             <QuickButton
+              icon="/images/Yeast.png"
+              label="이스트 발효"
+              onClick={() => handleCategorySearch('이스트 발효')}
+            />
+            <QuickButton
               icon="/images/Floralicon.png"
               label="플로럴"
               onClick={() => handleCategorySearch('floral')}
