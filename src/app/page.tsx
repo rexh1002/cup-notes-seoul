@@ -644,16 +644,6 @@ export default function HomePage() {
             style={{ left: isMobile ? '16px' : 'calc(384px + 16px)', top: '100px', minWidth: isMobile ? 240 : 420, maxWidth: isMobile ? 320 : 520 }}
           >
             <QuickButton
-              icon="/images/Air.png"
-              label="무산소 발효"
-              onClick={() => handleCategorySearch('anaerobic')}
-            />
-            <QuickButton
-              icon="/images/Yeast.png"
-              label="이스트 발효"
-              onClick={() => handleCategorySearch('이스트 발효')}
-            />
-            <QuickButton
               icon="/images/Ethiopia.png"
               label="에티오피아"
               onClick={() => handleCategorySearch('에티오피아')}
@@ -667,6 +657,16 @@ export default function HomePage() {
               icon="/images/Geisha.png"
               label="게이샤"
               onClick={() => handleCategorySearch('게이샤')}
+            />
+            <QuickButton
+              icon="/images/Air.png"
+              label="무산소 발효"
+              onClick={() => handleCategorySearch('anaerobic')}
+            />
+            <QuickButton
+              icon="/images/Yeast.png"
+              label="이스트 발효"
+              onClick={() => handleCategorySearch('이스트 발효')}
             />
             <QuickButton
               icon="/images/Floralicon.png"
