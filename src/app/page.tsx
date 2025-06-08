@@ -654,6 +654,21 @@ export default function HomePage() {
               onClick={() => handleCategorySearch('이스트 발효')}
             />
             <QuickButton
+              icon="/images/Ethiopia.png"
+              label="에티오피아"
+              onClick={() => handleCategorySearch('에티오피아')}
+            />
+            <QuickButton
+              icon="/images/Colombia.png"
+              label="콜롬비아"
+              onClick={() => handleCategorySearch('콜롬비아')}
+            />
+            <QuickButton
+              icon="/images/Geisha.png"
+              label="게이샤"
+              onClick={() => handleCategorySearch('게이샤')}
+            />
+            <QuickButton
               icon="/images/Floralicon.png"
               label="플로럴"
               onClick={() => handleCategorySearch('floral')}
