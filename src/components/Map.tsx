@@ -906,41 +906,6 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
           ),
           document.body
         )}
-        {/* 카페 정보 카드 */}
-        {selectedCafe && (
-          <div className="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl shadow-lg z-[200] max-h-[80vh] overflow-y-auto">
-            <div className="p-4">
-              <div className="flex justify-between items-start mb-4">
-                <h3 className="text-xl font-bold">{selectedCafe.name}</h3>
-                <button 
-                  onClick={() => setSelectedCafe(null)}
-                  className="text-gray-500 hover:text-gray-700"
-                >
-                  ✕
-                </button>
-              </div>
-              <p className="text-gray-600 mb-2">{selectedCafe.address}</p>
-              {selectedCafe.coffees && selectedCafe.coffees.length > 0 && (
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {selectedCafe.coffees[0].notes?.map((note, index) => (
-                    <span key={index} className="px-2 py-1 bg-gray-100 rounded-full text-sm">
-                      {note}
-                    </span>
-                  ))}
-                </div>
-              )}
-              {selectedCafe.coffees && selectedCafe.coffees.length > 0 && (
-                <div className="flex flex-wrap gap-2">
-                  {selectedCafe.coffees[0].brewMethods?.map((method, index) => (
-                    <span key={index} className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
-                      {method}
-                    </span>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-        )}
       </div>
     </>
   );
