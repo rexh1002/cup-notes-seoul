@@ -201,6 +201,9 @@ export default function MapMobilePage() {
     setIsMobileLoading(true);
     let searchTerms: string[] = [];
     let brewMethodTerms: string[] = [];
+    let originsTerms: string[] = [];
+    let processesTerms: string[] = [];
+    let keywordTerm = '';
     switch (category) {
       case 'floral':
         searchTerms = ['라벤더', '아카시아', '장미', '자스민', '국화', '히비스커스', '제비꽃', '홍차', '얼그레이', '카모마일', '오렌지 블로섬', '은방울꽃', '블랙티', '베르가못', '라일락', '로즈마리'];
@@ -215,29 +218,22 @@ export default function MapMobilePage() {
         brewMethodTerms = ['핸드드립'];
         break;
       case 'anaerobic':
-        setSelectedProcesses(['무산소 발효']);
-        try {
-          const response = await fetch('/api/cafes/search', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              keyword: '',
-              notes: [],
-              origins: [],
-              processes: ['무산소 발효'],
-              roastLevel: [],
-              brewMethod: [],
-            }),
-          });
-          if (!response.ok) throw new Error('검색 중 오류가 발생했습니다.');
-          const data = await response.json();
-          setCafes(data.cafes || []);
-        } catch (error) {
-          setCafes([]);
-        } finally {
-          setIsMobileLoading(false);
-        }
-        return;
+        processesTerms = ['무산소 발효'];
+        setSelectedProcesses(processesTerms);
+        break;
+      case 'yeast':
+        processesTerms = ['이스트 발효'];
+        setSelectedProcesses(processesTerms);
+        break;
+      case 'ethiopia':
+        originsTerms = ['에티오피아'];
+        break;
+      case 'colombia':
+        originsTerms = ['콜롬비아'];
+        break;
+      case 'geisha':
+        keywordTerm = '게이샤';
+        break;
       default:
         searchTerms = [];
     }
@@ -246,10 +242,10 @@ export default function MapMobilePage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          keyword: '',
+          keyword: keywordTerm,
           notes: searchTerms,
-          origins: [],
-          processes: category === 'anaerobic' ? searchTerms : [],
+          origins: originsTerms,
+          processes: processesTerms,
           roastLevel: [],
           brewMethod: brewMethodTerms,
         }),
