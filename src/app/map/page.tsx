@@ -8,11 +8,15 @@ import Image from 'next/image';
 import { Search, Coffee, LogIn, UserPlus, LogOut, Loader2 } from 'lucide-react';
 
 const CATEGORY_LIST = [
+  { key: 'ethiopia', label: '에티오피아', image: '/images/Ethiopia.png' },
+  { key: 'colombia', label: '콜롬비아', image: '/images/Colombia.png' },
+  { key: 'geisha', label: '게이샤', image: '/images/Geisha.png' },
+  { key: 'anaerobic', label: '무산소 발효', image: '/images/Air.png' },
+  { key: 'yeast', label: '이스트 발효', image: '/images/Yeast.png' },
   { key: 'floral', label: '플로럴', image: '/images/Floralicon.png' },
   { key: 'fruity', label: '프루티', image: '/images/Fruityicon.png' },
   { key: 'nutty', label: '너티', image: '/images/Nuttyicon.png' },
   { key: 'handdrip', label: '핸드드립', image: '/images/handdripicon.png' },
-  { key: 'anaerobic', label: '무산소 발효', image: '/images/Air.png' },
 ];
 
 function QuickCard({ image, label, onClick }: { image: string; label: string; onClick: () => void }) {
