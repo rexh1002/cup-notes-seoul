@@ -32,7 +32,7 @@ export const CoffeeSearch: React.FC<CoffeeSearchProps> = ({ onSearch }) => {
 
   const categories = {
     floral: ['라벤더', '아카시아', '장미', '자스민'],
-    fruity: ['파인애플', '복숭아', '리치', '사과'],
+    fruity: ['파인애플', '복숭아', '리치', '사과', '열대과일'],
     nutty: ['초콜릿', '캐러멜', '땅콩', '호두']
   };
 
