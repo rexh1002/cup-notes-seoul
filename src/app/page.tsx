@@ -426,6 +426,10 @@ export default function HomePage() {
         searchTerms = ['초콜렛', '헤이즐넛', '아몬드', '마카다미아', '땅콩'];
         setSelectedNotes(searchTerms);
         break;
+      case 'strawberry':
+        searchTerms = ['딸기'];
+        setSelectedNotes(searchTerms);
+        break;
     }
     try {
       const response = await fetch('/api/cafes/search', {
@@ -713,6 +717,11 @@ export default function HomePage() {
               icon="/images/Peach.png"
               label="복숭아"
               onClick={() => handleCategorySearch('peach')}
+            />
+            <QuickButton
+              icon="/images/Strawberry.png"
+              label="딸기"
+              onClick={() => handleCategorySearch('strawberry')}
             />
           </div>
           {/* FilterPanel 항상 좌측에 고정 */}

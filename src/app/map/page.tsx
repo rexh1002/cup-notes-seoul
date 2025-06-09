@@ -18,6 +18,7 @@ const CATEGORY_LIST = [
   { key: 'nuttychocolate', label: '너티 초콜렛', image: '/images/Nuttychocolate.png' },
   { key: 'handdrip', label: '핸드드립', image: '/images/handdripicon.png' },
   { key: 'peach', label: '복숭아', image: '/images/Peach.png' },
+  { key: 'strawberry', label: '딸기', image: '/images/Strawberry.png' },
 ];
 
 function QuickCard({ image, label, onClick }: { image: string; label: string; onClick: () => void }) {
@@ -237,6 +238,9 @@ export default function MapMobilePage() {
         break;
       case 'peach':
         searchTerms = ['복숭아'];
+        break;
+      case 'strawberry':
+        searchTerms = ['딸기'];
         break;
       default:
         searchTerms = [];
