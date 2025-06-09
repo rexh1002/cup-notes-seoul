@@ -14,7 +14,7 @@ const CATEGORY_LIST = [
   { key: 'anaerobic', label: '무산소 발효', image: '/images/Air.png' },
   { key: 'yeast', label: '이스트 발효', image: '/images/Yeast.png' },
   { key: 'floral', label: '꽃향 가득', image: '/images/Floralicon.png' },
-  { key: 'fruity', label: '프루티', image: '/images/Fruityicon.png' },
+  { key: 'tropical', label: '열대과일', image: '/images/Tropicalicon.png' },
   { key: 'nutty', label: '너티', image: '/images/Nuttyicon.png' },
   { key: 'handdrip', label: '핸드드립', image: '/images/handdripicon.png' },
 ];
@@ -208,8 +208,8 @@ export default function MapMobilePage() {
       case 'floral':
         searchTerms = ['장미', '자스민', '베르가못', '라일락'];
         break;
-      case 'fruity':
-        searchTerms = ['파인애플', '복숭아', '리치', '사과', '감귤', '배', '패션후르츠', '메론', '파파야', '블루베리', '라즈베리', '자두', '딸기', '포도', '자몽', '오렌지', '레몬', '크랜베리', '망고', '체리', '살구'];
+      case 'tropical':
+        searchTerms = ['프루티', '열대과일', '파인애플', '망고', '패션후르츠', '파파야', '리치', '메론'];
         break;
       case 'nutty':
         searchTerms = ['초콜렛', '캐러멜', '고구마', '꿀', '헤이즐넛', '브라운슈거', '엿기름', '아몬드', '피칸', '호두', '로스트피넛', '마카다미아', '땅콩', '바닐라', '캐슈넛', '메이플 시럽', '토피', '피스타치오', '카카오닙스'];

@@ -382,8 +382,8 @@ export default function HomePage() {
         searchTerms = ['장미', '자스민', '베르가못', '라일락'];
         setSelectedNotes(searchTerms);
         break;
-      case 'fruity':
-        searchTerms = ['파인애플', '복숭아', '리치', '사과', '감귤', '배', '패션후르츠', '메론', '파파야', '블루베리', '라즈베리', '자두', '딸기', '포도', '자몽', '오렌지', '레몬', '크랜베리', '망고', '체리', '살구'];
+      case 'tropical':
+        searchTerms = ['프루티', '열대과일', '파인애플', '망고', '패션후르츠', '파파야', '리치', '메론'];
         setSelectedNotes(searchTerms);
         break;
       case 'nutty':
@@ -687,9 +687,9 @@ export default function HomePage() {
               onClick={() => handleCategorySearch('floral')}
             />
             <QuickButton
-              icon="/images/Fruityicon.png"
-              label="프루티"
-              onClick={() => handleCategorySearch('fruity')}
+              icon="/images/Tropicalicon.png"
+              label="열대과일"
+              onClick={() => handleCategorySearch('tropical')}
             />
             <QuickButton
               icon="/images/Nuttyicon.png"
