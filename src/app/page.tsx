@@ -422,6 +422,10 @@ export default function HomePage() {
         searchTerms = [];
         setSelectedNotes([]);
         break;
+      case 'nuttychocolate':
+        searchTerms = ['초콜렛', '헤이즐넛', '아몬드', '마카다미아', '땅콩'];
+        setSelectedNotes(searchTerms);
+        break;
     }
     try {
       const response = await fetch('/api/cafes/search', {
@@ -696,9 +700,9 @@ export default function HomePage() {
               onClick={() => handleCategorySearch('tropical')}
             />
             <QuickButton
-              icon="/images/Nuttyicon.png"
-              label="너티"
-              onClick={() => handleCategorySearch('nutty')}
+              icon="/images/Nuttychocolate.png"
+              label="너티 초콜렛"
+              onClick={() => handleCategorySearch('nuttychocolate')}
             />
             <QuickButton
               icon="/images/handdripicon.png"
