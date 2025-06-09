@@ -115,7 +115,7 @@ export default function FilterPanel({
                     <div className="text-lg text-white mb-6 font-chronicle">과일 한 조각을 머금은 듯한 상큼함</div>
                   </div>
                   <div className="flex flex-wrap gap-2">
-                    {[ '파인애플', '복숭아', '리치', '사과', '감귤', '배', '패션후르츠', '메론', '파파야', '블루베리', '라즈베리', '자두', '딸기', '포도', '자몽', '오렌지', '레몬', '크랜베리', '망고', '체리', '살구', '열대과일' ].map((note) => (
+                    {[ '파인애플', '복숭아', '리치', '사과', '감귤', '배', '패션후르츠', '메론', '파파야', '블루베리', '라즈베리', '자두', '딸기', '포도', '자몽', '오렌지', '레몬', '크랜베리', '망고', '체리', '살구', '열대과일', '레드와인' ].map((note) => (
                       <button
                         key={note}
                         onClick={() => toggleNote(note)}
@@ -308,7 +308,7 @@ export default function FilterPanel({
                   <div className="text-base text-white mb-4 font-chronicle">과일 한 조각을 머금은 듯한 상큼함</div>
                 </div>
                 <div className="flex flex-wrap gap-1">
-                  {[ '파인애플', '복숭아', '리치', '사과', '감귤', '배', '패션후르츠', '메론', '파파야', '블루베리', '라즈베리', '자두', '딸기', '포도', '자몽', '오렌지', '레몬', '크랜베리', '망고', '체리', '살구', '열대과일' ].map((note) => (
+                  {[ '파인애플', '복숭아', '리치', '사과', '감귤', '배', '패션후르츠', '메론', '파파야', '블루베리', '라즈베리', '자두', '딸기', '포도', '자몽', '오렌지', '레몬', '크랜베리', '망고', '체리', '살구', '열대과일', '레드와인' ].map((note) => (
                   <button
                     key={note}
                     onClick={() => toggleNote(note)}
