@@ -673,14 +673,9 @@ export default function HomePage() {
             style={{ left: isMobile ? '16px' : 'calc(384px + 16px)', top: '100px', minWidth: isMobile ? 240 : 900, maxWidth: isMobile ? 320 : 1200 }}
           >
             <QuickButton
-              icon="/images/Ethiopia.png"
-              label="에티오피아"
-              onClick={() => handleCategorySearch('ethiopia')}
-            />
-            <QuickButton
-              icon="/images/Colombia.png"
-              label="콜롬비아"
-              onClick={() => handleCategorySearch('colombia')}
+              icon="/images/Air.png"
+              label="무산소 발효"
+              onClick={() => handleCategorySearch('anaerobic')}
             />
             <QuickButton
               icon="/images/Geisha.png"
@@ -688,34 +683,9 @@ export default function HomePage() {
               onClick={() => handleCategorySearch('geisha')}
             />
             <QuickButton
-              icon="/images/Air.png"
-              label="무산소 발효"
-              onClick={() => handleCategorySearch('anaerobic')}
-            />
-            <QuickButton
-              icon="/images/Yeast.png"
-              label="이스트 발효"
-              onClick={() => handleCategorySearch('yeast')}
-            />
-            <QuickButton
               icon="/images/Floralicon.png"
               label="꽃향 가득"
               onClick={() => handleCategorySearch('floral')}
-            />
-            <QuickButton
-              icon="/images/Tropical.png"
-              label="열대과일"
-              onClick={() => handleCategorySearch('tropical')}
-            />
-            <QuickButton
-              icon="/images/Nuttychocolate.png"
-              label="너티 초콜렛"
-              onClick={() => handleCategorySearch('nuttychocolate')}
-            />
-            <QuickButton
-              icon="/images/handdripicon.png"
-              label="핸드드립"
-              onClick={() => handleCategorySearch('handdrip')}
             />
             <QuickButton
               icon="/images/Peach.png"
@@ -728,9 +698,19 @@ export default function HomePage() {
               onClick={() => handleCategorySearch('strawberry')}
             />
             <QuickButton
+              icon="/images/Tropical.png"
+              label="열대과일"
+              onClick={() => handleCategorySearch('tropical')}
+            />
+            <QuickButton
               icon="/images/Berry.png"
               label="베리류"
               onClick={() => handleCategorySearch('berry')}
+            />
+            <QuickButton
+              icon="/images/Nuttychocolate.png"
+              label="너티 초콜렛"
+              onClick={() => handleCategorySearch('nuttychocolate')}
             />
           </div>
           {/* FilterPanel 항상 좌측에 고정 */}
