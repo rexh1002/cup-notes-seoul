@@ -14,7 +14,7 @@ const CATEGORY_LIST = [
   { key: 'anaerobic', label: '무산소 발효', image: '/images/Air.png' },
   { key: 'yeast', label: '이스트 발효', image: '/images/Yeast.png' },
   { key: 'floral', label: '꽃향 가득', image: '/images/Floralicon.png' },
-  { key: 'tropical', label: '열대과일', image: '/images/Tropicalicon.png' },
+  { key: 'tropical', label: '열대과일', image: '/images/Tropical.png' },
   { key: 'nutty', label: '너티', image: '/images/Nuttyicon.png' },
   { key: 'handdrip', label: '핸드드립', image: '/images/handdripicon.png' },
 ];

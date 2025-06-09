@@ -687,7 +687,7 @@ export default function HomePage() {
               onClick={() => handleCategorySearch('floral')}
             />
             <QuickButton
-              icon="/images/Tropicalicon.png"
+              icon="/images/Tropical.png"
               label="열대과일"
               onClick={() => handleCategorySearch('tropical')}
             />
