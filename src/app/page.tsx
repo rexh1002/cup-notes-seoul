@@ -414,6 +414,10 @@ export default function HomePage() {
         keywordTerm = '게이샤';
         setSearchKeyword(keywordTerm);
         break;
+      case 'peach':
+        searchTerms = ['복숭아'];
+        setSelectedNotes(searchTerms);
+        break;
       case 'all':
         searchTerms = [];
         setSelectedNotes([]);
@@ -700,6 +704,11 @@ export default function HomePage() {
               icon="/images/handdripicon.png"
               label="핸드드립"
               onClick={() => handleCategorySearch('handdrip')}
+            />
+            <QuickButton
+              icon="/images/Peach.png"
+              label="복숭아"
+              onClick={() => handleCategorySearch('peach')}
             />
           </div>
           {/* FilterPanel 항상 좌측에 고정 */}

@@ -17,6 +17,7 @@ const CATEGORY_LIST = [
   { key: 'tropical', label: '열대과일', image: '/images/Tropical.png' },
   { key: 'nutty', label: '너티', image: '/images/Nuttyicon.png' },
   { key: 'handdrip', label: '핸드드립', image: '/images/handdripicon.png' },
+  { key: 'peach', label: '복숭아', image: '/images/Peach.png' },
 ];
 
 function QuickCard({ image, label, onClick }: { image: string; label: string; onClick: () => void }) {
@@ -233,6 +234,9 @@ export default function MapMobilePage() {
         break;
       case 'geisha':
         keywordTerm = '게이샤';
+        break;
+      case 'peach':
+        searchTerms = ['복숭아'];
         break;
       default:
         searchTerms = [];
