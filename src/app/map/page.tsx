@@ -13,7 +13,7 @@ const CATEGORY_LIST = [
   { key: 'geisha', label: '게이샤', image: '/images/Geisha.png' },
   { key: 'anaerobic', label: '무산소 발효', image: '/images/Air.png' },
   { key: 'yeast', label: '이스트 발효', image: '/images/Yeast.png' },
-  { key: 'floral', label: '플로럴', image: '/images/Floralicon.png' },
+  { key: 'floral', label: '꽃향 가득', image: '/images/Floralicon.png' },
   { key: 'fruity', label: '프루티', image: '/images/Fruityicon.png' },
   { key: 'nutty', label: '너티', image: '/images/Nuttyicon.png' },
   { key: 'handdrip', label: '핸드드립', image: '/images/handdripicon.png' },
@@ -206,7 +206,7 @@ export default function MapMobilePage() {
     let keywordTerm = '';
     switch (category) {
       case 'floral':
-        searchTerms = ['라벤더', '아카시아', '장미', '자스민', '국화', '히비스커스', '제비꽃', '홍차', '얼그레이', '카모마일', '오렌지 블로섬', '은방울꽃', '블랙티', '베르가못', '라일락', '로즈마리'];
+        searchTerms = ['장미', '자스민', '베르가못', '라일락'];
         break;
       case 'fruity':
         searchTerms = ['파인애플', '복숭아', '리치', '사과', '감귤', '배', '패션후르츠', '메론', '파파야', '블루베리', '라즈베리', '자두', '딸기', '포도', '자몽', '오렌지', '레몬', '크랜베리', '망고', '체리', '살구'];

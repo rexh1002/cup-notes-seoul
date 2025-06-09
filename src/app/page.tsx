@@ -379,7 +379,7 @@ export default function HomePage() {
     let keywordTerm = '';
     switch (category) {
       case 'floral':
-        searchTerms = ['라벤더', '아카시아', '장미', '자스민', '국화', '히비스커스', '제비꽃', '홍차', '얼그레이', '카모마일', '오렌지 블로섬', '은방울꽃', '블랙티', '베르가못', '라일락', '로즈마리'];
+        searchTerms = ['장미', '자스민', '베르가못', '라일락'];
         setSelectedNotes(searchTerms);
         break;
       case 'fruity':
@@ -683,7 +683,7 @@ export default function HomePage() {
             />
             <QuickButton
               icon="/images/Floralicon.png"
-              label="플로럴"
+              label="꽃향 가득"
               onClick={() => handleCategorySearch('floral')}
             />
             <QuickButton
