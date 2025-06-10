@@ -260,26 +260,26 @@ export default function HomePage() {
         }
         
         // 검색 결과가 있고 지도가 준비되었을 때
-        if (data.cafes.length > 0 && window.currentMap) {
-          const mapInstance = window.currentMap;
-          
-          // 지도가 완전히 초기화되었는지 확인
-          if (typeof mapInstance.getBounds === 'function' && typeof mapInstance.getCenter === 'function') {
+        if (data.cafes.length > 0) {
+          const moveToFirstCafe = () => {
+            const mapInstance = window.currentMap;
+            if (!mapInstance || typeof mapInstance.getBounds !== 'function' || typeof mapInstance.getCenter !== 'function') {
+              setTimeout(moveToFirstCafe, 100);
+              return;
+            }
             const bounds = mapInstance.getBounds();
-            
-            // 검색 결과가 현재 지도 영역에 있는지 확인
             const isAnyCafeVisible = data.cafes.some(cafe => {
               const cafeLatLng = new window.naver.maps.LatLng(cafe.latitude, cafe.longitude);
               return bounds.hasLatLng(cafeLatLng);
             });
-            
-            // 검색 결과가 현재 지도 영역에 없으면 첫 번째 카페 위치로 이동
             if (!isAnyCafeVisible) {
               const firstCafe = data.cafes[0];
               const newCenter = new window.naver.maps.LatLng(firstCafe.latitude, firstCafe.longitude);
               mapInstance.setCenter(newCenter);
+              // mapInstance.setZoom(15); // 줌 변경하지 않음
             }
-          }
+          };
+          moveToFirstCafe();
         }
      } else {
         console.log('[클라이언트] 검색 결과 없음');

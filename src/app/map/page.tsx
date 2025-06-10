@@ -91,9 +91,13 @@ export default function MapMobilePage() {
           const data = await response.json();
           setCafes(data.cafes || []);
           // 검색 결과가 있고 지도가 준비되었을 때
-          if (data.cafes && data.cafes.length > 0 && window.currentMap) {
-            const mapInstance = window.currentMap;
-            if (typeof mapInstance.getBounds === 'function' && typeof mapInstance.getCenter === 'function') {
+          if (data.cafes && data.cafes.length > 0) {
+            const moveToFirstCafe = () => {
+              const mapInstance = window.currentMap;
+              if (!mapInstance || typeof mapInstance.getBounds !== 'function' || typeof mapInstance.getCenter !== 'function') {
+                setTimeout(moveToFirstCafe, 100);
+                return;
+              }
               const bounds = mapInstance.getBounds();
               const isAnyCafeVisible = data.cafes.some(cafe => {
                 const cafeLatLng = new window.naver.maps.LatLng(cafe.latitude, cafe.longitude);
@@ -105,7 +109,8 @@ export default function MapMobilePage() {
                 mapInstance.setCenter(newCenter);
                 // mapInstance.setZoom(15); // 줌 변경하지 않음
               }
-            }
+            };
+            moveToFirstCafe();
           }
         } catch (error) {
           setCafes([]);
