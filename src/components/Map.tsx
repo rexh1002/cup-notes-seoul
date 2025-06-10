@@ -454,7 +454,19 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                 onTouchEnd={(e) => e.stopPropagation()}
                 className="absolute top-2 right-2 text-2xl text-gray-500 hover:text-gray-700 z-20 p-0 m-0 bg-transparent border-none shadow-none focus:outline-none"
                 aria-label="카드 닫기"
-                style={{background: 'none'}}
+                style={{
+                  background: 'white',
+                  borderRadius: '50%',
+                  width: '40px',
+                  height: '40px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  boxShadow: '0 2px 8px 0 rgba(0,0,0,0.10)',
+                  border: '1px solid #e5e7eb',
+                  padding: 0,
+                  margin: 0
+                }}
               >
                 ✕
               </button>
@@ -697,7 +709,19 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                 onTouchEnd={(e) => e.stopPropagation()}
                 className="absolute top-2 right-2 text-2xl text-gray-500 hover:text-gray-700 z-20 p-0 m-0 bg-transparent border-none shadow-none focus:outline-none"
                 aria-label="카드 닫기"
-                style={{background: 'none'}}
+                style={{
+                  background: 'white',
+                  borderRadius: '50%',
+                  width: '40px',
+                  height: '40px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  boxShadow: '0 2px 8px 0 rgba(0,0,0,0.10)',
+                  border: '1px solid #e5e7eb',
+                  padding: 0,
+                  margin: 0
+                }}
               >
                 ✕
               </button>
