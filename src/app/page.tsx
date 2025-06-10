@@ -278,7 +278,6 @@ export default function HomePage() {
               const firstCafe = data.cafes[0];
               const newCenter = new window.naver.maps.LatLng(firstCafe.latitude, firstCafe.longitude);
               mapInstance.setCenter(newCenter);
-              mapInstance.setZoom(15);
             }
           }
         }
@@ -747,7 +746,6 @@ export default function HomePage() {
                       if (mapInstance && mapInstance.setCenter) {
                         const location = new window.naver.maps.LatLng(latitude, longitude);
                         mapInstance.setCenter(location);
-                        mapInstance.setZoom(15);
                       } else {
                         window.alert('지도를 찾을 수 없습니다.');
                       }
