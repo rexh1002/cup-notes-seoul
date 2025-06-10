@@ -261,18 +261,46 @@ export default function HomePage() {
         
         // 검색 결과가 있을 때 무조건 첫 번째 카페 위치로 이동
         if (data.cafes.length > 0) {
+          let retryCount = 0;
+          const maxRetries = 50; // 5초 동안 시도 (100ms * 50)
+          
           const moveToFirstCafe = () => {
-            const mapInstance = window.currentMap;
-            if (!mapInstance || typeof mapInstance.getBounds !== 'function' || typeof mapInstance.getCenter !== 'function') {
-              setTimeout(moveToFirstCafe, 100);
-              return;
+            try {
+              const mapInstance = window.currentMap;
+              if (!mapInstance) {
+                console.log('[클라이언트] 지도 인스턴스가 아직 준비되지 않음');
+                if (retryCount < maxRetries) {
+                  retryCount++;
+                  setTimeout(moveToFirstCafe, 100);
+                } else {
+                  console.error('[클라이언트] 지도 인스턴스 준비 시간 초과');
+                }
+                return;
+              }
+
+              const firstCafe = data.cafes[0];
+              console.log('[클라이언트] 첫 번째 카페 위치로 이동:', firstCafe.name, firstCafe.latitude, firstCafe.longitude);
+              
+              const newCenter = new window.naver.maps.LatLng(firstCafe.latitude, firstCafe.longitude);
+              mapInstance.setCenter(newCenter);
+              console.log('[클라이언트] 지도 중심 이동 완료');
+            } catch (error) {
+              console.error('[클라이언트] 지도 이동 중 에러 발생:', error);
             }
-            const firstCafe = data.cafes[0];
-            const newCenter = new window.naver.maps.LatLng(firstCafe.latitude, firstCafe.longitude);
-            mapInstance.setCenter(newCenter);
-            // mapInstance.setZoom(15); // 줌 변경하지 않음
           };
-          moveToFirstCafe();
+          
+          // 지도 인스턴스가 준비될 때까지 대기
+          const checkMapReady = setInterval(() => {
+            if (window.currentMap) {
+              clearInterval(checkMapReady);
+              moveToFirstCafe();
+            }
+          }, 100);
+
+          // 5초 후에도 지도가 준비되지 않으면 인터벌 제거
+          setTimeout(() => {
+            clearInterval(checkMapReady);
+          }, 5000);
         }
      } else {
         console.log('[클라이언트] 검색 결과 없음');
