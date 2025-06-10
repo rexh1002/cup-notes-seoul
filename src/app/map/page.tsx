@@ -90,7 +90,7 @@ export default function MapMobilePage() {
           if (!response.ok) throw new Error('카페 데이터를 불러오는데 실패했습니다.');
           const data = await response.json();
           setCafes(data.cafes || []);
-          // 검색 결과가 있고 지도가 준비되었을 때
+          // 검색 결과가 있을 때 무조건 첫 번째 카페 위치로 이동
           if (data.cafes && data.cafes.length > 0) {
             const moveToFirstCafe = () => {
               const mapInstance = window.currentMap;
@@ -98,17 +98,10 @@ export default function MapMobilePage() {
                 setTimeout(moveToFirstCafe, 100);
                 return;
               }
-              const bounds = mapInstance.getBounds();
-              const isAnyCafeVisible = data.cafes.some(cafe => {
-                const cafeLatLng = new window.naver.maps.LatLng(cafe.latitude, cafe.longitude);
-                return bounds.hasLatLng(cafeLatLng);
-              });
-              if (!isAnyCafeVisible) {
-                const firstCafe = data.cafes[0];
-                const newCenter = new window.naver.maps.LatLng(firstCafe.latitude, firstCafe.longitude);
-                mapInstance.setCenter(newCenter);
-                // mapInstance.setZoom(15); // 줌 변경하지 않음
-              }
+              const firstCafe = data.cafes[0];
+              const newCenter = new window.naver.maps.LatLng(firstCafe.latitude, firstCafe.longitude);
+              mapInstance.setCenter(newCenter);
+              // mapInstance.setZoom(15); // 줌 변경하지 않음
             };
             moveToFirstCafe();
           }
