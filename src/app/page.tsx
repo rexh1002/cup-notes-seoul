@@ -268,17 +268,13 @@ export default function HomePage() {
           const moveToFirstCafe = () => {
             try {
               const mapInstance = window.currentMap;
-              if (!mapInstance) {
-                if (retryCount < maxRetries) {
-                  retryCount++;
-                  setTimeout(moveToFirstCafe, 100);
-                }
-                return;
-              }
+              const realMap = mapInstance.getMap ? mapInstance.getMap() : mapInstance;
+              alert('mapInstance 타입: ' + (mapInstance && mapInstance.constructor && mapInstance.constructor.name));
+              alert('realMap 타입: ' + (realMap && realMap.constructor && realMap.constructor.name));
               const firstCafe = data.cafes[0];
               alert(`지도 중심 이동: ${firstCafe.latitude}, ${firstCafe.longitude}`); // 실제 좌표 확인
               const newCenter = new window.naver.maps.LatLng(firstCafe.latitude, firstCafe.longitude);
-              mapInstance.setCenter(newCenter);
+              realMap.setCenter(newCenter);
             } catch (error) {
               alert('지도 이동 중 에러 발생: ' + error);
             }
