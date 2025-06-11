@@ -261,6 +261,7 @@ export default function HomePage() {
         
         // 검색 결과가 있을 때 무조건 첫 번째 카페 위치로 이동
         if (data.cafes.length > 0) {
+          alert('지도 이동 시도!'); // 이 알림이 뜨는지 확인
           let retryCount = 0;
           const maxRetries = 50; // 5초 동안 시도 (100ms * 50)
           
@@ -268,28 +269,21 @@ export default function HomePage() {
             try {
               const mapInstance = window.currentMap;
               if (!mapInstance) {
-                console.log('[클라이언트] 지도 인스턴스가 아직 준비되지 않음');
                 if (retryCount < maxRetries) {
                   retryCount++;
                   setTimeout(moveToFirstCafe, 100);
-                } else {
-                  console.error('[클라이언트] 지도 인스턴스 준비 시간 초과');
                 }
                 return;
               }
-
               const firstCafe = data.cafes[0];
-              console.log('[클라이언트] 첫 번째 카페 위치로 이동:', firstCafe.name, firstCafe.latitude, firstCafe.longitude);
-              
+              alert(`지도 중심 이동: ${firstCafe.latitude}, ${firstCafe.longitude}`); // 실제 좌표 확인
               const newCenter = new window.naver.maps.LatLng(firstCafe.latitude, firstCafe.longitude);
               mapInstance.setCenter(newCenter);
-              console.log('[클라이언트] 지도 중심 이동 완료');
             } catch (error) {
-              console.error('[클라이언트] 지도 이동 중 에러 발생:', error);
+              alert('지도 이동 중 에러 발생: ' + error);
             }
           };
           
-          // 지도 인스턴스가 준비될 때까지 대기
           const checkMapReady = setInterval(() => {
             if (window.currentMap) {
               clearInterval(checkMapReady);
@@ -297,7 +291,6 @@ export default function HomePage() {
             }
           }, 100);
 
-          // 5초 후에도 지도가 준비되지 않으면 인터벌 제거
           setTimeout(() => {
             clearInterval(checkMapReady);
           }, 5000);
