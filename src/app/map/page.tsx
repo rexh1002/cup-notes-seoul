@@ -108,10 +108,12 @@ export default function MapMobilePage() {
                 }
                 // 주소를 위도/경도로 변환
                 window.naver.maps.Service.geocode({ address }, function(status, response) {
+                  alert('geocode 콜백 호출됨, status: ' + status);
                   if (status === window.naver.maps.Service.Status.OK) {
                     const result = response.v2.addresses[0];
                     const lat = parseFloat(result.y);
                     const lng = parseFloat(result.x);
+                    alert('geocode 변환 lat: ' + lat + ', lng: ' + lng);
                     const newCenter = new window.naver.maps.LatLng(lat, lng);
                     mapInstance.setCenter(newCenter);
                   } else {
