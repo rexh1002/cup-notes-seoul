@@ -261,35 +261,37 @@ export default function HomePage() {
         
         // 검색 결과가 있을 때 무조건 첫 번째 카페 위치로 이동
         if (data.cafes.length > 0) {
-          alert('카페 객체: ' + JSON.stringify(data.cafes[0]));
+          const firstCafe = data.cafes[0];
+          const address = firstCafe.address;
           let retryCount = 0;
-          const maxRetries = 50; // 5초 동안 시도 (100ms * 50)
-          
+          const maxRetries = 50;
           const moveToFirstCafe = () => {
             try {
               const mapInstance = window.currentMap;
-              const realMap = mapInstance.getMap ? mapInstance.getMap() : mapInstance;
-              alert('mapInstance 타입: ' + (mapInstance && mapInstance.constructor && mapInstance.constructor.name));
-              alert('realMap 타입: ' + (realMap && realMap.constructor && realMap.constructor.name));
-              const firstCafe = data.cafes[0];
-              alert(`지도 중심 이동: ${firstCafe.latitude}, ${firstCafe.longitude}`); // 실제 좌표 확인
-              const newCenter = new window.naver.maps.LatLng(firstCafe.latitude, firstCafe.longitude);
-              realMap.setCenter(newCenter);
+              if (!mapInstance) {
+                if (retryCount < maxRetries) {
+                  retryCount++;
+                  setTimeout(moveToFirstCafe, 100);
+                }
+                return;
+              }
+              // 주소를 위도/경도로 변환
+              window.naver.maps.Service.geocode({ address }, function(status, response) {
+                if (status === window.naver.maps.Service.Status.OK) {
+                  const result = response.v2.addresses[0];
+                  const lat = parseFloat(result.y);
+                  const lng = parseFloat(result.x);
+                  const newCenter = new window.naver.maps.LatLng(lat, lng);
+                  mapInstance.setCenter(newCenter);
+                } else {
+                  alert('주소를 위도/경도로 변환할 수 없습니다.');
+                }
+              });
             } catch (error) {
               alert('지도 이동 중 에러 발생: ' + error);
             }
           };
-          
-          const checkMapReady = setInterval(() => {
-            if (window.currentMap) {
-              clearInterval(checkMapReady);
-              moveToFirstCafe();
-            }
-          }, 100);
-
-          setTimeout(() => {
-            clearInterval(checkMapReady);
-          }, 5000);
+          moveToFirstCafe();
         }
      } else {
         console.log('[클라이언트] 검색 결과 없음');
