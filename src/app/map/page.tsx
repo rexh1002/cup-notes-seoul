@@ -53,6 +53,14 @@ export default function MapMobilePage() {
   const [selectedProcesses, setSelectedProcesses] = useState<string[]>([]);
   const [isLocating, setIsLocating] = useState(false);
 
+  // 모든 Hook 호출 이후에 조건부 리턴
+  if (typeof window !== 'undefined' && window.innerWidth >= 768) {
+    router.replace('/');
+    return null;
+  }
+
+  const locationSearch = typeof window !== 'undefined' ? window.location.search : '';
+
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -128,7 +136,7 @@ export default function MapMobilePage() {
         initialLoad();
       }
     }
-  }, [isMounted, typeof window !== 'undefined' ? window.location.search : '']);
+  }, [isMounted, locationSearch]);
 
   useEffect(() => {
     if (isMounted) {
@@ -164,12 +172,6 @@ export default function MapMobilePage() {
     setUserName(null);
     router.push('/');
   };
-
-  // 모바일 환경이 아니면 리다이렉트
-  if (typeof window !== 'undefined' && window.innerWidth >= 768) {
-    router.replace('/');
-    return null;
-  }
 
   // 검색 핸들러
   const handleSearch = async () => {
