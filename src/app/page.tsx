@@ -261,7 +261,7 @@ export default function HomePage() {
         
         // 검색 결과가 있을 때 무조건 첫 번째 카페 위치로 이동
         if (data.cafes.length > 0) {
-          alert('지도 이동 시도!'); // 이 알림이 뜨는지 확인
+          alert('카페 객체: ' + JSON.stringify(data.cafes[0]));
           let retryCount = 0;
           const maxRetries = 50; // 5초 동안 시도 (100ms * 50)
           
