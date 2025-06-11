@@ -35,8 +35,8 @@ const Map = dynamic(() => import('../../components/Map'), { ssr: false });
 
 export default function MapMobilePage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [isClient, setIsClient] = useState(false);
-  const searchParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
   const mapRef = useRef<any>(null);
   const [cafes, setCafes] = useState<any[]>([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
