@@ -260,7 +260,7 @@ export default function HomePage() {
         }
         
         // 검색 결과가 있을 때 무조건 첫 번째 카페 위치로 이동
-        if (data.cafes.length > 0) {
+        if (data.cafes.length > 0 && window.innerWidth >= 768) {
           const firstCafe = data.cafes[0];
           const address = firstCafe.address;
           let retryCount = 0;
