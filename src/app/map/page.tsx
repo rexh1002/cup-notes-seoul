@@ -35,6 +35,7 @@ const Map = dynamic(() => import('../../components/Map'), { ssr: false });
 
 export default function MapMobilePage() {
   const router = useRouter();
+  const [isClient, setIsClient] = useState(false);
   const searchParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
   const mapRef = useRef<any>(null);
   const [cafes, setCafes] = useState<any[]>([]);
@@ -53,13 +54,15 @@ export default function MapMobilePage() {
   const [selectedProcesses, setSelectedProcesses] = useState<string[]>([]);
   const [isLocating, setIsLocating] = useState(false);
 
+  useEffect(() => { setIsClient(true); }, []);
+
   // 모든 Hook 호출 이후에 조건부 리턴
-  if (typeof window !== 'undefined' && window.innerWidth >= 768) {
+  if (isClient && typeof window !== 'undefined' && window.innerWidth >= 768) {
     router.replace('/');
     return null;
   }
 
-  const locationSearch = typeof window !== 'undefined' ? window.location.search : '';
+  const locationSearch = isClient && typeof window !== 'undefined' ? window.location.search : '';
 
   useEffect(() => {
     setIsMounted(true);
@@ -355,7 +358,7 @@ export default function MapMobilePage() {
   };
 
   useEffect(() => {
-    if (cafes && cafes.length > 0 && typeof window !== 'undefined' && window.innerWidth < 768 && window.currentMap) {
+    if (cafes && cafes.length > 0 && isClient && typeof window !== 'undefined' && window.innerWidth < 768 && window.currentMap) {
       const firstCafe = cafes[0];
       const address = firstCafe.address;
       window.naver.maps.Service.geocode({ address }, function(status, response) {
@@ -372,7 +375,7 @@ export default function MapMobilePage() {
         }
       });
     }
-  }, [cafes]);
+  }, [cafes, isClient]);
 
   return (
     <div className="relative w-full min-h-screen pt-14 pb-16">
