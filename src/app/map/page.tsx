@@ -90,42 +90,6 @@ export default function MapMobilePage() {
           if (!response.ok) throw new Error('카페 데이터를 불러오는데 실패했습니다.');
           const data = await response.json();
           setCafes(data.cafes || []);
-          // 검색 결과가 있을 때 무조건 첫 번째 카페 위치로 이동
-          if (data.cafes && data.cafes.length > 0 && window.innerWidth < 768) {
-            const firstCafe = data.cafes[0];
-            const address = firstCafe.address;
-            let retryCount = 0;
-            const maxRetries = 50;
-            const moveToFirstCafe = () => {
-              try {
-                const mapInstance = window.currentMap;
-                if (!mapInstance) {
-                  if (retryCount < maxRetries) {
-                    retryCount++;
-                    setTimeout(moveToFirstCafe, 100);
-                  }
-                  return;
-                }
-                // 주소를 위도/경도로 변환
-                window.naver.maps.Service.geocode({ address }, function(status, response) {
-                  alert('geocode 콜백 호출됨, status: ' + status);
-                  if (status === window.naver.maps.Service.Status.OK) {
-                    const result = response.v2.addresses[0];
-                    const lat = parseFloat(result.y);
-                    const lng = parseFloat(result.x);
-                    alert('geocode 변환 lat: ' + lat + ', lng: ' + lng);
-                    const newCenter = new window.naver.maps.LatLng(lat, lng);
-                    mapInstance.setCenter(newCenter);
-                  } else {
-                    alert('주소를 위도/경도로 변환할 수 없습니다.');
-                  }
-                });
-              } catch (error) {
-                alert('지도 이동 중 에러 발생: ' + error);
-              }
-            };
-            moveToFirstCafe();
-          }
         } catch (error) {
           setCafes([]);
         }
@@ -387,6 +351,26 @@ export default function MapMobilePage() {
     };
     tryMove();
   };
+
+  useEffect(() => {
+    if (cafes && cafes.length > 0 && typeof window !== 'undefined' && window.innerWidth < 768 && window.currentMap) {
+      const firstCafe = cafes[0];
+      const address = firstCafe.address;
+      window.naver.maps.Service.geocode({ address }, function(status, response) {
+        alert('geocode 콜백 호출됨, status: ' + status);
+        if (status === window.naver.maps.Service.Status.OK) {
+          const result = response.v2.addresses[0];
+          const lat = parseFloat(result.y);
+          const lng = parseFloat(result.x);
+          alert('geocode 변환 lat: ' + lat + ', lng: ' + lng);
+          const newCenter = new window.naver.maps.LatLng(lat, lng);
+          window.currentMap.setCenter(newCenter);
+        } else {
+          alert('주소를 위도/경도로 변환할 수 없습니다.');
+        }
+      });
+    }
+  }, [cafes]);
 
   return (
     <div className="relative w-full min-h-screen pt-14 pb-16">
