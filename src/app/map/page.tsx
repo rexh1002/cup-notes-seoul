@@ -35,7 +35,8 @@ const Map = dynamic(() => import('../../components/Map'), { ssr: false });
 
 export default function MapMobilePage() {
   const router = useRouter();
-  const searchParams = useSearchParams();
+  const searchParams = useSearchParams()!;
+  const searchParamsString = searchParams.toString();
   const [isClient, setIsClient] = useState(false);
   const mapRef = useRef<any>(null);
   const [cafes, setCafes] = useState<any[]>([]);
@@ -62,8 +63,6 @@ export default function MapMobilePage() {
     return null;
   }
 
-  const locationSearch = isClient && typeof window !== 'undefined' ? window.location.search : '';
-
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -76,13 +75,16 @@ export default function MapMobilePage() {
       let origins: string[] = [];
       let processes: string[] = [];
       let roastLevel: string[] = [];
-      if (searchParams) {
-        if (searchParams.get('notes')) notes = searchParams.get('notes')!.split(',').filter(Boolean);
-        if (searchParams.get('brewMethods')) brewMethods = searchParams.get('brewMethods')!.split(',').filter(Boolean);
-        if (searchParams.get('origins')) origins = searchParams.get('origins')!.split(',').filter(Boolean);
-        if (searchParams.get('processes')) processes = searchParams.get('processes')!.split(',').filter(Boolean);
-        if (searchParams.get('roast')) roastLevel = searchParams.get('roast')!.split(',').filter(Boolean);
-      }
+      // @ts-expect-error
+      if (searchParams.get('notes')) notes = searchParams.get('notes').split(',').filter(Boolean);
+      // @ts-expect-error
+      if (searchParams.get('brewMethods')) brewMethods = searchParams.get('brewMethods').split(',').filter(Boolean);
+      // @ts-expect-error
+      if (searchParams.get('origins')) origins = searchParams.get('origins').split(',').filter(Boolean);
+      // @ts-expect-error
+      if (searchParams.get('processes')) processes = searchParams.get('processes').split(',').filter(Boolean);
+      // @ts-expect-error
+      if (searchParams.get('roast')) roastLevel = searchParams.get('roast').split(',').filter(Boolean);
       const hasFilter = notes.length || brewMethods.length || origins.length || processes.length || roastLevel.length;
       const fetchCafes = async () => {
         try {
@@ -139,7 +141,7 @@ export default function MapMobilePage() {
         initialLoad();
       }
     }
-  }, [isMounted, locationSearch]);
+  }, [isMounted, searchParamsString]);
 
   useEffect(() => {
     if (isMounted) {
