@@ -57,11 +57,12 @@ export default function MapMobilePage() {
 
   useEffect(() => { setIsClient(true); }, []);
 
-  // 모든 Hook 호출 이후에 조건부 리턴
-  if (isClient && typeof window !== 'undefined' && window.innerWidth >= 768) {
-    router.replace('/');
-    return null;
-  }
+  // 모바일이 아니면 리다이렉트 (useEffect에서만 처리)
+  useEffect(() => {
+    if (isClient && typeof window !== 'undefined' && window.innerWidth >= 768) {
+      router.replace('/');
+    }
+  }, [isClient, router]);
 
   useEffect(() => {
     setIsMounted(true);
