@@ -100,6 +100,7 @@ export default function MapMobileClient() {
       }
       const fetchCafes = async () => {
         try {
+          if (typeof window !== 'undefined' && window.innerWidth < 768 && hasFilter) setIsMobileLoading(true);
           const response = await fetch('/api/cafes/search', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -117,6 +118,8 @@ export default function MapMobileClient() {
           setCafes(data.cafes || []);
         } catch (error) {
           setCafes([]);
+        } finally {
+          if (typeof window !== 'undefined' && window.innerWidth < 768 && hasFilter) setIsMobileLoading(false);
         }
       };
       if (hasFilter) {
