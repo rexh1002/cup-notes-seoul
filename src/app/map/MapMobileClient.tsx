@@ -440,10 +440,41 @@ export default function MapMobileClient() {
           </div>
           <button
             className="ml-2 px-3 py-2 bg-bluebottle-blue text-white rounded-lg font-bold text-sm shadow-sm hover:bg-[#004b82] transition"
-            onClick={handleSearch}
-            aria-label="검색"
+            onClick={() => {
+              if (searchKeyword) {
+                // X 버튼 클릭 시: 검색어 및 지도 초기화
+                setSearchKeyword('');
+                // 전체 카페 불러오기 (초기화)
+                fetch('/api/cafes/search', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    keyword: '',
+                    notes: [],
+                    origins: [],
+                    processes: [],
+                    roastLevel: [],
+                    brewMethod: [],
+                  }),
+                })
+                  .then(res => res.json())
+                  .then(data => setCafes(data.cafes || []));
+              } else {
+                handleSearch();
+              }
+            }}
+            aria-label={searchKeyword ? '초기화' : '검색'}
           >
-            <Search className="w-5 h-5" />
+            {searchKeyword ? (
+              <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <line x1="5" y1="5" x2="15" y2="15" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                  <line x1="15" y1="5" x2="5" y2="15" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                </svg>
+              </span>
+            ) : (
+              <Search className="w-5 h-5" />
+            )}
           </button>
         </div>
       )}
