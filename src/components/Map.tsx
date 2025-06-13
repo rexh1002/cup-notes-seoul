@@ -87,6 +87,7 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
   const [canDrag, setCanDrag] = useState(true);
   const tabMenuRef = useRef<HTMLDivElement>(null);
   const [showList, setShowList] = useState(false);
+  const [cardPosition, setCardPosition] = useState<'min' | 'default' | 'full'>('default');
 
   // 검색 카테고리 정의
   const searchCategories = {
@@ -375,8 +376,14 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
       e.preventDefault();
       const touchDiff = touchMoveY - touchStartY;
       setDragTranslateY(0);
-      if (touchDiff < -100) setIsFullScreen(true);
-      else if (touchDiff > 100) setIsFullScreen(false);
+      if (cardPosition === 'default') {
+        if (touchDiff < -100) setCardPosition('full');
+        else if (touchDiff > 100) setCardPosition('min');
+      } else if (cardPosition === 'full') {
+        if (touchDiff > 100) setCardPosition('default');
+      } else if (cardPosition === 'min') {
+        if (touchDiff < -100) setCardPosition('default');
+      }
     }
   };
 
@@ -432,9 +439,9 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
           window.innerWidth < 768 ? (
             // 모바일: 기존처럼 하단 고정
             <div
-              className={`fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl shadow-lg z-[88888] transition-transform duration-1500 ease-in-out md:relative md:rounded-none md:shadow-none ${
-                isFullScreen ? 'h-[calc(100vh-64px)]' : 'h-[40vh]'
-              }`}
+              className={`fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl shadow-lg z-[88888] transition-transform duration-1500 ease-in-out md:relative md:rounded-none md:shadow-none
+                ${cardPosition === 'full' ? 'h-[calc(100vh-64px)]' : cardPosition === 'default' ? 'h-[40vh]' : 'h-[25vh]'}
+              `}
               style={{
                 transform: `translateY(${dragTranslateY}px)`,
                 touchAction: 'none'
