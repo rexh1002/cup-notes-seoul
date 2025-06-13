@@ -554,8 +554,8 @@ export default function HomePage() {
             transition={{ delay: 0.35, duration: 1.5 }}
             className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4 text-center"
           >
-            <span className="block md:inline">한잔의 커피로 특별해</span>
-            <span className="block md:inline">질 수 있어요.</span>
+            <span className="block md:inline">한 잔의 커피로</span>
+            <span className="block md:inline">특별해질 수 있어요.</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}

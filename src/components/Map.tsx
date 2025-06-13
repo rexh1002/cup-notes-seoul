@@ -215,9 +215,6 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
 
         mapInstance.current = new window.naver.maps.Map(mapRef.current, mapOptions);
         window.currentMap = mapInstance.current;
-        if (typeof window !== 'undefined' && window.innerWidth < 768) {
-          alert('[Map] 모바일에서 window.currentMap 할당됨');
-        }
         console.log('[Map] 새 지도 인스턴스 생성 완료');
 
         // 이벤트 리스너 등록
