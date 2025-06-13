@@ -671,7 +671,13 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                       )}
                       {/* SNS 링크 */}
                       {selectedCafe.snsLinks && Array.isArray(selectedCafe.snsLinks) && selectedCafe.snsLinks.length > 0 && (
-                        <div className="flex items-center gap-2 text-gray-800 text-sm flex-wrap">
+                        <div 
+                          className="flex items-center gap-2 text-gray-800 text-sm flex-wrap"
+                          onClick={(e) => e.stopPropagation()}
+                          onTouchStart={(e) => e.stopPropagation()}
+                          onTouchMove={(e) => e.stopPropagation()}
+                          onTouchEnd={(e) => e.stopPropagation()}
+                        >
                           <Share2 className="w-4 h-4 text-pink-500" />
                           {selectedCafe.snsLinks.map((link: any, idx: number) => (
                             link.url ? (
@@ -682,8 +688,22 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                                 rel="noopener noreferrer"
                                 className="underline hover:text-blue-600 mr-2 cursor-pointer"
                                 onClick={(e) => {
+                                  e.preventDefault();
                                   e.stopPropagation();
-                                  window.open(link.url, '_blank', 'noopener,noreferrer');
+                                  if (link.url) {
+                                    window.location.href = link.url;
+                                  }
+                                }}
+                                onTouchStart={(e) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                }}
+                                onTouchEnd={(e) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                  if (link.url) {
+                                    window.location.href = link.url;
+                                  }
                                 }}
                               >
                                 {link.type || 'SNS'}
@@ -911,7 +931,13 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                       )}
                       {/* SNS 링크 */}
                       {selectedCafe.snsLinks && Array.isArray(selectedCafe.snsLinks) && selectedCafe.snsLinks.length > 0 && (
-                        <div className="flex items-center gap-2 text-gray-800 text-sm flex-wrap">
+                        <div 
+                          className="flex items-center gap-2 text-gray-800 text-sm flex-wrap"
+                          onClick={(e) => e.stopPropagation()}
+                          onTouchStart={(e) => e.stopPropagation()}
+                          onTouchMove={(e) => e.stopPropagation()}
+                          onTouchEnd={(e) => e.stopPropagation()}
+                        >
                           <Share2 className="w-4 h-4 text-pink-500" />
                           {selectedCafe.snsLinks.map((link: any, idx: number) => (
                             link.url ? (
@@ -922,8 +948,22 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                                 rel="noopener noreferrer"
                                 className="underline hover:text-blue-600 mr-2 cursor-pointer"
                                 onClick={(e) => {
+                                  e.preventDefault();
                                   e.stopPropagation();
-                                  window.open(link.url, '_blank', 'noopener,noreferrer');
+                                  if (link.url) {
+                                    window.location.href = link.url;
+                                  }
+                                }}
+                                onTouchStart={(e) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                }}
+                                onTouchEnd={(e) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                  if (link.url) {
+                                    window.location.href = link.url;
+                                  }
                                 }}
                               >
                                 {link.type || 'SNS'}
