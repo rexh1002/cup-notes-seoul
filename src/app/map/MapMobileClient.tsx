@@ -290,7 +290,44 @@ export default function MapMobileClient() {
         keywordTerm = '베리류';
         break;
       default:
-        searchTerms = [];
+        if (typeof window !== 'undefined' && window.innerWidth < 768) {
+          setIsMobileLoading(true);
+          if (searchTerms.length > 0) {
+            setSearchKeyword(searchTerms.join(', '));
+          } else if (brewMethodTerms.length > 0) {
+            setSearchKeyword(brewMethodTerms.join(', '));
+          } else if (originsTerms.length > 0) {
+            setSearchKeyword(originsTerms.join(', '));
+          } else if (processesTerms.length > 0) {
+            setSearchKeyword(processesTerms.join(', '));
+          } else {
+            setSearchKeyword(keywordTerm);
+          }
+          (async () => {
+            try {
+              const response = await fetch('/api/cafes/search', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  keyword: '',
+                  notes: searchTerms,
+                  brewMethod: brewMethodTerms,
+                  origins: originsTerms,
+                  processes: processesTerms,
+                  roastLevel: [],
+                }),
+              });
+              if (!response.ok) throw new Error();
+              const data = await response.json();
+              setCafes(data.cafes || []);
+            } catch (e) {
+              setCafes([]);
+            } finally {
+              setIsMobileLoading(false);
+            }
+          })();
+        }
+        break;
     }
 
     // 검색창에 실제 탐색되는 키워드 표시 (모바일에서만)
