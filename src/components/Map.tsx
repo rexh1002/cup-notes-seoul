@@ -473,17 +473,22 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
               </button>
               {/* 드래그 핸들 (상단 바) */}
               <div
-                className="w-full h-2 bg-white rounded-t-2xl flex items-center justify-center cursor-grab active:cursor-grabbing"
+                className="w-full h-6 bg-white rounded-t-2xl flex items-center justify-center cursor-grab active:cursor-grabbing"
                 onTouchStart={handleTouchStart}
                 onTouchMove={handleTouchMove}
                 onTouchEnd={handleTouchEnd}
                 style={{ touchAction: 'none' }}
               >
-                <div className="w-8 h-0.5 bg-gray-300 rounded-full" />
+                <div className="w-16 h-1.5 bg-gray-300 rounded-full" />
               </div>
               {/* 이미지 섹션 및 이미지 위 텍스트 추가 */}
               {selectedCafe.imageUrl && (
-                <div className="w-full relative rounded-t-2xl overflow-hidden group sm:h-[175px] md:h-[175px]" style={{ height: '60px', ...(typeof window !== 'undefined' && window.innerWidth < 640 ? { height: '5cm' } : {}) }}>
+                <div className="w-full relative rounded-t-2xl overflow-hidden group sm:h-[175px] md:h-[175px]"
+                  style={typeof window !== 'undefined' && window.innerWidth < 640
+                    ? { height: '3.7cm' }
+                    : { height: '44px' }
+                  }
+                >
                   <Image
                     src={selectedCafe.imageUrl}
                     alt={selectedCafe.name}
