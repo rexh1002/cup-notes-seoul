@@ -263,8 +263,20 @@ export default function MapMobileClient() {
         searchTerms = [];
     }
 
-    // 검색창에 키워드 표시
-    setSearchKeyword(keywordTerm);
+    // 검색창에 실제 탐색되는 키워드 표시 (모바일에서만)
+    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+      if (searchTerms.length > 0) {
+        setSearchKeyword(searchTerms.join(', '));
+      } else if (brewMethodTerms.length > 0) {
+        setSearchKeyword(brewMethodTerms.join(', '));
+      } else if (originsTerms.length > 0) {
+        setSearchKeyword(originsTerms.join(', '));
+      } else if (processesTerms.length > 0) {
+        setSearchKeyword(processesTerms.join(', '));
+      } else {
+        setSearchKeyword(keywordTerm);
+      }
+    }
 
     // 쿼리 파라미터 업데이트 (router.push)
     const params = new URLSearchParams();
