@@ -396,7 +396,7 @@ export default function HomePage() {
         keywordTerm = '꽃향 가득';
         break;
       case 'tropical':
-        searchTerms = ['프루티', '열대과일', '파인애플', '망고', '패션후르츠', '파파야', '리치', '메론'];
+        searchTerms = ['열대과일', '파인애플', '망고', '패션후르츠', '파파야', '리치', '메론'];
         setSelectedNotes(searchTerms);
         keywordTerm = '열대과일';
         break;
