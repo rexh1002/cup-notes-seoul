@@ -142,7 +142,7 @@ export default function MapMobileClient() {
         initialLoad();
       }
     }
-  }, [isMounted, searchParamsString]);
+  }, [isMounted, searchParams, searchParamsString]);
 
   useEffect(() => {
     if (isMounted) {
