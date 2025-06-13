@@ -258,21 +258,21 @@ export default function MapMobileClient() {
       case 'geisha':
         if (typeof window !== 'undefined' && window.innerWidth < 768) {
           setSearchKeyword('게이샤');
-          // notes 등 필터 없이 keyword로 바로 검색
+          setIsMobileLoading(true);
           (async () => {
-            if (typeof window !== 'undefined' && window.innerWidth < 768) {
-              try {
-                const response = await fetch('/api/cafes/search', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ keyword: '게이샤' }),
-                });
-                if (!response.ok) return;
-                const data = await response.json();
-                setCafes(data.cafes || []);
-              } catch (e) {
-                setCafes([]);
-              }
+            try {
+              const response = await fetch('/api/cafes/search', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ keyword: '게이샤' }),
+              });
+              if (!response.ok) throw new Error();
+              const data = await response.json();
+              setCafes(data.cafes || []);
+            } catch (e) {
+              setCafes([]);
+            } finally {
+              setIsMobileLoading(false);
             }
           })();
         }
