@@ -460,9 +460,8 @@ export default function HomePage() {
         break;
     }
 
-    // 모바일 환경에서 검색창 표시 및 키워드 설정
+    // 모바일 환경에서 키워드 설정
     if (window.innerWidth < 768) {
-      setShowSearchInput(true);
       setSearchKeyword(keywordTerm);
     }
 
