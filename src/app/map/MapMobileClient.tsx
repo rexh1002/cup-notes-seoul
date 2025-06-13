@@ -87,6 +87,17 @@ export default function MapMobileClient() {
       // @ts-expect-error
       if (searchParams.get('roast')) roastLevel = searchParams.get('roast').split(',').filter(Boolean);
       const hasFilter = notes.length || brewMethods.length || origins.length || processes.length || roastLevel.length;
+      // 검색창에 필터 키워드 표시 (모바일에서만)
+      if (typeof window !== 'undefined' && window.innerWidth < 768 && hasFilter) {
+        const keywords = [
+          ...notes,
+          ...brewMethods,
+          ...origins,
+          ...processes,
+          ...roastLevel
+        ];
+        setSearchKeyword(keywords.join(', '));
+      }
       const fetchCafes = async () => {
         try {
           const response = await fetch('/api/cafes/search', {
