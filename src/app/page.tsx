@@ -388,6 +388,12 @@ export default function HomePage() {
     let originsTerms: string[] = [];
     let processesTerms: string[] = [];
     let keywordTerm = '';
+
+    // 모바일 환경에서 검색창 표시
+    if (window.innerWidth < 768) {
+      setShowSearchInput(true);
+    }
+
     switch (category) {
       case 'floral':
         searchTerms = ['장미', '자스민', '베르가못', '라일락'];
@@ -431,7 +437,6 @@ export default function HomePage() {
         break;
       case 'geisha':
         keywordTerm = '게이샤';
-        setSearchKeyword(keywordTerm);
         break;
       case 'peach':
         searchTerms = ['복숭아'];
@@ -460,11 +465,8 @@ export default function HomePage() {
         break;
     }
 
-    // 모바일 환경에서 검색창 표시 및 키워드 설정
-    if (isMobile) {
-      setShowSearchInput(true);
-      setSearchKeyword(keywordTerm);
-    }
+    // 검색 키워드 설정
+    setSearchKeyword(keywordTerm);
 
     try {
       const response = await fetch('/api/cafes/search', {
