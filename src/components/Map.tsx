@@ -476,7 +476,10 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                   margin: 0
                 }}
               >
-                ✕
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <line x1="5" y1="5" x2="15" y2="15" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                  <line x1="15" y1="5" x2="5" y2="15" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                </svg>
               </button>
               {/* 드래그 핸들 (상단 바) */}
               <div
@@ -761,7 +764,10 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                   margin: 0
                 }}
               >
-                ✕
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <line x1="5" y1="5" x2="15" y2="15" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                  <line x1="15" y1="5" x2="5" y2="15" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                </svg>
               </button>
               {/* 이미지 섹션 및 이미지 위 텍스트 추가 */}
               {selectedCafe.imageUrl && (
