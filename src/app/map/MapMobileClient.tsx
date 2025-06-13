@@ -256,8 +256,27 @@ export default function MapMobileClient() {
         keywordTerm = '콜롬비아';
         break;
       case 'geisha':
-        keywordTerm = '게이샤';
-        break;
+        if (typeof window !== 'undefined' && window.innerWidth < 768) {
+          setSearchKeyword('게이샤');
+          // notes 등 필터 없이 keyword로 바로 검색
+          (async () => {
+            if (typeof window !== 'undefined' && window.innerWidth < 768) {
+              try {
+                const response = await fetch('/api/cafes/search', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ keyword: '게이샤' }),
+                });
+                if (!response.ok) return;
+                const data = await response.json();
+                setCafes(data.cafes || []);
+              } catch (e) {
+                setCafes([]);
+              }
+            }
+          })();
+        }
+        return;
       case 'peach':
         searchTerms = ['복숭아'];
         keywordTerm = '복숭아';
