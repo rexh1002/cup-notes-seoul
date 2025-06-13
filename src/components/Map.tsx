@@ -680,7 +680,11 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                                 href={link.url}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="underline hover:text-blue-600 mr-2"
+                                className="underline hover:text-blue-600 mr-2 cursor-pointer"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  window.open(link.url, '_blank', 'noopener,noreferrer');
+                                }}
                               >
                                 {link.type || 'SNS'}
                               </a>
@@ -916,7 +920,11 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                                 href={link.url}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="underline hover:text-blue-600 mr-2"
+                                className="underline hover:text-blue-600 mr-2 cursor-pointer"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  window.open(link.url, '_blank', 'noopener,noreferrer');
+                                }}
                               >
                                 {link.type || 'SNS'}
                               </a>
