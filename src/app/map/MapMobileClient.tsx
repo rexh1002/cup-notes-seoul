@@ -211,48 +211,64 @@ export default function MapMobileClient() {
     let originsTerms: string[] = [];
     let processesTerms: string[] = [];
     let keywordTerm = '';
+
     switch (category) {
       case 'floral':
         searchTerms = ['장미', '자스민', '베르가못', '라일락'];
+        keywordTerm = '꽃향 가득';
         break;
       case 'tropical':
         searchTerms = ['프루티', '열대과일', '파인애플', '망고', '패션후르츠', '파파야', '리치', '메론'];
+        keywordTerm = '열대과일';
         break;
       case 'nuttychocolate':
         searchTerms = ['초콜렛', '헤이즐넛', '아몬드', '마카다미아', '땅콩'];
+        keywordTerm = '너티 초콜렛';
         break;
       case 'handdrip':
         brewMethodTerms = ['핸드드립'];
+        keywordTerm = '핸드드립';
         break;
       case 'anaerobic':
         processesTerms = ['무산소 발효'];
         setSelectedProcesses(processesTerms);
+        keywordTerm = '무산소 발효';
         break;
       case 'yeast':
         processesTerms = ['이스트 발효'];
         setSelectedProcesses(processesTerms);
+        keywordTerm = '이스트 발효';
         break;
       case 'ethiopia':
         originsTerms = ['에티오피아'];
+        keywordTerm = '에티오피아';
         break;
       case 'colombia':
         originsTerms = ['콜롬비아'];
+        keywordTerm = '콜롬비아';
         break;
       case 'geisha':
         keywordTerm = '게이샤';
         break;
       case 'peach':
         searchTerms = ['복숭아'];
+        keywordTerm = '복숭아';
         break;
       case 'strawberry':
         searchTerms = ['딸기'];
+        keywordTerm = '딸기';
         break;
       case 'berry':
         searchTerms = ['블루베리', '라즈베리', '크랜베리'];
+        keywordTerm = '베리류';
         break;
       default:
         searchTerms = [];
     }
+
+    // 검색창에 키워드 표시
+    setSearchKeyword(keywordTerm);
+
     try {
       const response = await fetch('/api/cafes/search', {
         method: 'POST',
