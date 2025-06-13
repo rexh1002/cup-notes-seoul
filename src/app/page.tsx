@@ -392,34 +392,42 @@ export default function HomePage() {
       case 'floral':
         searchTerms = ['장미', '자스민', '베르가못', '라일락'];
         setSelectedNotes(searchTerms);
+        keywordTerm = '꽃향 가득';
         break;
       case 'tropical':
         searchTerms = ['프루티', '열대과일', '파인애플', '망고', '패션후르츠', '파파야', '리치', '메론'];
         setSelectedNotes(searchTerms);
+        keywordTerm = '열대과일';
         break;
       case 'nutty':
         searchTerms = ['초콜렛', '캐러멜', '고구마', '꿀', '헤이즐넛', '브라운슈거', '엿기름', '아몬드', '피칸', '호두', '로스트피넛', '마카다미아', '땅콩', '바닐라', '캐슈넛', '메이플 시럽', '토피', '피스타치오', '카카오닙스'];
         setSelectedNotes(searchTerms);
+        keywordTerm = '너티';
         break;
       case 'handdrip':
         brewMethodTerms = ['핸드드립'];
         setSelectedBrewMethods(brewMethodTerms);
+        keywordTerm = '핸드드립';
         break;
       case 'anaerobic':
         processesTerms = ['무산소 발효'];
         setSelectedProcesses(processesTerms);
+        keywordTerm = '무산소 발효';
         break;
       case 'yeast':
         processesTerms = ['이스트 발효'];
         setSelectedProcesses(processesTerms);
+        keywordTerm = '이스트 발효';
         break;
       case 'ethiopia':
         originsTerms = ['에티오피아'];
         setSelectedOrigins(originsTerms);
+        keywordTerm = '에티오피아';
         break;
       case 'colombia':
         originsTerms = ['콜롬비아'];
         setSelectedOrigins(originsTerms);
+        keywordTerm = '콜롬비아';
         break;
       case 'geisha':
         keywordTerm = '게이샤';
@@ -428,24 +436,36 @@ export default function HomePage() {
       case 'peach':
         searchTerms = ['복숭아'];
         setSelectedNotes(searchTerms);
+        keywordTerm = '복숭아';
         break;
       case 'all':
         searchTerms = [];
         setSelectedNotes([]);
+        keywordTerm = '';
         break;
       case 'nuttychocolate':
         searchTerms = ['초콜렛', '헤이즐넛', '아몬드', '마카다미아', '땅콩'];
         setSelectedNotes(searchTerms);
+        keywordTerm = '너티 초콜렛';
         break;
       case 'strawberry':
         searchTerms = ['딸기'];
         setSelectedNotes(searchTerms);
+        keywordTerm = '딸기';
         break;
       case 'berry':
         searchTerms = ['블루베리', '라즈베리', '크랜베리'];
         setSelectedNotes(searchTerms);
+        keywordTerm = '베리류';
         break;
     }
+
+    // 모바일 환경에서 검색창 표시 및 키워드 설정
+    if (isMobile) {
+      setShowSearchInput(true);
+      setSearchKeyword(keywordTerm);
+    }
+
     try {
       const response = await fetch('/api/cafes/search', {
         method: 'POST',
