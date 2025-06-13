@@ -204,8 +204,7 @@ export default function MapMobileClient() {
   };
 
   // 카테고리 퀵서치 핸들러
-  const handleCategorySearch = async (category: string) => {
-    setIsMobileLoading(true);
+  const handleCategorySearch = (category: string) => {
     let searchTerms: string[] = [];
     let brewMethodTerms: string[] = [];
     let originsTerms: string[] = [];
@@ -231,12 +230,10 @@ export default function MapMobileClient() {
         break;
       case 'anaerobic':
         processesTerms = ['무산소 발효'];
-        setSelectedProcesses(processesTerms);
         keywordTerm = '무산소 발효';
         break;
       case 'yeast':
         processesTerms = ['이스트 발효'];
-        setSelectedProcesses(processesTerms);
         keywordTerm = '이스트 발효';
         break;
       case 'ethiopia':
@@ -269,27 +266,14 @@ export default function MapMobileClient() {
     // 검색창에 키워드 표시
     setSearchKeyword(keywordTerm);
 
-    try {
-      const response = await fetch('/api/cafes/search', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          keyword: keywordTerm,
-          notes: searchTerms,
-          origins: originsTerms,
-          processes: processesTerms,
-          roastLevel: [],
-          brewMethod: brewMethodTerms,
-        }),
-      });
-      if (!response.ok) throw new Error('검색 중 오류가 발생했습니다.');
-      const data = await response.json();
-      setCafes(data.cafes || []);
-    } catch (error) {
-      setCafes([]);
-    } finally {
-      setIsMobileLoading(false);
-    }
+    // 쿼리 파라미터 업데이트 (router.push)
+    const params = new URLSearchParams();
+    if (searchTerms.length) params.append('notes', searchTerms.join(','));
+    if (brewMethodTerms.length) params.append('brewMethods', brewMethodTerms.join(','));
+    if (originsTerms.length) params.append('origins', originsTerms.join(','));
+    if (processesTerms.length) params.append('processes', processesTerms.join(','));
+    // keywordTerm은 검색창에만 표시
+    router.push(`/map?${params.toString()}`);
   };
 
   const handleCafeClick = (cafe: any) => {
