@@ -470,25 +470,33 @@ export default function MapMobileClient() {
           </div>
           <button
             className="ml-2 px-3 py-2 bg-bluebottle-blue text-white rounded-lg font-bold text-sm shadow-sm hover:bg-[#004b82] transition"
-            onClick={() => {
+            onClick={async () => {
               if (searchKeyword) {
                 // X 버튼 클릭 시: 검색어 및 지도 초기화
                 setSearchKeyword('');
+                setIsMobileLoading(true);
                 // 전체 카페 불러오기 (초기화)
-                fetch('/api/cafes/search', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({
-                    keyword: '',
-                    notes: [],
-                    origins: [],
-                    processes: [],
-                    roastLevel: [],
-                    brewMethod: [],
-                  }),
-                })
-                  .then(res => res.json())
-                  .then(data => setCafes(data.cafes || []));
+                try {
+                  const res = await fetch('/api/cafes/search', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                      keyword: '',
+                      notes: [],
+                      origins: [],
+                      processes: [],
+                      roastLevel: [],
+                      brewMethod: [],
+                      fields: ['id', 'name', 'address', 'imageUrl'],
+                    }),
+                  });
+                  const data = await res.json();
+                  setCafes(data.cafes || []);
+                } catch (e) {
+                  setCafes([]);
+                } finally {
+                  setIsMobileLoading(false);
+                }
               } else {
                 handleSearch();
               }
