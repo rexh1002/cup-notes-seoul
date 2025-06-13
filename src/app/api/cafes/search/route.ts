@@ -90,7 +90,7 @@ export async function GET(request: Request) {
         coffees: {
           some: {
             notes: {
-              hasSome: searchParameters.notes,
+              hasEvery: searchParameters.notes,
             },
           },
         },
@@ -274,7 +274,7 @@ export async function POST(request: Request) {
         coffees: {
           some: {
             notes: {
-              hasSome: searchParams.notes,
+              hasEvery: searchParams.notes,
             },
           },
         },
