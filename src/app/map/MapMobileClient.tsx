@@ -129,6 +129,7 @@ export default function MapMobileClient() {
         // 기존 전체 카페 불러오기
         const initialLoad = async () => {
           try {
+            shouldResetMapCenter.current = false; // 초기 로딩 시 지도 중심 이동 방지
             const response = await fetch('/api/cafes/search', {
               method: 'POST',
               headers: {
@@ -521,28 +522,33 @@ export default function MapMobileClient() {
                 setSearchKeyword('');
                 setIsMobileLoading(true);
                 shouldResetMapCenter.current = false;
-                try {
-                  const res = await fetch('/api/cafes/search', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                      keyword: '',
-                      notes: [],
-                      origins: [],
-                      processes: [],
-                      roastLevel: [],
-                      brewMethod: [],
-                      fields: ['id', 'name', 'address', 'imageUrl'],
-                    }),
-                  });
-                  const data = await res.json();
-                  setCafes(data.cafes || []);
-                } catch (e) {
-                  setCafes([]);
-                } finally {
-                  setIsMobileLoading(false);
-                  shouldResetMapCenter.current = true;
-                }
+                
+                const resetCafes = async () => {
+                  try {
+                    const res = await fetch('/api/cafes/search', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        keyword: '',
+                        notes: [],
+                        origins: [],
+                        processes: [],
+                        roastLevel: [],
+                        brewMethod: [],
+                        fields: ['id', 'name', 'address', 'imageUrl'],
+                      }),
+                    });
+                    const data = await res.json();
+                    setCafes(data.cafes || []);
+                  } catch (e) {
+                    setCafes([]);
+                  } finally {
+                    setIsMobileLoading(false);
+                    shouldResetMapCenter.current = true;
+                  }
+                };
+                
+                await resetCafes();
               } else {
                 shouldResetMapCenter.current = true;
                 handleSearch();
