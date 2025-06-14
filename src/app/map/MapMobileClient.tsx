@@ -54,6 +54,7 @@ export default function MapMobileClient() {
   const [isMobileLoading, setIsMobileLoading] = useState(false);
   const [selectedProcesses, setSelectedProcesses] = useState<string[]>([]);
   const [isLocating, setIsLocating] = useState(false);
+  const [shouldResetMapCenter, setShouldResetMapCenter] = useState(true);
 
   useEffect(() => { setIsClient(true); }, []);
 
@@ -443,24 +444,28 @@ export default function MapMobileClient() {
   };
 
   useEffect(() => {
-    if (cafes && cafes.length > 0 && isClient && typeof window !== 'undefined' && window.innerWidth < 768 && window.currentMap) {
+    if (
+      cafes &&
+      cafes.length > 0 &&
+      isClient &&
+      typeof window !== 'undefined' &&
+      window.innerWidth < 768 &&
+      window.currentMap &&
+      shouldResetMapCenter
+    ) {
       const firstCafe = cafes[0];
       const address = firstCafe.address;
-      window.naver.maps.Service.geocode({ address }, function(status, response) {
-        // alert('geocode 콜백 호출됨, status: ' + status);
+      window.naver.maps.Service.geocode({ address }, function (status, response) {
         if (status === window.naver.maps.Service.Status.OK) {
           const result = response.v2.addresses[0];
           const lat = parseFloat(result.y);
           const lng = parseFloat(result.x);
-          // alert('geocode 변환 lat: ' + lat + ', lng: ' + lng);
           const newCenter = new window.naver.maps.LatLng(lat, lng);
           window.currentMap.setCenter(newCenter);
-        } else {
-          // alert('주소를 위도/경도로 변환할 수 없습니다.');
         }
       });
     }
-  }, [cafes, isClient]);
+  }, [cafes, isClient, shouldResetMapCenter]);
 
   return (
     <div className="relative w-full min-h-screen pt-14 pb-16">
@@ -515,7 +520,7 @@ export default function MapMobileClient() {
                 // X 버튼 클릭 시: 검색어 및 지도 초기화
                 setSearchKeyword('');
                 setIsMobileLoading(true);
-                // 전체 카페 불러오기 (초기화)
+                setShouldResetMapCenter(false);
                 try {
                   const res = await fetch('/api/cafes/search', {
                     method: 'POST',
@@ -536,8 +541,10 @@ export default function MapMobileClient() {
                   setCafes([]);
                 } finally {
                   setIsMobileLoading(false);
+                  setTimeout(() => setShouldResetMapCenter(true), 500);
                 }
               } else {
+                setShouldResetMapCenter(true);
                 handleSearch();
               }
             }}
