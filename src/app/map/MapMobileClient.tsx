@@ -54,7 +54,7 @@ export default function MapMobileClient() {
   const [isMobileLoading, setIsMobileLoading] = useState(false);
   const [selectedProcesses, setSelectedProcesses] = useState<string[]>([]);
   const [isLocating, setIsLocating] = useState(false);
-  const [shouldResetMapCenter, setShouldResetMapCenter] = useState(true);
+  const shouldResetMapCenter = useRef(true);
 
   useEffect(() => { setIsClient(true); }, []);
 
@@ -451,7 +451,7 @@ export default function MapMobileClient() {
       typeof window !== 'undefined' &&
       window.innerWidth < 768 &&
       window.currentMap &&
-      shouldResetMapCenter
+      shouldResetMapCenter.current
     ) {
       const firstCafe = cafes[0];
       const address = firstCafe.address;
@@ -465,7 +465,7 @@ export default function MapMobileClient() {
         }
       });
     }
-  }, [cafes, isClient, shouldResetMapCenter]);
+  }, [cafes, isClient]);
 
   return (
     <div className="relative w-full min-h-screen pt-14 pb-16">
@@ -520,7 +520,7 @@ export default function MapMobileClient() {
                 // X 버튼 클릭 시: 검색어 및 지도 초기화
                 setSearchKeyword('');
                 setIsMobileLoading(true);
-                setShouldResetMapCenter(false);
+                shouldResetMapCenter.current = false;
                 try {
                   const res = await fetch('/api/cafes/search', {
                     method: 'POST',
@@ -541,10 +541,10 @@ export default function MapMobileClient() {
                   setCafes([]);
                 } finally {
                   setIsMobileLoading(false);
-                  setTimeout(() => setShouldResetMapCenter(true), 500);
+                  shouldResetMapCenter.current = true;
                 }
               } else {
-                setShouldResetMapCenter(true);
+                shouldResetMapCenter.current = true;
                 handleSearch();
               }
             }}
