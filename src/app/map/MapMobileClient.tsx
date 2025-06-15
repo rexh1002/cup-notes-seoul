@@ -790,7 +790,15 @@ export default function MapMobileClient() {
         </div>
       </header>
       {/* 지도 영역 */}
-      <div className="absolute inset-0" style={{ zIndex: 100 }}>
+      <div className="absolute inset-0" style={{ zIndex: 100 }} onClick={() => {
+        // 모바일 환경에서만 검색창 입력모드 해제
+        if (typeof window !== 'undefined' && window.innerWidth < 768) {
+          const searchInput = document.querySelector('input[type="text"]') as HTMLInputElement;
+          if (searchInput) {
+            searchInput.blur();
+          }
+        }
+      }}>
         {/* 현재위치 버튼 */}
         <button
           className="fixed right-6 bottom-24 z-[200] w-14 h-14 flex items-center justify-center rounded-full border border-gray-200 shadow-lg transition-colors bg-white"
