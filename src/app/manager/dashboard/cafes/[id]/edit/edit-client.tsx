@@ -569,8 +569,9 @@ export default function EditCafeClient({ cafe }: EditCafeClientProps) {
                   <Input
                     id={`coffee-${coffeeIndex}-price`}
                     type="number"
+                    step="10"
                     value={coffee.price}
-                    onChange={(e) => handleCoffeeChange(coffeeIndex, 'price', Math.round(Number(e.target.value)))}
+                    onChange={(e) => handleCoffeeChange(coffeeIndex, 'price', Math.round(Number(e.target.value) / 10) * 10)}
                     required
                   />
                 </div>
