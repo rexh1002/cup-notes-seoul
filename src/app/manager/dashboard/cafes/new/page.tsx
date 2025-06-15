@@ -453,7 +453,7 @@ export default function NewCafePage() {
                   value={coffee.price || ''}
                   onChange={(e) => {
                     const updatedCoffees = [...formData.coffees];
-                    updatedCoffees[coffeeIndex].price = Number(e.target.value) || 0;
+                    updatedCoffees[coffeeIndex].price = Math.round(Number(e.target.value)) || 0;
                     setFormData({ ...formData, coffees: updatedCoffees });
                   }}
                   required

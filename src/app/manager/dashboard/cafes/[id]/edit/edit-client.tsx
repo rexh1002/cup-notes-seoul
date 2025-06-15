@@ -570,7 +570,7 @@ export default function EditCafeClient({ cafe }: EditCafeClientProps) {
                     id={`coffee-${coffeeIndex}-price`}
                     type="number"
                     value={coffee.price}
-                    onChange={(e) => handleCoffeeChange(coffeeIndex, 'price', Number(e.target.value))}
+                    onChange={(e) => handleCoffeeChange(coffeeIndex, 'price', Math.round(Number(e.target.value)))}
                     required
                   />
                 </div>
