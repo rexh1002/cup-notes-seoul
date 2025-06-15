@@ -590,7 +590,9 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                             {/* 원두 이름과 가격 */}
                             <div className="flex justify-between items-center mb-0.5">
                               <h5 className="text-base font-bold leading-tight text-gray-900 sm:text-sm">{coffee.name}</h5>
-                              <span className="text-sm font-semibold leading-tight text-gray-700 sm:text-xs">
+                              <span className="text-sm font-semibold leading-tight text-gray-700 sm:text-xs"
+                                style={{ minWidth: '70px', textAlign: 'right', display: 'inline-block' }}
+                              >
                                 {coffee.price?.toLocaleString()}원
                               </span>
                             </div>
@@ -854,7 +856,9 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                           {/* 원두 이름과 가격 */}
                           <div className="flex justify-between items-center mb-0.5">
                             <h5 className="text-base font-bold leading-tight text-gray-900">{coffee.name}</h5>
-                            <span className="text-sm font-semibold leading-tight text-gray-700">
+                            <span className="text-sm font-semibold leading-tight text-gray-700"
+                              style={{ minWidth: '70px', textAlign: 'right', display: 'inline-block' }}
+                            >
                               {coffee.price?.toLocaleString()}원
                             </span>
                           </div>
