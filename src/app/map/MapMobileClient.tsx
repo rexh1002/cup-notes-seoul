@@ -55,8 +55,30 @@ export default function MapMobileClient() {
   const [selectedProcesses, setSelectedProcesses] = useState<string[]>([]);
   const [isLocating, setIsLocating] = useState(false);
   const shouldResetMapCenter = useRef(true);
+  const [currentLocation, setCurrentLocation] = useState<{lat: number, lng: number} | null>(null);
 
   useEffect(() => { setIsClient(true); }, []);
+
+  // 초기 위치 설정
+  useEffect(() => {
+    if (isMounted && typeof window !== 'undefined' && window.innerWidth < 768) {
+      if (navigator.geolocation) {
+        setIsLocating(true);
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const { latitude, longitude } = position.coords;
+            setCurrentLocation({ lat: latitude, lng: longitude });
+            setIsLocating(false);
+          },
+          (error) => {
+            console.error('위치 정보를 가져오는데 실패했습니다:', error);
+            setIsLocating(false);
+          },
+          { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+        );
+      }
+    }
+  }, [isMounted]);
 
   // 모바일이 아니면 리다이렉트 (useEffect에서만 처리)
   useEffect(() => {
@@ -734,7 +756,12 @@ export default function MapMobileClient() {
         `}</style>
 
         {/* 지도 컴포넌트 */}
-        <Map ref={mapRef} cafes={cafes} />
+        <Map 
+          ref={mapRef} 
+          cafes={cafes} 
+          initialCenter={currentLocation || undefined}
+          currentLocation={currentLocation}
+        />
       </div>
 
       {/* Mobile Navigation Bar */}

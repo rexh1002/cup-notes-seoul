@@ -50,6 +50,7 @@ interface MapProps {
   style?: React.CSSProperties;
   searchKeyword?: string;
   onSearch?: (keyword: string) => void;
+  currentLocation?: { lat: number; lng: number } | null;
 }
 
 interface Coordinates {
@@ -68,12 +69,14 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
   style = { width: '100%', height: '100%' },
   searchKeyword,
   onSearch,
+  currentLocation,
 }, ref) {
   console.log('[Map] 컴포넌트 렌더링', { cafes: cafes.length, center: initialCenter, zoom: initialZoom });
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstance = useRef<any>(null);
   const markersRef = useRef<any[]>([]);
   const eventListenersRef = useRef<any[]>([]);
+  const currentLocationMarkerRef = useRef<any>(null);
   const [selectedCafe, setSelectedCafe] = useState<CafeData | null>(null);
   const [center, setCenter] = useState<Coordinates>(initialCenter);
   const [zoom, setZoom] = useState<number>(initialZoom);
@@ -357,6 +360,37 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
   useEffect(() => {
     updateMarkers();
   }, [updateMarkers, center, zoom]);
+
+  // 현재 위치 마커 업데이트
+  useEffect(() => {
+    if (!mapInstance.current || !window.naver || !window.naver.maps || !currentLocation) return;
+
+    // 기존 현재 위치 마커 제거
+    if (currentLocationMarkerRef.current) {
+      currentLocationMarkerRef.current.setMap(null);
+    }
+
+    // 새로운 현재 위치 마커 생성
+    const markerOptions = {
+      position: new window.naver.maps.LatLng(currentLocation.lat, currentLocation.lng),
+      map: mapInstance.current,
+      icon: {
+        content: `
+          <div style="
+            width: 24px;
+            height: 24px;
+            background-color: #2563eb;
+            border: 4px solid white;
+            border-radius: 50%;
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.3);
+          "></div>
+        `,
+        anchor: new window.naver.maps.Point(12, 12)
+      }
+    };
+
+    currentLocationMarkerRef.current = new window.naver.maps.Marker(markerOptions);
+  }, [currentLocation]);
 
   // 외부에서 현재위치로 이동할 수 있도록 메서드 노출
   useImperativeHandle(ref, () => ({
