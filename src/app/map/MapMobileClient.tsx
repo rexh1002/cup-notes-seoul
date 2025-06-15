@@ -608,6 +608,16 @@ export default function MapMobileClient() {
           </div>
         </>
       )}
+      {/* 웹화면 퀵서치 버튼 그룹 */}
+      {typeof window !== 'undefined' && window.innerWidth >= 768 && (
+        <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginTop: 24, marginBottom: 8 }}>
+          <div style={{ maxWidth: 600, width: '100%', display: 'flex', gap: 12, justifyContent: 'center', padding: '0 12px' }}>
+            {CATEGORY_LIST.map(cat => (
+              <QuickCard key={cat.key} image={cat.image} label={cat.label} onClick={() => handleCategorySearch(cat.key)} />
+            ))}
+          </div>
+        </div>
+      )}
       <header className="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur border-b border-indigo-200 shadow-sm z-50">
         <div className="w-full px-0">
           <div className="relative flex items-center h-[90px] px-6">
