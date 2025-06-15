@@ -40,6 +40,23 @@ function QuickButton({ icon, label, onClick }: { icon: string; label: string; on
   );
 }
 
+// QuickButton 위에 All 아이콘용
+const ALL_ICON = () => (
+  <span style={{
+    display: 'inline-block',
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    background: '#f3f4f6',
+    color: '#222',
+    fontWeight: 700,
+    fontSize: 14,
+    lineHeight: '24px',
+    textAlign: 'center',
+    border: '1px solid #d1d5db',
+  }}>All</span>
+);
+
 export default function HomePage() {
  const router = useRouter();
  const [cafes, setCafes] = useState<Cafe[]>([]);
@@ -382,6 +399,38 @@ export default function HomePage() {
   };
 
   const handleCategorySearch = async (category: string) => {
+    if (category === 'all') {
+      setIsLoading(true);
+      setSelectedNotes([]);
+      setSelectedOrigins([]);
+      setSelectedProcesses([]);
+      setSelectedRoast([]);
+      setSelectedBrewMethods([]);
+      setSearchKeyword('');
+      try {
+        const response = await fetch('/api/cafes/search', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            keyword: '',
+            notes: [],
+            origins: [],
+            processes: [],
+            roastLevel: [],
+            brewMethod: [],
+          }),
+        });
+        if (!response.ok) throw new Error('검색 중 오류가 발생했습니다.');
+        const data = await response.json();
+        if (data && data.cafes) setCafes(data.cafes);
+      } catch (error) {
+        setCafes([]);
+        alert('검색 중 오류가 발생했습니다.');
+      } finally {
+        setIsLoading(false);
+      }
+      return;
+    }
     setIsLoading(true);
     let searchTerms: string[] = [];
     let brewMethodTerms: string[] = [];
@@ -702,6 +751,14 @@ export default function HomePage() {
             className="absolute z-[120] bg-white/70 backdrop-blur-md border border-gray-200 shadow-xl rounded-xl flex justify-center gap-4 px-2 py-1 items-center"
             style={{ left: isMobile ? '16px' : 'calc(384px + 16px)', top: '100px', minWidth: isMobile ? 240 : 900, maxWidth: isMobile ? 320 : 1200 }}
           >
+            <button
+              className="flex flex-col items-center px-2 py-1 rounded-lg hover:bg-gray-100 active:bg-gray-200 transition text-gray-800 font-semibold text-xs focus:outline-none min-w-[56px]"
+              onClick={() => handleCategorySearch('all')}
+              type="button"
+            >
+              <ALL_ICON />
+              <span className="mt-0.5" style={{letterSpacing: '0.01em'}}>전체</span>
+            </button>
             <QuickButton
               icon="/images/Air.png"
               label="무산소 발효"

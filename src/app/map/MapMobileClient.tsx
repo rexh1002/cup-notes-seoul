@@ -243,6 +243,38 @@ export default function MapMobileClient() {
 
   // 카테고리 퀵서치 핸들러
   const handleCategorySearch = (category: string) => {
+    if (category === 'all') {
+      // 전체 버튼 클릭 시 모든 카페 불러오기
+      if (typeof window !== 'undefined' && window.innerWidth < 768) setIsMobileLoading(true);
+      (async () => {
+        try {
+          const response = await fetch('/api/cafes/search', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              keyword: '',
+              notes: [],
+              origins: [],
+              processes: [],
+              roastLevel: [],
+              brewMethod: [],
+            }),
+          });
+          if (!response.ok) throw new Error();
+          const data = await response.json();
+          setCafes(data.cafes || []);
+          setSearchKeyword('');
+        } catch (e) {
+          setCafes([]);
+        } finally {
+          if (typeof window !== 'undefined' && window.innerWidth < 768) setIsMobileLoading(false);
+        }
+      })();
+      // 쿼리 파라미터 초기화
+      router.push('/map');
+      return;
+    }
+
     let searchTerms: string[] = [];
     let brewMethodTerms: string[] = [];
     let originsTerms: string[] = [];
@@ -490,6 +522,23 @@ export default function MapMobileClient() {
     }
   }, [cafes, isClient]);
 
+  // QuickCard 컴포넌트 위에 All 아이콘용
+  const ALL_ICON = () => (
+    <span style={{
+      display: 'inline-block',
+      width: 16,
+      height: 16,
+      borderRadius: 8,
+      background: '#f3f4f6',
+      color: '#222',
+      fontWeight: 700,
+      fontSize: 12,
+      lineHeight: '16px',
+      textAlign: 'center',
+      border: '1px solid #d1d5db',
+    }}>All</span>
+  );
+
   return (
     <div className="relative w-full min-h-screen pt-14 pb-16">
       {/* 모바일: 헤더 아래 검색 입력칸 */}
@@ -604,6 +653,14 @@ export default function MapMobileClient() {
           `}</style>
           <div className="fixed top-20 left-0 right-0 z-[110] w-full max-w-full overflow-x-auto scrollbar-transparent" style={{ WebkitOverflowScrolling: 'touch' }}>
             <div role="quick-scroll" className="flex flex-row gap-2 items-center pl-2 pr-2">
+              <button
+                className="flex flex-row items-center justify-center flex-shrink-0 min-w-fit rounded-full bg-white shadow border border-gray-200 hover:bg-gray-100 active:bg-gray-200 transition text-gray-800 font-medium text-sm px-3 py-1.5 gap-2 whitespace-nowrap"
+                onClick={() => handleCategorySearch('all')}
+                type="button"
+              >
+                <ALL_ICON />
+                <span>전체</span>
+              </button>
               {CATEGORY_LIST.map(cat => (
                 <QuickCard key={cat.key} image={cat.image} label={cat.label} onClick={() => handleCategorySearch(cat.key)} />
               ))}
@@ -615,6 +672,14 @@ export default function MapMobileClient() {
       {typeof window !== 'undefined' && window.innerWidth >= 768 && (
         <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginTop: 24, marginBottom: 8 }}>
           <div style={{ maxWidth: 600, width: '100%', display: 'flex', gap: 12, justifyContent: 'center', padding: '0 12px' }}>
+            <button
+              className="flex flex-row items-center justify-center flex-shrink-0 min-w-fit rounded-full bg-white shadow border border-gray-200 hover:bg-gray-100 active:bg-gray-200 transition text-gray-800 font-medium text-sm px-3 py-1.5 gap-2 whitespace-nowrap"
+              onClick={() => handleCategorySearch('all')}
+              type="button"
+            >
+              <ALL_ICON />
+              <span>전체</span>
+            </button>
             {CATEGORY_LIST.map(cat => (
               <QuickCard key={cat.key} image={cat.image} label={cat.label} onClick={() => handleCategorySearch(cat.key)} />
             ))}
