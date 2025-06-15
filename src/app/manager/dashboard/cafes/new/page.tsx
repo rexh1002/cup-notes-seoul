@@ -126,6 +126,7 @@ interface CafeInput {
   businessHourNote: string;
   snsLinks: SnsLink[];
   coffees: CoffeeInput[];
+  imageUrl?: string;
 }
 
 // 유효성 검사 함수들
@@ -166,7 +167,8 @@ export default function NewCafePage() {
     businessHours: [],
     businessHourNote: '',
     snsLinks: [],
-    coffees: []
+    coffees: [],
+    imageUrl: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -425,6 +427,16 @@ export default function NewCafePage() {
         <Button type="button" variant="outline" onClick={handleSnsLinkAdd}>
           SNS 링크 추가
         </Button>
+        {/* 이미지 URL 섹션 */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700">이미지 URL</label>
+          <Input
+            type="url"
+            value={formData.imageUrl || ''}
+            onChange={e => setFormData({ ...formData, imageUrl: e.target.value })}
+            placeholder="https://"
+          />
+        </div>
       </div>
 
       {/* 원두 정보 섹션 */}
