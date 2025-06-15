@@ -592,7 +592,6 @@ export default function MapMobileClient() {
                 // X 버튼 클릭 시: 검색어 및 지도 초기화
                 setSearchKeyword('');
                 setIsMobileLoading(true);
-                shouldResetMapCenter.current = false;
                 const resetCafes = async () => {
                   try {
                     const res = await fetch('/api/cafes/search', {
@@ -610,21 +609,14 @@ export default function MapMobileClient() {
                     });
                     const data = await res.json();
                     setCafes(data.cafes || []);
-                    // 지도 중심을 현재 위치로 이동 (모바일에서만)
-                    if (typeof window !== 'undefined' && window.innerWidth < 768 && currentLocation && window.currentMap && window.naver && window.naver.maps) {
-                      const loc = new window.naver.maps.LatLng(currentLocation.lat, currentLocation.lng);
-                      window.currentMap.setCenter(loc);
-                    }
                   } catch (e) {
                     setCafes([]);
                   } finally {
                     setIsMobileLoading(false);
-                    shouldResetMapCenter.current = true;
                   }
                 };
                 await resetCafes();
               } else {
-                shouldResetMapCenter.current = true;
                 handleSearch();
               }
             }}
