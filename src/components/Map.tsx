@@ -377,15 +377,15 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
       icon: {
         content: `
           <div style="
-            width: 24px;
-            height: 24px;
+            width: 17px; /* 24px * 0.7 */
+            height: 17px;
             background-color: #2563eb;
-            border: 4px solid white;
+            border: 2px solid white; /* 4px * 0.5 */
             border-radius: 50%;
-            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.3);
+            box-shadow: 0 0 0 6px rgba(37, 99, 235, 0.5); /* 2px * 3, 더 불투명하게 */
           "></div>
         `,
-        anchor: new window.naver.maps.Point(12, 12)
+        anchor: new window.naver.maps.Point(8.5, 8.5)
       }
     };
 
