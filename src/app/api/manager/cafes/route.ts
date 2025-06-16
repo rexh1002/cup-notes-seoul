@@ -174,6 +174,7 @@ export async function POST(request: Request) {
         businessHourNote: data.businessHourNote || '',
         snsLinks: data.snsLinks || [],
         managerId: decoded.id, // 명시적으로 managerId 설정
+        imageUrl: data.imageUrl || '',
         coffees: {
           create: (data.coffees || []).map((coffee: any) => ({
             name: coffee.name,
