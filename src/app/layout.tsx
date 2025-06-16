@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import { Noto_Sans_KR } from 'next/font/google';
 import "./globals.css";
 import { ThemeProvider } from 'next-themes';
+import { Toaster } from 'react-hot-toast';
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -37,6 +38,7 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} ${notoSansKr.variable} font-noto-sans-kr antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="light">
           {children}
+          <Toaster position="top-center" reverseOrder={false} />
         </ThemeProvider>
       </body>
     </html>
