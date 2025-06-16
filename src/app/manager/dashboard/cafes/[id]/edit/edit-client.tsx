@@ -573,11 +573,15 @@ export default function EditCafeClient({ cafe }: EditCafeClientProps) {
                 <div>
                   <Label htmlFor={`coffee-${coffeeIndex}-price`}>가격 *</Label>
                   <Input
-                    id={`coffee-${coffeeIndex}-price`}
                     type="number"
-                    step="10"
+                    min="0"
+                    step="100"
+                    id={`coffee-${coffeeIndex}-price`}
                     value={coffee.price}
-                    onChange={(e) => handleCoffeeChange(coffeeIndex, 'price', Math.round(Number(e.target.value) / 10) * 10)}
+                    onChange={(e) => {
+                      const value = Number(e.target.value);
+                      handleCoffeeChange(coffeeIndex, 'price', value >= 0 ? value : 0);
+                    }}
                     required
                   />
                 </div>

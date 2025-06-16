@@ -496,11 +496,13 @@ export default function NewCafePage() {
                 <label className="block text-sm font-medium text-gray-700">가격 *</label>
                 <Input
                   type="number"
-                  step="10"
+                  min="0"
+                  step="100"
                   value={coffee.price || ''}
                   onChange={(e) => {
                     const updatedCoffees = [...formData.coffees];
-                    updatedCoffees[coffeeIndex].price = Math.round(Number(e.target.value) / 10) * 10 || 0;
+                    const value = Number(e.target.value);
+                    updatedCoffees[coffeeIndex].price = value >= 0 ? value : 0;
                     setFormData({ ...formData, coffees: updatedCoffees });
                   }}
                   required
