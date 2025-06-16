@@ -32,7 +32,7 @@ interface CafeInfo {
 }
 
 // 카페 카드 컴포넌트
-const CafeCard = React.memo(function CafeCard({ cafe, onDelete }: { cafe: CafeInfo; onDelete: (id: string) => void }) {
+const CafeCard = React.memo(function CafeCard({ cafe, onDelete, fetchCafes }: { cafe: CafeInfo; onDelete: (id: string) => void, fetchCafes: () => void }) {
   const handleDelete = async () => {
     try {
       const token = localStorage.getItem('authToken');
@@ -55,11 +55,16 @@ const CafeCard = React.memo(function CafeCard({ cafe, onDelete }: { cafe: CafeIn
         throw new Error(data.error || '카페 삭제에 실패했습니다.');
       }
 
-      toast.success('카페가 성공적으로 삭제되었습니다.');
+      setTimeout(() => {
+        toast.success('카페가 성공적으로 삭제되었습니다.');
+      }, 100);
       onDelete(cafe.id);
+      fetchCafes();
     } catch (err) {
       console.error('카페 삭제 오류:', err);
-      toast.error(err instanceof Error ? err.message : '카페 삭제에 실패했습니다.');
+      setTimeout(() => {
+        toast.error(err instanceof Error ? err.message : '카페 삭제에 실패했습니다.');
+      }, 100);
     }
   };
 
@@ -240,7 +245,7 @@ export default function DashboardClient() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {cafes.map((cafe) => (
-            <CafeCard key={cafe.id} cafe={cafe} onDelete={handleCafeDelete} />
+            <CafeCard key={cafe.id} cafe={cafe} onDelete={handleCafeDelete} fetchCafes={fetchCafes} />
           ))}
         </div>
       )}
