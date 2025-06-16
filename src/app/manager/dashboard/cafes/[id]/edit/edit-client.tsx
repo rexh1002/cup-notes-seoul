@@ -10,6 +10,7 @@ import { Label } from '@/components/ui/label';
 import { toast } from 'react-hot-toast';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import type { CafeInfo } from '@/lib/api';
+import Image from 'next/image';
 
 const CUSTOM_INPUT_STYLE = "text-blue-600 font-bold";
 
@@ -155,6 +156,7 @@ export default function EditCafeClient({ cafe }: EditCafeClientProps) {
       },
     })),
   });
+  const [imagePreviewUrl, setImagePreviewUrl] = useState<string>(formData.imageUrl);
 
   useEffect(() => {
     // 브라우저에서만 실행되는 코드
@@ -175,6 +177,10 @@ export default function EditCafeClient({ cafe }: EditCafeClientProps) {
 
     checkAuth();
   }, []);
+
+  useEffect(() => {
+    setImagePreviewUrl(formData.imageUrl);
+  }, [formData.imageUrl]);
 
   const handleBusinessHourAdd = (day: string) => {
     if (!formData.businessHours.find(hour => hour.day === day)) {
@@ -829,14 +835,41 @@ export default function EditCafeClient({ cafe }: EditCafeClientProps) {
           <CardTitle>이미지 URL</CardTitle>
         </CardHeader>
         <CardContent className="space-y-2">
-          <Label htmlFor="imageUrl">이미지 URL</Label>
+          <Label htmlFor="imageUrl">이미지 URL *</Label>
           <Input
             id="imageUrl"
             type="url"
-            value={formData.imageUrl}
-            onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
+            value={formData.imageUrl || ''}
+            onChange={e => setFormData({ ...formData, imageUrl: e.target.value })}
             placeholder="https://"
+            required
           />
+          <div className="mt-2 text-sm text-gray-500 space-y-2">
+            <p>이미지 URL 입력 방법:</p>
+            <ol className="list-decimal list-inside space-y-1">
+              <li>네이버/구글 이미지 검색에서 원하는 이미지 선택</li>
+              <li>이미지에서 마우스 오른쪽 버튼 클릭</li>
+              <li>&quot;이미지 주소 복사&quot; 또는 &quot;Copy image address&quot; 선택</li>
+              <li>복사된 URL을 위 입력칸에 붙여넣기</li>
+            </ol>
+            <p className="text-red-500 mt-2">* 이미지 URL은 반드시 https://로 시작해야 합니다.</p>
+          </div>
+          {formData.imageUrl && (
+            <div className="mt-2">
+              <Image
+                src={imagePreviewUrl || '/placeholder-image.png'}
+                alt="카페 이미지 미리보기"
+                width={300}
+                height={200}
+                className="max-w-xs rounded-lg shadow-md"
+                onError={() => {
+                  setImagePreviewUrl('/placeholder-image.png');
+                  toast.error('이미지를 불러올 수 없습니다. URL을 확인해주세요.');
+                }}
+                unoptimized
+              />
+            </div>
+          )}
         </CardContent>
       </Card>
 
