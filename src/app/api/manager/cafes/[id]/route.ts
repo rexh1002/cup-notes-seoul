@@ -199,7 +199,7 @@ export async function DELETE(
       where: { id: cafeId },
     });
 
-    return NextResponse.json({ message: 'Cafe deleted successfully' });
+    return NextResponse.json({ success: true, message: 'Cafe deleted successfully' });
   } catch (error) {
     console.error('Error deleting cafe:', error);
     return errorResponse('Failed to delete cafe', 500);
