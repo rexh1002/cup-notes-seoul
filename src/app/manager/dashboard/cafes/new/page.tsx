@@ -477,290 +477,295 @@ export default function NewCafePage() {
       <div className="space-y-4">
         <h2 className="text-xl font-semibold">원두 정보</h2>
         {formData.coffees.map((coffee, coffeeIndex) => (
-          <div key={coffeeIndex} className="p-4 border rounded-lg space-y-4">
-            {/* 기본 정보 */}
-            <div className="grid grid-cols-2 gap-4">
+          <div key={coffeeIndex}>
+            <div className="p-4 border rounded-lg space-y-4">
+              {/* 기본 정보 */}
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">원두명 *</label>
+                  <Input
+                    value={coffee.name}
+                    onChange={(e) => {
+                      const updatedCoffees = [...formData.coffees];
+                      updatedCoffees[coffeeIndex].name = e.target.value;
+                      setFormData({ ...formData, coffees: updatedCoffees });
+                    }}
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">가격 *</label>
+                  <Input
+                    type="number"
+                    min="0"
+                    step="100"
+                    value={coffee.price || ''}
+                    onChange={(e) => {
+                      const updatedCoffees = [...formData.coffees];
+                      const value = Number(e.target.value);
+                      updatedCoffees[coffeeIndex].price = value >= 0 ? value : 0;
+                      setFormData({ ...formData, coffees: updatedCoffees });
+                    }}
+                    required
+                  />
+                </div>
+              </div>
+
+              {/* 로스팅 레벨 */}
               <div>
-                <label className="block text-sm font-medium text-gray-700">원두명 *</label>
-                <Input
-                  value={coffee.name}
-                  onChange={(e) => {
-                    const updatedCoffees = [...formData.coffees];
-                    updatedCoffees[coffeeIndex].name = e.target.value;
-                    setFormData({ ...formData, coffees: updatedCoffees });
-                  }}
-                  required
-                />
+                <label className="block text-sm font-medium text-gray-700">로스팅 레벨</label>
+                <div className="space-y-2">
+                  {ROAST_LEVELS.map(level => (
+                    <div key={level} className="flex items-center">
+                      <Checkbox
+                        checked={coffee.roastLevel.includes(level)}
+                        onCheckedChange={(checked) => {
+                          const updatedCoffees = [...formData.coffees];
+                          if (checked) {
+                            updatedCoffees[coffeeIndex].roastLevel.push(level);
+                          } else {
+                            updatedCoffees[coffeeIndex].roastLevel = 
+                              updatedCoffees[coffeeIndex].roastLevel.filter(l => l !== level);
+                          }
+                          setFormData({ ...formData, coffees: updatedCoffees });
+                        }}
+                      />
+                      <span className={`ml-2 ${level === '직접입력' ? CUSTOM_INPUT_STYLE : ''}`}>
+                        {level}
+                      </span>
+                    </div>
+                  ))}
+                  {coffee.roastLevel.includes('직접입력') && (
+                    <Input
+                      placeholder="직접 입력"
+                      value={coffee.customFields.roastLevels.join(', ')}
+                      onChange={(e) => {
+                        const updatedCoffees = [...formData.coffees];
+                        updatedCoffees[coffeeIndex].customFields.roastLevels = 
+                          e.target.value.split(',').map(item => item.trim());
+                        setFormData({ ...formData, coffees: updatedCoffees });
+                      }}
+                    />
+                  )}
+                </div>
               </div>
+
+              {/* 원산지 */}
               <div>
-                <label className="block text-sm font-medium text-gray-700">가격 *</label>
-                <Input
-                  type="number"
-                  min="0"
-                  step="100"
-                  value={coffee.price || ''}
-                  onChange={(e) => {
-                    const updatedCoffees = [...formData.coffees];
-                    const value = Number(e.target.value);
-                    updatedCoffees[coffeeIndex].price = value >= 0 ? value : 0;
-                    setFormData({ ...formData, coffees: updatedCoffees });
-                  }}
-                  required
-                />
-              </div>
-            </div>
-
-            {/* 로스팅 레벨 */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700">로스팅 레벨</label>
-              <div className="space-y-2">
-                {ROAST_LEVELS.map(level => (
-                  <div key={level} className="flex items-center">
-                    <Checkbox
-                      checked={coffee.roastLevel.includes(level)}
-                      onCheckedChange={(checked) => {
+                <label className="block text-sm font-medium text-gray-700">원산지</label>
+                <div className="space-y-2">
+                  {ORIGINS.map(origin => (
+                    <div key={origin} className="flex items-center">
+                      <Checkbox
+                        checked={coffee.origins.includes(origin)}
+                        onCheckedChange={(checked) => {
+                          const updatedCoffees = [...formData.coffees];
+                          if (checked) {
+                            updatedCoffees[coffeeIndex].origins.push(origin);
+                          } else {
+                            updatedCoffees[coffeeIndex].origins = 
+                              updatedCoffees[coffeeIndex].origins.filter(o => o !== origin);
+                          }
+                          setFormData({ ...formData, coffees: updatedCoffees });
+                        }}
+                      />
+                      <span className={`ml-2 ${origin === '직접입력' ? CUSTOM_INPUT_STYLE : ''}`}>
+                        {origin}
+                      </span>
+                    </div>
+                  ))}
+                  {coffee.origins.includes('직접입력') && (
+                    <Input
+                      placeholder="직접 입력"
+                      value={coffee.customFields.origins.join(', ')}
+                      onChange={(e) => {
                         const updatedCoffees = [...formData.coffees];
-                        if (checked) {
-                          updatedCoffees[coffeeIndex].roastLevel.push(level);
-                        } else {
-                          updatedCoffees[coffeeIndex].roastLevel = 
-                            updatedCoffees[coffeeIndex].roastLevel.filter(l => l !== level);
-                        }
+                        updatedCoffees[coffeeIndex].customFields.origins = 
+                          e.target.value.split(',').map(item => item.trim());
                         setFormData({ ...formData, coffees: updatedCoffees });
                       }}
                     />
-                    <span className={`ml-2 ${level === '직접입력' ? CUSTOM_INPUT_STYLE : ''}`}>
-                      {level}
-                    </span>
-                  </div>
-                ))}
-                {coffee.roastLevel.includes('직접입력') && (
-                  <Input
-                    placeholder="직접 입력"
-                    value={coffee.customFields.roastLevels.join(', ')}
-                    onChange={(e) => {
-                      const updatedCoffees = [...formData.coffees];
-                      updatedCoffees[coffeeIndex].customFields.roastLevels = 
-                        e.target.value.split(',').map(item => item.trim());
-                      setFormData({ ...formData, coffees: updatedCoffees });
-                    }}
-                  />
-                )}
+                  )}
+                </div>
               </div>
-            </div>
 
-            {/* 원산지 */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700">원산지</label>
-              <div className="space-y-2">
-                {ORIGINS.map(origin => (
-                  <div key={origin} className="flex items-center">
-                    <Checkbox
-                      checked={coffee.origins.includes(origin)}
-                      onCheckedChange={(checked) => {
+              {/* 프로세스 */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700">프로세스</label>
+                <div className="space-y-2">
+                  {PROCESSES.map(process => (
+                    <div key={process} className="flex items-center">
+                      <Checkbox
+                        checked={coffee.processes.includes(process)}
+                        onCheckedChange={(checked) => {
+                          const updatedCoffees = [...formData.coffees];
+                          if (checked) {
+                            updatedCoffees[coffeeIndex].processes.push(process);
+                          } else {
+                            updatedCoffees[coffeeIndex].processes = 
+                              updatedCoffees[coffeeIndex].processes.filter(p => p !== process);
+                          }
+                          setFormData({ ...formData, coffees: updatedCoffees });
+                        }}
+                      />
+                      <span className={`ml-2 ${process === '직접입력' ? CUSTOM_INPUT_STYLE : ''}`}>
+                        {process}
+                      </span>
+                    </div>
+                  ))}
+                  {coffee.processes.includes('직접입력') && (
+                    <Input
+                      placeholder="직접 입력"
+                      value={coffee.customFields.processes.join(', ')}
+                      onChange={(e) => {
                         const updatedCoffees = [...formData.coffees];
-                        if (checked) {
-                          updatedCoffees[coffeeIndex].origins.push(origin);
-                        } else {
-                          updatedCoffees[coffeeIndex].origins = 
-                            updatedCoffees[coffeeIndex].origins.filter(o => o !== origin);
-                        }
+                        updatedCoffees[coffeeIndex].customFields.processes = 
+                          e.target.value.split(',').map(item => item.trim());
                         setFormData({ ...formData, coffees: updatedCoffees });
                       }}
                     />
-                    <span className={`ml-2 ${origin === '직접입력' ? CUSTOM_INPUT_STYLE : ''}`}>
-                      {origin}
-                    </span>
-                  </div>
-                ))}
-                {coffee.origins.includes('직접입력') && (
-                  <Input
-                    placeholder="직접 입력"
-                    value={coffee.customFields.origins.join(', ')}
-                    onChange={(e) => {
-                      const updatedCoffees = [...formData.coffees];
-                      updatedCoffees[coffeeIndex].customFields.origins = 
-                        e.target.value.split(',').map(item => item.trim());
-                      setFormData({ ...formData, coffees: updatedCoffees });
-                    }}
-                  />
-                )}
+                  )}
+                </div>
               </div>
-            </div>
 
-            {/* 프로세스 */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700">프로세스</label>
-              <div className="space-y-2">
-                {PROCESSES.map(process => (
-                  <div key={process} className="flex items-center">
-                    <Checkbox
-                      checked={coffee.processes.includes(process)}
-                      onCheckedChange={(checked) => {
+              {/* 추출 방식 */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700">추출 방식</label>
+                <div className="space-y-2">
+                  {BREW_METHODS.map(method => (
+                    <div key={method} className="flex items-center">
+                      <Checkbox
+                        checked={coffee.brewMethods.includes(method)}
+                        onCheckedChange={(checked) => {
+                          const updatedCoffees = [...formData.coffees];
+                          if (checked) {
+                            updatedCoffees[coffeeIndex].brewMethods.push(method);
+                          } else {
+                            updatedCoffees[coffeeIndex].brewMethods = 
+                              updatedCoffees[coffeeIndex].brewMethods.filter(m => m !== method);
+                          }
+                          setFormData({ ...formData, coffees: updatedCoffees });
+                        }}
+                      />
+                      <span className={`ml-2 ${method === '직접입력' ? CUSTOM_INPUT_STYLE : ''}`}>
+                        {method}
+                      </span>
+                    </div>
+                  ))}
+                  {coffee.brewMethods.includes('직접입력') && (
+                    <Input
+                      placeholder="직접 입력"
+                      value={coffee.customFields.brewMethods.join(', ')}
+                      onChange={(e) => {
                         const updatedCoffees = [...formData.coffees];
-                        if (checked) {
-                          updatedCoffees[coffeeIndex].processes.push(process);
-                        } else {
-                          updatedCoffees[coffeeIndex].processes = 
-                            updatedCoffees[coffeeIndex].processes.filter(p => p !== process);
-                        }
+                        updatedCoffees[coffeeIndex].customFields.brewMethods = 
+                          e.target.value.split(',').map(item => item.trim());
                         setFormData({ ...formData, coffees: updatedCoffees });
                       }}
                     />
-                    <span className={`ml-2 ${process === '직접입력' ? CUSTOM_INPUT_STYLE : ''}`}>
-                      {process}
-                    </span>
-                  </div>
-                ))}
-                {coffee.processes.includes('직접입력') && (
-                  <Input
-                    placeholder="직접 입력"
-                    value={coffee.customFields.processes.join(', ')}
-                    onChange={(e) => {
-                      const updatedCoffees = [...formData.coffees];
-                      updatedCoffees[coffeeIndex].customFields.processes = 
-                        e.target.value.split(',').map(item => item.trim());
-                      setFormData({ ...formData, coffees: updatedCoffees });
-                    }}
-                  />
-                )}
+                  )}
+                </div>
               </div>
-            </div>
 
-            {/* 추출 방식 */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700">추출 방식</label>
-              <div className="space-y-2">
-                {BREW_METHODS.map(method => (
-                  <div key={method} className="flex items-center">
-                    <Checkbox
-                      checked={coffee.brewMethods.includes(method)}
-                      onCheckedChange={(checked) => {
-                        const updatedCoffees = [...formData.coffees];
-                        if (checked) {
-                          updatedCoffees[coffeeIndex].brewMethods.push(method);
-                        } else {
-                          updatedCoffees[coffeeIndex].brewMethods = 
-                            updatedCoffees[coffeeIndex].brewMethods.filter(m => m !== method);
-                        }
-                        setFormData({ ...formData, coffees: updatedCoffees });
-                      }}
-                    />
-                    <span className={`ml-2 ${method === '직접입력' ? CUSTOM_INPUT_STYLE : ''}`}>
-                      {method}
-                    </span>
-                  </div>
-                ))}
-                {coffee.brewMethods.includes('직접입력') && (
-                  <Input
-                    placeholder="직접 입력"
-                    value={coffee.customFields.brewMethods.join(', ')}
-                    onChange={(e) => {
-                      const updatedCoffees = [...formData.coffees];
-                      updatedCoffees[coffeeIndex].customFields.brewMethods = 
-                        e.target.value.split(',').map(item => item.trim());
-                      setFormData({ ...formData, coffees: updatedCoffees });
-                    }}
-                  />
-                )}
-              </div>
-            </div>
-
-            {/* 컵 노트 */}
-            <div>
-              <h3 className="text-lg font-semibold mb-4">컵 노트</h3>
-              <div className="grid grid-cols-3 gap-6">
-                {Object.entries(CUP_NOTES).map(([category, { title, notes }]) => (
-                  <div key={category} className="space-y-2">
-                    <h4 className="font-medium text-gray-700">{title}</h4>
-                    <div className="space-y-1">
-                      {notes.map(note => (
-                        <div key={note} className="flex items-center">
-                          <Checkbox
-                            checked={note === '직접입력' 
-                              ? coffee.notes.includes(`${category}-직접입력`)
-                              : coffee.notes.includes(note)}
-                            onCheckedChange={(checked) => {
-                              const updatedCoffees = [...formData.coffees];
-                              const noteValue = note === '직접입력' ? `${category}-직접입력` : note;
-                              if (checked) {
-                                if (!updatedCoffees[coffeeIndex].notes.includes(noteValue)) {
-                                  updatedCoffees[coffeeIndex].notes.push(noteValue);
+              {/* 컵 노트 */}
+              <div>
+                <h3 className="text-lg font-semibold mb-4">컵 노트</h3>
+                <div className="grid grid-cols-3 gap-6">
+                  {Object.entries(CUP_NOTES).map(([category, { title, notes }]) => (
+                    <div key={category} className="space-y-2">
+                      <h4 className="font-medium text-gray-700">{title}</h4>
+                      <div className="space-y-1">
+                        {notes.map(note => (
+                          <div key={note} className="flex items-center">
+                            <Checkbox
+                              checked={note === '직접입력' 
+                                ? coffee.notes.includes(`${category}-직접입력`)
+                                : coffee.notes.includes(note)}
+                              onCheckedChange={(checked) => {
+                                const updatedCoffees = [...formData.coffees];
+                                const noteValue = note === '직접입력' ? `${category}-직접입력` : note;
+                                if (checked) {
+                                  if (!updatedCoffees[coffeeIndex].notes.includes(noteValue)) {
+                                    updatedCoffees[coffeeIndex].notes.push(noteValue);
+                                  }
+                                } else {
+                                  updatedCoffees[coffeeIndex].notes = 
+                                    updatedCoffees[coffeeIndex].notes.filter(n => n !== noteValue);
                                 }
-                              } else {
-                                updatedCoffees[coffeeIndex].notes = 
-                                  updatedCoffees[coffeeIndex].notes.filter(n => n !== noteValue);
-                              }
+                                setFormData({ ...formData, coffees: updatedCoffees });
+                              }}
+                            />
+                            <span className={`ml-2 ${note === '직접입력' ? CUSTOM_INPUT_STYLE : ''}`}>
+                              {note}
+                            </span>
+                          </div>
+                        ))}
+                        {coffee.notes.includes(`${category}-직접입력`) && (
+                          <Input
+                            placeholder="직접 입력"
+                            value={coffee.customFields.notes[category]?.join(', ') || ''}
+                            onChange={(e) => {
+                              const updatedCoffees = [...formData.coffees];
+                              updatedCoffees[coffeeIndex].customFields.notes[category] = 
+                                e.target.value.split(',').map(item => item.trim());
                               setFormData({ ...formData, coffees: updatedCoffees });
                             }}
                           />
-                          <span className={`ml-2 ${note === '직접입력' ? CUSTOM_INPUT_STYLE : ''}`}>
-                            {note}
-                          </span>
-                        </div>
-                      ))}
-                      {coffee.notes.includes(`${category}-직접입력`) && (
-                        <Input
-                          placeholder="직접 입력"
-                          value={coffee.customFields.notes[category]?.join(', ') || ''}
-                          onChange={(e) => {
-                            const updatedCoffees = [...formData.coffees];
-                            updatedCoffees[coffeeIndex].customFields.notes[category] = 
-                              e.target.value.split(',').map(item => item.trim());
-                            setFormData({ ...formData, coffees: updatedCoffees });
-                          }}
-                        />
-                      )}
+                        )}
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
 
-            {/* 컵 노트 색상 선택 */}
-            <div>
-              <h3 className="text-lg font-semibold mb-4">컵 노트 색상 (1개 선택)</h3>
-              <div className="grid grid-cols-10 gap-2">
-                {NOTE_COLORS.map((color, colorIndex) => (
-                  <button
-                    key={colorIndex}
-                    type="button"
-                    className={`w-8 h-8 rounded-full border-2 ${
-                      (coffee.noteColors || [])[0] === color ? 'border-black' : 'border-transparent'
-                    }`}
-                    style={{ backgroundColor: color }}
-                    onClick={() => handleColorSelect(coffeeIndex, color)}
-                  />
-                ))}
+              {/* 컵 노트 색상 선택 */}
+              <div>
+                <h3 className="text-lg font-semibold mb-4">컵 노트 색상 (1개 선택)</h3>
+                <div className="grid grid-cols-10 gap-2">
+                  {NOTE_COLORS.map((color, colorIndex) => (
+                    <button
+                      key={colorIndex}
+                      type="button"
+                      className={`w-8 h-8 rounded-full border-2 ${
+                        (coffee.noteColors || [])[0] === color ? 'border-black' : 'border-transparent'
+                      }`}
+                      style={{ backgroundColor: color }}
+                      onClick={() => handleColorSelect(coffeeIndex, color)}
+                    />
+                  ))}
+                </div>
               </div>
-            </div>
 
-            {/* 설명 */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700">설명</label>
-              <Textarea
-                value={coffee.description}
-                onChange={(e) => {
-                  const updatedCoffees = [...formData.coffees];
-                  updatedCoffees[coffeeIndex].description = e.target.value;
-                  setFormData({ ...formData, coffees: updatedCoffees });
-                }}
-              />
-            </div>
+              {/* 설명 */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700">설명</label>
+                <Textarea
+                  value={coffee.description}
+                  onChange={(e) => {
+                    const updatedCoffees = [...formData.coffees];
+                    updatedCoffees[coffeeIndex].description = e.target.value;
+                    setFormData({ ...formData, coffees: updatedCoffees });
+                  }}
+                />
+              </div>
 
                {/* 원두 삭제 버튼 */}
                <div>
-              <Button 
-                type="button" 
-                variant="outline" 
-                onClick={() => {
-                  const updatedCoffees = formData.coffees.filter((_, index) => index !== coffeeIndex);
-                  setFormData({ ...formData, coffees: updatedCoffees });
-                }}
-              >
-                원두 삭제
-              </Button>
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  onClick={() => {
+                    const updatedCoffees = formData.coffees.filter((_, index) => index !== coffeeIndex);
+                    setFormData({ ...formData, coffees: updatedCoffees });
+                  }}
+                >
+                  원두 삭제
+                </Button>
+              </div>
             </div>
+            {coffeeIndex < formData.coffees.length - 1 && (
+              <hr className="my-8" />
+            )}
           </div>
         ))}
         
