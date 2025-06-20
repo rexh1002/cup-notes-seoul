@@ -606,27 +606,6 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                     <div className="text-white font-bold text-2xl sm:text-3xl drop-shadow-lg leading-tight">{selectedCafe.name}</div>
                     <div className="text-gray-200 text-sm sm:text-base font-medium drop-shadow-md mt-1">{selectedCafe.address}</div>
                   </div>
-                  {/* 모바일에서만 좌우 화살표 표시 */}
-                  {typeof window !== 'undefined' && window.innerWidth < 768 && (
-                    <>
-                      {/* 왼쪽 화살표 */}
-                      <div className="absolute left-2 bottom-2 z-20">
-                        <div className="w-8 h-8 bg-gray-600/70 rounded-full flex items-center justify-center">
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M18 6L6 12L18 18" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                          </svg>
-                        </div>
-                      </div>
-                      {/* 오른쪽 화살표 */}
-                      <div className="absolute right-2 bottom-2 z-20">
-                        <div className="w-8 h-8 bg-gray-600/70 rounded-full flex items-center justify-center">
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M6 6L18 12L6 18" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                          </svg>
-                        </div>
-                      </div>
-                    </>
-                  )}
                 </div>
               )}
               {/* 탭 상태 및 메뉴 (드래그 핸들/이미지 아래에 배치) */}
@@ -1216,7 +1195,7 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
 // CafeTabMenu 컴포넌트 추가
 function CafeTabMenu({ selectedTab, setSelectedTab }: { selectedTab: 'beans' | 'info'; setSelectedTab: (tab: 'beans' | 'info') => void }) {
   return (
-    <div className="flex border-b border-gray-200 bg-white sticky top-0 z-10">
+    <div className="flex border-b border-gray-200 bg-white sticky top-0 z-10 relative">
       <button
         className={`flex-1 py-3 text-center font-bold ${selectedTab === 'beans' ? 'text-blue-600 border-b-2 border-blue-600 bg-white' : 'text-gray-400'}`}
         onClick={(e) => {
