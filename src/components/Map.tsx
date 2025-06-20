@@ -590,6 +590,27 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                     <div className="text-white font-bold text-2xl sm:text-3xl drop-shadow-lg leading-tight">{selectedCafe.name}</div>
                     <div className="text-gray-200 text-sm sm:text-base font-medium drop-shadow-md mt-1">{selectedCafe.address}</div>
                   </div>
+                  {/* 모바일에서만 좌우 화살표 표시 */}
+                  {typeof window !== 'undefined' && window.innerWidth < 768 && (
+                    <>
+                      {/* 왼쪽 화살표 */}
+                      <div className="absolute left-2 top-1/2 transform -translate-y-1/2 z-20">
+                        <div className="w-8 h-8 bg-white/80 rounded-full flex items-center justify-center shadow-lg">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15 18L9 12L15 6" stroke="#333" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                        </div>
+                      </div>
+                      {/* 오른쪽 화살표 */}
+                      <div className="absolute right-2 top-1/2 transform -translate-y-1/2 z-20">
+                        <div className="w-8 h-8 bg-white/80 rounded-full flex items-center justify-center shadow-lg">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 18L15 12L9 6" stroke="#333" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </div>
               )}
               {/* 탭 상태 및 메뉴 (드래그 핸들/이미지 아래에 배치) */}
