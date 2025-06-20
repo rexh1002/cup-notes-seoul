@@ -594,16 +594,20 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                   {typeof window !== 'undefined' && window.innerWidth < 768 && (
                     <>
                       {/* 왼쪽 화살표 */}
-                      <div className="absolute left-4 top-1/4 transform -translate-y-1/2 z-20">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M18 6L6 12L18 18" stroke="#4B5563" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
-                        </svg>
+                      <div className="absolute left-2 bottom-2 z-20">
+                        <div className="w-8 h-8 bg-gray-600/70 rounded-full flex items-center justify-center">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M18 6L6 12L18 18" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                        </div>
                       </div>
                       {/* 오른쪽 화살표 */}
-                      <div className="absolute right-4 top-1/4 transform -translate-y-1/2 z-20">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M6 6L18 12L6 18" stroke="#4B5563" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
-                        </svg>
+                      <div className="absolute right-2 bottom-2 z-20">
+                        <div className="w-8 h-8 bg-gray-600/70 rounded-full flex items-center justify-center">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6 6L18 12L6 18" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                        </div>
                       </div>
                     </>
                   )}
