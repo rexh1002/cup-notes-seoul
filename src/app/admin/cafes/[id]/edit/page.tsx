@@ -46,6 +46,7 @@ const NOTE_COLORS = [
   '#E6E6FA', '#D8BFD8', '#DDA0DD', '#DA70D6', '#8B008B', // Purple shades
   '#F0F8FF', '#87CEEB', '#87CEFA', '#4169E1', '#0000CD', // Blue shades
   '#8B4513', '#A0522D', '#CD853F', '#DEB887', '#F4A460', // Brown shades
+  '#FFFDD0', '#FFFF00', '#FFD700', '#FDB813', '#DAA520'  // 연한 노란색부터 진한 노란색까지
 ];
 
 interface BusinessHour {
