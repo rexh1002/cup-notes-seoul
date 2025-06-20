@@ -556,7 +556,54 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                 <CafeTabMenu selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
               </div>
               {/* 탭별 내용 */}
-              <div className="flex-1 overflow-y-auto" style={{ touchAction: 'pan-y' }}>
+              <div 
+                className="flex-1 overflow-y-auto px-2 pb-8 leading-relaxed"
+                style={{ 
+                  touchAction: 'none',
+                  overscrollBehavior: 'contain'
+                }}
+                onTouchStart={(e) => {
+                  if (window.innerWidth < 768) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const touch = e.touches[0];
+                    setTouchStartY(touch.clientY);
+                    setTouchMoveY(touch.clientY);
+                    setDragTranslateY(0);
+                    setCanDrag(true);
+                  }
+                }}
+                onTouchMove={(e) => {
+                  if (window.innerWidth < 768 && canDrag) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const touch = e.touches[0];
+                    const currentY = touch.clientY;
+                    const deltaY = (currentY - touchStartY) * 0.5;
+                    
+                    // 아래로 드래그할 때만 카드 이동
+                    if (deltaY > 0) {
+                      setTouchMoveY(currentY);
+                      setDragTranslateY(deltaY);
+                    }
+                  }
+                }}
+                onTouchEnd={(e) => {
+                  if (window.innerWidth < 768 && canDrag) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const touchDiff = touchMoveY - touchStartY;
+                    setDragTranslateY(0);
+                    if (cardPosition === 'default') {
+                      if (touchDiff > 100) setCardPosition('min');
+                    } else if (cardPosition === 'full') {
+                      if (touchDiff > 100) setCardPosition('default');
+                    } else if (cardPosition === 'min') {
+                      if (touchDiff < -100) setCardPosition('default');
+                    }
+                  }
+                }}
+              >
                 {selectedTab === 'beans' ? (
                   selectedCafe.coffees && selectedCafe.coffees.length > 0 && (
                     <div 
@@ -656,7 +703,54 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                     </div>
                   )
                 ) : (
-                  <div className="flex-1 overflow-y-auto px-2 pb-8 leading-relaxed">
+                  <div 
+                    className="flex-1 overflow-y-auto px-2 pb-8 leading-relaxed"
+                    style={{ 
+                      touchAction: 'none',
+                      overscrollBehavior: 'contain'
+                    }}
+                    onTouchStart={(e) => {
+                      if (window.innerWidth < 768) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        const touch = e.touches[0];
+                        setTouchStartY(touch.clientY);
+                        setTouchMoveY(touch.clientY);
+                        setDragTranslateY(0);
+                        setCanDrag(true);
+                      }
+                    }}
+                    onTouchMove={(e) => {
+                      if (window.innerWidth < 768 && canDrag) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        const touch = e.touches[0];
+                        const currentY = touch.clientY;
+                        const deltaY = (currentY - touchStartY) * 0.5;
+                        
+                        // 아래로 드래그할 때만 카드 이동
+                        if (deltaY > 0) {
+                          setTouchMoveY(currentY);
+                          setDragTranslateY(deltaY);
+                        }
+                      }
+                    }}
+                    onTouchEnd={(e) => {
+                      if (window.innerWidth < 768 && canDrag) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        const touchDiff = touchMoveY - touchStartY;
+                        setDragTranslateY(0);
+                        if (cardPosition === 'default') {
+                          if (touchDiff > 100) setCardPosition('min');
+                        } else if (cardPosition === 'full') {
+                          if (touchDiff > 100) setCardPosition('default');
+                        } else if (cardPosition === 'min') {
+                          if (touchDiff < -100) setCardPosition('default');
+                        }
+                      }
+                    }}
+                  >
                     {/* 최근수정일 정보 (웹, info 탭 최상단) */}
                     {selectedCafe.updatedAt && (
                       <div className="flex items-center justify-end mb-2 mt-2">
