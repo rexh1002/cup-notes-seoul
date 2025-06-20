@@ -455,18 +455,6 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
 
   // CafeTabMenu 컴포넌트 추가
   function CafeTabMenu({ selectedTab, setSelectedTab }: { selectedTab: 'beans' | 'info'; setSelectedTab: (tab: 'beans' | 'info') => void }) {
-    const handlePrevCafe = () => {
-      // 이전 카페로 이동하는 로직은 부모 컴포넌트에서 처리
-      const event = new CustomEvent('prevCafe');
-      window.dispatchEvent(event);
-    };
-
-    const handleNextCafe = () => {
-      // 다음 카페로 이동하는 로직은 부모 컴포넌트에서 처리
-      const event = new CustomEvent('nextCafe');
-      window.dispatchEvent(event);
-    };
-
     return (
       <div className="flex border-b border-gray-200 bg-white sticky top-0 z-10 relative">
         <button
@@ -507,59 +495,6 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
         >
           카페 정보
         </button>
-        {/* 모바일에서만 좌우 화살표 표시 */}
-        {typeof window !== 'undefined' && window.innerWidth < 768 && (
-          <>
-            {/* 왼쪽 화살표 */}
-            <button
-              className="absolute left-2 top-1/2 transform -translate-y-1/2 z-20"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                handlePrevCafe();
-              }}
-              onTouchStart={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-              }}
-              onTouchEnd={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                handlePrevCafe();
-              }}
-            >
-              <div className="w-8 h-8 bg-gray-600/70 rounded-full flex items-center justify-center">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M18 6L6 12L18 18" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </div>
-            </button>
-            {/* 오른쪽 화살표 */}
-            <button
-              className="absolute right-2 top-1/2 transform -translate-y-1/2 z-20"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                handleNextCafe();
-              }}
-              onTouchStart={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-              }}
-              onTouchEnd={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                handleNextCafe();
-              }}
-            >
-              <div className="w-8 h-8 bg-gray-600/70 rounded-full flex items-center justify-center">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M6 6L18 12L6 18" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </div>
-            </button>
-          </>
-        )}
       </div>
     );
   }
@@ -758,10 +693,67 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
                   {/* 이미지 왼쪽 하단에 카페명/주소 표시 */}
-                  <div className="absolute left-4 bottom-4 sm:left-6 sm:bottom-6 z-10">
+                  <div className="absolute left-4 bottom-6 sm:left-6 sm:bottom-6 z-10">
                     <div className="text-white font-bold text-2xl sm:text-3xl drop-shadow-lg leading-tight">{selectedCafe.name}</div>
                     <div className="text-gray-200 text-sm sm:text-base font-medium drop-shadow-md mt-1">{selectedCafe.address}</div>
                   </div>
+                  {/* 모바일에서만 좌우 화살표 표시 */}
+                  {typeof window !== 'undefined' && window.innerWidth < 768 && (
+                    <>
+                      {/* 왼쪽 화살표 */}
+                      <button
+                        className="absolute left-2 bottom-2 z-20"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          const event = new CustomEvent('prevCafe');
+                          window.dispatchEvent(event);
+                        }}
+                        onTouchStart={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                        }}
+                        onTouchEnd={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          const event = new CustomEvent('prevCafe');
+                          window.dispatchEvent(event);
+                        }}
+                      >
+                        <div className="w-8 h-8 bg-gray-600/70 rounded-full flex items-center justify-center">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M18 6L6 12L18 18" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                        </div>
+                      </button>
+                      {/* 오른쪽 화살표 */}
+                      <button
+                        className="absolute right-2 bottom-2 z-20"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          const event = new CustomEvent('nextCafe');
+                          window.dispatchEvent(event);
+                        }}
+                        onTouchStart={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                        }}
+                        onTouchEnd={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          const event = new CustomEvent('nextCafe');
+                          window.dispatchEvent(event);
+                        }}
+                      >
+                        <div className="w-8 h-8 bg-gray-600/70 rounded-full flex items-center justify-center">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6 6L18 12L6 18" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                        </div>
+                      </button>
+                    </>
+                  )}
                 </div>
               )}
               {/* 탭 상태 및 메뉴 (드래그 핸들/이미지 아래에 배치) */}
@@ -1127,9 +1119,9 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
                   {/* 이미지 왼쪽 하단에 카페명/주소 표시 */}
-                  <div className="absolute left-4 bottom-4 z-10">
-                    <div className="text-white font-bold text-2xl drop-shadow-lg leading-tight">{selectedCafe.name}</div>
-                    <div className="text-gray-200 text-sm font-medium drop-shadow-md mt-1">{selectedCafe.address}</div>
+                  <div className="absolute left-4 bottom-6 sm:left-6 sm:bottom-6 z-10">
+                    <div className="text-white font-bold text-2xl sm:text-3xl drop-shadow-lg leading-tight">{selectedCafe.name}</div>
+                    <div className="text-gray-200 text-sm sm:text-base font-medium drop-shadow-md mt-1">{selectedCafe.address}</div>
                   </div>
                 </div>
               )}
