@@ -408,6 +408,162 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
     }
   }));
 
+  // 화살표 클릭 이벤트 리스너 추가
+  useEffect(() => {
+    const handlePrevCafe = () => {
+      if (!selectedCafe) return;
+      const currentCafeIndex = cafes.findIndex(cafe => cafe.id === selectedCafe.id);
+      if (currentCafeIndex > 0) {
+        const prevCafe = cafes[currentCafeIndex - 1];
+        setSelectedCafe(prevCafe);
+        // 이전 카페 마커로 중심 이동
+        getCoordinates(prevCafe.address).then(coord => {
+          if (coord && mapInstance.current && window.naver && window.naver.maps) {
+            const newCenter = new window.naver.maps.LatLng(coord.lat, coord.lng);
+            mapInstance.current.setCenter(newCenter);
+            setCenter({ lat: coord.lat, lng: coord.lng });
+          }
+        });
+      }
+    };
+
+    const handleNextCafe = () => {
+      if (!selectedCafe) return;
+      const currentCafeIndex = cafes.findIndex(cafe => cafe.id === selectedCafe.id);
+      if (currentCafeIndex < cafes.length - 1) {
+        const nextCafe = cafes[currentCafeIndex + 1];
+        setSelectedCafe(nextCafe);
+        // 다음 카페 마커로 중심 이동
+        getCoordinates(nextCafe.address).then(coord => {
+          if (coord && mapInstance.current && window.naver && window.naver.maps) {
+            const newCenter = new window.naver.maps.LatLng(coord.lat, coord.lng);
+            mapInstance.current.setCenter(newCenter);
+            setCenter({ lat: coord.lat, lng: coord.lng });
+          }
+        });
+      }
+    };
+
+    window.addEventListener('prevCafe', handlePrevCafe);
+    window.addEventListener('nextCafe', handleNextCafe);
+
+    return () => {
+      window.removeEventListener('prevCafe', handlePrevCafe);
+      window.removeEventListener('nextCafe', handleNextCafe);
+    };
+  }, [selectedCafe, cafes, getCoordinates]);
+
+  // CafeTabMenu 컴포넌트 추가
+  function CafeTabMenu({ selectedTab, setSelectedTab }: { selectedTab: 'beans' | 'info'; setSelectedTab: (tab: 'beans' | 'info') => void }) {
+    const handlePrevCafe = () => {
+      // 이전 카페로 이동하는 로직은 부모 컴포넌트에서 처리
+      const event = new CustomEvent('prevCafe');
+      window.dispatchEvent(event);
+    };
+
+    const handleNextCafe = () => {
+      // 다음 카페로 이동하는 로직은 부모 컴포넌트에서 처리
+      const event = new CustomEvent('nextCafe');
+      window.dispatchEvent(event);
+    };
+
+    return (
+      <div className="flex border-b border-gray-200 bg-white sticky top-0 z-10 relative">
+        <button
+          className={`flex-1 py-3 text-center font-bold ${selectedTab === 'beans' ? 'text-blue-600 border-b-2 border-blue-600 bg-white' : 'text-gray-400'}`}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setSelectedTab('beans');
+          }}
+          onTouchStart={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+          onTouchEnd={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setSelectedTab('beans');
+          }}
+        >
+          원두 라인업
+        </button>
+        <button
+          className={`flex-1 py-3 text-center font-bold ${selectedTab === 'info' ? 'text-blue-600 border-b-2 border-blue-600 bg-white' : 'text-gray-400'}`}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setSelectedTab('info');
+          }}
+          onTouchStart={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+          onTouchEnd={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setSelectedTab('info');
+          }}
+        >
+          카페 정보
+        </button>
+        {/* 모바일에서만 좌우 화살표 표시 */}
+        {typeof window !== 'undefined' && window.innerWidth < 768 && (
+          <>
+            {/* 왼쪽 화살표 */}
+            <button
+              className="absolute left-2 top-1/2 transform -translate-y-1/2 z-20"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                handlePrevCafe();
+              }}
+              onTouchStart={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+              }}
+              onTouchEnd={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                handlePrevCafe();
+              }}
+            >
+              <div className="w-8 h-8 bg-gray-600/70 rounded-full flex items-center justify-center">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M18 6L6 12L18 18" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+            </button>
+            {/* 오른쪽 화살표 */}
+            <button
+              className="absolute right-2 top-1/2 transform -translate-y-1/2 z-20"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                handleNextCafe();
+              }}
+              onTouchStart={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+              }}
+              onTouchEnd={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                handleNextCafe();
+              }}
+            >
+              <div className="w-8 h-8 bg-gray-600/70 rounded-full flex items-center justify-center">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M6 6L18 12L6 18" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+            </button>
+          </>
+        )}
+      </div>
+    );
+  }
+
   // 터치 이벤트 핸들러
   const handleTouchEnd = (e: React.TouchEvent) => {
     if (window.innerWidth < 768) {
@@ -1191,51 +1347,5 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
     </>
   );
 });
-
-// CafeTabMenu 컴포넌트 추가
-function CafeTabMenu({ selectedTab, setSelectedTab }: { selectedTab: 'beans' | 'info'; setSelectedTab: (tab: 'beans' | 'info') => void }) {
-  return (
-    <div className="flex border-b border-gray-200 bg-white sticky top-0 z-10 relative">
-      <button
-        className={`flex-1 py-3 text-center font-bold ${selectedTab === 'beans' ? 'text-blue-600 border-b-2 border-blue-600 bg-white' : 'text-gray-400'}`}
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          setSelectedTab('beans');
-        }}
-        onTouchStart={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-        }}
-        onTouchEnd={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          setSelectedTab('beans');
-        }}
-      >
-        원두 라인업
-      </button>
-      <button
-        className={`flex-1 py-3 text-center font-bold ${selectedTab === 'info' ? 'text-blue-600 border-b-2 border-blue-600 bg-white' : 'text-gray-400'}`}
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          setSelectedTab('info');
-        }}
-        onTouchStart={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-        }}
-        onTouchEnd={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          setSelectedTab('info');
-        }}
-      >
-        카페 정보
-      </button>
-    </div>
-  );
-}
 
 export default Map;
