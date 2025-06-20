@@ -88,6 +88,10 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
   const [touchMoveY, setTouchMoveY] = useState(0);
   const [dragTranslateY, setDragTranslateY] = useState(0);
   const [canDrag, setCanDrag] = useState(true);
+  const [touchStartX, setTouchStartX] = useState(0);
+  const [touchMoveX, setTouchMoveX] = useState(0);
+  const [dragTranslateX, setDragTranslateX] = useState(0);
+  const [canDragHorizontal, setCanDragHorizontal] = useState(false);
   const tabMenuRef = useRef<HTMLDivElement>(null);
   const [showList, setShowList] = useState(false);
   const [cardPosition, setCardPosition] = useState<'min' | 'default' | 'full'>('default');
@@ -406,17 +410,38 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
 
   // 터치 이벤트 핸들러
   const handleTouchEnd = (e: React.TouchEvent) => {
-    if (window.innerWidth < 768 && canDrag) {
+    if (window.innerWidth < 768) {
       e.preventDefault();
-      const touchDiff = touchMoveY - touchStartY;
+      const touchDiffY = touchMoveY - touchStartY;
+      const touchDiffX = touchMoveX - touchStartX;
+      
       setDragTranslateY(0);
-      if (cardPosition === 'default') {
-        if (touchDiff < -100) setCardPosition('full');
-        else if (touchDiff > 100) setCardPosition('min');
-      } else if (cardPosition === 'full') {
-        if (touchDiff > 100) setCardPosition('default');
-      } else if (cardPosition === 'min') {
-        if (touchDiff < -100) setCardPosition('default');
+      setDragTranslateX(0);
+      
+      // 수직 드래그 처리
+      if (canDrag && Math.abs(touchDiffY) > Math.abs(touchDiffX)) {
+        if (cardPosition === 'default') {
+          if (touchDiffY < -100) setCardPosition('full');
+          else if (touchDiffY > 100) setCardPosition('min');
+        } else if (cardPosition === 'full') {
+          if (touchDiffY > 100) setCardPosition('default');
+        } else if (cardPosition === 'min') {
+          if (touchDiffY < -100) setCardPosition('default');
+        }
+      }
+      
+      // 수평 드래그 처리
+      if (canDragHorizontal && Math.abs(touchDiffX) > Math.abs(touchDiffY) && Math.abs(touchDiffX) > 50) {
+        const currentCafeIndex = cafes.findIndex(cafe => cafe.id === selectedCafe?.id);
+        if (touchDiffX > 0 && currentCafeIndex > 0) {
+          // 오른쪽으로 드래그 - 이전 카페
+          const prevCafe = cafes[currentCafeIndex - 1];
+          setSelectedCafe(prevCafe);
+        } else if (touchDiffX < 0 && currentCafeIndex < cafes.length - 1) {
+          // 왼쪽으로 드래그 - 다음 카페
+          const nextCafe = cafes[currentCafeIndex + 1];
+          setSelectedCafe(nextCafe);
+        }
       }
     }
   };
@@ -426,29 +451,45 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
       // 탭 영역에서 터치가 시작되면 드래그 무시
       if (tabMenuRef.current && tabMenuRef.current.contains(e.target as Node)) {
         setCanDrag(false);
+        setCanDragHorizontal(false);
         return;
       }
       setCanDrag(true);
+      setCanDragHorizontal(true);
       e.preventDefault();
       const touch = e.touches[0];
       setTouchStartY(touch.clientY);
       setTouchMoveY(touch.clientY);
+      setTouchStartX(touch.clientX);
+      setTouchMoveX(touch.clientX);
       setDragTranslateY(0);
+      setDragTranslateX(0);
     }
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
-    if (window.innerWidth < 768 && canDrag) {
+    if (window.innerWidth < 768) {
       e.preventDefault();
       const touch = e.touches[0];
       const currentY = touch.clientY;
+      const currentX = touch.clientX;
       const deltaY = (currentY - touchStartY) * 0.5;
-      
-      // 전체화면 상태에서는 위로 드래그 방지
-      if (isFullScreen && deltaY < 0) return;
+      const deltaX = (currentX - touchStartX) * 0.5;
       
       setTouchMoveY(currentY);
-      setDragTranslateY(deltaY);
+      setTouchMoveX(currentX);
+      
+      // 수직 드래그 처리
+      if (canDrag) {
+        // 전체화면 상태에서는 위로 드래그 방지
+        if (isFullScreen && deltaY < 0) return;
+        setDragTranslateY(deltaY);
+      }
+      
+      // 수평 드래그 처리
+      if (canDragHorizontal) {
+        setDragTranslateX(deltaX);
+      }
     }
   };
 
@@ -477,7 +518,7 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                 ${cardPosition === 'full' ? 'h-[calc(100vh-64px)]' : cardPosition === 'default' ? 'h-[40vh]' : 'h-[25vh]'}
               `}
               style={{
-                transform: `translateY(${dragTranslateY}px)`,
+                transform: `translateY(${dragTranslateY}px) translateX(${dragTranslateX}px)`,
                 touchAction: 'none'
               }}
               onTouchStart={handleTouchStart}
