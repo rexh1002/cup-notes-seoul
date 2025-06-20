@@ -94,6 +94,13 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
   const tabMenuRef = useRef<HTMLDivElement>(null);
   const [showList, setShowList] = useState(false);
   const [cardPosition, setCardPosition] = useState<'min' | 'default' | 'full'>('default');
+  const [portalRoot, setPortalRoot] = useState<HTMLElement | null>(null);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setPortalRoot(document.body);
+    }
+  }, []);
 
   // 검색 카테고리 정의
   const searchCategories = {
@@ -608,7 +615,7 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
       >
         {/* 지도 영역 내부에는 카드 렌더링 X */}
         {/* 카페 정보 카드는 포탈로 body에 렌더링 */}
-        {selectedCafe && typeof window !== 'undefined' && createPortal(
+        {selectedCafe && portalRoot && createPortal(
           window.innerWidth < 768 ? (
             // 모바일: 기존처럼 하단 고정
             <div
@@ -684,7 +691,7 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
                   {/* 이미지 왼쪽 하단에 카페명/주소 표시 */}
-                  <div className="absolute left-4 bottom-8 sm:left-6 sm:bottom-6 z-10">
+                  <div className="absolute left-4 bottom-12 sm:left-6 sm:bottom-6 z-10">
                     <div className="text-white font-bold text-2xl sm:text-3xl drop-shadow-lg leading-tight">{selectedCafe.name}</div>
                     <div className="text-gray-200 text-sm sm:text-base font-medium drop-shadow-md mt-1">{selectedCafe.address}</div>
                   </div>
@@ -1110,7 +1117,7 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
                   {/* 이미지 왼쪽 하단에 카페명/주소 표시 */}
-                  <div className="absolute left-4 bottom-8 sm:left-6 sm:bottom-6 z-10">
+                  <div className="absolute left-4 bottom-12 sm:left-6 sm:bottom-8 z-10">
                     <div className="text-white font-bold text-2xl sm:text-3xl drop-shadow-lg leading-tight">{selectedCafe.name}</div>
                     <div className="text-gray-200 text-sm sm:text-base font-medium drop-shadow-md mt-1">{selectedCafe.address}</div>
                   </div>
@@ -1324,7 +1331,7 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
               </div>
             </div>
           ),
-          document.body
+          portalRoot
         )}
       </div>
     </>
