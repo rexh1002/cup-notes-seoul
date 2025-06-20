@@ -1182,13 +1182,39 @@ function CafeTabMenu({ selectedTab, setSelectedTab }: { selectedTab: 'beans' | '
     <div className="flex border-b border-gray-200 bg-white sticky top-0 z-10">
       <button
         className={`flex-1 py-3 text-center font-bold ${selectedTab === 'beans' ? 'text-blue-600 border-b-2 border-blue-600 bg-white' : 'text-gray-400'}`}
-        onClick={() => setSelectedTab('beans')}
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          setSelectedTab('beans');
+        }}
+        onTouchStart={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+        }}
+        onTouchEnd={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          setSelectedTab('beans');
+        }}
       >
         원두 라인업
       </button>
       <button
         className={`flex-1 py-3 text-center font-bold ${selectedTab === 'info' ? 'text-blue-600 border-b-2 border-blue-600 bg-white' : 'text-gray-400'}`}
-        onClick={() => setSelectedTab('info')}
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          setSelectedTab('info');
+        }}
+        onTouchStart={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+        }}
+        onTouchEnd={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          setSelectedTab('info');
+        }}
       >
         카페 정보
       </button>
