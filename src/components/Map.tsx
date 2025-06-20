@@ -691,7 +691,7 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
                   {/* 이미지 왼쪽 하단에 카페명/주소 표시 */}
-                  <div className="absolute left-4 bottom-12 sm:left-6 sm:bottom-6 z-10">
+                  <div className="absolute left-4 bottom-10 sm:left-6 sm:bottom-6 z-10">
                     <div className="text-white font-bold text-2xl sm:text-3xl drop-shadow-lg leading-tight">{selectedCafe.name}</div>
                     <div className="text-gray-200 text-sm sm:text-base font-medium drop-shadow-md mt-1">{selectedCafe.address}</div>
                   </div>
@@ -1117,7 +1117,7 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
                   {/* 이미지 왼쪽 하단에 카페명/주소 표시 */}
-                  <div className="absolute left-4 bottom-12 sm:left-6 sm:bottom-8 z-10">
+                  <div className="absolute left-4 bottom-10 sm:left-6 sm:bottom-8 z-10">
                     <div className="text-white font-bold text-2xl sm:text-3xl drop-shadow-lg leading-tight">{selectedCafe.name}</div>
                     <div className="text-gray-200 text-sm sm:text-base font-medium drop-shadow-md mt-1">{selectedCafe.address}</div>
                   </div>
