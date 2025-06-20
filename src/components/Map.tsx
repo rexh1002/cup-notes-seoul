@@ -437,10 +437,26 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
           // 오른쪽으로 드래그 - 이전 카페
           const prevCafe = cafes[currentCafeIndex - 1];
           setSelectedCafe(prevCafe);
+          // 이전 카페 마커로 중심 이동
+          getCoordinates(prevCafe.address).then(coord => {
+            if (coord && mapInstance.current && window.naver && window.naver.maps) {
+              const newCenter = new window.naver.maps.LatLng(coord.lat, coord.lng);
+              mapInstance.current.setCenter(newCenter);
+              setCenter({ lat: coord.lat, lng: coord.lng });
+            }
+          });
         } else if (touchDiffX < 0 && currentCafeIndex < cafes.length - 1) {
           // 왼쪽으로 드래그 - 다음 카페
           const nextCafe = cafes[currentCafeIndex + 1];
           setSelectedCafe(nextCafe);
+          // 다음 카페 마커로 중심 이동
+          getCoordinates(nextCafe.address).then(coord => {
+            if (coord && mapInstance.current && window.naver && window.naver.maps) {
+              const newCenter = new window.naver.maps.LatLng(coord.lat, coord.lng);
+              mapInstance.current.setCenter(newCenter);
+              setCenter({ lat: coord.lat, lng: coord.lng });
+            }
+          });
         }
       }
     }
