@@ -90,7 +90,6 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
   const [canDrag, setCanDrag] = useState(true);
   const [touchStartX, setTouchStartX] = useState(0);
   const [touchMoveX, setTouchMoveX] = useState(0);
-  const [dragTranslateX, setDragTranslateX] = useState(0);
   const [canDragHorizontal, setCanDragHorizontal] = useState(false);
   const tabMenuRef = useRef<HTMLDivElement>(null);
   const [showList, setShowList] = useState(false);
@@ -507,7 +506,6 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
       const touchDiffX = touchMoveX - touchStartX;
       
       setDragTranslateY(0);
-      setDragTranslateX(0);
       
       // 수직 드래그 처리
       if (canDrag && Math.abs(touchDiffY) > Math.abs(touchDiffX)) {
@@ -570,7 +568,6 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
       setTouchStartX(touch.clientX);
       setTouchMoveX(touch.clientX);
       setDragTranslateY(0);
-      setDragTranslateX(0);
     }
   };
 
@@ -581,7 +578,6 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
       const currentY = touch.clientY;
       const currentX = touch.clientX;
       const deltaY = (currentY - touchStartY) * 0.5;
-      const deltaX = (currentX - touchStartX) * 0.5;
       
       setTouchMoveY(currentY);
       setTouchMoveX(currentX);
@@ -591,11 +587,6 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
         // 전체화면 상태에서는 위로 드래그 방지
         if (isFullScreen && deltaY < 0) return;
         setDragTranslateY(deltaY);
-      }
-      
-      // 수평 드래그 처리
-      if (canDragHorizontal) {
-        setDragTranslateX(deltaX);
       }
     }
   };
@@ -625,7 +616,7 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                 ${cardPosition === 'full' ? 'h-[calc(100vh-64px)]' : cardPosition === 'default' ? 'h-[40vh]' : 'h-[25vh]'}
               `}
               style={{
-                transform: `translateY(${dragTranslateY}px) translateX(${dragTranslateX}px)`,
+                transform: `translateY(${dragTranslateY}px)`,
                 touchAction: 'none'
               }}
               onTouchStart={handleTouchStart}
