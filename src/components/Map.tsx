@@ -417,37 +417,35 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
   // 화살표 클릭 이벤트 리스너 추가
   useEffect(() => {
     const handlePrevCafe = () => {
-      if (!selectedCafe) return;
+      if (!selectedCafe || cafes.length <= 1) return;
       const currentCafeIndex = cafes.findIndex(cafe => cafe.id === selectedCafe.id);
-      if (currentCafeIndex > 0) {
-        const prevCafe = cafes[currentCafeIndex - 1];
-        setSelectedCafe(prevCafe);
-        // 이전 카페 마커로 중심 이동
-        getCoordinates(prevCafe.address).then(coord => {
-          if (coord && mapInstance.current && window.naver && window.naver.maps) {
-            const newCenter = new window.naver.maps.LatLng(coord.lat, coord.lng);
-            mapInstance.current.setCenter(newCenter);
-            setCenter({ lat: coord.lat, lng: coord.lng });
-          }
-        });
-      }
+      const prevIndex = (currentCafeIndex - 1 + cafes.length) % cafes.length;
+      const prevCafe = cafes[prevIndex];
+      setSelectedCafe(prevCafe);
+      // 이전 카페 마커로 중심 이동
+      getCoordinates(prevCafe.address).then(coord => {
+        if (coord && mapInstance.current && window.naver && window.naver.maps) {
+          const newCenter = new window.naver.maps.LatLng(coord.lat, coord.lng);
+          mapInstance.current.setCenter(newCenter);
+          setCenter({ lat: coord.lat, lng: coord.lng });
+        }
+      });
     };
 
     const handleNextCafe = () => {
-      if (!selectedCafe) return;
+      if (!selectedCafe || cafes.length <= 1) return;
       const currentCafeIndex = cafes.findIndex(cafe => cafe.id === selectedCafe.id);
-      if (currentCafeIndex < cafes.length - 1) {
-        const nextCafe = cafes[currentCafeIndex + 1];
-        setSelectedCafe(nextCafe);
-        // 다음 카페 마커로 중심 이동
-        getCoordinates(nextCafe.address).then(coord => {
-          if (coord && mapInstance.current && window.naver && window.naver.maps) {
-            const newCenter = new window.naver.maps.LatLng(coord.lat, coord.lng);
-            mapInstance.current.setCenter(newCenter);
-            setCenter({ lat: coord.lat, lng: coord.lng });
-          }
-        });
-      }
+      const nextIndex = (currentCafeIndex + 1) % cafes.length;
+      const nextCafe = cafes[nextIndex];
+      setSelectedCafe(nextCafe);
+      // 다음 카페 마커로 중심 이동
+      getCoordinates(nextCafe.address).then(coord => {
+        if (coord && mapInstance.current && window.naver && window.naver.maps) {
+          const newCenter = new window.naver.maps.LatLng(coord.lat, coord.lng);
+          mapInstance.current.setCenter(newCenter);
+          setCenter({ lat: coord.lat, lng: coord.lng });
+        }
+      });
     };
 
     window.addEventListener('prevCafe', handlePrevCafe);
@@ -528,32 +526,24 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
       
       // 수평 드래그 처리
       if (canDragHorizontal && Math.abs(touchDiffX) > Math.abs(touchDiffY) && Math.abs(touchDiffX) > 50) {
-        const currentCafeIndex = cafes.findIndex(cafe => cafe.id === selectedCafe?.id);
-        if (touchDiffX > 0 && currentCafeIndex > 0) {
-          // 오른쪽으로 드래그 - 이전 카페
-          const prevCafe = cafes[currentCafeIndex - 1];
-          setSelectedCafe(prevCafe);
-          // 이전 카페 마커로 중심 이동
-          getCoordinates(prevCafe.address).then(coord => {
-            if (coord && mapInstance.current && window.naver && window.naver.maps) {
-              const newCenter = new window.naver.maps.LatLng(coord.lat, coord.lng);
-              mapInstance.current.setCenter(newCenter);
-              setCenter({ lat: coord.lat, lng: coord.lng });
-            }
-          });
-        } else if (touchDiffX < 0 && currentCafeIndex < cafes.length - 1) {
-          // 왼쪽으로 드래그 - 다음 카페
-          const nextCafe = cafes[currentCafeIndex + 1];
-          setSelectedCafe(nextCafe);
-          // 다음 카페 마커로 중심 이동
-          getCoordinates(nextCafe.address).then(coord => {
-            if (coord && mapInstance.current && window.naver && window.naver.maps) {
-              const newCenter = new window.naver.maps.LatLng(coord.lat, coord.lng);
-              mapInstance.current.setCenter(newCenter);
-              setCenter({ lat: coord.lat, lng: coord.lng });
-            }
-          });
-        }
+        if (!selectedCafe || cafes.length <= 1) return;
+        const currentCafeIndex = cafes.findIndex(cafe => cafe.id === selectedCafe.id);
+        
+        const newIndex = touchDiffX > 0
+          ? (currentCafeIndex - 1 + cafes.length) % cafes.length // 오른쪽으로 드래그 - 이전 카페
+          : (currentCafeIndex + 1) % cafes.length; // 왼쪽으로 드래그 - 다음 카페
+        
+        const newCafe = cafes[newIndex];
+        setSelectedCafe(newCafe);
+
+        // 새 카페 마커로 중심 이동
+        getCoordinates(newCafe.address).then(coord => {
+          if (coord && mapInstance.current && window.naver && window.naver.maps) {
+            const newCenter = new window.naver.maps.LatLng(coord.lat, coord.lng);
+            mapInstance.current.setCenter(newCenter);
+            setCenter({ lat: coord.lat, lng: coord.lng });
+          }
+        });
       }
     }
   };
