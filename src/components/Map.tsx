@@ -813,7 +813,7 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                             </div>
                             {/* 원두 설명 */}
                             {coffee.description && (
-                              <p className="text-sm text-gray-700 mb-0.5 leading-tight sm:text-xs">
+                              <p className="text-sm text-gray-700 mb-0.5 leading-tight sm:text-xs break-words">
                                 {coffee.description}
                               </p>
                             )}
@@ -1084,7 +1084,7 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                           </div>
                           {/* 원두 설명 */}
                           {coffee.description && (
-                            <p className="text-sm text-gray-700 mb-0.5 leading-tight">
+                            <p className="text-sm text-gray-700 mb-0.5 leading-tight sm:text-xs break-words">
                               {coffee.description}
                             </p>
                           )}
