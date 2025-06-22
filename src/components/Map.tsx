@@ -768,18 +768,19 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
               </div>
               {/* 탭별 내용 */}
               <div 
-                className="flex-1 overflow-y-auto px-2 pb-8 leading-relaxed"
+                ref={cafeScrollAreaRef}
+                className="cafe-scroll-area flex-1 overflow-y-auto px-4 pb-24 sm:px-1 sm:pb-16 leading-relaxed"
+                style={{ 
+                  touchAction: isCafeAreaScrollable ? 'pan-y' : 'none',
+                  overscrollBehavior: 'contain',
+                  maxHeight: 'calc(100vh - 400px)'
+                }}
               >
                 {selectedTab === 'beans' ? (
                   selectedCafe.coffees && selectedCafe.coffees.length > 0 && (
                     <div 
                       ref={cafeScrollAreaRef}
                       className="cafe-scroll-area flex-1 overflow-y-auto px-4 pb-24 sm:px-1 sm:pb-16 leading-relaxed"
-                      style={{ 
-                        touchAction: isCafeAreaScrollable ? 'pan-y' : 'none',
-                        overscrollBehavior: 'contain',
-                        maxHeight: 'calc(100vh - 400px)'
-                      }}
                     >
                       <div className="flex items-center justify-end mb-2 mt-2 sm:mb-1 sm:mt-1">
                         <span className="text-xs text-gray-500">
@@ -871,10 +872,8 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                   )
                 ) : (
                   <div 
-                    ref={cafeScrollAreaRef}
                     className="flex-1 overflow-y-auto px-2 pb-8 leading-relaxed"
                     style={{ 
-                      touchAction: isCafeAreaScrollable ? 'pan-y' : 'none',
                       overscrollBehavior: 'contain'
                     }}
                   >
@@ -1145,7 +1144,6 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                   <div 
                     className="flex-1 overflow-y-auto px-2 pb-8 leading-relaxed"
                     style={{ 
-                      touchAction: 'none',
                       overscrollBehavior: 'contain'
                     }}
                   >
