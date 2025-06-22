@@ -83,7 +83,6 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
   const [cafeCoordinates, setCafeCoordinates] = useState<Record<string, Coordinates>>({});
   const [isInitialLoad, setIsInitialLoad] = useState(true);
   const [selectedTab, setSelectedTab] = useState<'beans' | 'info'>('beans');
-  const [isFullScreen, setIsFullScreen] = useState(false);
   const [touchStartY, setTouchStartY] = useState(0);
   const [touchMoveY, setTouchMoveY] = useState(0);
   const [dragTranslateY, setDragTranslateY] = useState(0);
@@ -570,7 +569,12 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
 
   const handleTouchMove = (e: React.TouchEvent) => {
     if (window.innerWidth < 768) {
-      e.preventDefault();
+      // 탭 메뉴의 버튼을 직접 클릭하는 경우는 제외하고 드래그 시작
+      const target = e.target as HTMLElement;
+      if (target.tagName !== 'BUTTON' && !(target.parentElement?.tagName === 'BUTTON')) {
+        e.preventDefault();
+      }
+
       const touch = e.touches[0];
       const currentY = touch.clientY;
       const currentX = touch.clientX;
@@ -582,7 +586,9 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
       // 수직 드래그 처리
       if (canDrag) {
         // 전체화면 상태에서는 위로 드래그 방지
-        if (isFullScreen && deltaY < 0) return;
+        if (cardPosition === 'full' && deltaY < 0) {
+          return;
+        }
         setDragTranslateY(deltaY);
       }
     }
@@ -1123,7 +1129,13 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                     </div>
                   )
                 ) : (
-                  <div className="flex-1 overflow-y-auto px-2 pb-8 leading-relaxed">
+                  <div 
+                    className="flex-1 overflow-y-auto px-2 pb-8 leading-relaxed"
+                    style={{ 
+                      touchAction: 'none',
+                      overscrollBehavior: 'contain'
+                    }}
+                  >
                     {/* 최근수정일 정보 (웹, info 탭 최상단) */}
                     {selectedCafe.updatedAt && (
                       <div className="flex items-center justify-end mb-2 mt-2">
