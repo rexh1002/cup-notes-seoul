@@ -611,7 +611,7 @@ export default function HomePage() {
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.15, duration: 1.5 }}
+            transition={{ delay: 0.15, duration: 1.575 }}
             className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-2 text-center"
           >
             <span className="block">평범한 하루도</span>
@@ -619,7 +619,7 @@ export default function HomePage() {
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.35, duration: 1.5 }}
+            transition={{ delay: 0.35, duration: 1.575 }}
             className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4 text-center"
           >
             <span className="block">한 잔의 커피로</span>
@@ -628,7 +628,7 @@ export default function HomePage() {
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.55, duration: 1.5 }}
+            transition={{ delay: 0.55, duration: 1.575 }}
             className="text-lg md:text-xl text-gray-700 mb-8 text-center"
           >
             당신의 컵노트를 검색하세요.
