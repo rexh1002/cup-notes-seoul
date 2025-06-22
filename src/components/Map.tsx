@@ -550,15 +550,15 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
 
   const handleTouchStart = (e: React.TouchEvent) => {
     if (window.innerWidth < 768) {
-      // 탭 영역에서 터치가 시작되면 드래그 무시
-      if (tabMenuRef.current && tabMenuRef.current.contains(e.target as Node)) {
-        setCanDrag(false);
-        setCanDragHorizontal(false);
-        return;
+      // 탭 메뉴의 버튼을 직접 클릭하는 경우는 제외하고 드래그 시작
+      const target = e.target as HTMLElement;
+      if (target.tagName !== 'BUTTON' && !(target.parentElement?.tagName === 'BUTTON')) {
+        e.preventDefault();
       }
+
       setCanDrag(true);
       setCanDragHorizontal(true);
-      e.preventDefault();
+
       const touch = e.touches[0];
       setTouchStartY(touch.clientY);
       setTouchMoveY(touch.clientY);
@@ -654,9 +654,6 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
               {/* 드래그 핸들 (상단 바) */}
               <div
                 className="w-full h-6 bg-white rounded-t-2xl flex items-center justify-center cursor-grab active:cursor-grabbing"
-                onTouchStart={handleTouchStart}
-                onTouchMove={handleTouchMove}
-                onTouchEnd={handleTouchEnd}
                 style={{ touchAction: 'none' }}
               >
                 <div className="w-16 h-1.5 bg-gray-300 rounded-full" />
@@ -754,47 +751,6 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                 style={{ 
                   touchAction: 'none',
                   overscrollBehavior: 'contain'
-                }}
-                onTouchStart={(e) => {
-                  if (window.innerWidth < 768) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    const touch = e.touches[0];
-                    setTouchStartY(touch.clientY);
-                    setTouchMoveY(touch.clientY);
-                    setDragTranslateY(0);
-                    setCanDrag(true);
-                  }
-                }}
-                onTouchMove={(e) => {
-                  if (window.innerWidth < 768 && canDrag) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    const touch = e.touches[0];
-                    const currentY = touch.clientY;
-                    const deltaY = (currentY - touchStartY) * 0.5;
-                    
-                    // 아래로 드래그할 때만 카드 이동
-                    if (deltaY > 0) {
-                      setTouchMoveY(currentY);
-                      setDragTranslateY(deltaY);
-                    }
-                  }
-                }}
-                onTouchEnd={(e) => {
-                  if (window.innerWidth < 768 && canDrag) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    const touchDiff = touchMoveY - touchStartY;
-                    setDragTranslateY(0);
-                    if (cardPosition === 'default') {
-                      if (touchDiff > 100) setCardPosition('min');
-                    } else if (cardPosition === 'full') {
-                      if (touchDiff > 100) setCardPosition('default');
-                    } else if (cardPosition === 'min') {
-                      if (touchDiff < -100) setCardPosition('default');
-                    }
-                  }
                 }}
               >
                 {selectedTab === 'beans' ? (
@@ -901,47 +857,6 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                     style={{ 
                       touchAction: 'none',
                       overscrollBehavior: 'contain'
-                    }}
-                    onTouchStart={(e) => {
-                      if (window.innerWidth < 768) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        const touch = e.touches[0];
-                        setTouchStartY(touch.clientY);
-                        setTouchMoveY(touch.clientY);
-                        setDragTranslateY(0);
-                        setCanDrag(true);
-                      }
-                    }}
-                    onTouchMove={(e) => {
-                      if (window.innerWidth < 768 && canDrag) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        const touch = e.touches[0];
-                        const currentY = touch.clientY;
-                        const deltaY = (currentY - touchStartY) * 0.5;
-                        
-                        // 아래로 드래그할 때만 카드 이동
-                        if (deltaY > 0) {
-                          setTouchMoveY(currentY);
-                          setDragTranslateY(deltaY);
-                        }
-                      }
-                    }}
-                    onTouchEnd={(e) => {
-                      if (window.innerWidth < 768 && canDrag) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        const touchDiff = touchMoveY - touchStartY;
-                        setDragTranslateY(0);
-                        if (cardPosition === 'default') {
-                          if (touchDiff > 100) setCardPosition('min');
-                        } else if (cardPosition === 'full') {
-                          if (touchDiff > 100) setCardPosition('default');
-                        } else if (cardPosition === 'min') {
-                          if (touchDiff < -100) setCardPosition('default');
-                        }
-                      }
                     }}
                   >
                     {/* 최근수정일 정보 (웹, info 탭 최상단) */}
