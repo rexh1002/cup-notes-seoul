@@ -610,7 +610,7 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
             // 모바일: 기존처럼 하단 고정
             <div
               className={`fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl shadow-lg z-[88888] transition-transform duration-1500 ease-in-out md:relative md:rounded-none md:shadow-none
-                ${cardPosition === 'full' ? 'h-[calc(100vh-64px)]' : cardPosition === 'default' ? 'h-[40vh]' : 'h-[25vh]'}
+                ${cardPosition === 'full' ? 'h-[calc(100vh-64px)]' : cardPosition === 'default' ? 'h-[40vh]' : 'h-[22vh]'}
               `}
               style={{
                 transform: `translateY(${dragTranslateY}px)`,
