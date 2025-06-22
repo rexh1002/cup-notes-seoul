@@ -94,12 +94,27 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
   const [showList, setShowList] = useState(false);
   const [cardPosition, setCardPosition] = useState<'min' | 'default' | 'full'>('default');
   const [portalRoot, setPortalRoot] = useState<HTMLElement | null>(null);
+  const cafeScrollAreaRef = useRef<HTMLDivElement>(null);
+  const [isCafeAreaScrollable, setIsCafeAreaScrollable] = useState(false);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
       setPortalRoot(document.body);
     }
   }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (cafeScrollAreaRef.current) {
+        const { scrollHeight, clientHeight } = cafeScrollAreaRef.current;
+        setIsCafeAreaScrollable(scrollHeight > clientHeight);
+      } else {
+        setIsCafeAreaScrollable(false);
+      }
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, [selectedCafe, cardPosition, selectedTab]);
 
   // 검색 카테고리 정의
   const searchCategories = {
@@ -753,18 +768,20 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
               </div>
               {/* 탭별 내용 */}
               <div 
+                ref={cafeScrollAreaRef}
                 className="flex-1 overflow-y-auto px-2 pb-8 leading-relaxed"
                 style={{ 
-                  touchAction: 'none',
+                  touchAction: isCafeAreaScrollable ? 'pan-y' : 'none',
                   overscrollBehavior: 'contain'
                 }}
               >
                 {selectedTab === 'beans' ? (
                   selectedCafe.coffees && selectedCafe.coffees.length > 0 && (
                     <div 
+                      ref={cafeScrollAreaRef}
                       className="cafe-scroll-area flex-1 overflow-y-auto px-4 pb-24 sm:px-1 sm:pb-16 leading-relaxed"
                       style={{ 
-                        touchAction: 'pan-y',
+                        touchAction: isCafeAreaScrollable ? 'pan-y' : 'none',
                         overscrollBehavior: 'contain',
                         maxHeight: 'calc(100vh - 400px)'
                       }}
@@ -859,9 +876,10 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                   )
                 ) : (
                   <div 
+                    ref={cafeScrollAreaRef}
                     className="flex-1 overflow-y-auto px-2 pb-8 leading-relaxed"
                     style={{ 
-                      touchAction: 'none',
+                      touchAction: isCafeAreaScrollable ? 'pan-y' : 'none',
                       overscrollBehavior: 'contain'
                     }}
                   >
