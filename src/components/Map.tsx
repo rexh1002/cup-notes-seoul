@@ -768,12 +768,7 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
               </div>
               {/* 탭별 내용 */}
               <div 
-                ref={cafeScrollAreaRef}
                 className="flex-1 overflow-y-auto px-2 pb-8 leading-relaxed"
-                style={{ 
-                  touchAction: isCafeAreaScrollable ? 'pan-y' : 'none',
-                  overscrollBehavior: 'contain'
-                }}
               >
                 {selectedTab === 'beans' ? (
                   selectedCafe.coffees && selectedCafe.coffees.length > 0 && (
