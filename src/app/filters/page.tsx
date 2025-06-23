@@ -72,6 +72,9 @@ export default function FiltersPage() {
   }, [isMounted]);
 
   const handleLogout = () => {
+    if (!confirm('로그아웃 하시겠습니까?')) {
+      return;
+    }
     localStorage.removeItem('authToken');
     setIsLoggedIn(false);
     setUserRole(null);
