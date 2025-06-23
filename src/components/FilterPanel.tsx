@@ -469,11 +469,11 @@ export default function FilterPanel({
             </div>
           </section>
           {/* 푸터 링크 섹션 */}
-          <section className="px-4 pb-20">
+          <section className="px-4 pb-4">
             <div className="flex flex-wrap gap-4 text-xs text-gray-600">
-              <a href="/privacy" className="hover:text-blue-600">Privacy Policy</a>
-              <a href="/terms" className="hover:text-blue-600">Terms of Service</a>
-              <a href="/contact" className="hover:text-blue-600">Contact</a>
+              <Link href="/privacy" className="hover:text-blue-600">Privacy Policy</Link>
+              <Link href="/terms" className="hover:text-blue-600">Terms of Service</Link>
+              <Link href="/contact" className="hover:text-blue-600">Contact</Link>
               {isLoggedIn && (
                 <button
                   onClick={onDeleteAccount}
