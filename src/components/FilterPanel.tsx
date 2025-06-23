@@ -283,18 +283,16 @@ export default function FilterPanel({
             </div>
           </section>
           {/* Footer Links for Web */}
-          <section className="border-t border-gray-200 pt-4 mt-4">
-            <div className="flex flex-col items-center space-y-2 text-xs text-gray-500">
-              <div className="flex space-x-4">
-                <Link href="/privacy" className="hover:text-blue-600">Privacy Policy</Link>
-                <Link href="/terms" className="hover:text-blue-600">Terms of Service</Link>
-                <Link href="/contact" className="hover:text-blue-600">Contact</Link>
-              </div>
+          <section className="border-t border-gray-200 pt-4 mt-4 px-2">
+            <div className="flex justify-around items-center text-[11px] text-gray-500">
+              <Link href="/privacy" className="hover:text-blue-600 whitespace-nowrap">Privacy Policy</Link>
+              <Link href="/terms" className="hover:text-blue-600 whitespace-nowrap">Terms of Service</Link>
+              <Link href="/contact" className="hover:text-blue-600 whitespace-nowrap">Contact</Link>
               {isLoggedIn && (
                 <button
                   onClick={onDeleteAccount}
                   disabled={isDeleting}
-                  className="hover:text-red-600 pt-2"
+                  className="hover:text-red-600 whitespace-nowrap"
                 >
                   {isDeleting ? '처리중...' : '회원탈퇴'}
                 </button>
