@@ -77,19 +77,15 @@ export async function GET(request: Request) {
     });
 
     if (!user) {
-      // 새 사용자 생성
-      user = await prisma.user.create({
-        data: {
-          email,
-          password: Math.random().toString(36).slice(-10), // 임의의 값
-          role: 'user',
-          provider: 'kakao',
-          providerId: kakaoUserId,
-          name
-        }
-      });
-    } else if (user.provider !== 'kakao') {
-      // 기존 이메일로 가입한 사용자가 카카오 연동을 시도하는 경우
+      // 사용자가 없으면, 회원가입이 필요하다는 에러와 함께 리디렉션
+      console.log('가입되지 않은 사용자. 회원가입 필요.');
+      const signupRequiredUrl = `${BASE_URL}/auth/login?error=signup_required&provider=kakao&email=${encodeURIComponent(email)}&providerId=${kakaoUserId}&name=${encodeURIComponent(name || '')}`;
+      return NextResponse.redirect(signupRequiredUrl);
+    }
+
+    // 기존 사용자가 있지만, 카카오 연동이 안된 경우
+    if (user.provider !== 'kakao' || !user.providerId) {
+      console.log('기존 사용자 카카오 연동 시작');
       user = await prisma.user.update({
         where: { id: user.id },
         data: {
@@ -97,6 +93,7 @@ export async function GET(request: Request) {
           providerId: kakaoUserId
         }
       });
+      console.log('카카오 연동 완료:', user.id);
     }
 
     // JWT 토큰 생성

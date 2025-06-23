@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Input } from '../../../components/ui/input';
 import { Button } from '../../../components/ui/button';
 import { Divider } from '../../../components/ui/divider';
@@ -13,6 +13,24 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    if (searchParams) {
+      const signupError = searchParams.get('error');
+      if (signupError === 'signup_required') {
+        const provider = searchParams.get('provider');
+        const providerId = searchParams.get('providerId');
+        const email = searchParams.get('email');
+        const name = searchParams.get('name');
+
+        alert('가입되지 않은 계정입니다. 회원가입을 먼저 진행해주세요.');
+        
+        const signupUrl = `/auth/signup?provider=${provider}&providerId=${providerId}&email=${email}&name=${name}`;
+        router.push(signupUrl);
+      }
+    }
+  }, [searchParams, router]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();

@@ -119,17 +119,15 @@ export async function GET(request: NextRequest) {
       });
 
       if (!user) {
-        user = await prisma.user.create({
-          data: {
-            email,
-            password: Math.random().toString(36).slice(-10),
-            role: 'user',
-            provider: 'naver',
-            providerId: naverUserId,
-            name: name || null
-          }
-        });
-      } else if (user.provider !== 'naver') {
+        // 사용자가 없으면, 회원가입이 필요하다는 에러와 함께 리디렉션
+        console.log('가입되지 않은 사용자. 회원가입 필요.');
+        const signupRequiredUrl = `${BASE_URL}/auth/login?error=signup_required&provider=naver&email=${encodeURIComponent(email)}&providerId=${naverUserId}&name=${encodeURIComponent(name || '')}`;
+        return NextResponse.redirect(signupRequiredUrl);
+      }
+
+      // 기존 사용자가 있지만, 네이버 연동이 안된 경우
+      if (user.provider !== 'naver' || !user.providerId) {
+        console.log('기존 사용자 네이버 연동 시작');
         user = await prisma.user.update({
           where: { id: user.id },
           data: {
@@ -137,6 +135,7 @@ export async function GET(request: NextRequest) {
             providerId: naverUserId
           }
         });
+        console.log('네이버 연동 완료:', user.id);
       }
 
       // JWT 토큰 생성
@@ -182,21 +181,14 @@ export async function GET(request: NextRequest) {
     console.log('기존 사용자 찾기 결과:', user ? '사용자 찾음' : '사용자 없음');
 
     if (!user) {
-      // 새 사용자 생성
-      console.log('새 사용자 생성 시작');
-      user = await prisma.user.create({
-        data: {
-          email,
-          password: Math.random().toString(36).slice(-10), // 임의의 값
-          role: 'user',
-          provider: 'naver',
-          providerId: naverUserId,
-          name: name || null
-        }
-      });
-      console.log('새 사용자 생성 완료:', user.id);
-    } else if (user.provider !== 'naver') {
-      // 기존 이메일로 가입한 사용자가 네이버 연동을 시도하는 경우
+      // 사용자가 없으면, 회원가입이 필요하다는 에러와 함께 리디렉션
+      console.log('가입되지 않은 사용자. 회원가입 필요.');
+      const signupRequiredUrl = `${BASE_URL}/auth/login?error=signup_required&provider=naver&email=${encodeURIComponent(email)}&providerId=${naverUserId}&name=${encodeURIComponent(name || '')}`;
+      return NextResponse.redirect(signupRequiredUrl);
+    }
+
+    // 기존 사용자가 있지만, 네이버 연동이 안된 경우
+    if (user.provider !== 'naver' || !user.providerId) {
       console.log('기존 사용자 네이버 연동 시작');
       user = await prisma.user.update({
         where: { id: user.id },
@@ -205,7 +197,7 @@ export async function GET(request: NextRequest) {
           providerId: naverUserId
         }
       });
-      console.log('사용자 업데이트 완료');
+      console.log('네이버 연동 완료:', user.id);
     }
 
     // JWT 토큰 생성

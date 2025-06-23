@@ -15,7 +15,7 @@ if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
 
 export async function POST(request: Request) {
   try {
-    const { email, password, provider, providerId, role } = await request.json();
+    const { email, password, provider, providerId, name, role } = await request.json();
     console.log('회원가입 시도:', email, provider ? `(${provider})` : '', `역할: ${role}`);
 
     // 이메일 유효성 검사
@@ -76,6 +76,7 @@ export async function POST(request: Request) {
           role: role,
           provider: provider || null,
           providerId: providerId || null,
+          name: name || null,
         },
       });
 
