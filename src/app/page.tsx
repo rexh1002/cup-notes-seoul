@@ -781,20 +781,6 @@ export default function HomePage() {
                   >
                     <LogOut className="w-6 h-6 text-[#222]" />
                   </button>
-                  <button
-                    className="p-2 rounded-full hover:bg-red-100 transition text-red-600"
-                    onClick={handleDeleteAccount}
-                    disabled={isDeleting}
-                    aria-label="회원탈퇴"
-                  >
-                    {isDeleting ? (
-                      <Loader2 className="w-6 h-6 animate-spin" />
-                    ) : (
-                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                      </svg>
-                    )}
-                  </button>
                 </>
               )}
         </div>
@@ -943,6 +929,15 @@ export default function HomePage() {
               <Link href="/privacy" className="text-gray-600 hover:text-blue-600 text-xs">Privacy Policy</Link>
               <Link href="/terms" className="text-gray-600 hover:text-blue-600 text-xs">Terms of Service</Link>
               <Link href="/contact" className="text-gray-600 hover:text-blue-600 text-xs">Contact</Link>
+              {isLoggedIn && (
+                <button
+                  onClick={handleDeleteAccount}
+                  disabled={isDeleting}
+                  className="text-gray-600 hover:text-red-600 text-xs"
+                >
+                  {isDeleting ? '처리중...' : '회원탈퇴'}
+                </button>
+              )}
             </div>
       </div>
     </div>
