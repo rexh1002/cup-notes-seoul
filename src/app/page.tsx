@@ -863,6 +863,9 @@ export default function HomePage() {
               onReset={handleReset}
               onApply={handleApply}
               className="fixed top-[128px] left-0 w-96 h-[calc(100vh-128px)] z-50"
+              isLoggedIn={isLoggedIn}
+              onDeleteAccount={handleDeleteAccount}
+              isDeleting={isDeleting}
             />
           )}
           {/* Map 영역: FilterPanel 너비만큼 오른쪽으로 밀기 */}
@@ -920,28 +923,6 @@ export default function HomePage() {
         </section>
       </div>
 
-      {/* 푸터 */}
-      <footer className="bg-white border-t border-gray-200">
-        <div className="container mx-auto px-4 py-2">
-          <div className="flex flex-col md:flex-row justify-between items-center space-y-2 md:space-y-0">
-            <p className="text-xs text-gray-600">© 2025 Cup Notes. All rights reserved.</p>
-            <div className="flex space-x-6">
-              <Link href="/privacy" className="text-gray-600 hover:text-blue-600 text-xs">Privacy Policy</Link>
-              <Link href="/terms" className="text-gray-600 hover:text-blue-600 text-xs">Terms of Service</Link>
-              <Link href="/contact" className="text-gray-600 hover:text-blue-600 text-xs">Contact</Link>
-              {isLoggedIn && (
-                <button
-                  onClick={handleDeleteAccount}
-                  disabled={isDeleting}
-                  className="text-gray-600 hover:text-red-600 text-xs"
-                >
-                  {isDeleting ? '처리중...' : '회원탈퇴'}
-                </button>
-              )}
-            </div>
-      </div>
-    </div>
-    </footer>
 
       {/* Mobile Navigation Bar */}
       {isMobile && <MobileNavBar />}
