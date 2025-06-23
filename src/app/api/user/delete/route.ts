@@ -1,9 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 import jwt from 'jsonwebtoken';
+import { parse as uuidParse, v5 as uuidv5 } from 'uuid';
 
 const prisma = new PrismaClient();
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY || '';
+const UUID_NAMESPACE = '1b671a64-40d5-491e-99b0-da01ff1f3341'; // Your namespace
 
 export const dynamic = 'force-dynamic';
 
@@ -36,8 +38,16 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
     }
 
-    const userId = decoded.id;
-
+    let userId: string;
+    try {
+      // Check if decoded.id is already a valid UUID
+      uuidParse(decoded.id);
+      userId = decoded.id;
+    } catch (e) {
+      // If not, create a UUID from the original id (assuming it's a string)
+      userId = uuidv5(decoded.id, UUID_NAMESPACE);
+    }
+    
     // 사용자 확인
     const user = await prisma.user.findUnique({
       where: { id: userId },
