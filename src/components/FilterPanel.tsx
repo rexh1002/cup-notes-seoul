@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
 import { useSwipeable } from 'react-swipeable';
 import { Coffee as CoffeeIcon, CupSoda as EspressoIcon, IceCream2 as IceIcon, Globe as GlobeIcon, Settings as SettingsIcon, Flame as FlameIcon } from 'lucide-react';
+import Link from 'next/link';
 
 interface FilterPanelProps {
   selectedNotes: string[];
@@ -279,6 +280,25 @@ export default function FilterPanel({
                   {roast}
                 </button>
               ))}
+            </div>
+          </section>
+          {/* Footer Links for Web */}
+          <section className="border-t border-gray-200 pt-4 mt-4">
+            <div className="flex flex-col items-center space-y-2 text-xs text-gray-500">
+              <div className="flex space-x-4">
+                <Link href="/privacy" className="hover:text-blue-600">Privacy Policy</Link>
+                <Link href="/terms" className="hover:text-blue-600">Terms of Service</Link>
+                <Link href="/contact" className="hover:text-blue-600">Contact</Link>
+              </div>
+              {isLoggedIn && (
+                <button
+                  onClick={onDeleteAccount}
+                  disabled={isDeleting}
+                  className="hover:text-red-600 pt-2"
+                >
+                  {isDeleting ? '처리중...' : '회원탈퇴'}
+                </button>
+              )}
             </div>
           </section>
         </div>
