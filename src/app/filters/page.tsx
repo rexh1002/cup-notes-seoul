@@ -83,46 +83,6 @@ export default function FiltersPage() {
     router.push('/');
   };
 
-  const handleDeleteAccount = async () => {
-    if (!confirm('정말로 회원탈퇴를 하시겠습니까?\n이 작업은 되돌릴 수 없습니다.')) {
-      return;
-    }
-
-    setIsDeleting(true);
-    try {
-      const token = localStorage.getItem('authToken');
-      if (!token) {
-        alert('로그인이 필요합니다.');
-        return;
-      }
-
-      const response = await fetch('/api/user/delete', {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (response.ok) {
-        localStorage.removeItem('authToken');
-        setIsLoggedIn(false);
-        setUserRole(null);
-        setUserName(null);
-        alert('회원탈퇴가 완료되었습니다.');
-        router.push('/');
-      } else {
-        const errorData = await response.json();
-        alert(errorData.error || '회원탈퇴 중 오류가 발생했습니다.');
-      }
-    } catch (error) {
-      console.error('회원탈퇴 오류:', error);
-      alert('회원탈퇴 중 오류가 발생했습니다.');
-    } finally {
-      setIsDeleting(false);
-    }
-  };
-
   const fetchAutocomplete = async (keyword: string) => {
     if (!keyword) { setAutocomplete([]); setShowAutocomplete(false); return; }
     try {
@@ -209,23 +169,6 @@ export default function FiltersPage() {
                   >
                     <LogOut className="w-6 h-6 text-[#222]" />
                   </button>
-                  <button
-                    className="p-2 rounded-full hover:bg-red-100 transition text-red-600"
-                    onClick={handleDeleteAccount}
-                    disabled={isDeleting}
-                    aria-label="회원탈퇴"
-                  >
-                    {isDeleting ? (
-                      <svg className="w-6 h-6 animate-spin" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                      </svg>
-                    ) : (
-                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                      </svg>
-                    )}
-                  </button>
                 </>
               )}
             </div>
@@ -294,8 +237,6 @@ export default function FiltersPage() {
         }}
         mobileCombined={true}
         isLoggedIn={isLoggedIn}
-        onDeleteAccount={handleDeleteAccount}
-        isDeleting={isDeleting}
       />
       <MobileNavBar />
     </div>
