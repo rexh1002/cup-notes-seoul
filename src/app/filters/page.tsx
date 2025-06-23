@@ -75,6 +75,7 @@ export default function FiltersPage() {
     setIsLoggedIn(false);
     setUserRole(null);
     setUserName(null);
+    alert('로그아웃 되었습니다.');
     router.push('/');
   };
 

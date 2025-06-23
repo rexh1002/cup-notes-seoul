@@ -214,6 +214,7 @@ export default function MapMobileClient() {
     setIsLoggedIn(false);
     setUserRole(null);
     setUserName(null);
+    alert('로그아웃 되었습니다.');
     router.push('/');
   };
 
@@ -770,7 +771,7 @@ export default function MapMobileClient() {
                   <span className="text-gray-700 text-sm font-medium mr-2">{userName}님</span>
                   <button
                     className="p-2 rounded-full hover:bg-gray-100 transition"
-                    onClick={() => { localStorage.removeItem('authToken'); setIsLoggedIn(false); setUserRole(null); setUserName(null); router.push('/'); }}
+                    onClick={handleLogout}
                     aria-label="로그아웃"
                   >
                     <LogOut className="w-6 h-6 text-[#222]" />
