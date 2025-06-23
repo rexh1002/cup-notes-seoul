@@ -293,6 +293,9 @@ export default function FiltersPage() {
           }
         }}
         mobileCombined={true}
+        isLoggedIn={isLoggedIn}
+        onDeleteAccount={handleDeleteAccount}
+        isDeleting={isDeleting}
       />
       <MobileNavBar />
     </div>

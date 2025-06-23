@@ -20,6 +20,9 @@ interface FilterPanelProps {
   onApply: () => void;
   className?: string;
   mobileCombined?: boolean;
+  isLoggedIn?: boolean;
+  onDeleteAccount?: () => void;
+  isDeleting?: boolean;
 }
 
 const CUP_NOTES = {
@@ -56,7 +59,10 @@ export default function FilterPanel({
   onReset,
   onApply,
   className,
-  mobileCombined
+  mobileCombined,
+  isLoggedIn,
+  onDeleteAccount,
+  isDeleting
 }: FilterPanelProps) {
   // 모바일 탭 상태
   const [mobileTab, setMobileTab] = useState(0);
@@ -440,6 +446,23 @@ export default function FilterPanel({
                   {roast}
                 </button>
               ))}
+            </div>
+          </section>
+          {/* 푸터 링크 섹션 */}
+          <section className="px-4 pb-20">
+            <div className="flex flex-wrap gap-4 text-xs text-gray-600">
+              <a href="/privacy" className="hover:text-blue-600">Privacy Policy</a>
+              <a href="/terms" className="hover:text-blue-600">Terms of Service</a>
+              <a href="/contact" className="hover:text-blue-600">Contact</a>
+              {isLoggedIn && (
+                <button
+                  onClick={onDeleteAccount}
+                  disabled={isDeleting}
+                  className="hover:text-red-600"
+                >
+                  {isDeleting ? '처리중...' : '회원탈퇴'}
+                </button>
+              )}
             </div>
           </section>
         </div>
