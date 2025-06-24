@@ -71,11 +71,11 @@ function LoginContent() {
   };
 
   const handleNaverLogin = () => {
-    window.location.href = '/api/auth/naver';
+    router.push('/auth/signup?provider=naver');
   };
 
   const handleKakaoLogin = () => {
-    window.location.href = '/api/auth/kakao';
+    router.push('/auth/signup?provider=kakao');
   };
 
   return (
