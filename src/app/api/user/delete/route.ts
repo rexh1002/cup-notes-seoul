@@ -39,15 +39,14 @@ export async function DELETE(request: NextRequest) {
     const idFromToken = decoded.id;
 
     // 사용자 확인 (일반/소셜 모두 처리)
-    let user = await prisma.user.findUnique({
-      where: { id: idFromToken },
+    let user = await prisma.user.findFirst({
+      where: {
+        OR: [
+          { id: idFromToken },
+          { providerId: idFromToken }
+        ]
+      }
     });
-
-    if (!user) {
-      user = await prisma.user.findFirst({
-        where: { providerId: idFromToken },
-      });
-    }
 
     if (!user) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
