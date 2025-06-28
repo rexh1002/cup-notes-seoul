@@ -66,14 +66,6 @@ export async function DELETE(request: NextRequest) {
     const userIdToDelete = user.id;
     console.log('[API] Deleting user:', userIdToDelete);
 
-    // 관리자인 경우 카페도 함께 삭제
-    if (user.role === 'manager' || user.role === 'cafeManager') {
-      await prisma.cafe.deleteMany({
-        where: { managerId: userIdToDelete },
-      });
-      console.log('[API] Deleted cafes for manager:', userIdToDelete);
-    }
-
     // 사용자 삭제
     await prisma.user.delete({
       where: { id: userIdToDelete },
