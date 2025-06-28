@@ -24,6 +24,11 @@ function verifyJwt(token: string, secret: string): JwtPayload | null {
   }
 }
 
+// GET 핸들러 추가 (라우트 인식 강제)
+export async function GET() {
+  return NextResponse.json({ status: 'ok' });
+}
+
 export async function DELETE(request: NextRequest) {
   try {
     const token = request.headers.get('authorization')?.split(' ')[1];
