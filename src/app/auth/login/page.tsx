@@ -12,6 +12,7 @@ function LoginContent() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [showSignupModal, setShowSignupModal] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -80,12 +81,17 @@ function LoginContent() {
 
   const handleSignupClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    const choice = confirm('회원가입 유형을 선택해주세요.\n\n확인: 일반 회원가입\n취소: 카페 매니저 회원가입');
-    if (choice) {
-      router.push('/auth/signup');
-    } else {
-      router.push('/auth/manager/signup');
-    }
+    setShowSignupModal(true);
+  };
+
+  const handleUserSignup = () => {
+    setShowSignupModal(false);
+    router.push('/auth/signup');
+  };
+
+  const handleManagerSignup = () => {
+    setShowSignupModal(false);
+    router.push('/auth/manager/signup');
   };
 
   return (
@@ -187,6 +193,38 @@ function LoginContent() {
           </Link>
         </div>
       </div>
+
+      {/* 회원가입 선택 모달 */}
+      {showSignupModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 max-w-sm w-full mx-4">
+            <h3 className="text-lg font-semibold text-center mb-4">회원가입</h3>
+            <p className="text-center text-gray-600 mb-6">가입하실 회원 유형을 선택해주세요</p>
+            
+            <div className="space-y-3">
+              <button
+                onClick={handleUserSignup}
+                className="w-full py-3 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                일반 회원가입
+              </button>
+              <button
+                onClick={handleManagerSignup}
+                className="w-full py-3 px-4 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+              >
+                카페 매니저 회원가입
+              </button>
+            </div>
+            
+            <button
+              onClick={() => setShowSignupModal(false)}
+              className="w-full mt-4 py-2 px-4 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+            >
+              취소
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
