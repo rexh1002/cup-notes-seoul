@@ -37,6 +37,15 @@ interface CafeData {
     brewMethods?: string[] | null;
     notes?: string[] | null;
     noteColors?: string[] | null;
+    customFields?: {
+      origins: string[];
+      processes: string[];
+      brewMethods: string[];
+      roastLevels: string[];
+      notes: {
+        [category: string]: string[];
+      };
+    };
   }[];
   createdAt?: Date;
   updatedAt?: Date;
@@ -837,7 +846,9 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                                   key={`brew-${idx}`}
                                   className="text-[11px] px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200"
                                 >
-                                  {method}
+                                  {method === '직접입력' && coffee.customFields?.brewMethods?.length
+                                    ? coffee.customFields.brewMethods.join(', ')
+                                    : method}
                                 </span>
                               ))}
                               {coffee.origins?.map((origin, idx) => (
@@ -845,7 +856,9 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                                   key={`origin-${idx}`}
                                   className="text-[11px] px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200"
                                 >
-                                  {origin}
+                                  {origin === '직접입력' && coffee.customFields?.origins?.length
+                                    ? coffee.customFields.origins.join(', ')
+                                    : origin}
                                 </span>
                               ))}
                               {coffee.processes?.map((process, idx) => (
@@ -853,7 +866,9 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                                   key={`process-${idx}`}
                                   className="text-[11px] px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200"
                                 >
-                                  {process}
+                                  {process === '직접입력' && coffee.customFields?.processes?.length
+                                    ? coffee.customFields.processes.join(', ')
+                                    : process}
                                 </span>
                               ))}
                               {coffee.roastLevel?.map((level, idx) => (
@@ -861,7 +876,9 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                                   key={`roast-${idx}`}
                                   className="text-[11px] px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200"
                                 >
-                                  {level}
+                                  {level === '직접입력' && coffee.customFields?.roastLevels?.length
+                                    ? coffee.customFields.roastLevels.join(', ')
+                                    : level}
                                 </span>
                               ))}
                             </div>
@@ -1108,7 +1125,9 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                                 key={`brew-${idx}`}
                                 className="text-[11px] px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200"
                               >
-                                {method}
+                                {method === '직접입력' && coffee.customFields?.brewMethods?.length
+                                  ? coffee.customFields.brewMethods.join(', ')
+                                  : method}
                               </span>
                             ))}
                             {coffee.origins?.map((origin, idx) => (
@@ -1116,7 +1135,9 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                                 key={`origin-${idx}`}
                                 className="text-[11px] px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200"
                               >
-                                {origin}
+                                {origin === '직접입력' && coffee.customFields?.origins?.length
+                                  ? coffee.customFields.origins.join(', ')
+                                  : origin}
                               </span>
                             ))}
                             {coffee.processes?.map((process, idx) => (
@@ -1124,7 +1145,9 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                                 key={`process-${idx}`}
                                 className="text-[11px] px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200"
                               >
-                                {process}
+                                {process === '직접입력' && coffee.customFields?.processes?.length
+                                  ? coffee.customFields.processes.join(', ')
+                                  : process}
                               </span>
                             ))}
                             {coffee.roastLevel?.map((level, idx) => (
@@ -1132,7 +1155,9 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                                 key={`roast-${idx}`}
                                 className="text-[11px] px-2 py-0.5 rounded-full bg-white/80 text-gray-700 border border-gray-200"
                               >
-                                {level}
+                                {level === '직접입력' && coffee.customFields?.roastLevels?.length
+                                  ? coffee.customFields.roastLevels.join(', ')
+                                  : level}
                               </span>
                             ))}
                           </div>
