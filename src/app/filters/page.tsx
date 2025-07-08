@@ -83,6 +83,50 @@ export default function FiltersPage() {
     router.push('/');
   };
 
+  const handleDeleteAccount = async () => {
+    if (!confirm('정말로 회원탈퇴를 하시겠습니까?\n이 작업은 되돌릴 수 없습니다.')) {
+      return;
+    }
+
+    setIsDeleting(true);
+    try {
+      const token = localStorage.getItem('authToken');
+      if (!token) {
+        alert('로그인이 필요합니다.');
+        return;
+      }
+
+      const apiUrl = (userRole === 'manager' || userRole === 'cafeManager')
+        ? '/api/manager/delete'
+        : '/api/user/delete';
+
+      const response = await fetch(apiUrl, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        localStorage.removeItem('authToken');
+        setIsLoggedIn(false);
+        setUserRole(null);
+        setUserName(null);
+        alert('회원탈퇴가 완료되었습니다.');
+        router.push('/');
+      } else {
+        const errorData = await response.json();
+        alert(errorData.error || '회원탈퇴 중 오류가 발생했습니다.');
+      }
+    } catch (error) {
+      console.error('회원탈퇴 오류:', error);
+      alert('회원탈퇴 중 오류가 발생했습니다.');
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
   const fetchAutocomplete = async (keyword: string) => {
     if (!keyword) { setAutocomplete([]); setShowAutocomplete(false); return; }
     try {
@@ -237,6 +281,8 @@ export default function FiltersPage() {
         }}
         mobileCombined={true}
         isLoggedIn={isLoggedIn}
+        onDeleteAccount={handleDeleteAccount}
+        isDeleting={isDeleting}
       />
       <MobileNavBar />
     </div>
