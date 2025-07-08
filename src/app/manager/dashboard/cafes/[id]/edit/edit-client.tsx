@@ -858,7 +858,7 @@ export default function EditCafeClient({ cafe }: EditCafeClientProps) {
           <div className="mt-2 text-sm text-gray-500 space-y-2">
             <p>이미지 URL 입력 방법:</p>
             <ol className="list-decimal list-inside space-y-1">
-              <li>네이버/구글 이미지 검색에서 원하는 이미지 선택</li>
+              <li>온라인상에서 원하는 이미지 선택</li>
               <li>이미지에서 마우스 오른쪽 버튼 클릭</li>
               <li>&quot;이미지 주소 복사&quot; 또는 &quot;Copy image address&quot; 선택</li>
               <li>복사된 URL을 위 입력칸에 붙여넣기</li>
