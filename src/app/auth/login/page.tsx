@@ -78,6 +78,16 @@ function LoginContent() {
     router.push('/auth/signup?provider=kakao');
   };
 
+  const handleSignupClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const choice = confirm('회원가입 유형을 선택해주세요.\n\n확인: 일반 회원가입\n취소: 카페 매니저 회원가입');
+    if (choice) {
+      router.push('/auth/signup');
+    } else {
+      router.push('/auth/manager/signup');
+    }
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="max-w-md w-full p-6 bg-white rounded-lg shadow-md">
@@ -172,7 +182,7 @@ function LoginContent() {
 
         <div className="mt-4 text-center text-sm text-gray-600">
           <span>계정이 없으신가요? </span>
-          <Link href="/auth/signup" className="text-blue-600 hover:text-blue-800">
+          <Link href="/auth/signup" className="text-blue-600 hover:text-blue-800" onClick={handleSignupClick}>
             회원가입
           </Link>
         </div>
