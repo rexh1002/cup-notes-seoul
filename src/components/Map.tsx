@@ -829,14 +829,30 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                             {/* 1줄: 컵노트 */}
                             {coffee.notes && coffee.notes.length > 0 && (
                               <div className="flex flex-wrap gap-1 mb-0.5">
-                                {coffee.notes.map((note, idx) => (
-                                  <span
-                                    key={`note-${idx}`}
-                                    className="text-[11px] px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200"
-                                  >
-                                    {note}
-                                  </span>
-                                ))}
+                                {coffee.notes.map((note, idx) => {
+                                  // 직접입력 처리
+                                  if (note.includes('-직접입력')) {
+                                    const category = note.replace('-직접입력', '');
+                                    const customNotes = coffee.customFields?.notes?.[category] || [];
+                                    return customNotes.map((customNote, customIdx) => (
+                                      <span
+                                        key={`note-${idx}-custom-${customIdx}`}
+                                        className="text-[11px] px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200"
+                                      >
+                                        {customNote}
+                                      </span>
+                                    ));
+                                  } else {
+                                    return (
+                                      <span
+                                        key={`note-${idx}`}
+                                        className="text-[11px] px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200"
+                                      >
+                                        {note}
+                                      </span>
+                                    );
+                                  }
+                                })}
                               </div>
                             )}
                             {/* 2줄: 추출방식, 원산지, 가공방식, 로스팅레벨 */}
@@ -1108,14 +1124,30 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                           {/* 1줄: 컵노트 */}
                           {coffee.notes && coffee.notes.length > 0 && (
                             <div className="flex flex-wrap gap-1 mb-0.5">
-                              {coffee.notes.map((note, idx) => (
-                                <span
-                                  key={`note-${idx}`}
-                                  className="text-[11px] px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200"
-                                >
-                                  {note}
-                                </span>
-                              ))}
+                              {coffee.notes.map((note, idx) => {
+                                // 직접입력 처리
+                                if (note.includes('-직접입력')) {
+                                  const category = note.replace('-직접입력', '');
+                                  const customNotes = coffee.customFields?.notes?.[category] || [];
+                                  return customNotes.map((customNote, customIdx) => (
+                                    <span
+                                      key={`note-${idx}-custom-${customIdx}`}
+                                      className="text-[11px] px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200"
+                                    >
+                                      {customNote}
+                                    </span>
+                                  ));
+                                } else {
+                                  return (
+                                    <span
+                                      key={`note-${idx}`}
+                                      className="text-[11px] px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200"
+                                    >
+                                      {note}
+                                    </span>
+                                  );
+                                }
+                              })}
                             </div>
                           )}
                           {/* 2줄: 추출방식, 원산지, 가공방식, 로스팅레벨 */}

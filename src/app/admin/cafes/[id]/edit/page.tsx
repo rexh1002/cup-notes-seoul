@@ -125,7 +125,20 @@ export default function EditCafePage({ params }: { params: Promise<{ id: string 
           businessHours: data.businessHours || [], 
           businessHourNote: data.businessHourNote || '',
           snsLinks: data.snsLinks || [],
-          // 기타 필요한 초기값들도 여기서 설정
+          coffees: (data.coffees || []).map(coffee => ({
+            ...coffee,
+            customFields: {
+              origins: coffee.customFields?.origins || [],
+              processes: coffee.customFields?.processes || [],
+              brewMethods: coffee.customFields?.brewMethods || [],
+              roastLevels: coffee.customFields?.roastLevels || [],
+              notes: {
+                floral: coffee.customFields?.notes?.floral || [],
+                fruity: coffee.customFields?.notes?.fruity || [],
+                nutty: coffee.customFields?.notes?.nutty || [],
+              },
+            },
+          })),
         });
       } catch (err) {
         console.error('Fetch error:', err);

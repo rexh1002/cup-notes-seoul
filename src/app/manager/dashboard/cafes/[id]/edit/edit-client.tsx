@@ -146,14 +146,14 @@ export default function EditCafeClient({ cafe }: EditCafeClientProps) {
     coffees: (cafe.coffees || []).map(coffee => ({
       ...coffee,
       customFields: {
-        origins: [],
-        processes: [],
-        brewMethods: [],
-        roastLevels: [],
+        origins: coffee.customFields?.origins || [],
+        processes: coffee.customFields?.processes || [],
+        brewMethods: coffee.customFields?.brewMethods || [],
+        roastLevels: coffee.customFields?.roastLevels || [],
         notes: {
-          floral: [],
-          fruity: [],
-          nutty: [],
+          floral: coffee.customFields?.notes?.floral || [],
+          fruity: coffee.customFields?.notes?.fruity || [],
+          nutty: coffee.customFields?.notes?.nutty || [],
         },
       },
     })),
