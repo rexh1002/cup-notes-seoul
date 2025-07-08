@@ -152,7 +152,7 @@ export default function MapMobileClient() {
         // 기존 전체 카페 불러오기
         const initialLoad = async () => {
           try {
-            shouldResetMapCenter.current = false; // 초기 로딩 시 지도 중심 이동 방지
+            shouldResetMapCenter.current = false; // 초기 로딩 시 지도 중심 이동 방지 목적 
             const response = await fetch('/api/cafes/search', {
               method: 'POST',
               headers: {
@@ -235,7 +235,11 @@ export default function MapMobileClient() {
         return;
       }
 
-      const response = await fetch('/api/user/delete', {
+      const apiUrl = (userRole === 'manager' || userRole === 'cafeManager')
+        ? '/api/manager/delete'
+        : '/api/user/delete';
+
+      const response = await fetch(apiUrl, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,

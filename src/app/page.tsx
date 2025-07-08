@@ -210,7 +210,11 @@ export default function HomePage() {
        return;
      }
 
-     const response = await fetch('/api/user/delete', {
+     const apiUrl = (userRole === 'manager' || userRole === 'cafeManager')
+        ? '/api/manager/delete'
+        : '/api/user/delete';
+
+     const response = await fetch(apiUrl, {
        method: 'DELETE',
        headers: {
          'Authorization': `Bearer ${token}`,
