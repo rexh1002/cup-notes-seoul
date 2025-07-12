@@ -480,6 +480,26 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
     };
   }, [selectedCafe, cafes, getCoordinates]);
 
+  // 진한색 배경에서 텍스트 색상 조정 함수
+  const getTextColorForBackground = (backgroundColor: string) => {
+    if (!backgroundColor) return 'text-gray-900';
+    
+    // 색상이 진한지 판단하는 함수
+    const isDarkColor = (color: string) => {
+      // HEX 색상을 RGB로 변환
+      const hex = color.replace('#', '');
+      const r = parseInt(hex.substr(0, 2), 16);
+      const g = parseInt(hex.substr(2, 2), 16);
+      const b = parseInt(hex.substr(4, 2), 16);
+      
+      // 밝기 계산 (0-255)
+      const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+      return brightness < 128;
+    };
+    
+    return isDarkColor(backgroundColor) ? 'text-white' : 'text-gray-900';
+  };
+
   // CafeTabMenu 컴포넌트 추가
   function CafeTabMenu({ selectedTab, setSelectedTab }: { selectedTab: 'beans' | 'info'; setSelectedTab: (tab: 'beans' | 'info') => void }) {
     return (
@@ -813,8 +833,8 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                           >
                             {/* 원두 이름과 가격 */}
                             <div className="flex justify-between items-center mb-0.5">
-                              <h5 className="text-base font-bold leading-tight text-gray-900 sm:text-sm">{coffee.name}</h5>
-                              <span className="text-sm font-semibold leading-tight text-gray-700 sm:text-xs"
+                              <h5 className={`text-base font-bold leading-tight sm:text-sm ${getTextColorForBackground(coffee.noteColors?.[0] || '')}`}>{coffee.name}</h5>
+                              <span className={`text-sm font-semibold leading-tight sm:text-xs ${getTextColorForBackground(coffee.noteColors?.[0] || '')}`}
                                 style={{ minWidth: '70px', textAlign: 'right', display: 'inline-block' }}
                               >
                                 {coffee.price?.toLocaleString()}원
@@ -822,7 +842,7 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                             </div>
                             {/* 원두 설명 */}
                             {coffee.description && (
-                              <p className="text-sm text-gray-700 mb-0.5 leading-tight sm:text-xs break-words">
+                              <p className={`text-sm mb-0.5 leading-tight sm:text-xs break-words ${getTextColorForBackground(coffee.noteColors?.[0] || '')}`}>
                                 {coffee.description}
                               </p>
                             )}
@@ -1108,8 +1128,8 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                         >
                           {/* 원두 이름과 가격 */}
                           <div className="flex justify-between items-center mb-0.5">
-                            <h5 className="text-base font-bold leading-tight text-gray-900">{coffee.name}</h5>
-                            <span className="text-sm font-semibold leading-tight text-gray-700"
+                            <h5 className={`text-base font-bold leading-tight ${getTextColorForBackground(coffee.noteColors?.[0] || '')}`}>{coffee.name}</h5>
+                            <span className={`text-sm font-semibold leading-tight ${getTextColorForBackground(coffee.noteColors?.[0] || '')}`}
                               style={{ minWidth: '70px', textAlign: 'right', display: 'inline-block' }}
                             >
                               {coffee.price?.toLocaleString()}원
@@ -1117,7 +1137,7 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
                           </div>
                           {/* 원두 설명 */}
                           {coffee.description && (
-                            <p className="text-sm text-gray-700 mb-0.5 leading-tight sm:text-xs break-words">
+                            <p className={`text-sm mb-0.5 leading-tight sm:text-xs break-words ${getTextColorForBackground(coffee.noteColors?.[0] || '')}`}>
                               {coffee.description}
                             </p>
                           )}
