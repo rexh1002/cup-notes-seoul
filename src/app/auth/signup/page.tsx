@@ -2,9 +2,9 @@
 
 import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import Link from 'next/link';
 import { Input } from '../../../components/ui/input';
 import { Button } from '../../../components/ui/button';
-import { Divider } from '../../../components/ui/divider';
 
 function SignupContent() {
   const [email, setEmail] = useState('');
@@ -210,6 +210,13 @@ function SignupContent() {
             {isLoading ? '처리 중...' : '회원가입'}
           </Button>
         </form>
+
+        <div className="mt-4 text-center text-sm text-gray-600">
+          <span>계정이 있으신가요? </span>
+          <Link href="/auth/login" className="text-blue-600 hover:text-blue-800 font-medium">
+            로그인
+          </Link>
+        </div>
       </div>
     </div>
   );
