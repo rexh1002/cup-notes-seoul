@@ -36,6 +36,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} ${notoSansKr.variable} font-noto-sans-kr antialiased`}>
+        <Script
+          src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=3i3sds8j5s&submodules=geocoder"
+          strategy="beforeInteractive"
+        />
         <ThemeProvider attribute="class" defaultTheme="light">
           {children}
           <Toaster position="top-center" reverseOrder={false} />
