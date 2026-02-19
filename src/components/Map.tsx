@@ -80,7 +80,6 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
   onSearch,
   currentLocation,
 }, ref) {
-  console.log('[Map] 컴포넌트 렌더링', { cafes: cafes.length, center: initialCenter, zoom: initialZoom });
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstance = useRef<any>(null);
   const markersRef = useRef<any[]>([]);
@@ -318,8 +317,6 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
       return;
     }
 
-    console.log('[Map] 마커 업데이트 시작');
-
     // 기존 마커 제거
     markersRef.current.forEach(marker => marker.setMap(null));
     markersRef.current = [];
@@ -386,13 +383,12 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
       }
     }
 
-    console.log('[Map] 마커 업데이트 완료:', markersRef.current.length);
   }, [cafes, getCoordinates]);
 
-  // 마커 업데이트 트리거
+  // 마커 업데이트 트리거 (cafes 변경 시에만, center/zoom 변경 시 재실행 제거로 드래그·줌 시 버벅임 방지)
   useEffect(() => {
     updateMarkers();
-  }, [updateMarkers, center, zoom]);
+  }, [updateMarkers]);
 
   // 현재 위치 마커 업데이트
   useEffect(() => {
@@ -643,7 +639,6 @@ const Map = forwardRef<MapHandle, MapProps>(function Map({
       <Script
         src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=3i3sds8j5s&submodules=geocoder"
         strategy="afterInteractive"
-        onLoad={() => console.log('[Map] 네이버 지도 스크립트 로드 완료')}
       />
       <div 
         ref={mapRef} 

@@ -1,6 +1,6 @@
 "use client";
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import dynamic from 'next/dynamic';
-import { useState, useRef, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import MobileNavBar from '../../components/MobileNavBar';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -18,7 +18,7 @@ const CATEGORY_LIST = [
   { key: 'nuttychocolate', label: '너티 초콜렛', image: '/images/Nuttychocolate.png' },
 ];
 
-function QuickCard({ image, label, onClick }: { image: string; label: string; onClick: () => void }) {
+const QuickCard = React.memo(function QuickCard({ image, label, onClick }: { image: string; label: string; onClick: () => void }) {
   return (
     <button
       className="flex flex-row items-center justify-center flex-shrink-0 min-w-fit rounded-full bg-white shadow border border-gray-200 hover:bg-gray-100 active:bg-gray-200 transition text-gray-800 font-medium text-sm px-3 py-1.5 gap-2 whitespace-nowrap"
@@ -29,7 +29,7 @@ function QuickCard({ image, label, onClick }: { image: string; label: string; on
       <span>{label}</span>
     </button>
   );
-}
+});
 
 const Map = dynamic(() => import('../../components/Map'), { ssr: false });
 
@@ -181,7 +181,9 @@ export default function MapMobileClient() {
         initialLoad();
       }
     }
-  }, [isMounted, searchParams, searchParamsString]);
+    // searchParamsString만 의존: searchParams 객체 참조 변경 시 불필요한 재실행 방지
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isMounted, searchParamsString]);
 
   useEffect(() => {
     if (isMounted) {
@@ -267,7 +269,7 @@ export default function MapMobileClient() {
   };
 
   // 검색 핸들러
-  const handleSearch = async () => {
+  const handleSearch = useCallback(async () => {
     if (typeof window !== 'undefined' && window.innerWidth < 768) setIsMobileLoading(true);
     if (typeof window !== 'undefined' && window.innerWidth >= 768) setIsWebLoading(true);
     try {
@@ -288,10 +290,10 @@ export default function MapMobileClient() {
         setShowSearchInput(false);
       }
     }
-  };
+  }, [searchKeyword]);
 
   // 카테고리 퀵서치 핸들러
-  const handleCategorySearch = (category: string) => {
+  const handleCategorySearch = useCallback((category: string) => {
     if (category === 'all') {
       // 전체 버튼 클릭 시 모든 카페 불러오기
       if (typeof window !== 'undefined' && window.innerWidth < 768) setIsMobileLoading(true);
@@ -461,11 +463,11 @@ export default function MapMobileClient() {
     if (processesTerms.length) params.append('processes', processesTerms.join(','));
     // keywordTerm은 검색창에만 표시
     router.push(`/map?${params.toString()}`);
-  };
+  }, [router]);
 
-  const handleCafeClick = (cafe: any) => {
+  const handleCafeClick = useCallback((cafe: any) => {
     setSelectedCafe(cafe);
-  };
+  }, []);
 
   const fetchAutocomplete = async (keyword: string) => {
     if (!keyword) { setAutocomplete([]); setShowAutocomplete(false); return; }

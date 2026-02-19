@@ -26,8 +26,9 @@ declare global {
 
 const Map = dynamic(() => import('../components/Map'), { ssr: false });
 
-// QuickButton 컴포넌트 인라인 정의
-function QuickButton({ icon, label, onClick }: { icon: string; label: string; onClick: () => void }) {
+const LETTER_SPACING = { letterSpacing: '0.01em' as const };
+
+const QuickButton = React.memo(function QuickButton({ icon, label, onClick }: { icon: string; label: string; onClick: () => void }) {
   return (
     <button
       className="flex flex-col items-center px-2 py-1 rounded-lg hover:bg-gray-100 active:bg-gray-200 transition text-gray-800 font-semibold text-xs focus:outline-none min-w-[56px]"
@@ -35,10 +36,10 @@ function QuickButton({ icon, label, onClick }: { icon: string; label: string; on
       type="button"
     >
       <Image src={icon} alt={label} width={24} height={24} />
-      <span className="mt-0.5" style={{letterSpacing: '0.01em'}}>{label}</span>
+      <span className="mt-0.5" style={LETTER_SPACING}>{label}</span>
     </button>
   );
-}
+});
 
 // QuickButton 위에 All 아이콘용
 const ALL_ICON = () => (
@@ -449,7 +450,7 @@ export default function HomePage() {
     setIsFilterOpen(false);
   };
 
-  const handleCategorySearch = async (category: string) => {
+  const handleCategorySearch = useCallback(async (category: string) => {
     if (category === 'all') {
       setIsLoading(true);
       setSelectedNotes([]);
@@ -587,18 +588,25 @@ export default function HomePage() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [router]);
 
-  // 스크롤 프로그레스 계산
+  // 스크롤 프로그레스 계산 (throttle via requestAnimationFrame)
   useEffect(() => {
+    let rafId: number | null = null;
     const handleScroll = () => {
-      const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = (window.scrollY / totalScroll) * 100;
-      setScrollProgress(progress);
+      if (rafId !== null) return;
+      rafId = requestAnimationFrame(() => {
+        const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = totalScroll > 0 ? (window.scrollY / totalScroll) * 100 : 0;
+        setScrollProgress(progress);
+        rafId = null;
+      });
     };
-
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (rafId !== null) cancelAnimationFrame(rafId);
+    };
   }, []);
 
   // 다크모드 버튼 핸들러
@@ -618,9 +626,6 @@ export default function HomePage() {
     router.push('/auth/manager/signup');
   };
 
-  // Map 렌더링 로그를 JSX 바깥에서 실행
-  console.log('Map 렌더링', { cafes, searchKeyword });
-
   // 카페 선택 핸들러
   const handleCafeSelect = (cafe: Cafe) => {
     setSelectedCafe(cafe);
@@ -632,12 +637,20 @@ export default function HomePage() {
   }, []);
 
   useEffect(() => {
+    let rafId: number | null = null;
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+      if (rafId !== null) return;
+      rafId = requestAnimationFrame(() => {
+        setIsMobile(window.innerWidth < 768);
+        rafId = null;
+      });
     };
-    checkMobile(); // 초기 렌더링 시 체크
+    checkMobile();
     window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+      if (rafId !== null) cancelAnimationFrame(rafId);
+    };
   }, []);
 
   // 모바일 환경에서 히어로 화면이 끝나면 /map으로 이동
@@ -647,12 +660,16 @@ export default function HomePage() {
     }
   }, [isMobile, showMain, router]);
 
+  // 필터 변경 시 debounce 후 검색 (데스크톱, 불필요한 연속 요청 방지)
+  const filterDeps = [selectedNotes, selectedBrewMethods, selectedOrigins, selectedProcesses, selectedRoast];
+  const filterKey = filterDeps.map(d => (Array.isArray(d) ? d.join(',') : d)).join('|');
   useEffect(() => {
-    if (!isMobile && isMounted) {
+    if (isMobile || !isMounted) return;
+    const timer = setTimeout(() => {
       handleSearch();
-    }
-    // eslint-disable-next-line
-  }, [selectedNotes, selectedBrewMethods, selectedOrigins, selectedProcesses, selectedRoast]);
+    }, 400);
+    return () => clearTimeout(timer);
+  }, [filterKey, isMobile, isMounted, handleSearch]);
 
   if (showMain) {
     return (
