@@ -72,11 +72,11 @@ function LoginContent() {
   };
 
   const handleNaverLogin = () => {
-    router.push('/auth/signup?provider=naver');
+    window.location.href = '/api/auth/naver';
   };
 
   const handleKakaoLogin = () => {
-    router.push('/auth/signup?provider=kakao');
+    window.location.href = '/api/auth/kakao';
   };
 
   const handleSignupClick = (e: React.MouseEvent) => {
