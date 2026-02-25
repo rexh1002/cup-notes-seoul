@@ -18,6 +18,14 @@ export async function POST(request: Request) {
     const { email, password, provider, providerId, name, role } = await request.json();
     console.log('회원가입 시도:', email, provider ? `(${provider})` : '', `역할: ${role}`);
 
+    // 소셜 로그인만 허용
+    if (!provider || !providerId) {
+      return NextResponse.json(
+        { success: false, error: '소셜 로그인으로만 가입할 수 있습니다.' },
+        { status: 400 }
+      );
+    }
+
     // 이메일 유효성 검사
     if (!email || !email.includes('@')) {
       return NextResponse.json(
@@ -26,8 +34,8 @@ export async function POST(request: Request) {
       );
     }
 
-    // 역할 유효성 검사
-    const validRoles = ['user', 'cafeManager'];
+    // 역할 유효성 검사 (일반 사용자만 소셜 가입)
+    const validRoles = ['user'];
     if (!role || !validRoles.includes(role)) {
       return NextResponse.json(
         { success: false, error: '유효한 역할을 선택해주세요.' },
@@ -47,54 +55,19 @@ export async function POST(request: Request) {
       );
     }
 
-    // 소셜 로그인 또는 일반 회원가입 처리
-    let hashedPassword = '';
-    
-    if (provider) {
-      // 소셜 로그인의 경우 랜덤 비밀번호 생성
-      const salt = await bcryptjs.genSalt(10);
-      hashedPassword = await bcryptjs.hash(Math.random().toString(36).slice(-10), salt);
-    } else {
-      // 일반 회원가입 - 비밀번호 유효성 검사
-      if (!password || password.length < 8) {
-        return NextResponse.json(
-          { success: false, error: '비밀번호는 최소 8자 이상이어야 합니다.' },
-          { status: 400 }
-        );
-      }
-      // 비밀번호 암호화
-      const salt = await bcryptjs.genSalt(10);
-      hashedPassword = await bcryptjs.hash(password, salt);
-    }
+    // 소셜 회원가입: 랜덤 비밀번호 저장 (DB 스키마용, 사용 안 함)
+    const salt = await bcryptjs.genSalt(10);
+    const hashedPassword = await bcryptjs.hash(Math.random().toString(36).slice(-10), salt);
 
-    // 트랜잭션으로 사용자 생성
-    const newUser = await prisma.$transaction(async (tx) => {
-      const user = await tx.user.create({
-        data: {
-          email,
-          password: hashedPassword,
-          role: role,
-          provider: provider || null,
-          providerId: providerId || null,
-          name: name || null,
-        },
-      });
-
-      // 카페 매니저인 경우 기본 카페 정보 생성
-      if (role === 'cafeManager') {
-        await tx.cafe.create({
-          data: {
-            name: '내 카페',
-            address: '주소를 입력해주세요',
-            phone: '전화번호를 입력해주세요',
-            managerId: user.id,
-            businessHours: [],
-            snsLinks: [],
-          },
-        });
-      }
-
-      return user;
+    const newUser = await prisma.user.create({
+      data: {
+        email,
+        password: hashedPassword,
+        role: role,
+        provider: provider,
+        providerId: providerId,
+        name: name || null,
+      },
     });
 
     console.log('회원가입 성공:', {
