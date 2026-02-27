@@ -12,6 +12,21 @@ const PROVIDER_LABELS: { id: string; label: string }[] = [
   { id: 'apple', label: 'Apple' },
 ];
 
+function getProviderButtonClass(providerId: string): string {
+  switch (providerId) {
+    case 'naver':
+      return 'w-full py-3 px-4 rounded-md font-medium bg-[#03C75A] text-white hover:bg-[#02b354] transition-colors';
+    case 'kakao':
+      return 'w-full py-3 px-4 rounded-md font-medium bg-[#FEE500] text-[#191919] hover:bg-[#FADA0A] transition-colors';
+    case 'google':
+      return 'w-full py-3 px-4 rounded-md font-medium bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors';
+    case 'apple':
+      return 'w-full py-3 px-4 rounded-md font-medium bg-black text-white hover:bg-gray-900 transition-colors';
+    default:
+      return 'w-full py-3 px-4 rounded-md font-medium bg-gray-200 text-gray-800 hover:bg-gray-300 transition-colors';
+  }
+}
+
 function AuthContent() {
   const searchParams = useSearchParams();
   const initialTypeParam = searchParams?.get('type') ?? null;
@@ -75,7 +90,7 @@ function AuthContent() {
               key={provider.id}
               type="button"
               onClick={() => handleSocialClick(provider.id)}
-              className="w-full py-2.5 px-4 rounded-md border border-gray-200 flex items-center justify-center text-sm font-medium hover:bg-gray-50 transition-colors"
+              className={getProviderButtonClass(provider.id)}
             >
               <span className="mr-1">{provider.label}</span>
               <span>
