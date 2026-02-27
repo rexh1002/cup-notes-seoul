@@ -30,8 +30,10 @@ export const metadata = {
 
 export default function RootLayout({
   children,
+  auth,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
+  auth: React.ReactNode;
 }) {
   return (
     <html lang="en">
@@ -42,6 +44,7 @@ export default function RootLayout({
         />
         <ThemeProvider attribute="class" defaultTheme="light">
           {children}
+          {auth}
           <Toaster position="top-center" reverseOrder={false} />
         </ThemeProvider>
       </body>
