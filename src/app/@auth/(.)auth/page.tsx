@@ -103,13 +103,22 @@ function AuthOverlayContent() {
     window.location.href = `/api/auth/${provider}?role=${role}`;
   };
 
+  const handleClose = () => {
+    // 히스토리가 있으면 뒤로가기, 그렇지 않으면 메인으로 이동
+    if (typeof window !== 'undefined' && window.history.length > 1) {
+      router.back();
+    } else {
+      router.push('/');
+    }
+  };
+
   return (
     <div className="relative pointer-events-auto w-full max-w-md rounded-2xl border border-gray-200/70 bg-white/95 shadow-[0_18px_45px_rgba(15,23,42,0.18)] px-7 py-6 space-y-6">
       <button
         type="button"
         aria-label="닫기"
         className="absolute top-4 right-4 inline-flex h-7 w-7 items-center justify-center rounded-full border border-gray-200/80 bg-white/80 text-xs text-gray-400 backdrop-blur hover:text-gray-700 hover:border-gray-300 transition-colors"
-        onClick={() => router.push('/')}
+        onClick={handleClose}
       >
         ✕
       </button>
@@ -122,7 +131,8 @@ function AuthOverlayContent() {
         </h1>
         <p className="text-xs md:text-sm text-gray-500 leading-relaxed">
           일반 회원 또는 카페 매니저를 선택한 뒤,<br />
-          소셜 계정으로 가볍게 시작해 보세요.
+          소셜 계정으로 가볍게 시작해 보세요.<br />
+          이미 가입한 경우에도 동일한 버튼으로 바로 로그인됩니다.
         </p>
       </div>
 
