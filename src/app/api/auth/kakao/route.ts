@@ -4,9 +4,11 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const KAKAO_CLIENT_ID = process.env.KAKAO_CLIENT_ID || '';
+const BASE_URL =
+  process.env.NEXT_PUBLIC_BASE_URL || 'https://cupnotescity.com';
 const KAKAO_REDIRECT_URI =
   process.env.KAKAO_REDIRECT_URI ||
-  'https://cupnotescity.com/api/auth/kakao/callback';
+  `${BASE_URL}/api/auth/kakao/callback`;
 
 export async function GET(request: Request) {
   try {
@@ -26,7 +28,9 @@ export async function GET(request: Request) {
     return NextResponse.redirect(kakaoAuthUrl);
   } catch (error) {
     console.error('카카오 로그인 오류:', error);
-    return NextResponse.redirect('/auth?error=kakao_auth_failed');
+    return NextResponse.redirect(
+      `${BASE_URL}/auth?error=kakao_auth_failed`
+    );
   }
 }
 

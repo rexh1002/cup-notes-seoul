@@ -1,6 +1,6 @@
  'use client';
 
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 
 type SignupType = 'user' | 'manager';
@@ -12,7 +12,7 @@ const PROVIDER_LABELS: { id: string; label: string }[] = [
   { id: 'apple', label: 'Apple' },
 ];
 
-export default function AuthPage() {
+function AuthContent() {
   const searchParams = useSearchParams();
   const initialTypeParam = searchParams?.get('type') ?? null;
   const initialType: SignupType =
@@ -90,6 +90,14 @@ export default function AuthPage() {
         </p>
       </div>
     </div>
+  );
+}
+
+export default function AuthPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+      <AuthContent />
+    </Suspense>
   );
 }
 
