@@ -1,7 +1,7 @@
 'use client';
 
 import { Suspense, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 
 type SignupType = 'user' | 'manager';
 
@@ -90,6 +90,7 @@ function ProviderIcon({ id }: { id: string }) {
 }
 
 function AuthOverlayContent() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const initialTypeParam = searchParams?.get('type') ?? null;
   const initialType: SignupType =
@@ -103,23 +104,36 @@ function AuthOverlayContent() {
   };
 
   return (
-    <div className="pointer-events-auto w-full max-w-md bg-white rounded-xl shadow-lg p-6 space-y-6">
-      <div className="text-center space-y-2">
-        <h1 className="text-2xl font-bold">회원가입 / 로그인</h1>
-        <p className="text-sm text-gray-500">
-          일반 회원 또는 카페 매니저를 선택한 뒤, 소셜 계정으로 진행하세요.
-          이미 가입한 경우에도 동일한 버튼으로 로그인됩니다.
+    <div className="relative pointer-events-auto w-full max-w-md rounded-2xl border border-gray-200/70 bg-white/95 shadow-[0_18px_45px_rgba(15,23,42,0.18)] px-7 py-6 space-y-6">
+      <button
+        type="button"
+        aria-label="닫기"
+        className="absolute top-4 right-4 inline-flex h-7 w-7 items-center justify-center rounded-full border border-gray-200/80 bg-white/80 text-xs text-gray-400 backdrop-blur hover:text-gray-700 hover:border-gray-300 transition-colors"
+        onClick={() => router.push('/')}
+      >
+        ✕
+      </button>
+      <div className="text-center space-y-2 mt-1">
+        <span className="inline-flex items-center rounded-full bg-gray-100 px-3 py-1 text-[11px] font-medium tracking-wide text-gray-500">
+          Welcome to Cup Notes Seoul
+        </span>
+        <h1 className="text-2xl font-semibold tracking-tight text-gray-900 mt-1">
+          회원가입 / 로그인
+        </h1>
+        <p className="text-xs md:text-sm text-gray-500 leading-relaxed">
+          일반 회원 또는 카페 매니저를 선택한 뒤, 소셜 계정으로 가볍게 시작해 보세요.
+          이미 가입한 경우에도 동일한 버튼으로 바로 로그인됩니다.
         </p>
       </div>
 
-      <div className="flex rounded-lg border border-gray-200 overflow-hidden text-sm font-medium">
+      <div className="flex rounded-full bg-gray-100 p-1 text-xs font-medium">
         <button
           type="button"
           onClick={() => setSignupType('user')}
-          className={`flex-1 py-2 ${
+          className={`flex-1 rounded-full py-2 transition-colors ${
             signupType === 'user'
-              ? 'bg-blue-600 text-white'
-              : 'bg-white text-gray-700 hover:bg-gray-50'
+              ? 'bg-white text-gray-900 shadow-sm'
+              : 'bg-transparent text-gray-600 hover:text-gray-900'
           }`}
         >
           일반 회원가입
@@ -127,10 +141,10 @@ function AuthOverlayContent() {
         <button
           type="button"
           onClick={() => setSignupType('manager')}
-          className={`flex-1 py-2 ${
+          className={`flex-1 rounded-full py-2 transition-colors ${
             signupType === 'manager'
-              ? 'bg-blue-600 text-white'
-              : 'bg-white text-gray-700 hover:bg-gray-50'
+              ? 'bg-white text-gray-900 shadow-sm'
+              : 'bg-transparent text-gray-600 hover:text-gray-900'
           }`}
         >
           카페 매니저 회원가입
@@ -138,9 +152,9 @@ function AuthOverlayContent() {
       </div>
 
       {signupType === 'manager' && (
-        <div className="rounded-md bg-blue-50 border border-blue-100 px-3 py-2 text-xs text-blue-800">
-          카페 매니저로 가입하면 내 카페 등록, 정보 수정 등
-          매니저 전용 대시보드에 접근할 수 있습니다.
+        <div className="rounded-xl bg-blue-50/70 border border-blue-100/80 px-3 py-2 text-[11px] text-blue-800 text-left">
+          카페 매니저로 가입하면 내 카페 등록, 정보 수정 등 매니저 전용 대시보드에
+          접근할 수 있어요.
         </div>
       )}
 
@@ -174,7 +188,7 @@ function AuthOverlayContent() {
 
 export default function AuthOverlayPage() {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
+    <div className="fixed inset-0 z-[500] flex items-center justify-center pointer-events-none bg-black/30 backdrop-blur-sm">
       <Suspense fallback={null}>
         <AuthOverlayContent />
       </Suspense>
