@@ -22,12 +22,14 @@ export default async function EditCafePage({ params }: { params: { id: string } 
     // JWT 토큰 검증
     const decoded = jwt.verify(authToken, JWT_SECRET_KEY) as { id: string; role: string };
     
-    // 카페 정보 조회
+    // 카페 정보 조회 (카페 매니저일 경우에만 본인 소유 카페로 제한)
+    const whereCondition: any = { id: params.id };
+    if (decoded.role === 'cafeManager' || decoded.role === 'manager') {
+      whereCondition.managerId = decoded.id;
+    }
+
     const cafe = await prisma.cafe.findUnique({
-      where: {
-        id: params.id,
-        ...(decoded.role === 'cafeManager' ? { managerId: decoded.id } : {}),
-      },
+      where: whereCondition,
       include: {
         coffees: true,
       },

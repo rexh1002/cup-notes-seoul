@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import prisma from '@/lib/prisma';
+import bcrypt from 'bcrypt';
 
 dotenv.config();
 
@@ -17,8 +18,22 @@ export async function GET(request: Request) {
   try {
     const url = new URL(request.url);
     const code = url.searchParams.get('code');
+    const state = url.searchParams.get('state');
+
     if (!code) {
-      return NextResponse.redirect(`${BASE_URL}/auth/login?error=no_code`);
+      return NextResponse.redirect(`${BASE_URL}/auth?error=no_code`);
+    }
+
+    let targetRole: 'user' | 'manager' = 'user';
+    if (state) {
+      try {
+        const decoded = JSON.parse(
+          Buffer.from(state, 'base64url').toString('utf8')
+        );
+        if (decoded.role === 'manager') targetRole = 'manager';
+      } catch (e) {
+        console.warn('Google state 파싱 실패:', e);
+      }
     }
 
     const tokenRes = await fetch('https://oauth2.googleapis.com/token', {
@@ -35,19 +50,67 @@ export async function GET(request: Request) {
     const tokenData = await tokenRes.json();
     if (!tokenData.access_token) {
       console.error('Google token error:', tokenData);
-      return NextResponse.redirect(`${BASE_URL}/auth/login?error=token_request_failed`);
+      return NextResponse.redirect(
+        `${BASE_URL}/auth?error=token_request_failed`
+      );
     }
 
-    const profileRes = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
-      headers: { Authorization: `Bearer ${tokenData.access_token}` },
-    });
+    const profileRes = await fetch(
+      'https://www.googleapis.com/oauth2/v2/userinfo',
+      {
+        headers: { Authorization: `Bearer ${tokenData.access_token}` },
+      }
+    );
     const profile = await profileRes.json();
-    const email = profile.email;
-    const googleId = profile.id;
-    const name = profile.name || null;
+    const email = profile.email as string | undefined;
+    const googleId = profile.id as string | undefined;
+    const name = (profile.name as string | undefined) || null;
 
-    if (!email) {
-      return NextResponse.redirect(`${BASE_URL}/auth/login?error=email_not_provided`);
+    if (!email || !googleId) {
+      return NextResponse.redirect(
+        `${BASE_URL}/auth?error=email_not_provided`
+      );
+    }
+
+    if (targetRole === 'manager') {
+      let manager = await prisma.manager.findUnique({
+        where: { email },
+      });
+
+      if (!manager) {
+        const randomPassword = Math.random().toString(36).slice(-10);
+        const hashedPassword = await bcrypt.hash(randomPassword, 10);
+
+        manager = await prisma.manager.create({
+          data: {
+            email,
+            password: hashedPassword,
+          },
+        });
+      }
+
+      const token = jwt.sign(
+        {
+          id: manager.id,
+          email: manager.email,
+          role: 'manager',
+        },
+        JWT_SECRET_KEY,
+        { expiresIn: '7d' }
+      );
+
+      const response = NextResponse.redirect(`${BASE_URL}/?token=${token}`);
+      response.cookies.set({
+        name: 'authToken',
+        value: token,
+        maxAge: 7 * 24 * 60 * 60,
+        httpOnly: true,
+        path: '/',
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+      });
+
+      return response;
     }
 
     let user = await prisma.user.findFirst({
@@ -57,11 +120,20 @@ export async function GET(request: Request) {
     });
 
     if (!user) {
-      const signupUrl = `${BASE_URL}/auth/login?error=signup_required&provider=google&email=${encodeURIComponent(email)}&providerId=${googleId}&name=${encodeURIComponent(name || '')}`;
-      return NextResponse.redirect(signupUrl);
-    }
+      const randomPassword = Math.random().toString(36).slice(-10);
+      const hashedPassword = await bcrypt.hash(randomPassword, 10);
 
-    if (user.provider !== 'google' || !user.providerId) {
+      user = await prisma.user.create({
+        data: {
+          email,
+          password: hashedPassword,
+          role: 'user',
+          provider: 'google',
+          providerId: googleId,
+          name,
+        },
+      });
+    } else if (user.provider !== 'google' || !user.providerId) {
       user = await prisma.user.update({
         where: { id: user.id },
         data: { provider: 'google', providerId: googleId },
@@ -87,7 +159,7 @@ export async function GET(request: Request) {
     return response;
   } catch (error) {
     console.error('Google callback error:', error);
-    const msg = error instanceof Error ? error.message : String(error);
-    return NextResponse.redirect(`${BASE_URL}/auth/login?error=auth_failed&msg=${encodeURIComponent(msg)}`);
+    return NextResponse.redirect(`${BASE_URL}/auth?error=auth_failed`);
   }
 }
+
