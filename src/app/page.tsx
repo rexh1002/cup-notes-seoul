@@ -646,7 +646,7 @@ export default function HomePage() {
   };
 
   // 로그인/회원가입 버튼 핸들러
-  const handleLogin = () => router.push('/auth/login');
+  const handleLogin = () => router.push('/auth');
 
   // 카페 선택 핸들러
   const handleCafeSelect = (cafe: Cafe) => {
