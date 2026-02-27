@@ -6,7 +6,7 @@ import CoffeeSearch from '../components/coffee/coffee-search';
 import SearchResults from '../components/coffee/search-results';
 import { SearchParams } from '../components/coffee/coffee-search';
 import { Cafe } from '../types/types';
-import { Search, Flower2, Apple, Candy, Coffee, LogIn, UserPlus, LogOut, Loader2 } from 'lucide-react';
+import { Search, Flower2, Apple, Candy, Coffee, LogIn, LogOut, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -93,7 +93,6 @@ export default function HomePage() {
  const { theme, setTheme } = useTheme();
  const [scrollProgress, setScrollProgress] = useState(0);
  const [isFilterOpen, setIsFilterOpen] = useState(false);
- const [isSignupDropdownOpen, setIsSignupDropdownOpen] = useState(false);
  const [isFiltersOpen, setIsFiltersOpen] = useState(false);
  const [selectedCafe, setSelectedCafe] = useState<Cafe | null>(null);
  const [showMain, setShowMain] = useState(true);
@@ -211,11 +210,27 @@ export default function HomePage() {
        return;
      }
 
-     const apiUrl = (userRole === 'manager' || userRole === 'cafeManager')
-        ? '/api/manager/delete'
-        : '/api/user/delete';
+    const apiUrl = (userRole === 'manager' || userRole === 'cafeManager')
+       ? '/api/manager/delete'
+       : '/api/user/delete';
 
-     const response = await fetch(apiUrl, {
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/c669efa7-e809-4332-a2bd-c28e5afed466', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        id: `log_${Date.now()}_handleDelete_start`,
+        timestamp: Date.now(),
+        runId: 'pre-fix',
+        hypothesisId: 'H2',
+        location: 'src/app/page.tsx:214',
+        message: 'handleDeleteAccount start',
+        data: { hasToken: !!token, apiUrl, userRole },
+      }),
+    }).catch(() => {});
+    // #endregion
+
+    const response = await fetch(apiUrl, {
        method: 'DELETE',
        headers: {
          'Authorization': `Bearer ${token}`,
@@ -223,7 +238,23 @@ export default function HomePage() {
        },
      });
 
-     if (response.ok) {
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/c669efa7-e809-4332-a2bd-c28e5afed466', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        id: `log_${Date.now()}_handleDelete_response`,
+        timestamp: Date.now(),
+        runId: 'pre-fix',
+        hypothesisId: 'H2',
+        location: 'src/app/page.tsx:226',
+        message: 'handleDeleteAccount response',
+        data: { status: response.status, ok: response.ok, apiUrl },
+      }),
+    }).catch(() => {});
+    // #endregion
+
+    if (response.ok) {
        localStorage.removeItem('authToken');
        setIsLoggedIn(false);
        setUserRole(null);
@@ -616,7 +647,6 @@ export default function HomePage() {
 
   // 로그인/회원가입 버튼 핸들러
   const handleLogin = () => router.push('/auth/login');
-  const handleSignup = () => router.push('/auth');
 
   // 카페 선택 핸들러
   const handleCafeSelect = (cafe: Cafe) => {
@@ -760,13 +790,6 @@ export default function HomePage() {
                     aria-label="로그인"
                   >
                     <LogIn className="w-6 h-6 text-[#222]" />
-                    </button>
-                    <button
-                    className="p-2 rounded-full hover:bg-gray-100 transition"
-                    onClick={handleSignup}
-                    aria-label="회원가입"
-                  >
-                    <UserPlus className="w-6 h-6 text-[#222]" />
                     </button>
                 </>
               ) : (

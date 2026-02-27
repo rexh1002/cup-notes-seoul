@@ -34,6 +34,22 @@ export async function DELETE(request: NextRequest) {
     const idFromToken = decoded.id;
     console.log('[API] idFromToken:', idFromToken);
 
+    // #region agent log
+    await fetch('http://127.0.0.1:7242/ingest/c669efa7-e809-4332-a2bd-c28e5afed466', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        id: `log_${Date.now()}_managerDelete_start`,
+        timestamp: Date.now(),
+        runId: 'pre-fix',
+        hypothesisId: 'H3',
+        location: 'src/app/api/manager/delete/route.ts:34',
+        message: 'manager delete start',
+        data: { idFromToken, role: decoded.role },
+      }),
+    }).catch(() => {});
+    // #endregion
+
     // 매니저 확인
     const manager = await prisma.manager.findUnique({ where: { id: idFromToken } });
     if (!manager) {
