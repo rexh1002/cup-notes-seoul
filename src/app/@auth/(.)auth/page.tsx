@@ -121,8 +121,8 @@ function AuthOverlayContent() {
           회원가입 / 로그인
         </h1>
         <p className="text-xs md:text-sm text-gray-500 leading-relaxed">
-          일반 회원 또는 카페 매니저를 선택한 뒤, 소셜 계정으로 가볍게 시작해 보세요.
-          이미 가입한 경우에도 동일한 버튼으로 바로 로그인됩니다.
+          일반 회원 또는 카페 매니저를 선택한 뒤,<br />
+          소셜 계정으로 가볍게 시작해 보세요.
         </p>
       </div>
 
@@ -179,8 +179,9 @@ function AuthOverlayContent() {
         ))}
       </div>
 
-      <p className="text-center text-xs text-gray-400">
-        계속 진행하면 서비스 이용 약관 및 개인정보 처리방침에 동의한 것으로 간주됩니다.
+      <p className="text-center text-xs text-gray-400 leading-relaxed">
+        계속 진행하면 서비스 이용 약관 및 개인정보 처리방침에<br />
+        동의한 것으로 간주됩니다.
       </p>
     </div>
   );
