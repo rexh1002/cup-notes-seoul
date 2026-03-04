@@ -543,8 +543,8 @@ export default function EditCafeClient({ cafe }: EditCafeClientProps) {
             <h2 className="text-xl font-semibold">원두 정보</h2>
             <Button
               type="button"
-              variant="outline"
               onClick={handleCoffeeAdd}
+              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-sm"
             >
               + 원두 추가
             </Button>

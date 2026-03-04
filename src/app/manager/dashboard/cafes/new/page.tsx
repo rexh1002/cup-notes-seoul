@@ -772,10 +772,14 @@ export default function NewCafePage() {
           </div>
         ))}
         
-        {/* 원두 추가 버튼 */}
-        <Button type="button" variant="outline" onClick={handleCoffeeAdd}>
-          원두 추가
-        </Button>
+      {/* 원두 추가 버튼 */}
+      <Button
+        type="button"
+        onClick={handleCoffeeAdd}
+        className="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-sm"
+      >
+        원두 추가
+      </Button>
       </div>
 
       {/* 제출 버튼 */}
