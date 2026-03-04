@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import MobileNavBar from '../../components/MobileNavBar';
 import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
-import { Search, Coffee, LogIn, UserPlus, LogOut, Loader2 } from 'lucide-react';
+import { Search, Coffee, LogIn, LogOut, Loader2 } from 'lucide-react';
 
 const CATEGORY_LIST = [
   { key: 'anaerobic', label: '무산소 발효', image: '/images/Air.png' },
@@ -47,7 +47,6 @@ export default function MapMobileClient() {
   const [searchKeyword, setSearchKeyword] = useState('');
   const [showSearchInput, setShowSearchInput] = useState(false);
   const [userName, setUserName] = useState<string | null>(null);
-  const [isSignupDropdownOpen, setIsSignupDropdownOpen] = useState(false);
   const [autocomplete, setAutocomplete] = useState<string[]>([]);
   const [showAutocomplete, setShowAutocomplete] = useState(false);
   const [isWebLoading, setIsWebLoading] = useState(false);
@@ -785,28 +784,13 @@ export default function MapMobileClient() {
             {/* 우측 아이콘 버튼 */}
             <div className="flex-1 flex justify-end items-center gap-2">
               {!isLoggedIn ? (
-                <>
-                  <button
-                    className="p-2 rounded-full hover:bg-gray-100 transition"
-                    onClick={() => router.push('/auth/login')}
-                    aria-label="로그인"
-                  >
-                    <LogIn className="w-6 h-6 text-[#222]" />
-                  </button>
-                  <button
-                    className="p-2 rounded-full hover:bg-gray-100 transition"
-                    onClick={() => setIsSignupDropdownOpen((v) => !v)}
-                    aria-label="회원가입"
-                  >
-                    <UserPlus className="w-6 h-6 text-[#222]" />
-                  </button>
-                  {isSignupDropdownOpen && (
-                    <div className="absolute right-6 top-[90px] mt-2 w-44 bg-white rounded-lg shadow-lg border border-gray-200 z-[210] animate-fade-in">
-                      <button className="block w-full text-left px-4 py-3 text-sm hover:bg-gray-100 text-gray-800" onClick={() => { setIsSignupDropdownOpen(false); router.push('/auth/signup'); }}>소셜 회원가입</button>
-                      <button className="block w-full text-left px-4 py-3 text-sm hover:bg-gray-100 text-gray-800" onClick={() => { setIsSignupDropdownOpen(false); router.push('/auth/manager/signup'); }}>카페 관리자 회원가입</button>
-                    </div>
-                  )}
-                </>
+                <button
+                  className="p-2 rounded-full hover:bg-gray-100 transition"
+                  onClick={() => router.push('/auth')}
+                  aria-label="로그인"
+                >
+                  <LogIn className="w-6 h-6 text-[#222]" />
+                </button>
               ) : (
                 <>
                   {userRole === 'cafeManager' || userRole === 'manager' ? (
